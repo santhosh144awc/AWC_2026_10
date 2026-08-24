@@ -7,7 +7,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "test": "npx tsx src/utils/calculations/childrenFuturePlanner.test.ts",
+    "test": "npx tsx src/utils/calculations/lumpsum.test.ts && npx tsx src/utils/calculations/childrenFuturePlanner.test.ts",
     "astro": "astro"
   },
   "dependencies": {

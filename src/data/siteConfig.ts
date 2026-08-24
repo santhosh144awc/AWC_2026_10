@@ -173,6 +173,13 @@ export const siteConfig = {
       href: "/tools?calc=sip",
     },
     {
+      id: "lumpsum",
+      title: "Lumpsum Calculator",
+      description: "See how a one-time investment can compound over time.",
+      icon: "dollar-sign",
+      href: "/tools?calc=lumpsum",
+    },
+    {
       id: "retirement",
       title: "Retirement Calculator",
       description: "Will your retirement corpus be enough?",

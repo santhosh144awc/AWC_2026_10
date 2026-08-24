@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import SIPCalculator from './SIPCalculator';
+import LumpsumCalculator from './LumpsumCalculator';
 import RetirementCalculator from './RetirementCalculator';
 import GoalPlannerCalculator from './GoalPlannerCalculator';
 import LoanVsInvestmentCalculator from './LoanVsInvestmentCalculator';
 import InsuranceCalculator from './InsuranceCalculator';
 import NetWorthCalculator from './NetWorthCalculator';
 
-type CalculatorTab = 'sip' | 'retirement' | 'goal' | 'loan-vs-invest' | 'insurance' | 'net-worth';
+type CalculatorTab = 'sip' | 'lumpsum' | 'retirement' | 'goal' | 'loan-vs-invest' | 'insurance' | 'net-worth';
 
 function normalizeTab(rawTab?: string | null): CalculatorTab {
   if (!rawTab) return 'sip';
   const clean = rawTab.toLowerCase().trim();
-  if (clean === 'sip' || clean === 'sip-calculator' || clean === 'step-up' || clean === 'lumpsum') return 'sip';
+  if (clean === 'lumpsum' || clean === 'lump-sum' || clean === 'one-time' || clean === 'lumpsum-calculator') return 'lumpsum';
+  if (clean === 'sip' || clean === 'sip-calculator' || clean === 'step-up') return 'sip';
   if (clean === 'retirement' || clean === 'retirement-calculator') return 'retirement';
   if (clean === 'goal' || clean === 'goal-planner' || clean === 'goals') return 'goal';
   if (clean === 'loan-vs-invest' || clean === 'loan-vs-investment' || clean === 'loan' || clean === 'loan-prepay') return 'loan-vs-invest';
@@ -45,7 +47,8 @@ const CATEGORIES: CategoryGroup[] = [
   {
     category: 'Build Wealth',
     items: [
-      { id: 'sip', name: 'SIP & Step-Up Calculator', icon: '📈', tag: 'Compounding' },
+      { id: 'sip', name: 'SIP & Step-Up Calculator', icon: '📈', tag: 'Monthly' },
+      { id: 'lumpsum', name: 'Lumpsum Calculator', icon: '💰', tag: 'One-Time' },
     ]
   },
   {
@@ -133,6 +136,7 @@ export default function CalculatorsHub() {
       {/* Active Calculator Container */}
       <div className="active-calculator-stage">
         {activeTab === 'sip' && <SIPCalculator />}
+        {activeTab === 'lumpsum' && <LumpsumCalculator />}
         {activeTab === 'retirement' && <RetirementCalculator />}
         {activeTab === 'goal' && <GoalPlannerCalculator />}
         {activeTab === 'loan-vs-invest' && <LoanVsInvestmentCalculator />}

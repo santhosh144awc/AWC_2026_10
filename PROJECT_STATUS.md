@@ -363,12 +363,41 @@ npm run preview
   * Pre-populated advisory WhatsApp CTA and consultation bridge.
   * Statutory AMFI ARN: 266896, QPFP Certified, and educational illustration disclaimers.
 * **Testing & Verification:**
-  * Automated regression test suite (`src/utils/calculations/childrenFuturePlanner.test.ts`): 35 passed, 0 failed.
+  * Automated regression test suite (`src/utils/calculations/childrenFuturePlanner.test.ts`): 46 passed, 0 failed.
   * Exact match with NetworkFP reference cases:
     * Graduation: ₹9,910 Fixed SIP / ₹6,027 Step-Up SIP
     * Post-Graduation: ₹8,238 Fixed SIP / ₹4,509 Step-Up SIP
     * Marriage: ₹20,429 Fixed SIP / ₹9,808 Step-Up SIP
   * Production Build: `npm run build` compiled all 22 static routes with 0 errors.
+
+---
+
+## 17. Phase 12 — Dedicated Lumpsum Calculator (Completed)
+
+* **Objective:** Implement a dedicated, professional **Lumpsum Calculator** (`/tools?calc=lumpsum`) within the Ant Wealth Creation calculator suite.
+* **Calculation Engine (`src/utils/calculations/lumpsum.ts`):**
+  * Reused centralized pure function `calculateLumpsum(principal, expectedReturnRate, timePeriodYears)`.
+  * Formula: $FV = PV \times (1 + r)^t$, where $PV$ is initial investment, $r$ is annual return rate, and $t$ is duration in years.
+  * Optional inflation purchasing power formula: $PV_{\text{real}} = \frac{FV}{(1 + \text{inflation})^t}$.
+* **React 19 Component (`src/components/calculators/LumpsumCalculator.tsx`):**
+  * **Initial Investment:** Direct numeric input up to ₹10 Crore with ₹1,000 to ₹25 Lakh slider (Default: ₹1,00,000).
+  * **Investment Duration:** 1 to 40 years input and slider (Default: 10 years).
+  * **Expected Annual Return:** 1% to 30% input and slider (Default: 12% p.a.).
+  * **Optional Real Value Toggle:** "What could this amount be worth in today's money?" with inflation slider.
+  * **Hero Result Box:** Prominent Estimated Future Value display with Lakhs/Crores helper wording.
+  * **Metrics Grid:** Total Invested vs Estimated Growth.
+  * **Visual Proportion Bar:** Principal % vs Compounded Gain %.
+  * **Action CTAs:** Pre-populated advisory WhatsApp message link + `/contact` free consultation booking.
+  * **Educational Explanation:** "How it works" compounding explanation with formula breakdown.
+  * **Compliance & Disclaimers:** Official AMFI ARN: 266896, QPFP factual credentials, and market risk disclaimers.
+* **Suite & Hub Integration:**
+  * Added `lumpsum` tab under "Build Wealth" in `src/components/calculators/CalculatorsHub.tsx`.
+  * Deep-link support: `/tools?calc=lumpsum` directly activates the Lumpsum Calculator.
+  * Added Lumpsum Calculator card to `siteConfig.calculators` and homepage `CalculatorCards.astro`.
+* **Testing & Build Verification:**
+  * Created unit test suite `src/utils/calculations/lumpsum.test.ts` (16 passed, 0 failed).
+  * Combined test suite `npm test` (62 passed, 0 failed).
+  * Static build `npm run build` compiled 22 static routes in 7.08s with 0 errors and 0 warnings.
 
 ---
 
@@ -387,5 +416,3 @@ npm run preview
    - When provided by Santhosh, insert the Google Analytics 4 (GA4) measurement tag into `src/layouts/BaseLayout.astro`.
 3. **Calendar Integration (Optional):**
    - If an automated calendar scheduling URL (e.g. Cal.com or Calendly) is provided, insert it into `siteConfig.contact.consultationBookingUrl` in `src/data/siteConfig.ts`.
-
-
