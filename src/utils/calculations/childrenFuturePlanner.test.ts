@@ -7,6 +7,8 @@ import {
   calculateRequiredStepUpSIP,
   calculateChildrenFuturePlan,
   getDefaultReturnForHorizon,
+  GOAL_INFLATION_CONFIGS,
+  getGoalInflationConfig,
   PLANNER_DEFAULTS
 } from './childrenFuturePlanner';
 
@@ -236,6 +238,109 @@ const age6 = calculateChildrenFuturePlan({
 assert(age5.goals[0].yearsRemaining === 13, 'Age 5 -> 13 years remaining');
 assert(age6.goals[0].yearsRemaining === 12, 'Age 6 -> 12 years remaining');
 assert(age6.goals[0].futureGoalCost < age5.goals[0].futureGoalCost, 'Fewer years of inflation -> lower future cost');
+
+console.log('\n--- 7. Testing Goal-Specific Inflation Defaults & Independent Updates ---');
+// 1. Every default goal category starts with 6% inflation
+assert(GOAL_INFLATION_CONFIGS.graduation.defaultRate === 6, 'Graduation default = 6%');
+assert(GOAL_INFLATION_CONFIGS['post-graduation'].defaultRate === 6, 'Post-Graduation default = 6%');
+assert(GOAL_INFLATION_CONFIGS.marriage.defaultRate === 6, 'Marriage default = 6%');
+assert(GOAL_INFLATION_CONFIGS.schooling.defaultRate === 6, 'Schooling default = 6%');
+assert(GOAL_INFLATION_CONFIGS['overseas-masters'].defaultRate === 6, 'Overseas Education default = 6%');
+assert(GOAL_INFLATION_CONFIGS['dream-venture'].defaultRate === 6, 'Dream Venture default = 6%');
+assert(GOAL_INFLATION_CONFIGS.custom.defaultRate === 6, 'Custom Goal default = 6%');
+
+// 2. Multi-goal inflation independence test
+const multiGoalPlan = calculateChildrenFuturePlan({
+  childCurrentAge: 5,
+  goals: [
+    {
+      id: 'g1',
+      name: 'Graduation',
+      type: 'graduation',
+      goalAge: 18,
+      targetCostToday: 2000000,
+      inflationRate: 6,
+    },
+    {
+      id: 'g2',
+      name: 'Marriage',
+      type: 'marriage',
+      goalAge: 26,
+      targetCostToday: 2000000,
+      inflationRate: 6,
+    },
+  ],
+});
+
+assert(multiGoalPlan.goals[0].inflationRate === 6, 'Graduation starts at 6%');
+assert(multiGoalPlan.goals[1].inflationRate === 6, 'Marriage starts at 6%');
+
+// Changing Marriage to 10% changes ONLY Marriage
+const updatedMarriagePlan = calculateChildrenFuturePlan({
+  childCurrentAge: 5,
+  goals: [
+    {
+      id: 'g1',
+      name: 'Graduation',
+      type: 'graduation',
+      goalAge: 18,
+      targetCostToday: 2000000,
+      inflationRate: 6,
+    },
+    {
+      id: 'g2',
+      name: 'Marriage',
+      type: 'marriage',
+      goalAge: 26,
+      targetCostToday: 2000000,
+      inflationRate: 10,
+    },
+  ],
+});
+
+assert(updatedMarriagePlan.goals[0].inflationRate === 6, 'Changing Marriage leaves Graduation inflation unchanged at 6%');
+assert(updatedMarriagePlan.goals[0].futureGoalCost === multiGoalPlan.goals[0].futureGoalCost, 'Graduation future cost is unchanged');
+assert(updatedMarriagePlan.goals[1].inflationRate === 10, 'Marriage inflation successfully updated to 10%');
+assert(updatedMarriagePlan.goals[1].futureGoalCost > multiGoalPlan.goals[1].futureGoalCost, 'Marriage future cost increased at 10% inflation vs 6%');
+
+// Changing Graduation to 8% changes ONLY Graduation
+const updatedGradPlan = calculateChildrenFuturePlan({
+  childCurrentAge: 5,
+  goals: [
+    {
+      id: 'g1',
+      name: 'Graduation',
+      type: 'graduation',
+      goalAge: 18,
+      targetCostToday: 2000000,
+      inflationRate: 8,
+    },
+    {
+      id: 'g2',
+      name: 'Marriage',
+      type: 'marriage',
+      goalAge: 26,
+      targetCostToday: 2000000,
+      inflationRate: 6,
+    },
+  ],
+});
+
+assert(updatedGradPlan.goals[0].inflationRate === 8, 'Graduation updated to 8%');
+assert(updatedGradPlan.goals[1].inflationRate === 6, 'Marriage remains 6% when Graduation is changed to 8%');
+assert(updatedGradPlan.goals[0].futureGoalCost > multiGoalPlan.goals[0].futureGoalCost, 'Graduation future cost recalculated at 8%');
+assert(updatedGradPlan.goals[1].futureGoalCost === multiGoalPlan.goals[1].futureGoalCost, 'Marriage future cost remains identical');
+
+// 3. Explanatory wording check: ensures neutral text without hardcoded percentages
+const graduationConfig = getGoalInflationConfig('graduation');
+const marriageConfig = getGoalInflationConfig('marriage');
+const overseasConfig = getGoalInflationConfig('overseas-masters');
+const customConfig = getGoalInflationConfig('custom');
+
+assert(!graduationConfig.explanation.includes('is 10%') && !graduationConfig.explanation.includes('is 6%'), 'Graduation explanation does not claim static inflation percentage');
+assert(!marriageConfig.explanation.includes('is 10%') && !marriageConfig.explanation.includes('is 6%'), 'Marriage explanation does not claim 10% marriage inflation');
+assert(overseasConfig.explanation.includes('currency movements'), 'Overseas education mentions currency movement separately');
+assert(customConfig.planningRange === 'No standard range — choose based on your goal.', 'Custom goal has no standard range');
 
 console.log(`\n========================================`);
 console.log(`TEST SUMMARY: ${passed} PASSED, ${failed} FAILED`);

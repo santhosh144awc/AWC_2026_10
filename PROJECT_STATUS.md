@@ -442,6 +442,32 @@ npm run preview
 
 ---
 
+## 19. Phase 14 — Children's Future Planner Category-Specific Inflation Wording & Default Cleanup (Completed)
+
+* **Objective:** Refine the Children's Future Planner (`/plan/children`) with 6% uniform default inflation across all goal categories, goal-specific neutral explanatory wording, dynamic inflation updates, and clean consumer terminology.
+* **Inflation Defaults Standardized to 6%:**
+  * **Graduation:** 6% default, range: `6–10%`.
+  * **Post-Graduation:** 6% default, range: `6–10%`.
+  * **Marriage:** 6% default (reconciled from 10%), range: `6–10%`. Renamed preset from *"Child Marriage & Life Milestone"* to *"Marriage"*.
+  * **Schooling:** 6% default, range: `6–10%`.
+  * **Overseas Education:** 6% default (reconciled from 8%), range: `6–10%+` (with currency movement cited separately).
+  * **Dream Venture:** 6% default, range: `5–8%`.
+  * **Custom Goal:** 6% default, range: *"No standard range — choose based on your goal."*
+* **Dynamic Wording & UI Cleanups:**
+  * Updated input label from *"Expected Inflation"* to *"Expected Cost Inflation"*.
+  * Replaced static claims with goal-specific explanations independent of the selected percentage value.
+  * Added range helper with disclaimer qualifier: *"Planning range only — actual costs may vary."*
+  * Updated hero headline from *"discover your exact required Step-Up or Fixed SIP"* to *"estimate the Step-Up or Fixed SIP needed for your goals."*
+  * Updated metric label from *"Total in Today Money"* to *"Total Goal Cost in Today's Money"*.
+  * Updated assets presentation when ₹0: shows *"Existing Assets: None added yet"*.
+  * Updated milestone roadmap to display each goal's actual independent inflation (`{res.inflationRate}% / yr`).
+* **Automated Tests & Regression Suite:**
+  * Added 15 new automated regression tests in `src/utils/calculations/childrenFuturePlanner.test.ts` (total 67 passed in Children's Future Planner, 83 passed across repository test suite).
+  * Full static compilation `npm run build` succeeded with 0 errors.
+  * Puppeteer headless audit confirmed 0px horizontal overflow and accurate dynamic rendering.
+
+---
+
 ## NEXT SESSION — START HERE
 
 > **ATTENTION NEXT AGENT / DEVELOPER:**  

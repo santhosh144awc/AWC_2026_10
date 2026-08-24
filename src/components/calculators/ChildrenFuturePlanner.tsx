@@ -2,6 +2,7 @@ import React, { useState, useId } from 'react';
 import {
   calculateChildrenFuturePlan,
   getDefaultReturnForHorizon,
+  getGoalInflationConfig,
   PLANNER_DEFAULTS,
   type ChildGoalInput,
   type GoalPresetType,
@@ -39,12 +40,12 @@ const PRESET_OPTIONS: GoalPresetOption[] = [
   },
   {
     type: 'marriage',
-    name: 'Child Marriage & Life Milestone',
+    name: 'Marriage',
     icon: '💍',
     defaultAge: 26,
     defaultCost: 2000000,
-    defaultInflation: 10,
-    description: 'Celebrate your child wedding joyfully with zero debt.',
+    defaultInflation: 6,
+    description: 'Plan your child wedding joyfully with zero debt.',
   },
   {
     type: 'schooling',
@@ -61,7 +62,7 @@ const PRESET_OPTIONS: GoalPresetOption[] = [
     icon: '✈️',
     defaultAge: 22,
     defaultCost: 5000000,
-    defaultInflation: 8,
+    defaultInflation: 6,
     description: 'Foreign university tuition, travel, visa & international living.',
   },
   {
@@ -109,11 +110,11 @@ const INITIAL_GOALS: ChildGoalInput[] = [
   },
   {
     id: 'goal-3',
-    name: 'Child Marriage & Life Milestone',
+    name: 'Marriage',
     type: 'marriage',
     goalAge: 26,
     targetCostToday: 2000000,
-    inflationRate: 10,
+    inflationRate: 6,
     existingAssets: { mutualFunds: 0, fixedDeposits: 0, gold: 0, stocks: 0, endowment: 0 },
     startDelayYears: 0,
     stopBeforeYears: 0,
@@ -499,10 +500,10 @@ export default function ChildrenFuturePlanner() {
 
                       {/* Inflation & Expected Return Row */}
                       <div className="two-col-fields">
-                        {/* Inflation */}
+                        {/* Expected Cost Inflation */}
                         <div className="field-block">
                           <div className="label-with-val">
-                            <label className="field-label">Expected Inflation</label>
+                            <label className="field-label">Expected Cost Inflation</label>
                             <span className="val-display">{goal.inflationRate ?? PLANNER_DEFAULTS.INFLATION_RATE}% / year</span>
                           </div>
                           <input
@@ -518,9 +519,13 @@ export default function ChildrenFuturePlanner() {
                             }
                             className="input-slider"
                           />
-                          <span className="field-hint">
-                            Higher education in India typically grows at 6% to 10% per year.
-                          </span>
+                          <p className="field-hint-desc">
+                            {getGoalInflationConfig(goal.type).explanation}
+                          </p>
+                          <div className="field-range-helper">
+                            <span className="range-highlight">{getGoalInflationConfig(goal.type).planningRange}</span>
+                            <span className="range-qualifier">• Planning range only — actual costs may vary.</span>
+                          </div>
                         </div>
 
                         {/* Expected Return */}
@@ -838,12 +843,14 @@ export default function ChildrenFuturePlanner() {
             {/* 3 Key Financial Metrics Grid */}
             <div className="hero-metrics-grid">
               <div className="metric-cell">
-                <span className="metric-lbl">Total in Today Money</span>
+                <span className="metric-lbl">Total Goal Cost in Today's Money</span>
                 <span className="metric-val">{formatLakhsCrores(planResult.totalTargetCostToday)}</span>
               </div>
               <div className="metric-cell">
-                <span className="metric-lbl">Projected Assets at Maturity</span>
-                <span className="metric-val teal-text">{formatLakhsCrores(planResult.totalProjectedAssets)}</span>
+                <span className="metric-lbl">{planResult.totalProjectedAssets > 0 ? 'Projected Value at Goal' : 'Existing Assets'}</span>
+                <span className={`metric-val ${planResult.totalProjectedAssets > 0 ? 'teal-text' : 'muted-val'}`}>
+                  {planResult.totalProjectedAssets > 0 ? formatLakhsCrores(planResult.totalProjectedAssets) : 'None added yet'}
+                </span>
               </div>
               <div className="metric-cell">
                 <span className="metric-lbl">Net Funding Gap</span>
@@ -948,12 +955,12 @@ export default function ChildrenFuturePlanner() {
                       <span className="m-val">{formatRupees(res.targetCostToday)}</span>
                     </div>
                     <div className="m-metric">
-                      <span className="m-lbl">Inflation:</span>
-                      <span className="m-val">{res.inflationRate}%</span>
+                      <span className="m-lbl">Cost Inflation:</span>
+                      <span className="m-val">{res.inflationRate}% / yr</span>
                     </div>
                     <div className="m-metric">
                       <span className="m-lbl">Projected Assets:</span>
-                      <span className="m-val teal-text">{formatRupees(res.projectedAssetsTotal)}</span>
+                      <span className="m-val teal-text">{res.projectedAssetsTotal > 0 ? formatRupees(res.projectedAssetsTotal) : '₹0'}</span>
                     </div>
                     <div className="m-metric">
                       <span className="m-lbl">Net Gap:</span>
@@ -1014,7 +1021,7 @@ export default function ChildrenFuturePlanner() {
           {/* Statutory Regulatory Disclaimer */}
           <div className="regulatory-disclaimer-box">
             <p className="disclaimer-note">
-              <strong>Statutory Compliance & Regulatory Notice:</strong> Ant Wealth Creation is an AMFI-Registered Mutual Fund Distributor (ARN: 266896). Calculations generated above are for educational financial planning and milestone simulation purposes only. Projections are based on mathematical assumptions (effective monthly compounding and annual step-up increment) and do not represent guaranteed returns or specific mutual fund recommendations. Mutual fund investments are subject to market risks, read all scheme-related documents carefully.
+              <strong>Statutory Compliance & Regulatory Notice:</strong> Ant Wealth Creation is an AMFI-Registered Mutual Fund Distributor (ARN: 266896). Calculations generated above are for educational financial planning and milestone simulation purposes only. Projections are based on mathematical assumptions (effective monthly compounding and annual step-up increment) and do not represent guaranteed returns or specific mutual fund recommendations. Actual cost increases vary by category, location and circumstances. The ranges shown are intended only as planning assumptions. Mutual fund investments are subject to market risks, read all scheme-related documents carefully.
             </p>
           </div>
         </div>
@@ -1421,6 +1428,38 @@ export default function ChildrenFuturePlanner() {
           font-size: 0.75rem;
           color: #64748B;
           line-height: 1.4;
+        }
+
+        .field-hint-desc {
+          font-size: 0.785rem;
+          color: #475569;
+          line-height: 1.45;
+          margin-top: 0.35rem;
+          margin-bottom: 0.25rem;
+        }
+
+        .field-range-helper {
+          font-size: 0.735rem;
+          color: #64748B;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.35rem;
+          align-items: center;
+        }
+
+        .range-highlight {
+          font-weight: 600;
+          color: #00AB96;
+        }
+
+        .range-qualifier {
+          color: #94A3B8;
+        }
+
+        .muted-val {
+          color: #94A3B8 !important;
+          font-size: 0.95rem !important;
+          font-weight: 600 !important;
         }
 
         /* Sub-Accordions for Assets & Timing */

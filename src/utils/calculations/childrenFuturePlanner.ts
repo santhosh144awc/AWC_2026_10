@@ -39,6 +39,54 @@ export type GoalPresetType =
   | 'dream-venture'
   | 'custom';
 
+export interface GoalInflationConfig {
+  defaultRate: number;
+  planningRange: string;
+  explanation: string;
+}
+
+export const GOAL_INFLATION_CONFIGS: Record<GoalPresetType, GoalInflationConfig> = {
+  schooling: {
+    defaultRate: 6,
+    planningRange: 'Typical planning range: 6–10%',
+    explanation: 'Schooling costs can rise faster than general inflation, especially for private schools, tuition, transport and related expenses. Use this as a planning assumption and adjust it based on the school and education path you expect.',
+  },
+  graduation: {
+    defaultRate: 6,
+    planningRange: 'Typical planning range: 6–10%',
+    explanation: 'Higher education costs can increase over time due to tuition, accommodation and other education-related expenses. Use this as a planning assumption and adjust it based on the course and institution you expect.',
+  },
+  'post-graduation': {
+    defaultRate: 6,
+    planningRange: 'Typical planning range: 6–10%',
+    explanation: 'Post-graduation costs can vary significantly by course, institution and location. Tuition and related expenses may rise over time, so adjust this assumption based on your expected future cost.',
+  },
+  'overseas-masters': {
+    defaultRate: 6,
+    planningRange: 'Typical planning range: 6–10%+',
+    explanation: 'Overseas education costs can change due to tuition fees, living expenses and currency movements. Use this as a planning assumption and adjust it based on the country, institution and course you expect.',
+  },
+  marriage: {
+    defaultRate: 6,
+    planningRange: 'Typical planning range: 6–10%',
+    explanation: 'Marriage expenses can vary significantly based on location, guest count, venue, lifestyle and the scale of the celebration. Use this as a planning assumption and adjust it based on the type of wedding you expect.',
+  },
+  'dream-venture': {
+    defaultRate: 6,
+    planningRange: 'Typical planning range: 5–8%',
+    explanation: 'The future cost of starting a business or venture depends on the industry, scale, technology and market conditions. Use this as a planning assumption and adjust it based on the type of venture you have in mind.',
+  },
+  custom: {
+    defaultRate: 6,
+    planningRange: 'No standard range — choose based on your goal.',
+    explanation: 'This is your own planning assumption. Choose an inflation rate based on how you expect the cost of this goal to change over time.',
+  },
+};
+
+export function getGoalInflationConfig(type: GoalPresetType): GoalInflationConfig {
+  return GOAL_INFLATION_CONFIGS[type] || GOAL_INFLATION_CONFIGS.custom;
+}
+
 export interface ChildGoalInput {
   id: string;
   name: string;
