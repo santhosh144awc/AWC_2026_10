@@ -8,6 +8,34 @@ import NetWorthCalculator from './NetWorthCalculator';
 
 type CalculatorTab = 'sip' | 'retirement' | 'goal' | 'loan-vs-invest' | 'insurance' | 'net-worth';
 
+function normalizeTab(rawTab?: string | null): CalculatorTab {
+  if (!rawTab) return 'sip';
+  const clean = rawTab.toLowerCase().trim();
+  if (clean === 'sip' || clean === 'sip-calculator' || clean === 'step-up' || clean === 'lumpsum') return 'sip';
+  if (clean === 'retirement' || clean === 'retirement-calculator') return 'retirement';
+  if (clean === 'goal' || clean === 'goal-planner' || clean === 'goals') return 'goal';
+  if (clean === 'loan-vs-invest' || clean === 'loan-vs-investment' || clean === 'loan' || clean === 'loan-prepay') return 'loan-vs-invest';
+  if (clean === 'insurance' || clean === 'insurance-calculator' || clean === 'term-insurance' || clean === 'protection') return 'insurance';
+  if (clean === 'net-worth' || clean === 'networth' || clean === 'net-worth-calculator') return 'net-worth';
+  return 'sip';
+}
+
+function getTabFromUrl(): CalculatorTab {
+  if (typeof window === 'undefined') return 'sip';
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const param = urlParams.get('calc');
+    if (param) return normalizeTab(param);
+    if (window.location.hash) {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) return normalizeTab(hash);
+    }
+  } catch {
+    // Fallback for safety
+  }
+  return 'sip';
+}
+
 interface CategoryGroup {
   category: string;
   items: Array<{ id: CalculatorTab; name: string; icon: string; tag: string }>;
@@ -43,23 +71,35 @@ const CATEGORIES: CategoryGroup[] = [
 ];
 
 export default function CalculatorsHub() {
-  const [activeTab, setActiveTab] = useState<CalculatorTab>('sip');
+  const [activeTab, setActiveTab] = useState<CalculatorTab>(getTabFromUrl);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const urlParams = new URLSearchParams(window.location.search);
-      const tab = urlParams.get('calc') as CalculatorTab;
-      if (tab && ['sip', 'retirement', 'goal', 'loan-vs-invest', 'insurance', 'net-worth'].includes(tab)) {
-        setActiveTab(tab);
-      }
-    }
+    // Synchronize tab with current URL on mount
+    const currentTab = getTabFromUrl();
+    setActiveTab(currentTab);
+
+    // Listen to browser Back and Forward navigation
+    const handlePopState = () => {
+      setActiveTab(getTabFromUrl());
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
   }, []);
 
   const handleSelectTab = (tab: CalculatorTab) => {
     setActiveTab(tab);
     if (typeof window !== 'undefined') {
-      const newUrl = `${window.location.pathname}?calc=${tab}`;
-      window.history.replaceState({ path: newUrl }, '', newUrl);
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set('calc', tab);
+        window.history.pushState({ calc: tab }, '', url.toString());
+      } catch {
+        const newUrl = `${window.location.pathname}?calc=${tab}`;
+        window.history.pushState({ calc: tab }, '', newUrl);
+      }
     }
   };
 

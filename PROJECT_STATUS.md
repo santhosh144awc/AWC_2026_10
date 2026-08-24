@@ -1,10 +1,11 @@
 # Ant Wealth Creation — Master Project Status & Handoff Document
 
-> **Document Version:** 1.0.0  
+> **Document Version:** 1.2.0  
 > **Last Updated:** August 24, 2026  
-> **Project Root:** `c:\WORK\Software\Antigravity\AWC_2026_08_23`  
+> **Project Root:** `e:\Software\Website\AWC_2026_08_23\AntWealth_2026_08`  
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
-> **Target Production Domain:** `https://antwealth.in`
+> **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
+> **Target Production Domain:** [https://antwealth.in](https://antwealth.in)
 
 ---
 
@@ -20,9 +21,9 @@
 
 | Layer | Technology | Details |
 | :--- | :--- | :--- |
-| **Framework** | **Astro 5.16.1** | Static-First generator with island architecture (`output: "static"`). |
-| **UI Components** | **React 19.2.4** | Interactive client islands (`client:load`, `client:visible`). |
-| **Language** | **TypeScript 5.3.3** | Strict type safety for calculations and schema definitions. |
+| **Framework** | **Astro 5.18.2** | Static-First generator with island architecture (`output: "static"`). |
+| **UI Components** | **React 19.0.0** | Interactive client islands (`client:load`, `client:visible`). |
+| **Language** | **TypeScript 5.7.3** | Strict type safety for calculations and schema definitions. |
 | **Styling** | **Custom Vanilla CSS** | CSS variables, responsive grid & flexbox, zero heavyweight utility bloat. |
 | **Content Engine** | **Astro Content Collections** | Schema-validated Markdown files in `src/content/articles/`. |
 | **Icons & Media** | **Custom SVG & Vector Icons** | Pure SVG icons for zero third-party font overhead. |
@@ -313,6 +314,24 @@ npm run preview
 
 ---
 
+## 15. Phase 10.2 — Production Bug Fix: Calculator Deep-Link Routing (Completed)
+
+* **Issue Identified:** Visiting `/tools?calc=...` deep links (e.g. `/tools?calc=insurance`, `/tools?calc=retirement`, `/tools?calc=net-worth`) on static/live deployments resolved to the default SIP calculator tab due to static state initialization and lack of popstate history listener.
+* **Root Cause:**
+  1. `CalculatorsHub.tsx` initialized `useState<CalculatorTab>('sip')` with a hardcoded static string instead of lazily parsing `window.location.search` during client initialization.
+  2. The `useEffect` hook only ran once on mount and lacked a `popstate` event listener, causing browser Back/Forward navigation to get out of sync with the active calculator.
+  3. `CalculatorCards.astro` had an ID check mismatch (`loan-vs-investment` instead of `loan-vs-invest`).
+* **Files Changed:**
+  * `src/components/calculators/CalculatorsHub.tsx`: Added `normalizeTab`, `getTabFromUrl`, lazy state initializer `useState<CalculatorTab>(getTabFromUrl)`, `popstate` listener in `useEffect`, and `window.history.pushState` URL sync.
+  * `src/components/CalculatorCards.astro`: Aligned icon check for `loan-vs-invest`.
+* **Verification & QA:**
+  * **URLs Tested:** `/tools`, `/tools?calc=sip`, `/tools?calc=retirement`, `/tools?calc=goal`, `/tools?calc=loan-vs-invest`, `/tools?calc=insurance`, `/tools?calc=net-worth`.
+  * **Interactive Flows:** Direct navigation, browser refresh, manual tab clicking with URL updating, and browser Back/Forward navigation tested with 100% pass rate.
+  * **Responsive QA:** Tested at `375×812`, `390×844`, `768×1024`, `1440×900` with 0 horizontal overflow and 0 console errors.
+  * **Build Result:** `npm run build` generated 21 static routes with 0 errors and 0 warnings.
+
+---
+
 ## NEXT SESSION — START HERE
 
 > **ATTENTION NEXT AGENT / DEVELOPER:**  
@@ -328,4 +347,5 @@ npm run preview
    - When provided by Santhosh, insert the Google Analytics 4 (GA4) measurement tag into `src/layouts/BaseLayout.astro`.
 3. **Calendar Integration (Optional):**
    - If an automated calendar scheduling URL (e.g. Cal.com or Calendly) is provided, insert it into `siteConfig.contact.consultationBookingUrl` in `src/data/siteConfig.ts`.
+
 
