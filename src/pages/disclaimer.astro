@@ -1,0 +1,191 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../data/siteConfig';
+---
+
+<BaseLayout 
+  title="Regulatory Disclosures & Disclaimers — Ant Wealth Creation" 
+  description="Official AMFI registration details, risk factors, and statutory disclaimers for Ant Wealth Creation."
+  currentPath="/disclaimer"
+>
+  <section class="legal-hero-section text-center">
+    <div class="container">
+      <span class="badge-tag">
+        <span class="badge-dot"></span>
+        Statutory Disclosures
+      </span>
+      <h1 class="legal-title">Disclaimers & Disclosures</h1>
+      <p class="legal-subtitle">
+        Mandatory regulatory declarations under AMFI & SEBI guidelines.
+      </p>
+    </div>
+  </section>
+
+  <section class="legal-content-section">
+    <div class="container legal-container">
+      <div class="legal-prose card-base">
+        <h2>1. AMFI Registration Details</h2>
+        <div class="regulatory-highlight-box">
+          <p><strong>Distributor Name:</strong> C. Santhosh Sathriyan, B.E.</p>
+          <p><strong>Trade Name:</strong> Ant Wealth Creation</p>
+          <p><strong>ARN (AMFI Registration Number):</strong> 266896</p>
+          <p><strong>Professional Certification:</strong> QPFP (Qualified Personal Finance Professional)</p>
+          <p><strong>Operating Office:</strong> Dharmapuri, Tamil Nadu, India</p>
+        </div>
+
+        <h2>2. Mutual Fund Risk Factors</h2>
+        <div class="warning-callout-box">
+          <p><strong>Standard Statutory Notice:</strong> Mutual Fund investments are subject to market risks, read all scheme related documents carefully.</p>
+        </div>
+        <p>
+          The Net Asset Value (NAV) of mutual fund schemes may fluctuate based on interest rates, equity market conditions, government policies, inflation, and liquidity conditions. Past performance of any mutual fund scheme does not guarantee future results.
+        </p>
+
+        <h2>3. Nature of Services (MFD vs SEBI RIA Disclosure)</h2>
+        <p>
+          In accordance with SEBI circulars, Ant Wealth Creation discloses that it operates as an <strong>AMFI-Registered Mutual Fund Distributor (ARN: 266896)</strong>.
+        </p>
+        <p>
+          {siteConfig.disclaimers.notRIA}
+        </p>
+        <p>
+          We do not charge direct advisory fees from clients for distributor services; Ant Wealth Creation receives commission/brokerage directly from Asset Management Companies (AMCs) as permitted under SEBI regulations.
+        </p>
+
+        <h2>4. Calculator & Tool Simulations</h2>
+        <p>
+          All calculations, projected returns, SIP maturity values, retirement estimates, and goal projections shown across our website tools are <strong>purely illustrative simulations based on user-entered mathematical assumptions</strong>. They do not constitute investment advice, forecasts, or guaranteed returns.
+        </p>
+
+        <h2>5. Grievance Redressal</h2>
+        <p>
+          If you have any feedback or grievances regarding mutual fund services, you may contact us directly at <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a> or lodge a complaint on the SEBI SCORES portal (scores.sebi.gov.in) or SMART ODR portal.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-hero-section {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 4.5rem 1.5rem 2.5rem;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-growth-teal);
+    border-radius: 50%;
+  }
+
+  .legal-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: #00182A;
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-subtitle {
+    font-size: 1rem;
+    color: #64748B;
+  }
+
+  .legal-content-section {
+    padding: 3.5rem 1.5rem 5rem;
+    background-color: #F8FAFC;
+  }
+
+  .legal-container {
+    max-width: 840px;
+    margin: 0 auto;
+  }
+
+  .legal-prose {
+    padding: 3rem;
+    background-color: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 16px;
+  }
+
+  .legal-prose h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #00182A;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-prose h2:first-child {
+    margin-top: 0;
+  }
+
+  .legal-prose p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #334155;
+    margin-bottom: 1.25rem;
+  }
+
+  .regulatory-highlight-box {
+    background-color: #F8FAFC;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.25rem 0;
+  }
+
+  .regulatory-highlight-box p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .regulatory-highlight-box p:last-child {
+    margin-bottom: 0;
+  }
+
+  .warning-callout-box {
+    background-color: rgba(255, 193, 7, 0.1);
+    border-left: 4px solid #FFC107;
+    border-radius: 0 10px 10px 0;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .warning-callout-box p {
+    margin: 0;
+    color: #00182A;
+    font-size: 0.95rem;
+  }
+
+  .legal-prose a {
+    color: #00AB96;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  @media (max-width: 640px) {
+    .legal-prose {
+      padding: 1.75rem;
+    }
+    .legal-title {
+      font-size: 2.15rem;
+    }
+  }
+</style>

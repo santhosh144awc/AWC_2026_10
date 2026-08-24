@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GoalPlannerCalculator from '../components/calculators/GoalPlannerCalculator';
+---
+
+<BaseLayout 
+  title="Plan Your Life Goals — Ant Wealth Creation" 
+  description="Plan your children's higher education, dream home down payment, retirement independence, and family milestones with inflation-adjusted mathematical precision."
+  currentPath="/plan"
+>
+  <section class="plan-page-hero">
+    <div class="container text-center">
+      <div class="badge-tag">
+        <span class="badge-dot"></span>
+        Goal-Based Financial Planning
+      </div>
+      <h1 class="page-title">Map Your Milestones Into Action</h1>
+      <p class="page-subtitle">
+        Select any milestone below to calculate inflation-adjusted future targets, evaluate your existing savings growth, and discover your exact monthly SIP requirement.
+      </p>
+    </div>
+  </section>
+
+  <section class="goal-planner-stage-section">
+    <div class="container">
+      <GoalPlannerCalculator client:load />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .plan-page-hero {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 4rem 1.5rem 2.5rem;
+  }
+
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-growth-teal);
+    border-radius: 50%;
+  }
+
+  .page-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: var(--color-primary-navy);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+
+  .page-subtitle {
+    font-size: 1.15rem;
+    color: var(--color-slate-muted);
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .goal-planner-stage-section {
+    background-color: #F8FAFC;
+    padding: 0 1.5rem 5rem;
+  }
+
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 2rem;
+    }
+    .page-subtitle {
+      font-size: 1rem;
+    }
+  }
+</style>
+

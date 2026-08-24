@@ -1,0 +1,152 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../data/siteConfig';
+---
+
+<BaseLayout 
+  title="Terms of Use — Ant Wealth Creation" 
+  description="Terms and conditions governing the use of Ant Wealth Creation website, calculators, and educational content."
+  currentPath="/terms"
+>
+  <section class="legal-hero-section text-center">
+    <div class="container">
+      <span class="badge-tag">
+        <span class="badge-dot"></span>
+        Legal & User Agreement
+      </span>
+      <h1 class="legal-title">Terms of Use</h1>
+      <p class="legal-subtitle">
+        Last updated: August 2026 • Please read these terms carefully before utilizing our services.
+      </p>
+    </div>
+  </section>
+
+  <section class="legal-content-section">
+    <div class="container legal-container">
+      <div class="legal-prose card-base">
+        <h2>1. Acceptance of Terms</h2>
+        <p>
+          By accessing and using this website (<strong>antwealth.in</strong>), you agree to comply with and be bound by these Terms of Use, all applicable laws of India, and regulations established by the Securities and Exchange Board of India (SEBI) and the Association of Mutual Funds in India (AMFI).
+        </p>
+
+        <h2>2. Professional Scope of Ant Wealth Creation</h2>
+        <p>
+          Ant Wealth Creation is a proprietary financial distribution firm founded by <strong>C. Santhosh Sathriyan, B.E.</strong>, an AMFI-Registered Mutual Fund Distributor holding <strong>ARN: 266896</strong> and QPFP Certified practitioner.
+        </p>
+        <p>
+          Ant Wealth Creation acts as a distributor of mutual funds and related financial products. The content, articles, tools, and calculators available on this website are provided strictly for <strong>educational, financial literacy, and goal discovery purposes</strong> and do not constitute fee-based investment advice under SEBI (Investment Advisers) Regulations, 2013.
+        </p>
+
+        <h2>3. Educational Use of Calculators and Tools</h2>
+        <p>
+          The financial calculators (including SIP, Step-Up SIP, Retirement, Goal Planner, Loan vs Investment, Insurance Needs, and Net Worth tools) are mathematical simulation engines intended to illustrate compound interest and inflation effects based on parameters entered by the user.
+        </p>
+        <p>
+          Calculated outcomes are hypothetical simulations and <strong>do not represent guaranteed returns or assurances of future market performance</strong>.
+        </p>
+
+        <h2>4. Intellectual Property</h2>
+        <p>
+          All website designs, text, brand marks, calculation engines, and graphics are the intellectual property of Ant Wealth Creation unless otherwise noted. Unauthorized reproduction, distribution, or commercial exploitation is prohibited.
+        </p>
+
+        <h2>5. Limitation of Liability</h2>
+        <p>
+          While we strive for absolute accuracy in our financial modeling and content, Ant Wealth Creation shall not be liable for any financial decisions made solely based on the general educational materials or calculators provided on this website. Investors are advised to evaluate their own risk tolerance and read scheme information documents before investing.
+        </p>
+
+        <h2>6. Governing Law and Jurisdiction</h2>
+        <p>
+          These Terms of Use are governed by the laws of India. Any disputes arising out of the use of this website shall be subject to the exclusive jurisdiction of the competent courts in Tamil Nadu, India.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-hero-section {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 4.5rem 1.5rem 2.5rem;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-growth-teal);
+    border-radius: 50%;
+  }
+
+  .legal-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: #00182A;
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-subtitle {
+    font-size: 1rem;
+    color: #64748B;
+  }
+
+  .legal-content-section {
+    padding: 3.5rem 1.5rem 5rem;
+    background-color: #F8FAFC;
+  }
+
+  .legal-container {
+    max-width: 840px;
+    margin: 0 auto;
+  }
+
+  .legal-prose {
+    padding: 3rem;
+    background-color: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 16px;
+  }
+
+  .legal-prose h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #00182A;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-prose h2:first-child {
+    margin-top: 0;
+  }
+
+  .legal-prose p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #334155;
+    margin-bottom: 1.25rem;
+  }
+
+  @media (max-width: 640px) {
+    .legal-prose {
+      padding: 1.75rem;
+    }
+    .legal-title {
+      font-size: 2.15rem;
+    }
+  }
+</style>

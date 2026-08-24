@@ -1,0 +1,157 @@
+---
+const BELIEFS = [
+  {
+    step: "01",
+    title: "Client First",
+    subtitle: "Your family's financial security and progress are the single priority behind every conversation and review."
+  },
+  {
+    step: "02",
+    title: "Goals Before Products",
+    subtitle: "We always identify what your money needs to accomplish first before discussing any mutual fund or tool."
+  },
+  {
+    step: "03",
+    title: "Simple & Transparent",
+    subtitle: "Zero complex financial jargon. Every concept and process is explained in clear, transparent language."
+  },
+  {
+    step: "04",
+    title: "Long-Term Thinking",
+    subtitle: "We prioritize patient wealth compounding and milestone clarity over short-term market noise or speculation."
+  },
+  {
+    step: "05",
+    title: "Education Before Decision",
+    subtitle: "We believe in empowering you with understanding so you make informed, confident choices for your family."
+  }
+];
+---
+
+<section class="why-ant-wealth-section">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="badge-tag">
+        <span class="badge-dot"></span>
+        Our Core Philosophy
+      </span>
+      <h2 class="section-title">What We Believe</h2>
+      <p class="section-subtitle">
+        Ant Wealth Creation is built on principles of discipline, patience, and lifelong partnership with everyday families.
+      </p>
+    </div>
+
+    <div class="beliefs-grid">
+      {BELIEFS.map((b) => (
+        <div class="belief-card">
+          <span class="belief-number">{b.step}</span>
+          <h3 class="belief-title">{b.title}</h3>
+          <p class="belief-desc">{b.subtitle}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .why-ant-wealth-section {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 4.5rem 1.5rem;
+    border-top: 1px solid #E2E8F0;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-growth-teal);
+    border-radius: 50%;
+  }
+
+  .section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #00182A;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.05rem;
+    color: #64748B;
+    max-width: 620px;
+    margin: 0 auto 3rem;
+    line-height: 1.5;
+  }
+
+  .beliefs-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+  }
+
+  .belief-card {
+    background-color: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 1.75rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s ease;
+  }
+
+  .belief-card:hover {
+    transform: translateY(-4px);
+    border-color: #00AB96;
+    box-shadow: 0 10px 24px rgba(0, 24, 42, 0.06);
+  }
+
+  .belief-number {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #00AB96;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .belief-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #00182A;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .belief-desc {
+    font-size: 0.875rem;
+    color: #64748B;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 1100px) {
+    .beliefs-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .beliefs-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

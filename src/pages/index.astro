@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import HealthCheckTeaser from '../components/HealthCheckTeaser.astro';
+import GoalCards from '../components/GoalCards.astro';
+import CalculatorCards from '../components/CalculatorCards.astro';
+import FinancialJourney from '../components/FinancialJourney.astro';
+import LearningSection from '../components/LearningSection.astro';
+import TrustSection from '../components/TrustSection.astro';
+import MeetFounder from '../components/MeetFounder.astro';
+---
+
+<BaseLayout 
+  title="Ant Wealth Creation — Make Better Money Decisions. Build a Better Future."
+  description="Simple financial guidance for investing, protection, retirement and wealth creation from AMFI-Registered Mutual Fund Distributor C. Santhosh Sathriyan (ARN-266896)."
+  currentPath="/"
+>
+  <!-- 1. Hero Section -->
+  <Hero />
+
+  <!-- 2. Financial Health Check Section -->
+  <HealthCheckTeaser />
+
+  <!-- 3. What Are You Planning For? (Goal Discovery) -->
+  <GoalCards />
+
+  <!-- 4. Know Your Numbers (Calculators Toolbox) -->
+  <CalculatorCards />
+
+  <!-- 5. Your Financial Journey (6-Stage Timeline) -->
+  <FinancialJourney />
+
+  <!-- 6. Money Made Simple (Educational Knowledge Center) -->
+  <LearningSection />
+
+  <!-- 7. Why Families Choose Ant Wealth Creation (Trust & Credibility) -->
+  <TrustSection />
+
+  <!-- 8. Meet Santhosh & Consultation Action Area -->
+  <MeetFounder />
+</BaseLayout>

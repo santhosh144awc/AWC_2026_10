@@ -1,0 +1,187 @@
+---
+import { siteConfig } from '../data/siteConfig';
+---
+
+<section class="calculators-section section-padding">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Know Your Numbers</h2>
+      <p class="section-subtitle">
+        Use our simple calculators to plan your investments, evaluate trade-offs, and project your financial independence.
+      </p>
+    </div>
+
+    <div class="calculators-grid">
+      {siteConfig.calculators.map((calc) => (
+        <a href={calc.href} class="calc-card card-base">
+          <div class="calc-icon-box">
+            {calc.id === 'sip' && (
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="16" height="20" x="4" y="2" rx="2"></rect>
+                <line x1="8" x2="16" y1="6" y2="6"></line>
+                <line x1="16" x2="16" y1="14" y2="18"></line>
+                <path d="M16 10h.01"></path>
+                <path d="M12 10h.01"></path>
+                <path d="M8 10h.01"></path>
+                <path d="M12 14h.01"></path>
+                <path d="M8 14h.01"></path>
+                <path d="M12 18h.01"></path>
+                <path d="M8 18h.01"></path>
+              </svg>
+            )}
+            {calc.id === 'retirement' && (
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 18a5 5 0 0 0-10 0"></path>
+                <line x1="12" y1="2" x2="12" y2="9"></line>
+                <line x1="4.22" y1="10.22" x2="5.64" y2="11.64"></line>
+                <line x1="1" y1="18" x2="3" y2="18"></line>
+                <line x1="21" y1="18" x2="23" y2="18"></line>
+                <line x1="18.36" y1="11.64" x2="19.78" y2="10.22"></line>
+                <line x1="23" y1="22" x2="1" y2="22"></line>
+              </svg>
+            )}
+            {calc.id === 'goal-planner' && (
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+              </svg>
+            )}
+            {calc.id === 'loan-vs-investment' && (
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path>
+                <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path>
+                <path d="M7 21h10"></path>
+                <path d="M12 3v18"></path>
+                <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path>
+              </svg>
+            )}
+            {calc.id === 'insurance' && (
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            )}
+            {calc.id === 'net-worth' && (
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 3v18h18"></path>
+                <path d="m19 9-5 5-4-4-3 3"></path>
+              </svg>
+            )}
+          </div>
+          <h3 class="calc-title">{calc.title}</h3>
+          <p class="calc-desc">{calc.description}</p>
+        </a>
+      ))}
+    </div>
+
+    <div class="section-footer-link">
+      <a href="/tools" class="link-with-arrow">
+        Explore All Calculators
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .calculators-section {
+    background-color: var(--color-bg-light);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .calculators-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  @media (max-width: 1200px) {
+    .calculators-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .calculators-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  }
+
+  .calc-card {
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    border-radius: var(--radius-xl);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-normal);
+  }
+
+  .calc-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-growth-teal);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .calc-icon-box {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-lg);
+    background-color: var(--color-bg-light);
+    color: var(--color-primary-navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--color-border-subtle);
+    transition: all var(--transition-normal);
+  }
+
+  .calc-card:hover .calc-icon-box {
+    background-color: var(--color-growth-teal-light);
+    color: var(--color-growth-teal);
+    transform: scale(1.08);
+  }
+
+  .calc-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-primary-navy);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .calc-desc {
+    font-size: 0.825rem;
+    color: var(--color-slate-muted);
+    line-height: 1.45;
+  }
+
+  .section-footer-link {
+    text-align: center;
+  }
+
+  .link-with-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-primary-navy);
+    transition: color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .link-with-arrow:hover {
+    color: var(--color-growth-teal);
+    transform: translateX(3px);
+  }
+</style>

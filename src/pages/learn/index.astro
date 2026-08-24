@@ -1,0 +1,388 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import ArticleCard from '../../components/learning/ArticleCard.astro';
+import CategoryCard from '../../components/learning/CategoryCard.astro';
+
+const allArticles = await getCollection('articles', ({ data }) => !data.draft);
+
+// Sort by publishDate descending
+const sortedArticles = allArticles.sort(
+  (a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+);
+
+const featuredArticles = sortedArticles.filter(a => a.data.featured);
+
+const CATEGORIES = [
+  {
+    name: 'Personal Finance',
+    icon: '💰',
+    description: 'Cash flow management, emergency funds, debt hygiene, and budgeting foundations.'
+  },
+  {
+    name: 'Mutual Funds',
+    icon: '📈',
+    description: 'Understanding equity, debt, and hybrid fund categories under SEBI regulations.'
+  },
+  {
+    name: 'SIP & Investing',
+    icon: '🌱',
+    description: 'The mathematics of compounding, rupee cost averaging, step-up SIPs, and discipline.'
+  },
+  {
+    name: 'Goal Planning',
+    icon: '🎯',
+    description: 'Inflation-adjusted mapping for children education, home down payment, and weddings.'
+  },
+  {
+    name: 'Retirement Planning',
+    icon: '🌅',
+    description: 'Longevity planning, inflation protection, and generating sustainable retirement cash flow.'
+  },
+  {
+    name: 'Insurance & Protection',
+    icon: '🛡️',
+    description: 'Pure term life cover, health insurance adequacy, and safeguarding your family.'
+  },
+  {
+    name: 'Wealth Creation',
+    icon: '💎',
+    description: 'Strategic asset allocation, portfolio rebalancing, and long-term equity growth.'
+  },
+  {
+    name: 'Financial Planning',
+    icon: '🧭',
+    description: 'Holistic money blueprints, net worth tracking, and stages to financial independence.'
+  }
+];
+
+const categoryCounts = CATEGORIES.map(cat => ({
+  ...cat,
+  count: allArticles.filter(a => a.data.category === cat.name).length
+}));
+---
+
+<BaseLayout 
+  title="Money Made Simple — Financial Learning Center | Ant Wealth Creation" 
+  description="Understand your money, make better financial decisions, and build a stronger future with simple, jargon-free educational guides on SIPs, Mutual Funds, Retirement, and Protection."
+  currentPath="/learn"
+>
+  {/* Hero Section */}
+  <section class="learn-hero-section">
+    <div class="container text-center">
+      <div class="badge-tag">
+        <span class="badge-dot"></span>
+        Knowledge & Financial Education
+      </div>
+      <h1 class="page-title">Money Made Simple</h1>
+      <p class="page-subtitle">
+        Understand your money. Make better decisions. Build a stronger financial future.
+      </p>
+      <p class="page-intro-text">
+        Explore simple, evidence-based educational guides on <strong>Personal Finance, Mutual Funds, SIP, Goal Planning, Retirement, Insurance, Wealth Creation,</strong> and <strong>Financial Protection</strong>—written specifically for everyday Indian families.
+      </p>
+    </div>
+  </section>
+
+  {/* Category Exploration Grid */}
+  <section class="learn-categories-section">
+    <div class="container">
+      <div class="section-title-wrap">
+        <span class="section-tag">Explore by Subject</span>
+        <h2 class="section-heading">Financial Literacy Categories</h2>
+      </div>
+
+      <div class="categories-grid">
+        {categoryCounts.map(cat => (
+          <CategoryCard
+            name={cat.name}
+            icon={cat.icon}
+            description={cat.description}
+            count={cat.count}
+            slug={cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Featured Guides Section */}
+  {featuredArticles.length > 0 && (
+    <section class="featured-articles-section">
+      <div class="container">
+        <div class="section-title-wrap">
+          <span class="section-tag">Essential Reading</span>
+          <h2 class="section-heading">Foundational Financial Guides</h2>
+        </div>
+
+        <div class="articles-featured-grid">
+          {featuredArticles.slice(0, 3).map(article => (
+            <ArticleCard
+              title={article.data.title}
+              description={article.data.description}
+              slug={article.slug}
+              category={article.data.category}
+              readingTime={article.data.readingTime}
+              publishDate={article.data.publishDate}
+              featured={true}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {/* All Articles Section */}
+  <section class="all-articles-section">
+    <div class="container">
+      <div class="section-title-wrap">
+        <span class="section-tag">Complete Library</span>
+        <h2 class="section-heading">All Educational Articles ({sortedArticles.length})</h2>
+      </div>
+
+      <div class="articles-library-grid">
+        {sortedArticles.map(article => (
+          <ArticleCard
+            title={article.data.title}
+            description={article.data.description}
+            slug={article.slug}
+            category={article.data.category}
+            readingTime={article.data.readingTime}
+            publishDate={article.data.publishDate}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Interactive Planning CTA */}
+  <section class="learning-action-cta">
+    <div class="container">
+      <div class="cta-inner-box text-center">
+        <h3 class="cta-heading">Ready to Put Your Knowledge into Practice?</h3>
+        <p class="cta-desc">
+          Test your financial fitness with the 3-minute Health Check or calculate your milestone requirements with our interactive tools suite.
+        </p>
+        <div class="cta-buttons-row">
+          <a href="/health-check" class="btn-primary-cta">
+            Take Financial Health Check
+          </a>
+          <a href="/tools" class="btn-secondary-cta">
+            Explore Financial Calculators
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .learn-hero-section {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 4rem 1.5rem 3rem;
+  }
+
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-growth-teal);
+    border-radius: 50%;
+  }
+
+  .page-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.85rem;
+    font-weight: 800;
+    color: var(--color-primary-navy);
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+  }
+
+  .page-subtitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-growth-teal);
+    max-width: 680px;
+    margin: 0 auto 1rem;
+    line-height: 1.4;
+  }
+
+  .page-intro-text {
+    font-size: 1rem;
+    color: var(--color-slate-muted);
+    max-width: 720px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Section Wrappers */
+  .learn-categories-section {
+    padding: 3rem 1.5rem;
+    background-color: #FFFFFF;
+  }
+
+  .featured-articles-section {
+    padding: 3.5rem 1.5rem;
+    background-color: #F8FAFC;
+    border-top: 1px solid #E2E8F0;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .all-articles-section {
+    padding: 4rem 1.5rem;
+    background-color: #FFFFFF;
+  }
+
+  .section-title-wrap {
+    margin-bottom: 2rem;
+  }
+
+  .section-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-growth-teal);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .section-heading {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-primary-navy);
+  }
+
+  /* Grids */
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  .articles-featured-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+  }
+
+  .articles-library-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+  }
+
+  /* CTA Banner */
+  .learning-action-cta {
+    padding: 0 1.5rem 5rem;
+    background-color: #FFFFFF;
+  }
+
+  .cta-inner-box {
+    background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
+    border-radius: 16px;
+    padding: 3.5rem 2rem;
+    color: #FFFFFF;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .cta-heading {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-desc {
+    font-size: 1.05rem;
+    color: #CBD5E1;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.5;
+  }
+
+  .cta-buttons-row {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary-cta {
+    background-color: #00AB96;
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 0.85rem 1.5rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-primary-cta:hover {
+    background-color: #008f7d;
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary-cta {
+    background-color: transparent;
+    color: #FFFFFF;
+    border: 1.5px solid #FFFFFF;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 0.85rem 1.5rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-secondary-cta:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  @media (max-width: 1024px) {
+    .categories-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .articles-featured-grid,
+    .articles-library-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .categories-grid {
+      grid-template-columns: 1fr;
+    }
+    .articles-featured-grid,
+    .articles-library-grid {
+      grid-template-columns: 1fr;
+    }
+    .page-title {
+      font-size: 2.15rem;
+    }
+    .page-subtitle {
+      font-size: 1.1rem;
+    }
+    .cta-heading {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+

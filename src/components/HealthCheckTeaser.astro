@@ -1,0 +1,289 @@
+---
+import { HealthScoreGauge } from './HealthScoreGauge';
+---
+
+<section class="health-check-section section-padding">
+  <div class="container">
+    <div class="health-check-grid">
+      <!-- Left Column: Teaser & Action -->
+      <div class="health-check-intro">
+        <div class="badge badge-teal mb-3">Free 2-Minute Diagnostic</div>
+        <h2 class="health-check-heading">
+          How financially healthy are you?
+        </h2>
+        <p class="health-check-subtext">
+          Take a quick, confidential assessment to evaluate your emergency preparedness, insurance coverage, savings rate, and retirement readiness.
+        </p>
+
+        <div class="health-check-features">
+          <div class="feature-point">
+            <span class="point-icon">⚡</span>
+            <span>Takes under 2 minutes</span>
+          </div>
+          <div class="feature-point">
+            <span class="point-icon">🔒</span>
+            <span>100% Free & No Forced Login/Phone Required</span>
+          </div>
+          <div class="feature-point">
+            <span class="point-icon">📊</span>
+            <span>Personalized strengths & gaps report</span>
+          </div>
+        </div>
+
+        <div class="health-check-cta-wrap">
+          <a href="/health-check" class="btn btn-teal health-cta-btn">
+            Check My Score
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Score Card Preview -->
+      <div class="health-score-preview-card">
+        <div class="card-header-flex">
+          <h3 class="preview-card-title">Your Financial Health Score</h3>
+          <span class="sample-pill">Preview</span>
+        </div>
+
+        <div class="score-card-body">
+          <!-- Score Gauge Area -->
+          <div class="gauge-area">
+            <HealthScoreGauge client:visible targetScore={72} />
+          </div>
+
+          <!-- Insights & Gaps Preview -->
+          <div class="score-insights">
+            <div class="insight-group">
+              <div class="insight-group-title text-success">
+                Your strengths
+              </div>
+              <ul class="insight-list success-list">
+                <li><span class="check-icon">✓</span> Good savings rate</li>
+                <li><span class="check-icon">✓</span> Adequate emergency fund</li>
+              </ul>
+            </div>
+
+            <div class="insight-group mt-3">
+              <div class="insight-group-title text-warning">
+                Needs attention
+              </div>
+              <ul class="insight-list alert-list">
+                <li><span class="bullet-dot">•</span> Life insurance</li>
+                <li><span class="bullet-dot">•</span> Retirement corpus</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <p class="preview-footnote">
+          *Illustrative financial-health benchmark. Actual requirements vary based on individual circumstances.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .health-check-section {
+    background-color: var(--color-bg-light);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .health-check-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: 3.5rem;
+    align-items: center;
+  }
+
+  .mb-3 {
+    margin-bottom: 0.75rem;
+  }
+
+  .mt-3 {
+    margin-top: 1rem;
+  }
+
+  .health-check-heading {
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--color-primary-navy);
+    margin-bottom: 1rem;
+  }
+
+  .health-check-subtext {
+    font-size: 1.1rem;
+    color: var(--color-slate-muted);
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+  }
+
+  .health-check-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .feature-point {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-slate-text);
+  }
+
+  .point-icon {
+    font-size: 1.1rem;
+  }
+
+  .health-cta-btn {
+    padding: 0.85rem 2rem;
+    font-size: 1.05rem;
+  }
+
+  /* Score Preview Card */
+  .health-score-preview-card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: 2.25rem;
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .preview-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-primary-navy);
+  }
+
+  .preview-footnote {
+    margin-top: 1.25rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--color-border);
+    font-size: 0.75rem;
+    color: var(--color-slate-muted);
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  .sample-pill {
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: var(--color-bg-subtle);
+    color: var(--color-slate-muted);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .score-card-body {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .gauge-area {
+    display: flex;
+    justify-content: center;
+  }
+
+  .score-insights {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .insight-group-title {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.5rem;
+  }
+
+  .text-success {
+    color: var(--color-growth-teal);
+  }
+
+  .text-warning {
+    color: #D97706;
+  }
+
+  .insight-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .insight-list li {
+    font-size: 0.95rem;
+    color: var(--color-slate-text);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .check-icon {
+    color: var(--color-growth-teal);
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .bullet-dot {
+    color: #D97706;
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  @media (max-width: 992px) {
+    .health-check-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .score-card-body {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: 1.5rem;
+    }
+
+    .health-score-preview-card {
+      padding: 1.5rem;
+    }
+
+    .insight-list li {
+      padding-left: 0;
+    }
+
+    .insight-list li::before {
+      display: none;
+    }
+
+    .insight-group-title {
+      justify-content: center;
+    }
+  }
+</style>

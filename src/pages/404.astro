@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout 
+  title="Page Not Found — Ant Wealth Creation" 
+  description="Looks like this page took a wrong turn. Return to Ant Wealth Creation home, calculators, or educational guides."
+  currentPath="/404"
+>
+  <section class="not-found-section text-center">
+    <div class="container not-found-container">
+      <div class="not-found-badge">404 Error</div>
+      <h1 class="not-found-title">Looks like this page took a wrong turn.</h1>
+      <p class="not-found-desc">
+        The link you followed may be broken or the page may have been moved. Don't worry, your financial goals are still on track!
+      </p>
+
+      <div class="not-found-actions">
+        <a href="/" class="btn-action btn-primary">Go Home</a>
+        <a href="/plan" class="btn-action btn-secondary">Plan Your Money</a>
+        <a href="/tools" class="btn-action btn-secondary">Calculators</a>
+        <a href="/learn" class="btn-action btn-secondary">Learning Center</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found-section {
+    padding: 7rem 1.5rem;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .not-found-container {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .not-found-badge {
+    display: inline-block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #00AB96;
+    background-color: rgba(0, 171, 150, 0.1);
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    margin-bottom: 1.5rem;
+  }
+
+  .not-found-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: #00182A;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .not-found-desc {
+    font-size: 1.15rem;
+    color: #64748B;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+  }
+
+  .not-found-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .btn-action {
+    display: inline-block;
+    padding: 0.85rem 1.5rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-primary {
+    background-color: #00AB96;
+    color: #FFFFFF;
+  }
+
+  .btn-primary:hover {
+    background-color: #008f7d;
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background-color: #FFFFFF;
+    color: #00182A;
+    border: 1.5px solid #CBD5E1;
+  }
+
+  .btn-secondary:hover {
+    background-color: #F1F5F9;
+    border-color: #00182A;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 640px) {
+    .not-found-title {
+      font-size: 2rem;
+    }
+    .not-found-actions {
+      flex-direction: column;
+    }
+  }
+</style>

@@ -1,0 +1,248 @@
+---
+import { siteConfig } from '../data/siteConfig';
+---
+
+<section class="hero-section">
+  <div class="hero-container">
+    <!-- Left Column: Typography & CTAs Matching Concept Image 2 -->
+    <div class="hero-content">
+      <h1 class="hero-title">
+        Make Better<br />
+        Money Decisions.<br />
+        <span class="text-navy">Build a Better Future.</span>
+      </h1>
+
+      <p class="hero-description">
+        Simple financial guidance for investing,<br class="hide-mobile" />
+        protection, retirement and wealth creation.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="/plan" class="btn-start-planning">
+          Start Planning
+        </a>
+        <a href="/tools" class="btn-explore-finance">
+          Explore Finance
+        </a>
+      </div>
+    </div>
+
+    <!-- Right Column: Family & Financial Journey Visual Beside Text -->
+    <div class="hero-visual">
+      <img 
+        src="/assets/homeScreenimage.png" 
+        alt="Ant Wealth Creation — Financial Journey to Financial Freedom" 
+        class="hero-artwork-img"
+        width="1672"
+        height="941"
+        loading="eager"
+        decoding="async"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    position: relative;
+    background-color: #FFFFFF;
+    overflow: hidden;
+    padding: 3rem 0 3.5rem 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-container {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 3rem;
+    display: grid;
+    grid-template-columns: 42% 58%;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  /* Left Column: Hero Content */
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+    color: var(--color-primary-navy);
+    margin-bottom: 1.5rem;
+  }
+
+  .text-navy {
+    color: var(--color-primary-navy);
+  }
+
+  .hero-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--color-slate-text);
+    margin-bottom: 2.25rem;
+    max-width: 480px;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-start-planning {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #00182A;
+    color: #FFFFFF;
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding: 0.95rem 2.25rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(0, 24, 42, 0.15);
+  }
+
+  .btn-start-planning:hover {
+    background-color: #002845;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 24, 42, 0.2);
+  }
+
+  .btn-explore-finance {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: #00182A;
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding: 0.95rem 2.1rem;
+    border-radius: 10px;
+    border: 1.5px solid #00182A;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-explore-finance:hover {
+    background-color: rgba(0, 24, 42, 0.04);
+    transform: translateY(-2px);
+  }
+
+  /* Right Column: Hero Visual Beside Text */
+  .hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-artwork-img {
+    width: 100%;
+    height: auto;
+    max-height: 615px;
+    object-fit: contain;
+    display: block;
+    mix-blend-mode: multiply;
+
+    /* Seamless Left & Bottom Edge Feathering */
+    -webkit-mask-image: 
+      linear-gradient(to right, transparent 0%, rgba(0,0,0,0.85) 6%, black 14%, black 95%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, black 3%, black 88%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    
+    mask-image: 
+      linear-gradient(to right, transparent 0%, rgba(0,0,0,0.85) 6%, black 14%, black 95%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, black 3%, black 88%, transparent 100%);
+    mask-composite: intersect;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .hero-container {
+      padding: 0 2rem;
+      grid-template-columns: 46% 54%;
+      gap: 1rem;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+    }
+
+    .hero-description {
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .hero-section {
+      padding: 2.5rem 0 3rem 0;
+    }
+
+    .hero-container {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: 2.5rem;
+      padding: 0 1.5rem;
+    }
+
+    .hero-content {
+      align-items: center;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .hero-description {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-cta-group {
+      justify-content: center;
+    }
+
+    .hero-visual {
+      justify-content: center;
+    }
+
+    .hero-artwork-img {
+      max-width: 600px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .hero-title {
+      font-size: 2.1rem;
+    }
+
+    .hero-description {
+      font-size: 1rem;
+    }
+
+    .hero-cta-group {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .btn-start-planning,
+    .btn-explore-finance {
+      width: 100%;
+    }
+  }
+</style>
+

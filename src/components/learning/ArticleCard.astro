@@ -1,0 +1,150 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  slug: string;
+  category: string;
+  readingTime?: string;
+  publishDate?: Date | string;
+  featured?: boolean;
+}
+
+const { title, description, slug, category, readingTime = '5 min read', publishDate, featured = false } = Astro.props;
+
+const formattedDate = publishDate 
+  ? new Date(publishDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })
+  : 'Aug 2026';
+---
+
+<article class={`article-card ${featured ? 'article-featured' : ''}`}>
+  <div class="article-card-header">
+    <span class="category-pill">{category}</span>
+    <span class="reading-time">{readingTime}</span>
+  </div>
+  
+  <h3 class="article-title">
+    <a href={`/learn/${slug}`} class="article-link">
+      {title}
+    </a>
+  </h3>
+  
+  <p class="article-desc">
+    {description}
+  </p>
+  
+  <div class="article-card-footer">
+    <span class="publish-date">{formattedDate}</span>
+    <a href={`/learn/${slug}`} class="read-more-link">
+      Read Article
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </a>
+  </div>
+</article>
+
+<style>
+  .article-card {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.25s ease;
+    height: 100%;
+  }
+
+  .article-card:hover {
+    transform: translateY(-4px);
+    border-color: #00AB96;
+    box-shadow: 0 12px 28px rgba(0, 24, 42, 0.08);
+  }
+
+  .article-featured {
+    border-color: #CBD5E1;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+  }
+
+  .article-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .category-pill {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #00AB96;
+    background-color: rgba(0, 171, 150, 0.08);
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+  }
+
+  .reading-time {
+    font-size: 0.8rem;
+    color: #64748B;
+    font-weight: 500;
+  }
+
+  .article-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 0.75rem;
+    color: #00182A;
+  }
+
+  .article-link {
+    color: #00182A;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .article-link:hover {
+    color: #00AB96;
+  }
+
+  .article-desc {
+    font-size: 0.9rem;
+    color: #64748B;
+    line-height: 1.55;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+  }
+
+  .article-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid #F1F5F9;
+  }
+
+  .publish-date {
+    font-size: 0.8rem;
+    color: #94A3B8;
+  }
+
+  .read-more-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #00182A;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .read-more-link:hover {
+    color: #00AB96;
+    transform: translateX(3px);
+  }
+</style>

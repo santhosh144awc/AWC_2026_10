@@ -1,0 +1,773 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WhyAntWealth from '../components/WhyAntWealth.astro';
+import { siteConfig } from '../data/siteConfig';
+
+const HOW_WE_WORK_STEPS = [
+  {
+    step: "01",
+    title: "Understand",
+    desc: "We understand your income, expenses, current obligations, and family priorities in a relaxed conversation."
+  },
+  {
+    step: "02",
+    title: "Identify Goals",
+    desc: "We discover what you want your money to accomplish—from child education and home purchase to retirement."
+  },
+  {
+    step: "03",
+    title: "Assess",
+    desc: "We review your financial health, protection adequacy, emergency fund, and existing investments."
+  },
+  {
+    step: "04",
+    title: "Plan",
+    desc: "We map a practical, step-by-step path aligning your monthly savings and asset allocation to your milestones."
+  },
+  {
+    step: "05",
+    title: "Review",
+    desc: "We periodically review progress and help adjust your allocations as your life, goals, and income evolve."
+  }
+];
+---
+
+<BaseLayout 
+  title="About Santhosh & Ant Wealth Creation — Mission & Story" 
+  description="Meet C. Santhosh Sathriyan, B.E., QPFP Certified, AMFI-Registered Mutual Fund Distributor (ARN: 266896). Learn why Ant Wealth Creation was founded to help families make simple, disciplined money decisions."
+  currentPath="/about"
+>
+  {/* SECTION 1 — INTRODUCTION */}
+  <section class="about-hero-section">
+    <div class="container">
+      <div class="about-hero-grid">
+        <div class="about-hero-text">
+          <div class="badge-tag">
+            <span class="badge-dot"></span>
+            About the Founder
+          </div>
+          <h1 class="about-hero-title">Meet Santhosh</h1>
+          <p class="about-hero-subtitle">
+            Helping families make better money decisions and build a better financial future.
+          </p>
+          
+          <div class="founder-identity-card">
+            <h2 class="founder-name">C. Santhosh Sathriyan, B.E.</h2>
+            <div class="credentials-badge-list">
+              <span class="cred-badge">QPFP Certified</span>
+              <span class="cred-badge">AMFI-Registered Mutual Fund Distributor</span>
+              <span class="cred-badge">ARN: 266896</span>
+            </div>
+            <p class="founder-quote">
+              "{siteConfig.founder.quote}"
+            </p>
+          </div>
+        </div>
+
+        <div class="about-hero-image-col">
+          <div class="founder-photo-frame">
+            <img 
+              src="/assets/SANTHOSH .jpg" 
+              alt="C. Santhosh Sathriyan, B.E. - Founder of Ant Wealth Creation" 
+              class="founder-portrait"
+              loading="eager"
+            />
+            <div class="photo-experience-pill">
+              <span class="pill-bold">Since 2012</span>
+              <span class="pill-sub">Mutual Fund Experience</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* SECTION 2 — THE STORY */}
+  <section class="about-story-section">
+    <div class="container">
+      <div class="story-wrapper">
+        <div class="section-title-block text-center">
+          <span class="section-tag">Personal Journey</span>
+          <h2 class="section-heading">The Story Behind Ant Wealth Creation</h2>
+        </div>
+
+        <div class="story-timeline-grid">
+          <div class="story-card">
+            <div class="story-icon">🛡️</div>
+            <h3 class="story-card-title">Family Heritage in Financial Protection</h3>
+            <p class="story-card-desc">
+              {siteConfig.founder.story.heritage}
+            </p>
+          </div>
+
+          <div class="story-card">
+            <div class="story-icon">📈</div>
+            <h3 class="story-card-title">Passion for Goal-Based Planning</h3>
+            <p class="story-card-desc">
+              {siteConfig.founder.story.evolution}
+            </p>
+          </div>
+
+          <div class="story-card">
+            <div class="story-icon">🌱</div>
+            <h3 class="story-card-title">Founding Ant Wealth Creation</h3>
+            <p class="story-card-desc">
+              {siteConfig.founder.story.founding}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* SECTION 3 — WHY ANT WEALTH CREATION EXISTS */}
+  <section class="mission-section">
+    <div class="container">
+      <div class="mission-card">
+        <div class="mission-text-content">
+          <span class="mission-tag">Our Purpose</span>
+          <h2 class="mission-heading">Financial planning should not feel complicated.</h2>
+          <p class="mission-lead">
+            Most hardworking Indian families earn diligently, save carefully, and invest when they can. Yet, many struggle because there is no clear bridge connecting today's money decisions with tomorrow's life milestones.
+          </p>
+          <p class="mission-subtext">
+            Ant Wealth Creation exists to give your family clarity across every phase of your journey:
+          </p>
+
+          <div class="mission-stages-grid">
+            <div class="mission-step-item">
+              <span class="stage-num">1</span>
+              <span class="stage-name">Understand</span>
+            </div>
+            <div class="mission-step-item">
+              <span class="stage-num">2</span>
+              <span class="stage-name">Plan</span>
+            </div>
+            <div class="mission-step-item">
+              <span class="stage-num">3</span>
+              <span class="stage-name">Protect</span>
+            </div>
+            <div class="mission-step-item">
+              <span class="stage-num">4</span>
+              <span class="stage-name">Invest</span>
+            </div>
+            <div class="mission-step-item">
+              <span class="stage-num">5</span>
+              <span class="stage-name">Review</span>
+            </div>
+            <div class="mission-step-item">
+              <span class="stage-num">6</span>
+              <span class="stage-name">Progress</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* SECTION 4 — WHAT SANTHOSH BELIEVES (5 Philosophy Cards) */}
+  <WhyAntWealth />
+
+  {/* SECTION 5 — CREDENTIALS & TRUST */}
+  <section class="credentials-section">
+    <div class="container">
+      <div class="section-title-block text-center">
+        <span class="section-tag">Professional Standards</span>
+        <h2 class="section-heading">Verified Credentials & Registrations</h2>
+        <p class="section-subtext">
+          Operated with full transparency, rigorous certification, and complete regulatory adherence.
+        </p>
+      </div>
+
+      <div class="credentials-grid">
+        <div class="cred-card">
+          <div class="cred-icon">📜</div>
+          <h3 class="cred-title">AMFI Registered</h3>
+          <p class="cred-detail">ARN: 266896</p>
+          <p class="cred-desc">Registered Mutual Fund Distributor with the Association of Mutual Funds in India.</p>
+        </div>
+
+        <div class="cred-card">
+          <div class="cred-icon">🎓</div>
+          <h3 class="cred-title">QPFP Certified</h3>
+          <p class="cred-detail">Qualified Personal Finance Professional</p>
+          <p class="cred-desc">Certified in comprehensive personal finance, client-first ethics, and goal mapping.</p>
+        </div>
+
+        <div class="cred-card">
+          <div class="cred-icon">⏱️</div>
+          <h3 class="cred-title">Since 2012</h3>
+          <p class="cred-detail">Market Experience</p>
+          <p class="cred-desc">Over a decade of practical experience analyzing market cycles and helping families navigate investments.</p>
+        </div>
+
+        <div class="cred-card">
+          <div class="cred-icon">🏢</div>
+          <h3 class="cred-title">Established Firm</h3>
+          <p class="cred-detail">14 April 2023</p>
+          <p class="cred-desc">Formally incorporated with dedicated office facilities in Dharmapuri, Tamil Nadu.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* SECTION 6 — HOW WE WORK */}
+  <section class="how-we-work-section">
+    <div class="container">
+      <div class="section-title-block text-center">
+        <span class="section-tag">Our 5-Step Process</span>
+        <h2 class="section-heading">How Santhosh Works With Families</h2>
+        <p class="section-subtext">
+          A disciplined, goal-first framework designed to eliminate guesswork from your financial life.
+        </p>
+      </div>
+
+      <div class="process-steps-grid">
+        {HOW_WE_WORK_STEPS.map((s) => (
+          <div class="process-step-card">
+            <span class="process-step-num">{s.step}</span>
+            <h3 class="process-step-title">{s.title}</h3>
+            <p class="process-step-desc">{s.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* SECTION 7 — SOFT CONSULTATION CTA */}
+  <section class="soft-consult-cta-section">
+    <div class="container">
+      <div class="soft-cta-card text-center">
+        <h2 class="soft-cta-title">Want to talk about your financial goals?</h2>
+        <p class="soft-cta-copy">
+          If you have questions or simply want to understand where you stand, you can have a conversation with Santhosh.
+        </p>
+        
+        <div class="soft-cta-buttons">
+          <a href="/contact#book-consultation" class="btn-book-consult">
+            Book a Free Consultation
+          </a>
+          <a href={siteConfig.contact.whatsappUrl} target="_blank" rel="noopener noreferrer" class="btn-talk-santhosh">
+            Talk to Santhosh
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .about-hero-section {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 4.5rem 1.5rem;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .about-hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 3.5rem;
+    align-items: center;
+  }
+
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-growth-teal);
+    border-radius: 50%;
+  }
+
+  .about-hero-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    color: #00182A;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+  }
+
+  .about-hero-subtitle {
+    font-size: 1.2rem;
+    color: #475569;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+  }
+
+  .founder-identity-card {
+    background-color: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 1.75rem;
+    box-shadow: 0 8px 24px rgba(0, 24, 42, 0.04);
+  }
+
+  .founder-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #00182A;
+    margin-bottom: 0.6rem;
+  }
+
+  .credentials-badge-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cred-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #00AB96;
+    background-color: rgba(0, 171, 150, 0.08);
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+  }
+
+  .founder-quote {
+    font-size: 0.95rem;
+    color: #334155;
+    font-style: italic;
+    line-height: 1.5;
+    margin: 0;
+    border-left: 3px solid #00AB96;
+    padding-left: 0.75rem;
+  }
+
+  /* Photo Frame */
+  .about-hero-image-col {
+    display: flex;
+    justify-content: center;
+  }
+
+  .founder-photo-frame {
+    position: relative;
+    max-width: 380px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 16px 36px rgba(0, 24, 42, 0.12);
+    border: 3px solid #FFFFFF;
+  }
+
+  .founder-portrait {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .photo-experience-pill {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    background: rgba(0, 24, 42, 0.85);
+    backdrop-filter: blur(8px);
+    color: #FFFFFF;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .pill-bold {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: #00AB96;
+  }
+
+  .pill-sub {
+    font-size: 0.75rem;
+    color: #CBD5E1;
+  }
+
+  /* Story Section */
+  .about-story-section {
+    padding: 4.5rem 1.5rem;
+    background-color: #FFFFFF;
+  }
+
+  .section-title-block {
+    margin-bottom: 3rem;
+  }
+
+  .section-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #00AB96;
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+
+  .section-heading {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #00182A;
+    line-height: 1.25;
+  }
+
+  .section-subtext {
+    font-size: 1rem;
+    color: #64748B;
+    max-width: 600px;
+    margin: 0.5rem auto 0;
+  }
+
+  .story-timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .story-card {
+    background-color: #F8FAFC;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.25s ease;
+  }
+
+  .story-card:hover {
+    transform: translateY(-4px);
+    border-color: #00AB96;
+    box-shadow: 0 12px 28px rgba(0, 24, 42, 0.06);
+    background-color: #FFFFFF;
+  }
+
+  .story-icon {
+    font-size: 2.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .story-card-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #00182A;
+    margin-bottom: 0.75rem;
+    line-height: 1.35;
+  }
+
+  .story-card-desc {
+    font-size: 0.925rem;
+    color: #64748B;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Mission */
+  .mission-section {
+    padding: 2rem 1.5rem 4.5rem;
+    background-color: #FFFFFF;
+  }
+
+  .mission-card {
+    background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
+    border-radius: 20px;
+    padding: 3.5rem 3rem;
+    color: #FFFFFF;
+  }
+
+  .mission-tag {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #00AB96;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .mission-heading {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin-bottom: 1rem;
+    line-height: 1.25;
+  }
+
+  .mission-lead {
+    font-size: 1.15rem;
+    color: #E2E8F0;
+    max-width: 800px;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .mission-subtext {
+    font-size: 1rem;
+    color: #94A3B8;
+    margin-bottom: 2rem;
+  }
+
+  .mission-stages-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+  }
+
+  .mission-step-item {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 1rem 0.75rem;
+    text-align: center;
+  }
+
+  .stage-num {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #00AB96;
+    margin-bottom: 0.25rem;
+  }
+
+  .stage-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #FFFFFF;
+  }
+
+  /* Credentials */
+  .credentials-section {
+    padding: 4.5rem 1.5rem;
+    background-color: #FFFFFF;
+  }
+
+  .credentials-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .cred-card {
+    background-color: #F8FAFC;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 1.75rem;
+    transition: all 0.2s ease;
+  }
+
+  .cred-card:hover {
+    transform: translateY(-3px);
+    border-color: #00AB96;
+    background-color: #FFFFFF;
+    box-shadow: 0 10px 24px rgba(0, 24, 42, 0.05);
+  }
+
+  .cred-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .cred-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #00182A;
+    margin-bottom: 0.25rem;
+  }
+
+  .cred-detail {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #00AB96;
+    margin-bottom: 0.5rem;
+  }
+
+  .cred-desc {
+    font-size: 0.85rem;
+    color: #64748B;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Process */
+  .how-we-work-section {
+    padding: 4.5rem 1.5rem;
+    background-color: #F8FAFC;
+    border-top: 1px solid #E2E8F0;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .process-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+  }
+
+  .process-step-card {
+    background-color: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 1.75rem 1.25rem;
+    transition: all 0.2s ease;
+  }
+
+  .process-step-card:hover {
+    transform: translateY(-3px);
+    border-color: #00AB96;
+    box-shadow: 0 10px 24px rgba(0, 24, 42, 0.05);
+  }
+
+  .process-step-num {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #00AB96;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .process-step-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #00182A;
+    margin-bottom: 0.5rem;
+  }
+
+  .process-step-desc {
+    font-size: 0.85rem;
+    color: #64748B;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Soft CTA */
+  .soft-consult-cta-section {
+    padding: 4.5rem 1.5rem;
+    background-color: #FFFFFF;
+  }
+
+  .soft-cta-card {
+    background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
+    border-radius: 18px;
+    padding: 3.5rem 2rem;
+    color: #FFFFFF;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .soft-cta-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin-bottom: 0.75rem;
+  }
+
+  .soft-cta-copy {
+    font-size: 1.1rem;
+    color: #CBD5E1;
+    max-width: 620px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+
+  .soft-cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-book-consult {
+    background-color: #00AB96;
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 0.85rem 1.75rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-book-consult:hover {
+    background-color: #008f7d;
+    transform: translateY(-2px);
+  }
+
+  .btn-talk-santhosh {
+    background-color: transparent;
+    color: #FFFFFF;
+    border: 1.5px solid #FFFFFF;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 0.85rem 1.75rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-talk-santhosh:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  @media (max-width: 1024px) {
+    .about-hero-grid {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: 2.5rem;
+    }
+    .credentials-badge-list {
+      justify-content: center;
+    }
+    .story-timeline-grid {
+      grid-template-columns: 1fr;
+    }
+    .mission-stages-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .credentials-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .process-steps-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .about-hero-title {
+      font-size: 2.25rem;
+    }
+    .mission-card {
+      padding: 2rem 1.5rem;
+    }
+    .mission-stages-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .credentials-grid {
+      grid-template-columns: 1fr;
+    }
+    .process-steps-grid {
+      grid-template-columns: 1fr;
+    }
+    .soft-cta-title {
+      font-size: 1.65rem;
+    }
+  }
+</style>
+

@@ -1,0 +1,87 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { siteConfig } from '../data/siteConfig';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  currentPath?: string;
+}
+
+const {
+  title = `${siteConfig.name} — ${siteConfig.tagline}`,
+  description = siteConfig.heroSubtitle,
+  currentPath = Astro.url.pathname,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, siteConfig.domain);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/assets/logo awc.png" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/assets/Visiting Card Front.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content="/assets/Visiting Card Front.png" />
+
+    <!-- Organization & LocalBusiness Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FinancialService",
+      "name": "Ant Wealth Creation",
+      "legalName": "Ant Wealth Creation",
+      "url": "https://antwealth.in",
+      "logo": "https://antwealth.in/assets/logo%20awc.png",
+      "description": "AMFI-Registered Mutual Fund Distributor (ARN: 266896) providing goal-oriented personal finance planning, mutual fund investing, and financial education for Indian families.",
+      "founder": {
+        "@type": "Person",
+        "name": "C. Santhosh Sathriyan",
+        "jobTitle": "Founder & AMFI-Registered Mutual Fund Distributor",
+        "honorificSuffix": "B.E., QPFP Certified"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Dharmapuri",
+        "addressRegion": "Tamil Nadu",
+        "addressCountry": "IN"
+      },
+      "telephone": "+91-80879-71566",
+      "email": "santhosh@antwealth.in"
+    })} />
+  </head>
+  <body>
+    <Header currentPath={currentPath} />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  #main-content {
+    flex: 1;
+  }
+</style>

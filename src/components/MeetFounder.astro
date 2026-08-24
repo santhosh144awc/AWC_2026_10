@@ -1,0 +1,252 @@
+---
+import { siteConfig } from '../data/siteConfig';
+---
+
+<section class="founder-cta-section section-padding">
+  <div class="container">
+    <div class="founder-cta-grid">
+      <!-- Left Card: Meet Santhosh -->
+      <div class="founder-card card-base">
+        <div class="founder-img-col">
+          <img 
+            src={siteConfig.founder.photo} 
+            alt="C. Santhosh Sathriyan - AMFI Registered Mutual Fund Distributor" 
+            class="founder-photo"
+            width="180"
+            height="220"
+            loading="lazy"
+          />
+        </div>
+        <div class="founder-details">
+          <span class="badge badge-teal mb-2">Founder & MFD</span>
+          <h3 class="founder-name">Meet Santhosh</h3>
+          <p class="founder-credentials">
+            <strong>{siteConfig.founder.name}</strong><br />
+            <span class="arn-tag">AMFI ARN: {siteConfig.founder.arn} | QPFP Certified</span>
+          </p>
+          <blockquote class="founder-quote">
+            "{siteConfig.founder.quote}"
+          </blockquote>
+          <a href="/about" class="btn btn-outline btn-sm mt-2">
+            Know More About Me
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Card: Ready to take control of your finances? -->
+      <div class="cta-card card-base">
+        <div class="cta-card-content">
+          <span class="badge badge-gold mb-2">Start Today</span>
+          <h3 class="cta-card-title">Ready to take control of your finances?</h3>
+          <p class="cta-card-desc">
+            Let's build your personalised financial plan. Whether you are starting your first SIP, securing insurance, or planning retirement, we are here to guide you.
+          </p>
+
+          <div class="cta-benefits">
+            <div class="benefit-item">
+              <span class="benefit-dot">✓</span>
+              <span>100% Goal-oriented, transparent recommendations</span>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-dot">✓</span>
+              <span>No product-pushing or aggressive sales tactics</span>
+            </div>
+          </div>
+
+          <div class="cta-buttons-group">
+            <a href="/contact" class="btn btn-teal cta-btn-primary">
+              Book a Free Consultation
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+                <line x1="16" x2="16" y1="2" y2="6"></line>
+                <line x1="8" x2="8" y1="2" y2="6"></line>
+                <line x1="3" x2="21" y1="10" y2="10"></line>
+              </svg>
+            </a>
+            <a href={siteConfig.contact.whatsappUrl} target="_blank" rel="noopener noreferrer" class="btn btn-outline cta-btn-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              Talk to Santhosh
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .founder-cta-section {
+    background-color: var(--color-white);
+  }
+
+  .founder-cta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: stretch;
+  }
+
+  .founder-card {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    border-radius: var(--radius-xl);
+  }
+
+  .founder-photo {
+    width: 130px;
+    height: 155px;
+    border-radius: var(--radius-lg);
+    object-fit: cover;
+    border: 2px solid var(--color-border-subtle);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .founder-name {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--color-primary-navy);
+    margin-bottom: 0.25rem;
+  }
+
+  .founder-credentials {
+    font-size: 0.85rem;
+    color: var(--color-slate-text);
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .arn-tag {
+    color: var(--color-growth-teal);
+    font-weight: 600;
+  }
+
+  .founder-quote {
+    font-size: 0.9rem;
+    color: var(--color-slate-muted);
+    font-style: italic;
+    line-height: 1.45;
+    border-left: 3px solid var(--color-growth-teal);
+    padding-left: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .btn-sm {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .mb-2 {
+    margin-bottom: 0.5rem;
+  }
+
+  .mt-2 {
+    margin-top: 0.5rem;
+  }
+
+  /* Right CTA Card */
+  .cta-card {
+    padding: 2.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
+    border: 1.5px solid var(--color-border);
+  }
+
+  .cta-card-title {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--color-primary-navy);
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+
+  .cta-card-desc {
+    font-size: 0.95rem;
+    color: var(--color-slate-muted);
+    line-height: 1.55;
+    margin-bottom: 1.25rem;
+  }
+
+  .cta-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-slate-text);
+    font-weight: 500;
+  }
+
+  .benefit-dot {
+    color: var(--color-growth-teal);
+    font-weight: bold;
+  }
+
+  .cta-buttons-group {
+    display: flex;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  .cta-btn-primary {
+    font-size: 0.95rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .cta-btn-secondary {
+    font-size: 0.95rem;
+    padding: 0.75rem 1.35rem;
+  }
+
+  @media (max-width: 992px) {
+    .founder-cta-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .founder-card {
+      grid-template-columns: 1fr;
+      text-align: center;
+      padding: 1.5rem;
+    }
+
+    .founder-img-col {
+      display: flex;
+      justify-content: center;
+    }
+
+    .founder-quote {
+      border-left: none;
+      padding-left: 0;
+      border-top: 2px solid var(--color-growth-teal-light);
+      padding-top: 0.5rem;
+    }
+
+    .cta-card {
+      padding: 1.5rem;
+    }
+
+    .cta-buttons-group {
+      flex-direction: column;
+    }
+
+    .cta-btn-primary,
+    .cta-btn-secondary {
+      width: 100%;
+    }
+  }
+</style>

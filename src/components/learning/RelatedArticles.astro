@@ -1,0 +1,85 @@
+---
+import { getCollection } from 'astro:content';
+import ArticleCard from './ArticleCard.astro';
+
+interface Props {
+  currentSlug: string;
+  category: string;
+}
+
+const { currentSlug, category } = Astro.props;
+
+const allArticles = await getCollection('articles', ({ data }) => !data.draft);
+
+// Find articles in same category or fallback to others
+let related = allArticles.filter(a => a.slug !== currentSlug && a.data.category === category);
+if (related.length < 2) {
+  const others = allArticles.filter(a => a.slug !== currentSlug && a.data.category !== category);
+  related = [...related, ...others];
+}
+
+const displayArticles = related.slice(0, 2);
+---
+
+{displayArticles.length > 0 && (
+  <section class="related-section">
+    <div class="related-header">
+      <span class="related-tag">Continue Reading</span>
+      <h3 class="related-title">Related Financial Guides</h3>
+    </div>
+    
+    <div class="related-grid">
+      {displayArticles.map((art) => (
+        <ArticleCard
+          title={art.data.title}
+          description={art.data.description}
+          slug={art.slug}
+          category={art.data.category}
+          readingTime={art.data.readingTime}
+          publishDate={art.data.publishDate}
+        />
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .related-section {
+    margin-top: 3.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  .related-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .related-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #00AB96;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .related-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #00182A;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

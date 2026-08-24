@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HealthCheckIntro from '../components/health/HealthCheckIntro.astro';
+import HealthQuestionnaire from '../components/health/HealthQuestionnaire';
+---
+
+<BaseLayout 
+  title="Financial Health Check — Ant Wealth Creation" 
+  description="Evaluate your emergency preparedness, insurance coverage, savings velocity, and retirement readiness through a free 2-minute diagnostic."
+  currentPath="/health-check"
+>
+  <main class="health-check-page">
+    <div class="container page-container">
+      <HealthCheckIntro />
+      <HealthQuestionnaire client:load />
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .health-check-page {
+    background-color: #F8FAFC;
+    padding: 3.5rem 0 5rem 0;
+    min-height: calc(100vh - 80px - 300px);
+  }
+
+  .page-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .health-check-page {
+      padding: 2.5rem 0 4rem 0;
+    }
+  }
+</style>
+

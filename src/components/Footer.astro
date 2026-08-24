@@ -1,0 +1,281 @@
+---
+import { siteConfig } from '../data/siteConfig';
+---
+
+<footer class="site-footer">
+  <div class="container footer-main-container">
+    <div class="footer-grid">
+      <!-- Column 1: Brand & Tagline -->
+      <div class="footer-col footer-brand-col">
+        <a href="/" class="footer-logo-link">
+          <img 
+            src="/assets/logo with tagline.png" 
+            alt="Ant Wealth Creation" 
+            class="footer-logo-img"
+            width="200"
+            height="44"
+            loading="lazy"
+          />
+        </a>
+        <p class="footer-brand-tagline">
+          {siteConfig.tagline}
+        </p>
+        <p class="footer-founder-note">
+          Founded by <strong>{siteConfig.founder.name}</strong><br />
+          <span class="text-teal">{siteConfig.founder.credentials}</span>
+        </p>
+      </div>
+
+      <!-- Column 2: Quick Links -->
+      <div class="footer-col">
+        <h4 class="footer-heading">Quick Links</h4>
+        <ul class="footer-nav-list">
+          {siteConfig.nav.map((item) => (
+            <li>
+              <a href={item.href} class="footer-link">{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Column 3: Important & Legal -->
+      <div class="footer-col">
+        <h4 class="footer-heading">Important</h4>
+        <ul class="footer-nav-list">
+          <li><a href="/health-check" class="footer-link">Financial Health Check</a></li>
+          <li><a href="/plan" class="footer-link">Goal Discovery</a></li>
+          <li><a href="/tools" class="footer-link">Calculator Toolbox</a></li>
+          <li><a href="/disclaimer" class="footer-link">Regulatory Disclosures</a></li>
+          <li><a href="/privacy" class="footer-link">Privacy Policy</a></li>
+          <li><a href="/terms" class="footer-link">Terms of Use</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Contact Info -->
+      <div class="footer-col footer-contact-col">
+        <h4 class="footer-heading">Contact</h4>
+        <ul class="footer-contact-list">
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            <a href={`tel:${siteConfig.contact.phone}`}>{siteConfig.contact.phoneDisplay}</a>
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </svg>
+            <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span>www.antwealth.in</span>
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>{siteConfig.contact.location}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Regulatory Compliance & Disclaimers -->
+    <div class="footer-compliance-box">
+      <p class="compliance-highlight">
+        {siteConfig.disclaimers.regulatory}
+      </p>
+      <p class="compliance-subtext">
+        {siteConfig.disclaimers.notRIA}
+      </p>
+    </div>
+
+    <!-- Copyright Bar -->
+    <div class="footer-bottom-bar">
+      <p>{siteConfig.disclaimers.copyright}</p>
+      <div class="footer-legal-links">
+        <a href="/privacy">Privacy Policy</a>
+        <span>•</span>
+        <a href="/terms">Terms of Use</a>
+        <span>•</span>
+        <a href="/disclaimer">Disclaimers</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: var(--color-navy-dark);
+    color: #CBD5E1;
+    padding-top: 4.5rem;
+    padding-bottom: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 0.9fr 1fr 1.2fr;
+    gap: 3rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .footer-logo-img {
+    height: 42px;
+    width: auto;
+    object-fit: contain;
+    background: #FFFFFF;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-brand-tagline {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #94A3B8;
+    margin-bottom: 1rem;
+    max-width: 300px;
+  }
+
+  .footer-founder-note {
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: #CBD5E1;
+  }
+
+  .text-teal {
+    color: var(--color-growth-teal);
+  }
+
+  .footer-heading {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-white);
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.02em;
+  }
+
+  .footer-nav-list,
+  .footer-contact-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .footer-link {
+    font-size: 0.9rem;
+    color: #94A3B8;
+    transition: color var(--transition-fast), padding-left var(--transition-fast);
+  }
+
+  .footer-link:hover {
+    color: var(--color-growth-teal);
+    padding-left: 4px;
+  }
+
+  .footer-contact-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+    color: #94A3B8;
+  }
+
+  .footer-contact-list svg {
+    color: var(--color-growth-teal);
+    flex-shrink: 0;
+  }
+
+  .footer-contact-list a {
+    color: #CBD5E1;
+  }
+
+  .footer-contact-list a:hover {
+    color: var(--color-growth-teal);
+  }
+
+  /* Regulatory Disclaimers */
+  .footer-compliance-box {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .compliance-highlight {
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: #E2E8F0;
+    margin-bottom: 0.4rem;
+    line-height: 1.4;
+  }
+
+  .compliance-subtext {
+    font-size: 0.775rem;
+    color: #94A3B8;
+    line-height: 1.45;
+  }
+
+  /* Bottom Copyright Bar */
+  .footer-bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.8rem;
+    color: #64748B;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-legal-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .footer-legal-links a {
+    color: #94A3B8;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer-legal-links a:hover {
+    color: #00AB96;
+  }
+
+  .footer-legal-links span {
+    color: #475569;
+  }
+
+  @media (max-width: 992px) {
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .footer-bottom-bar {
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: center;
+    }
+  }
+</style>

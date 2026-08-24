@@ -1,0 +1,193 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../data/siteConfig';
+---
+
+<BaseLayout 
+  title="Privacy Policy — Ant Wealth Creation" 
+  description="Learn how Ant Wealth Creation handles personal data with complete confidentiality, zero forced data capture, and strict security."
+  currentPath="/privacy"
+>
+  <section class="legal-hero-section text-center">
+    <div class="container">
+      <span class="badge-tag">
+        <span class="badge-dot"></span>
+        Data Protection & Privacy
+      </span>
+      <h1 class="legal-title">Privacy Policy</h1>
+      <p class="legal-subtitle">
+        Last updated: August 2026 • Effective for all Ant Wealth Creation digital services.
+      </p>
+    </div>
+  </section>
+
+  <section class="legal-content-section">
+    <div class="container legal-container">
+      <div class="legal-prose card-base">
+        <h2>1. Our Commitment to Privacy</h2>
+        <p>
+          At Ant Wealth Creation, founded by <strong>C. Santhosh Sathriyan, B.E.</strong> (AMFI-Registered Mutual Fund Distributor, ARN: 266896), we hold client privacy and data integrity in the highest regard. We operate with a policy of <strong>zero forced data capture</strong>—you are never required to provide personal identification, telephone numbers, or email addresses simply to browse our educational articles, use our calculators, or take the Financial Health Check.
+        </p>
+
+        <h2>2. Information We Collect Voluntarily</h2>
+        <p>
+          We only collect personal information that you voluntarily provide when:
+        </p>
+        <ul>
+          <li><strong>Consultation Scheduling:</strong> When you voluntarily request a one-on-one discussion through our booking tool, we collect your name, mobile/WhatsApp number, and optional email address to confirm your session.</li>
+          <li><strong>Direct Contact:</strong> When you reach out to us via WhatsApp, phone, or email.</li>
+        </ul>
+
+        <h2>3. How Your Information Is Used</h2>
+        <p>
+          Information provided voluntarily is used solely to:
+        </p>
+        <ul>
+          <li>Facilitate mutual fund distribution services and execute transactions requested by you through official Asset Management Company (AMC) platforms and registrar portals (CAMS / KFintech).</li>
+          <li>Schedule, confirm, and conduct one-on-one goal discovery consultations.</li>
+          <li>Communicate regulatory updates or portfolio transaction confirmations as required under AMFI and SEBI guidelines.</li>
+        </ul>
+        <p>
+          <strong>We never sell, rent, trade, or distribute your personal contact information to third-party telemarketers, lead aggregators, or unauthorized external parties.</strong>
+        </p>
+
+        <h2>4. Data Storage and Security</h2>
+        <p>
+          We implement standard security measures to protect your information against unauthorized access, alteration, or disclosure. Client mutual fund transactions are processed directly through authorized AMC platforms, BSE StAR MF, or MFU platforms adhering to Indian banking-grade encryption standards.
+        </p>
+
+        <h2>5. Cookies and Analytics</h2>
+        <p>
+          Our website uses minimal, privacy-conscious analytics cookies to understand general site traffic and optimize user experience across mobile, tablet, and desktop devices. No sensitive personal financial data is tracked or stored via analytics.
+        </p>
+
+        <h2>6. Contact for Privacy Inquiries</h2>
+        <p>
+          If you have questions regarding this Privacy Policy or wish to review, update, or request deletion of any contact information provided to us, please contact:
+        </p>
+        <div class="legal-contact-card">
+          <strong>Ant Wealth Creation</strong><br />
+          Attn: C. Santhosh Sathriyan, B.E.<br />
+          Email: <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a><br />
+          Phone: {siteConfig.contact.phoneDisplay}<br />
+          Location: {siteConfig.contact.location}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-hero-section {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 4.5rem 1.5rem 2.5rem;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-growth-teal);
+    border-radius: 50%;
+  }
+
+  .legal-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: #00182A;
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-subtitle {
+    font-size: 1rem;
+    color: #64748B;
+  }
+
+  .legal-content-section {
+    padding: 3.5rem 1.5rem 5rem;
+    background-color: #F8FAFC;
+  }
+
+  .legal-container {
+    max-width: 840px;
+    margin: 0 auto;
+  }
+
+  .legal-prose {
+    padding: 3rem;
+    background-color: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 16px;
+  }
+
+  .legal-prose h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #00182A;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-prose h2:first-child {
+    margin-top: 0;
+  }
+
+  .legal-prose p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #334155;
+    margin-bottom: 1.25rem;
+  }
+
+  .legal-prose ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #334155;
+    line-height: 1.65;
+  }
+
+  .legal-prose li {
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-contact-card {
+    background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: #00182A;
+    line-height: 1.6;
+  }
+
+  .legal-contact-card a {
+    color: #00AB96;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  @media (max-width: 640px) {
+    .legal-prose {
+      padding: 1.75rem;
+    }
+    .legal-title {
+      font-size: 2.15rem;
+    }
+  }
+</style>

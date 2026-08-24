@@ -1,0 +1,160 @@
+---
+const EXPECTATIONS = [
+  {
+    number: "1",
+    icon: "👂",
+    title: "We Understand Your Situation",
+    desc: "We listen to your current cash flows, existing savings, insurance policies, and family context in a completely non-judgmental environment."
+  },
+  {
+    number: "2",
+    icon: "🎯",
+    title: "We Discuss Your Goals & Priorities",
+    desc: "We identify what you want your money to achieve—from buying a dream home and funding higher education to building retirement independence."
+  },
+  {
+    number: "3",
+    icon: "🗺️",
+    title: "We Explore Possible Ways Forward",
+    desc: "We review practical financial pathways, asset allocation strategies, and actionable next steps—with zero pushy product sales or obligations."
+  }
+];
+---
+
+<section class="consult-expectations-section">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="badge-tag">
+        <span class="badge-dot"></span>
+        Zero Pressure, Total Clarity
+      </span>
+      <h2 class="section-title">What Happens When You Talk to Santhosh?</h2>
+      <p class="section-subtitle">
+        Every conversation is structured to bring simplicity, calm, and direction to your family's finances.
+      </p>
+    </div>
+
+    <div class="expectations-grid">
+      {EXPECTATIONS.map((item) => (
+        <div class="expectation-card">
+          <div class="card-top-row">
+            <span class="exp-icon">{item.icon}</span>
+            <span class="step-badge">Step {item.number}</span>
+          </div>
+          <h3 class="exp-title">{item.title}</h3>
+          <p class="exp-desc">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .consult-expectations-section {
+    background-color: #FFFFFF;
+    padding: 4.5rem 1.5rem;
+  }
+
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-growth-teal);
+    border-radius: 50%;
+  }
+
+  .section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #00182A;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.05rem;
+    color: #64748B;
+    max-width: 620px;
+    margin: 0 auto 3rem;
+    line-height: 1.5;
+  }
+
+  .expectations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .expectation-card {
+    background-color: #F8FAFC;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s ease;
+  }
+
+  .expectation-card:hover {
+    transform: translateY(-4px);
+    border-color: #00AB96;
+    box-shadow: 0 12px 28px rgba(0, 24, 42, 0.06);
+    background-color: #FFFFFF;
+  }
+
+  .card-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+
+  .exp-icon {
+    font-size: 2rem;
+  }
+
+  .step-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #00AB96;
+    background-color: rgba(0, 171, 150, 0.1);
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+  }
+
+  .exp-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #00182A;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .exp-desc {
+    font-size: 0.95rem;
+    color: #64748B;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .expectations-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+</style>

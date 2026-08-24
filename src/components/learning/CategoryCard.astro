@@ -1,0 +1,93 @@
+---
+interface Props {
+  name: string;
+  icon: string;
+  description: string;
+  count: number;
+  slug: string;
+  isActive?: boolean;
+}
+
+const { name, icon, description, count, slug, isActive = false } = Astro.props;
+---
+
+<a href={`/learn?cat=${encodeURIComponent(name)}`} class={`category-card ${isActive ? 'category-active' : ''}`}>
+  <div class="category-top">
+    <span class="category-icon">{icon}</span>
+    <span class="category-count">{count} {count === 1 ? 'Article' : 'Articles'}</span>
+  </div>
+  <h3 class="category-name">{name}</h3>
+  <p class="category-desc">{description}</p>
+</a>
+
+<style>
+  .category-card {
+    background-color: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease;
+  }
+
+  .category-card:hover {
+    transform: translateY(-3px);
+    border-color: #00AB96;
+    box-shadow: 0 8px 20px rgba(0, 24, 42, 0.06);
+  }
+
+  .category-active {
+    background-color: #00182A !important;
+    border-color: #00182A !important;
+  }
+
+  .category-active .category-name {
+    color: #FFFFFF !important;
+  }
+
+  .category-active .category-desc {
+    color: #CBD5E1 !important;
+  }
+
+  .category-active .category-count {
+    background-color: #00AB96;
+    color: #FFFFFF;
+  }
+
+  .category-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+
+  .category-icon {
+    font-size: 1.5rem;
+  }
+
+  .category-count {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748B;
+    background-color: #F1F5F9;
+    padding: 0.2rem 0.5rem;
+    border-radius: 9999px;
+  }
+
+  .category-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #00182A;
+    margin-bottom: 0.35rem;
+    line-height: 1.3;
+  }
+
+  .category-desc {
+    font-size: 0.825rem;
+    color: #64748B;
+    line-height: 1.45;
+  }
+</style>

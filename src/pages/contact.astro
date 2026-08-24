@@ -1,0 +1,373 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../data/siteConfig';
+import { ConsultationBooking } from '../components/consultation/ConsultationBooking';
+import ConsultationExpectations from '../components/ConsultationExpectations.astro';
+
+const whatsappMessage = "Hi Santhosh, I came across Ant Wealth Creation and would like to discuss my financial goals.";
+const whatsappChatUrl = `https://wa.me/918087971566?text=${encodeURIComponent(whatsappMessage)}`;
+---
+
+<BaseLayout 
+  title="Contact Santhosh & Schedule a Consultation — Ant Wealth Creation" 
+  description="Connect with C. Santhosh Sathriyan, B.E., QPFP Certified, AMFI-Registered Mutual Fund Distributor. Have a zero-pressure conversation about your family's financial roadmap."
+  currentPath="/contact"
+>
+  {/* Hero Section */}
+  <section class="contact-hero-section">
+    <div class="container text-center">
+      <div class="badge-tag">
+        <span class="badge-dot"></span>
+        Direct & Transparent Communication
+      </div>
+      <h1 class="page-title">Let's Talk About Your Financial Goals</h1>
+      <p class="page-subtitle">
+        Have a question, want to understand your financial health, or simply want to discuss where you are headed? Reach out.
+      </p>
+    </div>
+  </section>
+
+  {/* Contact Channels Grid */}
+  <section class="contact-channels-section">
+    <div class="container">
+      <div class="channels-grid">
+        {/* WhatsApp */}
+        <div class="channel-card card-whatsapp">
+          <div class="channel-top">
+            <span class="channel-icon-emoji">💬</span>
+            <span class="channel-status-pill">Fastest Response</span>
+          </div>
+          <h3 class="channel-title">WhatsApp Chat</h3>
+          <p class="channel-desc">Message directly for quick questions, scheduling, or document guidance.</p>
+          <a href={whatsappChatUrl} target="_blank" rel="noopener noreferrer" class="btn-channel btn-whatsapp">
+            Chat on WhatsApp →
+          </a>
+        </div>
+
+        {/* Direct Phone */}
+        <div class="channel-card">
+          <div class="channel-top">
+            <span class="channel-icon-emoji">📞</span>
+            <span class="channel-type-tag">Voice Call</span>
+          </div>
+          <h3 class="channel-title">Call Santhosh</h3>
+          <p class="channel-desc">Available for direct conversations between 10:00 AM and 07:00 PM IST.</p>
+          <a href={`tel:${siteConfig.contact.phone}`} class="btn-channel btn-phone">
+            {siteConfig.contact.phoneDisplay}
+          </a>
+        </div>
+
+        {/* Email */}
+        <div class="channel-card">
+          <div class="channel-top">
+            <span class="channel-icon-emoji">✉️</span>
+            <span class="channel-type-tag">Inquiry</span>
+          </div>
+          <h3 class="channel-title">Email Inquiries</h3>
+          <p class="channel-desc">Send portfolio questions, existing statements, or detailed queries.</p>
+          <a href={`mailto:${siteConfig.contact.email}`} class="btn-channel btn-email">
+            {siteConfig.contact.email}
+          </a>
+        </div>
+
+        {/* Office Location */}
+        <div class="channel-card">
+          <div class="channel-top">
+            <span class="channel-icon-emoji">📍</span>
+            <span class="channel-type-tag">Office</span>
+          </div>
+          <h3 class="channel-title">Office Location</h3>
+          <p class="channel-desc">{siteConfig.contact.location}</p>
+          <span class="channel-note">In-person discussions available with prior appointment.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Interactive Consultation Scheduler */}
+  <section class="consultation-section" id="booking">
+    <div class="container">
+      <div class="section-title-block text-center">
+        <span class="section-tag">Schedule a Session</span>
+        <h2 class="section-heading">Book a One-on-One Conversation</h2>
+        <p class="section-subtext">
+          Select a focus topic, pick a convenient time, and Santhosh will personally connect with you. Zero forced sales, 100% focused on your goals.
+        </p>
+      </div>
+
+      <ConsultationBooking client:load />
+    </div>
+  </section>
+
+  {/* Expectations Section */}
+  <ConsultationExpectations />
+
+  {/* Compliance Notice */}
+  <section class="contact-compliance-section">
+    <div class="container">
+      <div class="compliance-note-box text-center">
+        <h4 class="compliance-note-title">Regulatory Disclosures & Professional Scope</h4>
+        <p class="compliance-note-text">
+          Ant Wealth Creation is an AMFI-Registered Mutual Fund Distributor (ARN: 266896). Mutual fund investments are subject to market risks, read all scheme related documents carefully. Consultations and educational tools provided on this website are designed for financial literacy, goal discovery, and mutual fund distribution, and do not constitute guaranteed investment returns or SEBI RIA advisory services.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-hero-section {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 4.5rem 1.5rem 3rem;
+  }
+
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-growth-teal);
+    border-radius: 50%;
+  }
+
+  .page-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.85rem;
+    font-weight: 800;
+    color: #00182A;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+  }
+
+  .page-subtitle {
+    font-size: 1.2rem;
+    color: #475569;
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  /* Channels Grid */
+  .contact-channels-section {
+    padding: 2rem 1.5rem 4rem;
+    background-color: #F8FAFC;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .channels-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .channel-card {
+    background-color: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.25s ease;
+  }
+
+  .channel-card:hover {
+    transform: translateY(-4px);
+    border-color: #00AB96;
+    box-shadow: 0 12px 28px rgba(0, 24, 42, 0.06);
+  }
+
+  .card-whatsapp {
+    border-color: rgba(37, 211, 102, 0.4);
+  }
+
+  .channel-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+
+  .channel-icon-emoji {
+    font-size: 2rem;
+  }
+
+  .channel-status-pill {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #25D366;
+    background-color: rgba(37, 211, 102, 0.12);
+    padding: 0.25rem 0.55rem;
+    border-radius: 6px;
+  }
+
+  .channel-type-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748B;
+    background-color: #F1F5F9;
+    padding: 0.25rem 0.55rem;
+    border-radius: 6px;
+  }
+
+  .channel-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #00182A;
+    margin-bottom: 0.5rem;
+  }
+
+  .channel-desc {
+    font-size: 0.875rem;
+    color: #64748B;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+  }
+
+  .channel-note {
+    font-size: 0.8rem;
+    color: #94A3B8;
+    font-style: italic;
+  }
+
+  .btn-channel {
+    display: inline-block;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-whatsapp {
+    background-color: #25D366;
+    color: #FFFFFF;
+  }
+
+  .btn-whatsapp:hover {
+    background-color: #20BA5A;
+    transform: translateY(-2px);
+  }
+
+  .btn-phone {
+    background-color: #00182A;
+    color: #FFFFFF;
+  }
+
+  .btn-phone:hover {
+    background-color: #00AB96;
+    transform: translateY(-2px);
+  }
+
+  .btn-email {
+    background-color: #F1F5F9;
+    color: #00182A;
+    border: 1px solid #CBD5E1;
+  }
+
+  .btn-email:hover {
+    background-color: #E2E8F0;
+  }
+
+  /* Consultation Section */
+  .consultation-section {
+    padding: 4.5rem 1.5rem;
+    background-color: #FFFFFF;
+  }
+
+  .section-title-block {
+    margin-bottom: 3rem;
+  }
+
+  .section-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #00AB96;
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+
+  .section-heading {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #00182A;
+    line-height: 1.25;
+  }
+
+  .section-subtext {
+    font-size: 1.05rem;
+    color: #64748B;
+    max-width: 640px;
+    margin: 0.5rem auto 0;
+    line-height: 1.5;
+  }
+
+  /* Compliance Section */
+  .contact-compliance-section {
+    padding: 2.5rem 1.5rem 4.5rem;
+    background-color: #FFFFFF;
+  }
+
+  .compliance-note-box {
+    background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .compliance-note-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #00182A;
+    margin-bottom: 0.5rem;
+  }
+
+  .compliance-note-text {
+    font-size: 0.825rem;
+    color: #64748B;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .channels-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .channels-grid {
+      grid-template-columns: 1fr;
+    }
+    .page-title {
+      font-size: 2.15rem;
+    }
+  }
+</style>
+
