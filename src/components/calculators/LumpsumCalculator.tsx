@@ -338,6 +338,9 @@ export default function LumpsumCalculator() {
           border-radius: 16px;
           padding: 2.25rem;
           box-shadow: 0 4px 20px rgba(0, 24, 42, 0.04);
+          width: 100%;
+          max-width: 100%;
+          box-sizing: border-box;
         }
 
         .calc-grid {
@@ -345,6 +348,15 @@ export default function LumpsumCalculator() {
           grid-template-columns: 1fr 1.05fr;
           gap: 2.5rem;
           align-items: start;
+          width: 100%;
+          box-sizing: border-box;
+        }
+
+        .calc-input-panel,
+        .calc-result-panel {
+          width: 100%;
+          min-width: 0;
+          box-sizing: border-box;
         }
 
         .panel-header {
@@ -379,6 +391,7 @@ export default function LumpsumCalculator() {
           padding: 0.25rem 0.5rem;
           border-radius: 4px;
           transition: all 0.2s ease;
+          flex-shrink: 0;
         }
 
         .reset-btn:hover {
@@ -388,6 +401,8 @@ export default function LumpsumCalculator() {
 
         .form-group {
           margin-bottom: 1.5rem;
+          width: 100%;
+          box-sizing: border-box;
         }
 
         .label-row {
@@ -395,18 +410,21 @@ export default function LumpsumCalculator() {
           justify-content: space-between;
           align-items: center;
           margin-bottom: 0.5rem;
+          gap: 0.75rem;
         }
 
         .field-label {
           font-size: 0.9rem;
           font-weight: 600;
           color: #00182A;
+          flex: 1 1 auto;
         }
 
         .field-label-sub {
           font-size: 0.85rem;
           font-weight: 600;
           color: #334155;
+          flex: 1 1 auto;
         }
 
         .input-currency-wrapper {
@@ -417,6 +435,8 @@ export default function LumpsumCalculator() {
           border-radius: 8px;
           padding: 0.25rem 0.6rem;
           transition: border-color 0.2s ease;
+          box-sizing: border-box;
+          flex-shrink: 0;
         }
 
         .input-currency-wrapper:focus-within {
@@ -445,8 +465,10 @@ export default function LumpsumCalculator() {
           font-weight: 700;
           color: #00182A;
           width: 110px;
+          max-width: 100%;
           text-align: right;
           outline: none;
+          box-sizing: border-box;
         }
 
         .number-input-sm {
@@ -456,8 +478,10 @@ export default function LumpsumCalculator() {
           font-weight: 700;
           color: #00182A;
           width: 60px;
+          max-width: 100%;
           text-align: right;
           outline: none;
+          box-sizing: border-box;
         }
 
         .range-slider {
@@ -469,6 +493,7 @@ export default function LumpsumCalculator() {
           -webkit-appearance: none;
           accent-color: #00AB96;
           margin: 0.75rem 0 0.35rem;
+          box-sizing: border-box;
         }
 
         .slider-limits {
@@ -476,6 +501,7 @@ export default function LumpsumCalculator() {
           justify-content: space-between;
           font-size: 0.75rem;
           color: #94A3B8;
+          box-sizing: border-box;
         }
 
         .inflation-opt-box {
@@ -484,12 +510,14 @@ export default function LumpsumCalculator() {
           background-color: #F8FAFC;
           border: 1px dashed #CBD5E1;
           border-radius: 10px;
+          box-sizing: border-box;
         }
 
         .inflation-toggle-row {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          gap: 0.5rem;
         }
 
         .switch-label {
@@ -497,6 +525,7 @@ export default function LumpsumCalculator() {
           align-items: center;
           gap: 0.5rem;
           cursor: pointer;
+          flex: 1 1 auto;
         }
 
         .checkbox-input {
@@ -504,12 +533,14 @@ export default function LumpsumCalculator() {
           height: 16px;
           accent-color: #00AB96;
           cursor: pointer;
+          flex-shrink: 0;
         }
 
         .switch-text {
           font-size: 0.85rem;
           font-weight: 600;
           color: #00182A;
+          line-height: 1.35;
         }
 
         .inflation-badge {
@@ -519,6 +550,8 @@ export default function LumpsumCalculator() {
           background-color: rgba(0, 171, 150, 0.1);
           padding: 0.15rem 0.45rem;
           border-radius: 4px;
+          flex-shrink: 0;
+          white-space: nowrap;
         }
 
         .inflation-control {
@@ -550,6 +583,7 @@ export default function LumpsumCalculator() {
           color: #FFFFFF;
           text-align: center;
           margin-bottom: 1.25rem;
+          box-sizing: border-box;
         }
 
         .result-tag {
@@ -569,6 +603,7 @@ export default function LumpsumCalculator() {
           color: #FFC107;
           line-height: 1.15;
           margin-bottom: 0.25rem;
+          word-break: break-word;
         }
 
         .maturity-words {
@@ -600,6 +635,7 @@ export default function LumpsumCalculator() {
           display: flex;
           align-items: center;
           gap: 0.75rem;
+          box-sizing: border-box;
         }
 
         .metric-dot {
@@ -620,6 +656,7 @@ export default function LumpsumCalculator() {
         .metric-details {
           display: flex;
           flex-direction: column;
+          min-width: 0;
         }
 
         .metric-title {
@@ -633,6 +670,9 @@ export default function LumpsumCalculator() {
           font-size: 1.1rem;
           font-weight: 700;
           color: #00182A;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .sub-metrics-row {
@@ -643,6 +683,7 @@ export default function LumpsumCalculator() {
           border-radius: 8px;
           padding: 0.6rem 1rem;
           margin-bottom: 1rem;
+          box-sizing: border-box;
         }
 
         .sub-metric {
@@ -775,6 +816,92 @@ export default function LumpsumCalculator() {
           }
           .calc-container {
             padding: 1.5rem;
+          }
+        }
+
+        @media (max-width: 540px) {
+          .calc-container {
+            padding: 1.25rem 0.875rem;
+            border-radius: 12px;
+          }
+
+          .panel-header {
+            margin-bottom: 1.25rem;
+            gap: 0.5rem;
+          }
+
+          .panel-title {
+            font-size: 1.15rem;
+          }
+
+          .label-row {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.35rem;
+          }
+
+          .field-label,
+          .field-label-sub {
+            font-size: 0.875rem;
+          }
+
+          .input-currency-wrapper {
+            width: 100%;
+            justify-content: space-between;
+            padding: 0.4rem 0.75rem;
+          }
+
+          .number-input,
+          .number-input-sm {
+            width: 100%;
+            flex: 1;
+            font-size: 1rem;
+          }
+
+          .slider-limits {
+            font-size: 0.7rem;
+            gap: 0.25rem;
+          }
+
+          .inflation-opt-box {
+            padding: 0.75rem;
+          }
+
+          .inflation-toggle-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+          }
+
+          .inflation-badge {
+            align-self: flex-start;
+          }
+
+          .result-hero-box {
+            padding: 1.25rem 1rem;
+          }
+
+          .maturity-number {
+            font-size: 1.85rem;
+          }
+
+          .maturity-words {
+            font-size: 1rem;
+          }
+
+          .result-metrics-grid {
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+          }
+
+          .metric-box {
+            padding: 0.75rem 0.85rem;
+          }
+
+          .sub-metrics-row {
+            flex-direction: column;
+            gap: 0.4rem;
+            padding: 0.6rem 0.85rem;
           }
         }
       `}</style>
