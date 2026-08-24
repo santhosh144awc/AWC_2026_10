@@ -46,7 +46,7 @@ export const siteConfig = {
     credentials: "QPFP Certified | AMFI-Registered MFD",
     experienceSince: "2012",
     establishedDate: "14 April 2023",
-    photo: "/assets/SANTHOSH .jpg",
+    photo: "/assets/santhosh_photo.webp",
     quote: "My goal is simple — to help families make better financial decisions and move towards financial freedom.",
     bio: "With experience in financial markets since 2012, Santhosh helps families systematically plan for life milestones through disciplined, goal-oriented mutual fund investing and risk protection.",
     story: {
