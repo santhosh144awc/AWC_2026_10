@@ -401,6 +401,47 @@ npm run preview
 
 ---
 
+## 18. Phase 13 — Application-Wide Responsive QA & Global Mobile Optimization (Completed)
+
+* **Objective:** Comprehensive responsive audit and mobile layout hardening across all public routes, query parameter states, interactive calculators, goal planners, consultation scheduler, health questionnaire, articles, header, and footer.
+* **Scope & Route Inventory Audited:**
+  * **Core Pages:** `/`, `/plan`, `/plan/children`, `/tools`, `/health-check`, `/learn`, `/about`, `/contact`, `/privacy`, `/terms`, `/disclaimer`, `/404`.
+  * **Interactive Calculator States:** `?calc=sip`, `?calc=lumpsum`, `?calc=retirement`, `?calc=loan-vs-invest`, `?calc=insurance`, `?calc=net-worth`, `?calc=goal`.
+  * **Goal Planner States:** `?goal=home`, `?goal=education`, `?goal=retirement`, `?goal=wedding`, `?goal=car`, `?goal=wealth`, `?goal=custom`.
+  * **Educational Articles (10):** All `/learn/*` markdown and astro articles.
+* **Viewports Validated (Automated Puppeteer Matrix):**
+  * **Mobile:** `375×812`, `390×844`, `412×915`
+  * **Tablet:** `768×1024`, `1024×768`
+  * **Desktop:** `1440×900`, `1920×1080`
+* **Components Hardened for Mobile:**
+  1. **Global Styles (`src/styles/global.css`):**
+     * Mobile container padding adjusted from `1.5rem` to `1rem` on `max-width: 640px`.
+     * Button wrapping made fluid with `white-space: normal` on mobile.
+  2. **Header (`src/components/Header.astro`):**
+     * Header container padding reduced to `1rem` on mobile.
+     * Logo image scaled cleanly to `max-width: 210px`.
+     * Mobile hamburger button touch target enlarged to `min-width: 44px; min-height: 44px`.
+     * Mobile drawer nav items enlarged with `min-height: 44px` touch targets.
+  3. **Calculator Suite (`SIPCalculator.tsx`, `RetirementCalculator.tsx`, `GoalPlannerCalculator.tsx`, `LoanVsInvestmentCalculator.tsx`, `InsuranceCalculator.tsx`, `NetWorthCalculator.tsx`, `LumpsumCalculator.tsx`):**
+     * Implemented fluid mobile stacking (`flex-direction: column; align-items: stretch`) on `.label-row` and `.asset-liability-row`.
+     * Full-width mobile input wrappers (`width: 100%`) with currency prefix on the left and right-aligned numeric values.
+     * Adjusted mobile card padding to `1.25rem 0.875rem` for optimal breathing room.
+     * Configured responsive 1-column collapse for result hero boxes, metrics grids, and sub-metrics rows.
+  4. **Children's Future Planner (`ChildrenFuturePlanner.tsx`):**
+     * Profile grid, milestones row, and earmarked assets inputs collapsed to clean single-column layout on mobile.
+  5. **Consultation Scheduler (`ConsultationBooking.tsx`):**
+     * Booking card padding reduced to `1.25rem 1rem`.
+     * Form fields, date pills, slot pills, and action buttons made full-width and touch-friendly.
+  6. **Financial Health Check (`HealthQuestionnaire.tsx`):**
+     * Questionnaire card and result cards enhanced with fluid mobile padding and stacked action buttons.
+* **Verification & Measurement Results:**
+  * **Automated Overflow Tests:** 36 routes/states $\times$ 5 viewports = **180 automated page evaluations completed with 0px horizontal overflow**.
+  * **Calculators Unit Tests:** **62 passed, 0 failed**.
+  * **Static Build:** `npm run build` compiled 22 static routes with 0 errors and 0 warnings.
+  * **Console & Runtime Errors:** 0 unhandled runtime errors.
+
+---
+
 ## NEXT SESSION — START HERE
 
 > **ATTENTION NEXT AGENT / DEVELOPER:**  

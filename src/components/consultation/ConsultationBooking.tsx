@@ -760,16 +760,36 @@ export const ConsultationBooking: React.FC = () => {
 
         @media (max-width: 640px) {
           .booking-card {
-            padding: 1.5rem;
+            padding: 1.25rem 1rem;
+            border-radius: 12px;
           }
           .dates-grid {
             grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
           }
           .slots-grid {
             grid-template-columns: 1fr;
+            gap: 0.5rem;
           }
           .form-fields-grid {
             grid-template-columns: 1fr;
+            gap: 1rem;
+          }
+          .step-action-row.split {
+            flex-direction: column-reverse;
+            gap: 0.75rem;
+          }
+          .btn-next-step,
+          .btn-back-step {
+            width: 100%;
+            text-align: center;
+          }
+          .summary-box {
+            padding: 1rem;
+          }
+          .summary-row {
+            flex-direction: column;
+            gap: 0.2rem;
           }
         }
       `}</style>

@@ -2227,6 +2227,12 @@ export default function ChildrenFuturePlanner() {
         }
 
         @media (max-width: 640px) {
+          .planner-profile-card {
+            padding: 1.25rem 1rem;
+          }
+          .planner-card {
+            padding: 1.25rem 1rem;
+          }
           .profile-grid {
             grid-template-columns: 1fr;
           }
@@ -2241,11 +2247,15 @@ export default function ChildrenFuturePlanner() {
             gap: 0.5rem;
           }
           .milestone-metrics-row {
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 0.4rem;
+          }
+          .strategy-summary-grid {
+            grid-template-columns: 1fr;
           }
           .advisory-cta-card {
             flex-direction: column;
+            padding: 1.25rem 1rem;
           }
         }
       `}</style>

@@ -626,6 +626,60 @@ export default function NetWorthCalculator() {
             padding: 1.5rem;
           }
         }
+
+        @media (max-width: 540px) {
+          .calc-container {
+            padding: 1.25rem 0.875rem;
+            border-radius: 12px;
+          }
+
+          .panel-header {
+            margin-bottom: 1.25rem;
+            gap: 0.5rem;
+          }
+
+          .panel-title {
+            font-size: 1.15rem;
+          }
+
+          .asset-liability-row {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.35rem;
+          }
+
+          .item-label {
+            font-size: 0.875rem;
+          }
+
+          .input-currency-wrapper {
+            width: 100%;
+            justify-content: space-between;
+            padding: 0.4rem 0.75rem;
+          }
+
+          .number-input {
+            width: 100%;
+            flex: 1;
+            font-size: 1rem;
+          }
+
+          .networth-hero-box {
+            padding: 1.25rem 1rem;
+          }
+
+          .networth-number {
+            font-size: 1.85rem;
+          }
+
+          .networth-words {
+            font-size: 1rem;
+          }
+
+          .summary-card {
+            padding: 0.75rem 0.85rem;
+          }
+        }
       `}</style>
     </div>
   );

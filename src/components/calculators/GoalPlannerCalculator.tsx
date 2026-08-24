@@ -910,6 +910,92 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
             grid-template-columns: 1fr;
           }
         }
+
+        @media (max-width: 540px) {
+          .goal-planner-wrapper {
+            padding: 1.25rem 0.875rem;
+            border-radius: 12px;
+          }
+
+          .preset-selector-row {
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+          }
+
+          .preset-chips {
+            gap: 0.4rem;
+          }
+
+          .preset-chip {
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8rem;
+          }
+
+          .panel-header {
+            margin-bottom: 1.25rem;
+            gap: 0.5rem;
+          }
+
+          .panel-title {
+            font-size: 1.15rem;
+          }
+
+          .label-row {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.35rem;
+          }
+
+          .field-label,
+          .field-label-sub {
+            font-size: 0.875rem;
+          }
+
+          .input-currency-wrapper {
+            width: 100%;
+            justify-content: space-between;
+            padding: 0.4rem 0.75rem;
+          }
+
+          .number-input,
+          .number-input-sm {
+            width: 100%;
+            flex: 1;
+            font-size: 1rem;
+          }
+
+          .slider-limits {
+            font-size: 0.7rem;
+            gap: 0.25rem;
+          }
+
+          .result-hero-box {
+            padding: 1.25rem 1rem;
+          }
+
+          .sip-number {
+            font-size: 1.85rem;
+          }
+
+          .sip-words {
+            font-size: 1rem;
+          }
+
+          .metrics-summary-grid {
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+          }
+
+          .summary-card {
+            padding: 0.75rem 0.85rem;
+          }
+
+          .funding-breakdown-row {
+            flex-direction: column;
+            gap: 0.35rem;
+            padding: 0.6rem 0.85rem;
+          }
+        }
       `}</style>
     </div>
   );

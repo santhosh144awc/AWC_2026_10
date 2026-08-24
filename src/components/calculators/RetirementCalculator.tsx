@@ -594,6 +594,78 @@ export default function RetirementCalculator() {
             grid-template-columns: 1fr;
           }
         }
+
+        @media (max-width: 540px) {
+          .calc-container {
+            padding: 1.25rem 0.875rem;
+            border-radius: 12px;
+          }
+
+          .panel-header {
+            margin-bottom: 1.25rem;
+            gap: 0.5rem;
+          }
+
+          .panel-title {
+            font-size: 1.15rem;
+          }
+
+          .label-row {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.35rem;
+          }
+
+          .field-label,
+          .field-label-sub {
+            font-size: 0.875rem;
+          }
+
+          .input-currency-wrapper {
+            width: 100%;
+            justify-content: space-between;
+            padding: 0.4rem 0.75rem;
+          }
+
+          .number-input,
+          .number-input-sm {
+            width: 100%;
+            flex: 1;
+            font-size: 1rem;
+          }
+
+          .slider-limits {
+            font-size: 0.7rem;
+            gap: 0.25rem;
+          }
+
+          .result-hero-box {
+            padding: 1.25rem 1rem;
+          }
+
+          .maturity-number {
+            font-size: 1.85rem;
+          }
+
+          .maturity-words {
+            font-size: 1rem;
+          }
+
+          .result-metrics-grid {
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+          }
+
+          .metric-box {
+            padding: 0.75rem 0.85rem;
+          }
+
+          .sub-metrics-row {
+            flex-direction: column;
+            gap: 0.4rem;
+            padding: 0.6rem 0.85rem;
+          }
+        }
       `}</style>
     </div>
   );

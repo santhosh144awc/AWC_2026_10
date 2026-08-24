@@ -922,6 +922,34 @@ export default function HealthQuestionnaire() {
             text-align: center;
           }
         }
+
+        @media (max-width: 540px) {
+          .questionnaire-card {
+            padding: 1.25rem 0.875rem;
+            border-radius: 12px;
+          }
+
+          .result-hero-card {
+            padding: 1.5rem 1rem;
+            border-radius: 14px;
+          }
+
+          .result-section {
+            padding: 1.25rem 0.875rem;
+            border-radius: 12px;
+          }
+
+          .step-actions-row.split {
+            flex-direction: column-reverse;
+            gap: 0.75rem;
+          }
+
+          .btn-next-step,
+          .btn-back-step {
+            width: 100%;
+            text-align: center;
+          }
+        }
       `}</style>
     </div>
   );
