@@ -170,6 +170,21 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
         </div>
       </div>
 
+      {(selectedGoalId === 'education' || selectedGoalId === 'wedding') && (
+        <div className="child-planner-discovery-banner">
+          <div className="discovery-banner-content">
+            <span className="discovery-icon">👶</span>
+            <div className="discovery-text">
+              <strong>Planning multiple milestones for your child?</strong>
+              <span>Use our comprehensive multi-goal Children's Future Planner to model Graduation, Post-Graduation, and Marriage together in one plan.</span>
+            </div>
+          </div>
+          <a href="/plan/children" className="discovery-btn">
+            Open Children's Future Planner →
+          </a>
+        </div>
+      )}
+
       <div className="calc-grid">
         {/* Inputs */}
         <div className="calc-input-panel">
@@ -471,6 +486,84 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
 
         .chip-icon {
           font-size: 1rem;
+        }
+
+        .child-planner-discovery-banner {
+          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
+          border-radius: 12px;
+          padding: 1.25rem 1.5rem;
+          margin-bottom: 2rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 1.5rem;
+          color: #FFFFFF;
+          box-shadow: 0 4px 15px rgba(0, 24, 42, 0.08);
+        }
+
+        .discovery-banner-content {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .discovery-icon {
+          font-size: 2rem;
+          background-color: rgba(255, 255, 255, 0.1);
+          width: 48px;
+          height: 48px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .discovery-text {
+          display: flex;
+          flex-direction: column;
+          gap: 0.2rem;
+        }
+
+        .discovery-text strong {
+          font-family: 'Outfit', sans-serif;
+          font-size: 1.05rem;
+          color: #FFC107;
+        }
+
+        .discovery-text span {
+          font-size: 0.85rem;
+          color: #CBD5E1;
+          line-height: 1.4;
+        }
+
+        .discovery-btn {
+          background-color: #00AB96;
+          color: #FFFFFF;
+          padding: 0.65rem 1.15rem;
+          border-radius: 8px;
+          font-weight: 700;
+          font-size: 0.875rem;
+          text-decoration: none;
+          white-space: nowrap;
+          transition: all 0.2s ease;
+          flex-shrink: 0;
+        }
+
+        .discovery-btn:hover {
+          background-color: #008F7D;
+          transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+          .child-planner-discovery-banner {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          .discovery-btn {
+            width: 100%;
+            text-align: center;
+          }
         }
 
         .calc-grid {

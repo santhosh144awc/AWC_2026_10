@@ -1,6 +1,6 @@
 # Ant Wealth Creation — Master Project Status & Handoff Document
 
-> **Document Version:** 1.2.0  
+> **Document Version:** 1.3.0  
 > **Last Updated:** August 24, 2026  
 > **Project Root:** `e:\Software\Website\AWC_2026_08_23\AntWealth_2026_08`  
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
@@ -38,17 +38,20 @@ AWC_2026_08_23/
 ├── .git/                                 # Git repository (branches: main, AntWealth_2026_08)
 ├── .gitignore                            # Comprehensive ignore rules
 ├── astro.config.mjs                      # Astro configuration with @astrojs/react
-├── package.json                          # Dependencies and build scripts
+├── package.json                          # Dependencies, test runner, and build scripts
 ├── tsconfig.json                         # TypeScript compiler configuration
 ├── PROJECT_STATUS.md                     # THIS MASTER HANDOFF DOCUMENT
 ├── public/
-│   ├── assets/                           # Production brand assets, logos, founder photo, blueprints
+│   ├── assets/                           # Production brand assets, WebP optimized images, logos, founder photo
 │   │   ├── Ant Wealth Creation Website Blueprint.png
 │   │   ├── homeScreenimage.png
+│   │   ├── homeScreenimage.webp          # High-fidelity WebP hero asset (217.6 KB)
 │   │   ├── logo awc.png
 │   │   ├── logo with tagline.png
+│   │   ├── logo_with_tagline.webp        # Lossless WebP logo asset (78.7 KB)
 │   │   ├── SANTHOSH .jpg
 │   │   ├── santhosh_photo.jpg
+│   │   ├── santhosh_photo.webp           # High-fidelity WebP founder portrait (305.1 KB)
 │   │   ├── Visiting Card Front.png
 │   │   └── Visiting Card back.png
 │   └── robots.txt                        # Search engine crawling rules & sitemap reference
@@ -68,9 +71,10 @@ AWC_2026_08_23/
     │   ├── ConsultationExpectations.astro# 3-step "What happens when you talk to Santhosh?" module
     │   ├── calculators/                  # Interactive React Calculator Suite
     │   │   ├── CalculatorsHub.tsx        # Tabbed 5-in-1 calculator hub with URL query sync
+    │   │   ├── ChildrenFuturePlanner.tsx # Multi-goal Children's Future Planner with asset projection
     │   │   ├── SIPCalculator.tsx         # Monthly SIP, Step-Up SIP, and Lumpsum calculator
     │   │   ├── RetirementCalculator.tsx  # Post-retirement corpus & monthly required SIP
-    │   │   ├── GoalPlannerCalculator.tsx # Inflation-adjusted milestone goal planner
+    │   │   ├── GoalPlannerCalculator.tsx # Inflation-adjusted milestone goal planner with cross-discovery banner
     │   │   ├── LoanVsInvestmentCalculator.tsx # Prepayment vs mutual fund SIP simulator
     │   │   ├── InsuranceCalculator.tsx   # Income replacement human life value tool
     │   │   └── NetWorthCalculator.tsx    # Liquid/Fixed assets vs liabilities balance calculator
@@ -105,6 +109,8 @@ AWC_2026_08_23/
     ├── pages/
     │   ├── index.astro                   # Homepage
     │   ├── plan.astro                    # Goal Discovery & Planning Hub
+    │   ├── plan/
+    │   │   └── children.astro            # Children's Future Planner (Multi-Goal Milestone Hub)
     │   ├── tools.astro                   # Calculators Toolbox (?calc= query support)
     │   ├── health-check.astro            # 3-Minute Financial Health Check
     │   ├── learn/
@@ -121,6 +127,8 @@ AWC_2026_08_23/
     │   └── global.css                    # Design tokens, typography, CSS resets, utility classes
     └── utils/
         └── calculations/                 # Centralized Financial Math Calculation Engine
+            ├── childrenFuturePlanner.ts  # Validated NetworkFP/QPFP multi-goal calculation engine
+            ├── childrenFuturePlanner.test.ts # 46 automated regression test cases
             ├── emergencyFund.ts
             ├── financialHealth.ts
             ├── goalPlanner.ts
@@ -136,42 +144,45 @@ AWC_2026_08_23/
 
 ---
 
-## 4. Completed Phases Summary (Phases 1–9)
+## 4. Completed Phases Summary (Phases 1–11)
 
 * **Phase 1–2 (Scaffolding & Design System):** Setup Astro 5 with React 19, established global design tokens (`--color-navy-dark: #00182A`, `--color-growth-teal: #00AB96`, `--color-warm-gold: #FFC107`), mobile-first CSS architecture, and base layout.
-* **Phase 3 (Homepage & Hero Visual Blend):** Implemented a high-converting, trust-building homepage with approved two-column hero where `homeScreenimage.png` seamlessly blends into the clean white hero background without boxed card borders.
+* **Phase 3 (Homepage & Hero Visual Blend):** Implemented a high-converting, trust-building homepage with approved two-column hero where `homeScreenimage.webp` seamlessly blends into the clean white hero background without boxed card borders.
 * **Phase 4 (Financial Health Check):** Created a 7-step weighted self-assessment (Emergency, Insurance, Investments, Retirement, Debt, Discipline, Tax) calculating a 0–100 score with visual radial gauge and non-prescriptive illustrative guidance.
 * **Phase 5 (Calculators Suite & Central Calculation Engine):** Developed `src/utils/calculations/` single source of truth and built the 5-in-1 tabbed calculators suite (`/tools?calc=...`) and `/plan?goal=...`.
 * **Phase 6 (Learning Center — Money Made Simple):** Created `/learn` hub and 10 full-length Markdown articles covering mutual fund basics, SIP compounding, asset allocation, insurance, and retirement.
 * **Phase 7 (Trust, About & Consultation Experience):** Built `/about` (7 comprehensive sections with verified founder credentials) and `/contact` (direct channels + 4-step voluntary consultation scheduler with direct WhatsApp bridge).
 * **Phase 8 (Product QA, SEO, Legal & Compliance):** Added `/privacy`, `/terms`, `/disclaimer`, `/404`, dynamic `sitemap.xml`, `robots.txt`, global `FinancialService` structured data, and performed responsive testing across 6 viewports with 0 errors.
 * **Phase 9 (Final Business Owner Review & Deployment Audit):** Verified end-to-end user journeys, audited calculation edge cases, confirmed 0 forced lead capture, and pushed production repository to GitHub (`AntWealth_2026_08`).
+* **Phase 10 (Image Optimization & Deep-Link Routing Fix):** Converted raster images to high-fidelity WebPs, added dynamic history state listeners and lazy URL initialization to `CalculatorsHub.tsx`.
+* **Phase 11 (Children's Future Planner):** Built `/plan/children`, implementing pure NetworkFP / QPFP financial calculation engine, 46 automated regression test cases, multi-goal React island, and WhatsApp consultation bridge.
 
 ---
 
-## 5. All Production Routes / Pages (21 Total)
+## 5. All Production Routes / Pages (22 Total)
 
 1. `/` — **Homepage:** Hero with family image blend, Health Check teaser, 6 Goal cards, 5 Calculator teasers, 6-Step Journey, Learning teaser, Trust pillars, Founder story teaser, Consultation CTA, and Footer.
-2. `/plan` — **Goal Discovery Hub:** Preconfigured goal presets (`?goal=education|home|retirement|wedding|car|wealth`) linked to the calculation engine.
-3. `/tools` — **Calculators Suite:** Tabbed 5-in-1 calculators (`?calc=sip|retirement|loan-vs-invest|insurance|net-worth`).
-4. `/health-check` — **3-Minute Financial Health Check:** 7-step diagnostic questionnaire with category breakdown and illustrative action tips.
-5. `/learn` — **Learning Center Hub:** Filterable library of articles with reading times, category tags, and calculator CTA bridges.
-6. `/about` — **About Santhosh & Mission:** Meet Santhosh, The Story (LIC heritage, established 14 April 2023), Why AWC Exists, 5 Philosophy Cards, Verified Credentials, 5-Step Process, Soft CTA.
-7. `/contact` — **Contact & Consultation:** WhatsApp, Phone, Email, Dharmapuri Office, and 4-step voluntary appointment scheduler.
-8. `/privacy` — **Privacy Policy:** Data confidentiality, voluntary scheduling data handling, zero forced capture policy.
-9. `/terms` — **Terms of Use:** Legal usage terms, educational simulation notices, AMFI distributor scope.
-10. `/disclaimer` — **Disclaimers & Disclosures:** Official AMFI ARN: 266896 details, mutual fund risk warnings, non-RIA disclosure.
-11. `/404` — **Page Not Found:** Branded recovery screen with navigation action buttons.
-12. `/learn/what-is-a-mutual-fund`
-13. `/learn/what-is-sip-and-how-does-it-work`
-14. `/learn/sip-vs-lumpsum-what-is-the-difference`
-15. `/learn/how-much-emergency-fund-should-you-have`
-16. `/learn/what-is-asset-allocation`
-17. `/learn/how-to-plan-for-your-childs-education`
-18. `/learn/how-to-start-planning-for-retirement`
-19. `/learn/why-life-insurance-is-important-for-a-family`
-20. `/learn/what-is-financial-freedom`
-21. `/learn/what-is-goal-based-financial-planning`
+2. `/plan` — **Goal Discovery Hub:** Preconfigured goal presets (`?goal=education|home|retirement|wedding|car|wealth`) with discovery banner to `/plan/children`.
+3. `/plan/children` — **Children's Future Planner:** Multi-goal planning suite for graduation, post-graduation, marriage, and custom milestones.
+4. `/tools` — **Calculators Suite:** Tabbed 5-in-1 calculators (`?calc=sip|retirement|loan-vs-invest|insurance|net-worth`).
+5. `/health-check` — **3-Minute Financial Health Check:** 7-step diagnostic questionnaire with category breakdown and illustrative action tips.
+6. `/learn` — **Learning Center Hub:** Filterable library of articles with reading times, category tags, and calculator CTA bridges.
+7. `/about` — **About Santhosh & Mission:** Meet Santhosh, The Story (LIC heritage, established 14 April 2023), Why AWC Exists, 5 Philosophy Cards, Verified Credentials, 5-Step Process, Soft CTA.
+8. `/contact` — **Contact & Consultation:** WhatsApp, Phone, Email, Dharmapuri Office, and 4-step voluntary appointment scheduler.
+9. `/privacy` — **Privacy Policy:** Data confidentiality, voluntary scheduling data handling, zero forced capture policy.
+10. `/terms` — **Terms of Use:** Legal usage terms, educational simulation notices, AMFI distributor scope.
+11. `/disclaimer` — **Disclaimers & Disclosures:** Official AMFI ARN: 266896 details, mutual fund risk warnings, non-RIA disclosure.
+12. `/404` — **Page Not Found:** Branded recovery screen with navigation action buttons.
+13. `/learn/what-is-a-mutual-fund`
+14. `/learn/what-is-sip-and-how-does-it-work`
+15. `/learn/sip-vs-lumpsum-what-is-the-difference`
+16. `/learn/how-much-emergency-fund-should-you-have`
+17. `/learn/what-is-asset-allocation`
+18. `/learn/how-to-plan-for-your-childs-education`
+19. `/learn/how-to-start-planning-for-retirement`
+20. `/learn/why-life-insurance-is-important-for-a-family`
+21. `/learn/what-is-financial-freedom`
+22. `/learn/what-is-goal-based-financial-planning`
 
 ---
 
@@ -179,13 +190,13 @@ AWC_2026_08_23/
 
 All calculation functions are strictly centralized in `src/utils/calculations/`:
 
+* `childrenFuturePlanner.ts`: Validated NetworkFP/QPFP multi-goal calculation engine, effective monthly compounding Ordinary Annuity PMT, geometric annual step-up increment solver, horizon-based return defaults, and consumer asset projection.
 * `sip.ts`: Standard SIP formula ($FV = P \times \frac{(1+r)^n - 1}{r} \times (1+r)$), Step-Up SIP (annual percentage increment compounding), and Required Monthly SIP solver.
 * `lumpsum.ts`: Compound interest for one-time investments ($FV = P \times (1+r)^n$).
 * `goalPlanner.ts`: Combines inflation-adjusted future goal cost calculation with existing savings compounding and computes the required monthly SIP.
 * `retirement.ts`: Projects inflation-adjusted monthly expenses at retirement, computes life-expectancy post-retirement corpus using annuity formulas, and solves for required pre-retirement monthly SIP.
 * `loanVsInvestment.ts`: Computes monthly EMI, amortization schedule, interest saved through loan prepayments vs wealth created by investing equivalent surplus into mutual fund SIP.
 * `insurance.ts`: Human Life Value (HLV) income replacement method calculating cover needed based on income replacement multiplier, liabilities, and milestone obligations.
-* `netWorth.ts`: Aggregates liquid, investment, fixed assets against secured and unsecured debts to calculate net worth and debt-to-asset ratios.
 * `financialHealth.ts`: 7-category weighted scoring matrix (Emergency Fund 15%, Life/Health Insurance 20%, Long-Term Investments 20%, Retirement Planning 15%, Debt Management 15%, Financial Discipline 10%, Tax Planning 5%).
 
 ---
@@ -329,6 +340,35 @@ npm run preview
   * **Interactive Flows:** Direct navigation, browser refresh, manual tab clicking with URL updating, and browser Back/Forward navigation tested with 100% pass rate.
   * **Responsive QA:** Tested at `375×812`, `390×844`, `768×1024`, `1440×900` with 0 horizontal overflow and 0 console errors.
   * **Build Result:** `npm run build` generated 21 static routes with 0 errors and 0 warnings.
+
+---
+
+## 16. Phase 11 — Children's Future Planner (Completed)
+
+* **Objective:** Implement a multi-goal **Children's Future Planner** at `/plan/children` based on the validated NetworkFP / QPFP methodology adapted for consumer UX.
+* **Calculation Engine (`src/utils/calculations/childrenFuturePlanner.ts`):**
+  * Effective monthly compounding for Ordinary Annuity PMT ($r_{\text{eff}} = (1 + r)^{1/12} - 1$, $\text{PMT} = \text{FV} \times \frac{r_{\text{eff}}}{(1+r_{\text{eff}})^n - 1}$).
+  * Geometric annual step-up compounding ($\text{PMT}_{\text{start}} = \text{FV} / \sum_{y=1}^Y (1+g)^{y-1} \cdot \frac{(1+r_{\text{eff}})^{12}-1}{r_{\text{eff}}} \cdot (1+r)^{Y-y}$).
+  * Dynamic expected return defaults: $<5$ yrs = 7%, $5$–$10$ yrs = 9%, $\ge 10$ yrs = 12% (with custom override).
+  * Consumer-friendly asset valuation: Earmarked assets entered as **Current Value (Today)** and projected forward at goal return rate.
+  * Investment timing offsets: Supports start delay ($D$) and stop-before-goal ($S$).
+* **React 19 Island (`src/components/calculators/ChildrenFuturePlanner.tsx`):**
+  * Child profile with name, dynamic planning year (`new Date().getFullYear()`), and age slider.
+  * Multi-goal builder with 7 milestone presets (Graduation, Post-Graduation, Marriage, Schooling, Overseas Masters, Dream Venture, Custom).
+  * Add, edit, remove, and rename goals.
+  * Optional earmarked assets accordion (Mutual Funds, FDs, Gold, Stocks, Endowment).
+  * Master Results Dashboard: Total future cost, projected assets, net funding gap, visual progress bar.
+  * 3-Way Funding Strategies Comparison: Lump Sum today, Fixed Monthly SIP, Step-Up SIP (Recommended).
+  * Milestone-by-milestone breakdown cards.
+  * Pre-populated advisory WhatsApp CTA and consultation bridge.
+  * Statutory AMFI ARN: 266896, QPFP Certified, and educational illustration disclaimers.
+* **Testing & Verification:**
+  * Automated regression test suite (`src/utils/calculations/childrenFuturePlanner.test.ts`): 35 passed, 0 failed.
+  * Exact match with NetworkFP reference cases:
+    * Graduation: ₹9,910 Fixed SIP / ₹6,027 Step-Up SIP
+    * Post-Graduation: ₹8,238 Fixed SIP / ₹4,509 Step-Up SIP
+    * Marriage: ₹20,429 Fixed SIP / ₹9,808 Step-Up SIP
+  * Production Build: `npm run build` compiled all 22 static routes with 0 errors.
 
 ---
 

@@ -9,10 +9,10 @@ authorTitle: "AMFI-Registered Mutual Fund Distributor (ARN: 266896)"
 readingTime: "6 min read"
 featured: true
 calculatorCTA:
-  title: "Plan Your Child Education Goal"
-  description: "Calculate the exact future cost and required monthly SIP for your child higher education."
-  buttonLabel: "Open Education Goal Planner"
-  href: "/plan?goal=education"
+  title: "Plan Your Child's Complete Future Roadmap"
+  description: "Calculate inflation-adjusted future costs and discover required SIPs for graduation, post-graduation, and marriage in one unified tool."
+  buttonLabel: "Open Children's Future Planner"
+  href: "/plan/children"
 ---
 
 Every Indian parent dreams of giving their children the best possible education. However, education inflation in India historically runs between **8% to 10% per year**—significantly higher than standard headline consumer inflation.

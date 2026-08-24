@@ -11,3 +11,4 @@ export * from './insurance';
 export * from './emergencyFund';
 export * from './netWorth';
 export * from './financialHealth';
+export * from './childrenFuturePlanner';

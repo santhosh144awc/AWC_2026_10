@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ChildrenFuturePlanner from '../../components/calculators/ChildrenFuturePlanner';
+---
+
+<BaseLayout 
+  title="Children's Future Planner — Ant Wealth Creation" 
+  description="Plan your child's graduation, post-graduation, marriage, and career milestones. Calculate inflation-adjusted future costs, existing asset growth, and required step-up SIP."
+  currentPath="/plan/children"
+>
+  <section class="children-page-hero">
+    <div class="container text-center">
+      <!-- Breadcrumb Navigation -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <a href="/" class="breadcrumb-link">Home</a>
+        <span class="breadcrumb-sep">/</span>
+        <a href="/plan" class="breadcrumb-link">Plan Your Money</a>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Children's Future Planner</span>
+      </nav>
+
+      <div class="badge-tag">
+        <span class="badge-dot"></span>
+        Multi-Milestone Family Planning
+      </div>
+      <h1 class="page-title">Children's Future Planner</h1>
+      <p class="page-subtitle">
+        Map your child's higher education, marriage, and life milestones into one unified financial roadmap. Calculate future inflation-adjusted costs, project your existing savings, and discover your exact required Step-Up or Fixed SIP.
+      </p>
+    </div>
+  </section>
+
+  <section class="children-planner-stage-section">
+    <div class="container">
+      <ChildrenFuturePlanner client:load />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .children-page-hero {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 3rem 1.5rem 2.5rem;
+  }
+
+  .breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-slate-muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .breadcrumb-link {
+    color: var(--color-slate-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--color-growth-teal);
+  }
+
+  .breadcrumb-sep {
+    color: #CBD5E1;
+  }
+
+  .breadcrumb-current {
+    color: var(--color-primary-navy);
+    font-weight: 600;
+  }
+
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-growth-teal);
+    border-radius: 50%;
+  }
+
+  .page-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: var(--color-primary-navy);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+
+  .page-subtitle {
+    font-size: 1.15rem;
+    color: var(--color-slate-muted);
+    max-width: 760px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .children-planner-stage-section {
+    background-color: #F8FAFC;
+    padding: 0 1.5rem 5rem;
+  }
+
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 2rem;
+    }
+    .page-subtitle {
+      font-size: 1rem;
+    }
+    .children-page-hero {
+      padding: 2rem 1rem 1.5rem;
+    }
+    .children-planner-stage-section {
+      padding: 0 1rem 3rem;
+    }
+  }
+</style>

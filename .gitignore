@@ -1,4 +1,4 @@
-﻿# Dependencies
+# Dependencies
 node_modules/
 .pnp
 .pnp.js
@@ -40,3 +40,5 @@ desktop.ini
 # Antigravity temporary directories
 .gemini/
 scratch/
+.tmp.drivedownload/
+.tmp.driveupload/
