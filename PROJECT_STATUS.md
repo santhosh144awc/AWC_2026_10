@@ -1,0 +1,314 @@
+# Ant Wealth Creation — Master Project Status & Handoff Document
+
+> **Document Version:** 1.0.0  
+> **Last Updated:** August 24, 2026  
+> **Project Root:** `c:\WORK\Software\Antigravity\AWC_2026_08_23`  
+> **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
+> **Target Production Domain:** `https://antwealth.in`
+
+---
+
+## 1. Project Name & Purpose
+
+* **Project Name:** Ant Wealth Creation (AWC)
+* **Tagline:** *Make Better Money Decisions. Build a Better Future.*
+* **Purpose:** A family-centric, educational, and goal-oriented digital platform for an AMFI-Registered Mutual Fund Distributor. The website empowers Indian families to discover their life milestones, evaluate their financial health, utilize interactive calculators with zero forced lead capture, read jargon-free financial education, and schedule transparent one-on-one consultations.
+
+---
+
+## 2. Current Technology Stack
+
+| Layer | Technology | Details |
+| :--- | :--- | :--- |
+| **Framework** | **Astro 5.16.1** | Static-First generator with island architecture (`output: "static"`). |
+| **UI Components** | **React 19.2.4** | Interactive client islands (`client:load`, `client:visible`). |
+| **Language** | **TypeScript 5.3.3** | Strict type safety for calculations and schema definitions. |
+| **Styling** | **Custom Vanilla CSS** | CSS variables, responsive grid & flexbox, zero heavyweight utility bloat. |
+| **Content Engine** | **Astro Content Collections** | Schema-validated Markdown files in `src/content/articles/`. |
+| **Icons & Media** | **Custom SVG & Vector Icons** | Pure SVG icons for zero third-party font overhead. |
+| **Node Environment** | **Node.js v24.19.0** | Windows PowerShell environment. |
+
+---
+
+## 3. Project Folder Structure
+
+```
+AWC_2026_08_23/
+├── .git/                                 # Git repository (branches: main, AntWealth_2026_08)
+├── .gitignore                            # Comprehensive ignore rules
+├── astro.config.mjs                      # Astro configuration with @astrojs/react
+├── package.json                          # Dependencies and build scripts
+├── tsconfig.json                         # TypeScript compiler configuration
+├── PROJECT_STATUS.md                     # THIS MASTER HANDOFF DOCUMENT
+├── public/
+│   ├── assets/                           # Production brand assets, logos, founder photo, blueprints
+│   │   ├── Ant Wealth Creation Website Blueprint.png
+│   │   ├── homeScreenimage.png
+│   │   ├── logo awc.png
+│   │   ├── logo with tagline.png
+│   │   ├── SANTHOSH .jpg
+│   │   ├── santhosh_photo.jpg
+│   │   ├── Visiting Card Front.png
+│   │   └── Visiting Card back.png
+│   └── robots.txt                        # Search engine crawling rules & sitemap reference
+└── src/
+    ├── components/
+    │   ├── Header.astro                  # Main sticky header with brand logo & navigation
+    │   ├── Footer.astro                  # 4-column footer with regulatory notices & legal links
+    │   ├── Hero.astro                    # 2-column hero with seamless family image integration
+    │   ├── HealthCheckTeaser.astro       # Interactive teaser for 3-minute financial health score
+    │   ├── GoalCards.astro               # 6 life milestone goal cards
+    │   ├── CalculatorCards.astro         # 5-in-1 calculator toolkit teaser cards
+    │   ├── FinancialJourney.astro        # 6-step family financial roadmap
+    │   ├── LearningSection.astro         # Featured articles & categories teaser
+    │   ├── TrustSection.astro            # 4 trust pillars & regulatory registration display
+    │   ├── MeetFounder.astro             # Founder story teaser on homepage
+    │   ├── WhyAntWealth.astro            # 5 Core Philosophy Cards
+    │   ├── ConsultationExpectations.astro# 3-step "What happens when you talk to Santhosh?" module
+    │   ├── calculators/                  # Interactive React Calculator Suite
+    │   │   ├── CalculatorsHub.tsx        # Tabbed 5-in-1 calculator hub with URL query sync
+    │   │   ├── SIPCalculator.tsx         # Monthly SIP, Step-Up SIP, and Lumpsum calculator
+    │   │   ├── RetirementCalculator.tsx  # Post-retirement corpus & monthly required SIP
+    │   │   ├── GoalPlannerCalculator.tsx # Inflation-adjusted milestone goal planner
+    │   │   ├── LoanVsInvestmentCalculator.tsx # Prepayment vs mutual fund SIP simulator
+    │   │   ├── InsuranceCalculator.tsx   # Income replacement human life value tool
+    │   │   └── NetWorthCalculator.tsx    # Liquid/Fixed assets vs liabilities balance calculator
+    │   ├── consultation/
+    │   │   └── ConsultationBooking.tsx   # 4-step voluntary scheduler with direct WhatsApp bridge
+    │   ├── health/
+    │   │   ├── HealthCheckIntro.astro    # Financial Health Check introduction hero
+    │   │   ├── HealthQuestionnaire.tsx   # 7-step weighted financial health diagnostic
+    │   │   └── HealthScoreGauge.tsx      # SVG interactive radial gauge
+    │   └── learning/
+    │       ├── ArticleCard.astro         # Card item for educational articles
+    │       ├── CategoryCard.astro        # Category selector card
+    │       └── RelatedArticles.astro     # Related reading suggestions
+    ├── content/
+    │   ├── config.ts                     # Zod schema for article content collections
+    │   └── articles/                     # 10 foundational financial guides (Markdown)
+    │       ├── how-much-emergency-fund-should-you-have.md
+    │       ├── how-to-plan-for-your-childs-education.md
+    │       ├── how-to-start-planning-for-retirement.md
+    │       ├── sip-vs-lumpsum-what-is-the-difference.md
+    │       ├── what-is-a-mutual-fund.md
+    │       ├── what-is-asset-allocation.md
+    │       ├── what-is-financial-freedom.md
+    │       ├── what-is-goal-based-financial-planning.md
+    │       ├── what-is-sip-and-how-does-it-work.md
+    │       └── why-life-insurance-is-important-for-a-family.md
+    ├── data/
+    │   └── siteConfig.ts                 # Single source of truth for business data, phone, email, disclaimers
+    ├── layouts/
+    │   ├── BaseLayout.astro              # Global layout with SEO meta tags & FinancialService JSON-LD
+    │   └── ArticleLayout.astro           # Long-form article layout with Breadcrumbs & Article JSON-LD
+    ├── pages/
+    │   ├── index.astro                   # Homepage
+    │   ├── plan.astro                    # Goal Discovery & Planning Hub
+    │   ├── tools.astro                   # Calculators Toolbox (?calc= query support)
+    │   ├── health-check.astro            # 3-Minute Financial Health Check
+    │   ├── learn/
+    │   │   ├── index.astro               # Learning Center Library
+    │   │   └── [...slug].astro           # Dynamic article renderer
+    │   ├── about.astro                   # About Santhosh & Ant Wealth Creation
+    │   ├── contact.astro                 # Contact channels & Consultation scheduler
+    │   ├── privacy.astro                 # Privacy Policy
+    │   ├── terms.astro                   # Terms of Use
+    │   ├── disclaimer.astro              # Regulatory Disclosures & AMFI ARN Details
+    │   ├── 404.astro                     # Custom 404 recovery page
+    │   └── sitemap.xml.ts                # Dynamic XML sitemap generator
+    ├── styles/
+    │   └── global.css                    # Design tokens, typography, CSS resets, utility classes
+    └── utils/
+        └── calculations/                 # Centralized Financial Math Calculation Engine
+            ├── emergencyFund.ts
+            ├── financialHealth.ts
+            ├── goalPlanner.ts
+            ├── index.ts
+            ├── insurance.ts
+            ├── loanVsInvestment.ts
+            ├── lumpsum.ts
+            ├── netWorth.ts
+            ├── retirement.ts
+            ├── sip.ts
+            └── swp.ts
+```
+
+---
+
+## 4. Completed Phases Summary (Phases 1–9)
+
+* **Phase 1–2 (Scaffolding & Design System):** Setup Astro 5 with React 19, established global design tokens (`--color-navy-dark: #00182A`, `--color-growth-teal: #00AB96`, `--color-warm-gold: #FFC107`), mobile-first CSS architecture, and base layout.
+* **Phase 3 (Homepage & Hero Visual Blend):** Implemented a high-converting, trust-building homepage with approved two-column hero where `homeScreenimage.png` seamlessly blends into the clean white hero background without boxed card borders.
+* **Phase 4 (Financial Health Check):** Created a 7-step weighted self-assessment (Emergency, Insurance, Investments, Retirement, Debt, Discipline, Tax) calculating a 0–100 score with visual radial gauge and non-prescriptive illustrative guidance.
+* **Phase 5 (Calculators Suite & Central Calculation Engine):** Developed `src/utils/calculations/` single source of truth and built the 5-in-1 tabbed calculators suite (`/tools?calc=...`) and `/plan?goal=...`.
+* **Phase 6 (Learning Center — Money Made Simple):** Created `/learn` hub and 10 full-length Markdown articles covering mutual fund basics, SIP compounding, asset allocation, insurance, and retirement.
+* **Phase 7 (Trust, About & Consultation Experience):** Built `/about` (7 comprehensive sections with verified founder credentials) and `/contact` (direct channels + 4-step voluntary consultation scheduler with direct WhatsApp bridge).
+* **Phase 8 (Product QA, SEO, Legal & Compliance):** Added `/privacy`, `/terms`, `/disclaimer`, `/404`, dynamic `sitemap.xml`, `robots.txt`, global `FinancialService` structured data, and performed responsive testing across 6 viewports with 0 errors.
+* **Phase 9 (Final Business Owner Review & Deployment Audit):** Verified end-to-end user journeys, audited calculation edge cases, confirmed 0 forced lead capture, and pushed production repository to GitHub (`AntWealth_2026_08`).
+
+---
+
+## 5. All Production Routes / Pages (21 Total)
+
+1. `/` — **Homepage:** Hero with family image blend, Health Check teaser, 6 Goal cards, 5 Calculator teasers, 6-Step Journey, Learning teaser, Trust pillars, Founder story teaser, Consultation CTA, and Footer.
+2. `/plan` — **Goal Discovery Hub:** Preconfigured goal presets (`?goal=education|home|retirement|wedding|car|wealth`) linked to the calculation engine.
+3. `/tools` — **Calculators Suite:** Tabbed 5-in-1 calculators (`?calc=sip|retirement|loan-vs-invest|insurance|net-worth`).
+4. `/health-check` — **3-Minute Financial Health Check:** 7-step diagnostic questionnaire with category breakdown and illustrative action tips.
+5. `/learn` — **Learning Center Hub:** Filterable library of articles with reading times, category tags, and calculator CTA bridges.
+6. `/about` — **About Santhosh & Mission:** Meet Santhosh, The Story (LIC heritage, established 14 April 2023), Why AWC Exists, 5 Philosophy Cards, Verified Credentials, 5-Step Process, Soft CTA.
+7. `/contact` — **Contact & Consultation:** WhatsApp, Phone, Email, Dharmapuri Office, and 4-step voluntary appointment scheduler.
+8. `/privacy` — **Privacy Policy:** Data confidentiality, voluntary scheduling data handling, zero forced capture policy.
+9. `/terms` — **Terms of Use:** Legal usage terms, educational simulation notices, AMFI distributor scope.
+10. `/disclaimer` — **Disclaimers & Disclosures:** Official AMFI ARN: 266896 details, mutual fund risk warnings, non-RIA disclosure.
+11. `/404` — **Page Not Found:** Branded recovery screen with navigation action buttons.
+12. `/learn/what-is-a-mutual-fund`
+13. `/learn/what-is-sip-and-how-does-it-work`
+14. `/learn/sip-vs-lumpsum-what-is-the-difference`
+15. `/learn/how-much-emergency-fund-should-you-have`
+16. `/learn/what-is-asset-allocation`
+17. `/learn/how-to-plan-for-your-childs-education`
+18. `/learn/how-to-start-planning-for-retirement`
+19. `/learn/why-life-insurance-is-important-for-a-family`
+20. `/learn/what-is-financial-freedom`
+21. `/learn/what-is-goal-based-financial-planning`
+
+---
+
+## 6. Calculation Engines & Purpose (`src/utils/calculations/`)
+
+All calculation functions are strictly centralized in `src/utils/calculations/`:
+
+* `sip.ts`: Standard SIP formula ($FV = P \times \frac{(1+r)^n - 1}{r} \times (1+r)$), Step-Up SIP (annual percentage increment compounding), and Required Monthly SIP solver.
+* `lumpsum.ts`: Compound interest for one-time investments ($FV = P \times (1+r)^n$).
+* `goalPlanner.ts`: Combines inflation-adjusted future goal cost calculation with existing savings compounding and computes the required monthly SIP.
+* `retirement.ts`: Projects inflation-adjusted monthly expenses at retirement, computes life-expectancy post-retirement corpus using annuity formulas, and solves for required pre-retirement monthly SIP.
+* `loanVsInvestment.ts`: Computes monthly EMI, amortization schedule, interest saved through loan prepayments vs wealth created by investing equivalent surplus into mutual fund SIP.
+* `insurance.ts`: Human Life Value (HLV) income replacement method calculating cover needed based on income replacement multiplier, liabilities, and milestone obligations.
+* `netWorth.ts`: Aggregates liquid, investment, fixed assets against secured and unsecured debts to calculate net worth and debt-to-asset ratios.
+* `financialHealth.ts`: 7-category weighted scoring matrix (Emergency Fund 15%, Life/Health Insurance 20%, Long-Term Investments 20%, Retirement Planning 15%, Debt Management 15%, Financial Discipline 10%, Tax Planning 5%).
+
+---
+
+## 7. Design System & Visual Rules
+
+* **Color Palette:**
+  - **Deep Navy:** `#00182A` (Primary headings, dark sections, footer, authority)
+  - **Growth Teal:** `#00AB96` (Primary accent, CTAs, growth indicators, active tabs)
+  - **Warm Gold:** `#FFC107` (Milestones, highlights, stars, badges)
+  - **Slate Grey:** `#334155` (Body text, subtext)
+  - **Light Background:** `#F8FAFC` (Section backgrounds, card backgrounds)
+  - **Clean White:** `#FFFFFF` (Card surfaces, hero base)
+* **Typography:**
+  - **Headings:** `'Outfit', sans-serif` (Modern, clean, friendly, geometric)
+  - **Body / Numbers:** `'Inter', sans-serif` (Highly legible for financial data and tables)
+* **Visual Treatment Rules:**
+  - **Hero Image:** Must visually merge into the white background using smooth gradients/masking. **Never** place the hero image in a rectangular bordered card.
+  - **Cards:** Rounded (`border-radius: 12px` to `16px`), subtle borders (`1.5px solid #E2E8F0`), soft box-shadow on hover (`0 10px 25px -5px rgba(0,0,0,0.06)`).
+  - **Zero Dark Patterns:** Zero popups, zero forced lead capture modals, zero countdown timers.
+
+---
+
+## 8. Business Information & Compliance Details
+
+All business details are centralized in `src/data/siteConfig.ts`:
+
+* **Trade Name:** Ant Wealth Creation
+* **Founder Name:** `C. Santhosh Sathriyan, B.E.`
+* **Professional Certification:** `QPFP Certified` (Qualified Personal Finance Professional)
+* **Regulatory Registration:** `AMFI-Registered Mutual Fund Distributor`
+* **AMFI Registration Number (ARN):** `ARN: 266896`
+* **Industry Experience:** Mutual fund market experience since `2012`
+* **Firm Established Date:** `14 April 2023`
+* **Office Location:** `Dharmapuri, Tamil Nadu, India`
+* **Contact Phone:** `+91 80879 71566`
+* **Contact Email:** `santhosh@antwealth.in`
+* **Website Domain:** `https://antwealth.in`
+* **Statutory Compliance Rules:**
+  - **Do NOT call Santhosh:** "SEBI Registered Investment Adviser", "SEBI RIA", "Investment Adviser", or "Financial Advisor" (unless explicitly in a negative disclaimer).
+  - **Prohibited Claims:** Never use "Guaranteed Returns", "Assured Returns", "Risk Free", or "Guaranteed Wealth".
+  - **Mandatory Disclaimer:** *"Mutual Fund investments are subject to market risks, read all scheme related documents carefully."*
+
+---
+
+## 9. Current Image Assets & Usage
+
+* `public/assets/homeScreenimage.png` (1.77 MB) — Homepage hero financial journey visual.
+* `public/assets/SANTHOSH .jpg` / `santhosh_photo.jpg` (936 KB) — Founder portrait on `/about` and homepage founder section.
+* `public/assets/logo with tagline.png` (156 KB) — Header and footer brand logo.
+* `public/assets/logo awc.png` (19.6 KB) — Favicon and square brand mark.
+* `public/assets/Visiting Card Front.png` (185 KB) — Universal Open Graph social sharing image.
+* `public/assets/Visiting Card back.png` (94.9 KB) — Social sharing secondary asset.
+* `public/assets/Ant Wealth Creation Website Blueprint.png` (1.73 MB) — Reference design blueprint.
+
+---
+
+## 10. SEO & WhatsApp Configuration
+
+* **SEO Meta Tags:** Dynamic `<title>`, `<meta name="description">`, `<link rel="canonical">`, Open Graph tags (`og:title`, `og:image`, `og:url`), and Twitter Cards on all pages.
+* **Structured Data (JSON-LD):**
+  - Global `FinancialService` / `Organization` schema in `BaseLayout.astro`.
+  - `Article` schema with author credentials on every guide in `ArticleLayout.astro`.
+* **Sitemap:** Dynamic XML sitemap at `/sitemap.xml` generated by `src/pages/sitemap.xml.ts`.
+* **Robots Directives:** Configured in `public/robots.txt`.
+* **WhatsApp Deep Link:** `https://wa.me/918087971566?text=...` with auto-formatted appointment requests generated by `ConsultationBooking.tsx`.
+
+---
+
+## 11. How to Run Locally & Build
+
+Prepend the Node and MinGit paths in PowerShell:
+
+```powershell
+# Set Node and Git paths in PowerShell session
+$env:Path = "C:\Users\SANTHOSH\.mingit\cmd;C:\Program Files\nodejs;" + $env:Path
+
+# Install dependencies (if needed in new environment)
+npm install
+
+# Start local development server (runs on http://localhost:4321)
+npm run dev
+
+# Run production build (compiles all 21 static pages)
+npm run build
+
+# Preview production build locally
+npm run preview
+```
+
+---
+
+## 12. Git Status & Remote Repository
+
+* **Repository URL:** [https://github.com/santhosh144awc/AntWealth_2026_08.git](https://github.com/santhosh144awc/AntWealth_2026_08.git)
+* **Active Branches:** `main` (default production), `AntWealth_2026_08`
+* **Current Working Tree:** Clean (all files committed).
+
+---
+
+## 13. Critical Change Control Rules (Do NOT Modify Without User Approval)
+
+1. **Do NOT Redesign the Homepage:** The layout, 2-column hero structure, and section hierarchy are approved.
+2. **Do NOT Box or Border the Hero Image:** `homeScreenimage.png` must blend seamlessly into the white background.
+3. **Do NOT Introduce Forced Lead Capture:** All calculators, health checks, and articles must remain 100% un-gated.
+4. **Do NOT Alter Compliance Designations:** Always display `C. Santhosh Sathriyan, B.E., QPFP Certified, AMFI-Registered Mutual Fund Distributor (ARN: 266896)`.
+5. **Do NOT Split Calculation Logic:** Any calculator UI must import from `src/utils/calculations/`.
+
+---
+
+## NEXT SESSION — START HERE
+
+> **ATTENTION NEXT AGENT / DEVELOPER:**  
+> **Before writing any code or modifying any file, YOU MUST READ THIS FILE (`PROJECT_STATUS.md`) ENTIRELY.**
+
+### Recommended Next Steps for the Next Session:
+
+1. **Production Deployment Setup (Hosting & DNS):**
+   - Connect the GitHub repository `https://github.com/santhosh144awc/AntWealth_2026_08` to **Cloudflare Pages**, **Vercel**, or **Netlify**.
+   - Build settings: Build command: `npm run build`, Output directory: `dist`.
+   - Configure custom domain `antwealth.in` and verify SSL certificates.
+2. **Production Image Optimization (WebP Conversion):**
+   - Convert large raw PNGs in `public/assets/` to lightweight WebP files (or enable hosting CDN auto-WebP conversion) to further accelerate mobile load times.
+3. **Analytics Integration:**
+   - When provided by Santhosh, insert the Google Analytics 4 (GA4) measurement tag into `src/layouts/BaseLayout.astro`.
+4. **Calendar Integration (Optional):**
+   - If an automated calendar scheduling URL (e.g. Cal.com or Calendly) is provided, insert it into `siteConfig.contact.consultationBookingUrl` in `src/data/siteConfig.ts`.
