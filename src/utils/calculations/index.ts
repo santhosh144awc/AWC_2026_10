@@ -14,3 +14,4 @@ export * from './financialHealth';
 export * from './childrenFuturePlanner';
 export * from './realFinancialStatement';
 export * from './lifeInsuranceNeed';
+export * from './housePurchasePlanner';

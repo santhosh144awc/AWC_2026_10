@@ -118,16 +118,15 @@ export const siteConfig = {
       id: "home",
       title: "Buy a Home",
       icon: "home",
-      description: "Plan your down payment and loan payoff timeline.",
-      href: "/plan?goal=home",
+      description: "Plan your down payment, acquisition costs and EMI affordability.",
+      href: "/tools/home-purchase",
       color: "#10B981",
     },
     {
       id: "education",
       title: "Child's Education",
-      icon: "education",
       description: "Build an inflation-adjusted corpus for your child's higher education.",
-      href: "/plan?goal=education",
+      href: "/plan/children",
       color: "#3B82F6",
     },
     {
@@ -165,6 +164,13 @@ export const siteConfig = {
   ] as GoalItem[],
 
   calculators: [
+    {
+      id: "home-purchase",
+      title: "Home Purchase Planner",
+      description: "Estimate your future property cost, down payment, acquisition expenses and EMI affordability.",
+      icon: "home",
+      href: "/tools/home-purchase",
+    },
     {
       id: "life-insurance",
       title: "Life Insurance Need",

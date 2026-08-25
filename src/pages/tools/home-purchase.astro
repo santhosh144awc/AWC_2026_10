@@ -1,0 +1,485 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HousePurchasePlannerCalculator from '../../components/calculators/HousePurchasePlannerCalculator';
+---
+
+<BaseLayout 
+  title="Home Purchase Planner | Plan Your Down Payment & EMI | Ant Wealth Creation" 
+  description="Estimate your future home cost, down payment, home loan EMI and monthly investment needed to prepare for your home purchase."
+  currentPath="/tools/home-purchase"
+>
+  <section class="home-page-hero">
+    <div class="container text-center">
+      <!-- Breadcrumb Navigation -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <a href="/" class="breadcrumb-link">Home</a>
+        <span class="breadcrumb-sep">/</span>
+        <a href="/tools" class="breadcrumb-link">Calculators</a>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Home Purchase Planner</span>
+      </nav>
+
+      <div class="badge-tag">
+        <span class="badge-dot"></span>
+        Goal-Based Real Estate Planning
+      </div>
+
+      <h1 class="page-title">How Much Do You Need to Save for Your Dream Home?</h1>
+      
+      <p class="page-subtitle">
+        Plan your property purchase with clarity — estimate future appreciation, down payment requirements, acquisition costs, and future EMI affordability before you buy.
+      </p>
+
+      <!-- Trust Perks Row -->
+      <div class="hero-perks-row">
+        <div class="perk-item">
+          <span class="perk-icon">🔒</span>
+          <span>100% Confidential</span>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">🚫</span>
+          <span>Zero Forced Lead Capture</span>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">📐</span>
+          <span>Down Payment & Cost Split</span>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">💳</span>
+          <span>Income-Based EMI Check</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Calculator Island -->
+  <section class="calculator-stage-section">
+    <div class="container">
+      <HousePurchasePlannerCalculator client:load />
+    </div>
+  </section>
+
+  <!-- Educational Context Section -->
+  <section class="edu-article-section">
+    <div class="container max-w-4xl">
+      <div class="edu-card">
+        <div class="edu-badge">Educational Guide</div>
+        <h2 class="edu-title">Smart Strategies for Planning Your Home Purchase</h2>
+        
+        <p class="edu-p">
+          Buying a home is one of the largest financial commitments a family makes. A structured savings roadmap prevents over-borrowing and safeguards your family's long-term financial security:
+        </p>
+
+        <div class="pillars-grid">
+          <div class="pillar-box">
+            <span class="pillar-num">1</span>
+            <h3>Budget for Hidden Acquisition Costs</h3>
+            <p>Beyond the builder or seller price, budget an extra 7–10% for stamp duty, registration, GST, legal verification, brokerage, and basic interiors so you never face last-minute liquidity crunches.</p>
+          </div>
+          <div class="pillar-box">
+            <span class="pillar-num">2</span>
+            <h3>Keep Future EMIs Below 40% of Income</h3>
+            <p>A home should enhance your quality of life, not create EMI anxiety. Keeping monthly loan obligations under 40% of future income ensures ample cash flow for regular living expenses and retirement investments.</p>
+          </div>
+          <div class="pillar-box">
+            <span class="pillar-num">3</span>
+            <h3>De-Risk Your Down Payment as Goal Nears</h3>
+            <p>While equity mutual fund SIPs are ideal for goals 5+ years away, systematically move your accumulated down payment corpus to high-quality debt funds and bank deposits 2 years before purchase.</p>
+          </div>
+        </div>
+
+        <div class="edu-footer-link">
+          <p>
+            Want to learn how goal-based investing helps you build wealth systematically?
+          </p>
+          <a href="/learn/what-is-goal-based-financial-planning" class="btn-read-guide">
+            Read Guide: What is Goal-Based Financial Planning? →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cross Discovery Grid -->
+  <section class="discovery-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2 class="section-title">Explore More Planning Tools</h2>
+        <p class="section-subtitle">
+          Comprehensive, zero-jargon financial tools to help you make confident money decisions.
+        </p>
+      </div>
+
+      <div class="discovery-grid">
+        <a href="/tools/life-insurance" class="discovery-card">
+          <div class="discovery-icon">🛡️</div>
+          <h3 class="discovery-heading">Life Insurance Need Analysis</h3>
+          <p class="discovery-desc">Estimate your family's protection gap considering loans, living expenses, and goals.</p>
+          <span class="discovery-link-text">Check Life Cover →</span>
+        </a>
+
+        <a href="/health-check/real-statement" class="discovery-card">
+          <div class="discovery-icon">💎</div>
+          <h3 class="discovery-heading">REAL Financial Statement</h3>
+          <p class="discovery-desc">Audit your income, living expenses, ongoing savings, and calculate your Actual Net Worth.</p>
+          <span class="discovery-link-text">Open REAL Statement →</span>
+        </a>
+
+        <a href="/plan/children" class="discovery-card">
+          <div class="discovery-icon">🎓</div>
+          <h3 class="discovery-heading">Children's Future Planner</h3>
+          <p class="discovery-desc">Map your child's higher education and marriage milestones with inflation and step-up SIPs.</p>
+          <span class="discovery-link-text">Plan Children's Goals →</span>
+        </a>
+
+        <a href="/health-check" class="discovery-card">
+          <div class="discovery-icon">🩺</div>
+          <h3 class="discovery-heading">3-Minute Financial Health Check</h3>
+          <p class="discovery-desc">Get your comprehensive 0–100 financial wellness score across 7 key pillars.</p>
+          <span class="discovery-link-text">Take Health Check →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .home-page-hero {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 3.5rem 1.5rem 2.5rem;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-slate-muted, #64748B);
+    margin-bottom: 1.25rem;
+  }
+
+  .breadcrumb-link {
+    color: var(--color-slate-muted, #64748B);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--color-growth-teal, #00AB96);
+  }
+
+  .breadcrumb-sep {
+    color: #CBD5E1;
+  }
+
+  .breadcrumb-current {
+    color: var(--color-primary-navy, #00182A);
+    font-weight: 600;
+  }
+
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal, #00AB96);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-growth-teal, #00AB96);
+    border-radius: 50%;
+  }
+
+  .page-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-primary-navy, #00182A);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    max-width: 840px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .page-subtitle {
+    font-size: 1.1rem;
+    color: var(--color-slate-muted, #475569);
+    max-width: 720px;
+    margin: 0 auto 2rem auto;
+    line-height: 1.6;
+  }
+
+  .hero-perks-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .perk-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #334155;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    padding: 0.4rem 0.85rem;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  }
+
+  .perk-icon {
+    font-size: 1rem;
+  }
+
+  /* Calculator Stage */
+  .calculator-stage-section {
+    background-color: #F8FAFC;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  /* Educational Section */
+  .edu-article-section {
+    padding: 4rem 1.5rem;
+    background: #FFFFFF;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  .edu-card {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 2.5rem;
+  }
+
+  .edu-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: #E2E8F0;
+    color: #334155;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+
+  .edu-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #00182A;
+    margin-bottom: 1rem;
+  }
+
+  .edu-p {
+    font-size: 1rem;
+    color: #334155;
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .pillar-box {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+
+  .pillar-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: #00AB96;
+    color: #FFFFFF;
+    font-weight: 800;
+    font-size: 0.85rem;
+    border-radius: 50%;
+    margin-bottom: 0.75rem;
+  }
+
+  .pillar-box h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #00182A;
+    margin: 0 0 0.4rem 0;
+  }
+
+  .pillar-box p {
+    font-size: 0.85rem;
+    color: #64748B;
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  .edu-footer-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #E2E8F0;
+    text-align: center;
+  }
+
+  .edu-footer-link p {
+    font-size: 0.95rem;
+    color: #475569;
+    margin: 0;
+  }
+
+  .btn-read-guide {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 700;
+    color: #00AB96;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .btn-read-guide:hover {
+    color: #007a6b;
+    text-decoration: underline;
+  }
+
+  /* Discovery Section */
+  .discovery-section {
+    padding: 4rem 1.5rem 5rem;
+    background: #F8FAFC;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #00182A;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+    color: #64748B;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .discovery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .discovery-card {
+    background: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease;
+  }
+
+  .discovery-card:hover {
+    transform: translateY(-4px);
+    border-color: #00AB96;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06);
+  }
+
+  .discovery-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .discovery-heading {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #00182A;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .discovery-desc {
+    font-size: 0.85rem;
+    color: #64748B;
+    line-height: 1.45;
+    margin: 0 0 1.25rem 0;
+  }
+
+  .discovery-link-text {
+    margin-top: auto;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #00AB96;
+  }
+
+  @media (max-width: 1024px) {
+    .discovery-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 1.85rem;
+    }
+    .page-subtitle {
+      font-size: 0.95rem;
+    }
+    .pillars-grid {
+      grid-template-columns: 1fr;
+    }
+    .discovery-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .home-page-hero {
+      padding: 2.5rem 1rem 1.75rem;
+    }
+    .calculator-stage-section {
+      padding: 1.5rem 0.75rem 3.5rem;
+    }
+    .edu-article-section {
+      padding: 2.5rem 1rem;
+    }
+    .edu-card {
+      padding: 1.5rem 1rem;
+    }
+    .discovery-section {
+      padding: 2.5rem 1rem;
+    }
+  }
+</style>

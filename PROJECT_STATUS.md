@@ -563,6 +563,42 @@ npm run preview
 
 ---
 
+## 22. Phase 17 — Home Purchase Planner Candidates Sheet Conversion (Completed)
+
+* **Objective:** Implement the validated Candidates Sheet methodology for property acquisition, down payment planning, acquisition cost separation, 8% compounding projected income, loan EMI calculations, and 3-way funding options (Lumpsum, Fixed SIP, and Step-Up SIP) at `/tools/home-purchase`.
+* **Methodology & Mathematical Engine (`src/utils/calculations/housePurchasePlanner.ts`):**
+  * **Property Appreciation:** $\text{Future Property Value} = \text{Current Value} \times (1 + r_{\text{property}})^t$.
+  * **Acquisition Costs:** $\text{Additional Costs} = \text{Future Property Value} \times \text{Cost\%}$ (e.g. 10% for stamp duty, registration, taxes, interiors).
+  * **Loan-to-Value Base Distinction:** Home loan is calculated strictly on base $\text{Future Property Value}$ ($\text{Loan} = \text{Future Property Value} \times \text{LTV\%}$), while acquisition costs are accumulated separately by the buyer.
+  * **Total Accumulation Target:** $\text{Target} = \text{Down Payment} + \text{Additional Acquisition Costs}$.
+  * **Projected Income & EMI Limit:** Compounded at 8% annual growth ($\text{Projected Income} = \text{Current Income} \times (1 + 0.08)^t$) with 40% ideal debt-to-income limit.
+  * **Monthly Home Loan EMI:** Periodic monthly compounding rate $r/12$, $n = \text{tenure} \times 12$.
+  * **Dynamic Earmarked Assets & Deficit:** $\text{Deficit} = \max(0, \text{Target} - \text{Total Assets})$.
+  * **3 Funding Options:**
+    * Lumpsum Today: $PV = \text{Deficit} / (1 + r_{\text{invest}})^t$.
+    * Fixed Monthly SIP: $-\text{PMT}(r/12, t \times 12, 0, \text{Deficit}, 0)$.
+    * Step-Up SIP (Candidates Sheet Formula): $-\text{PMT}\left(\frac{r}{12}, 12, 0, \frac{\text{Deficit} \times (r - g)}{(1+r)^t - (1+g)^t}, 0\right)$.
+* **React 19 Island (`src/components/calculators/HousePurchasePlannerCalculator.tsx`):**
+  * 6-Step Guided Stepper: Goal, Future Cost, Loan & Down Payment, EMI Affordability, Existing Funds (dynamic add/remove), and Funding Plan.
+  * Results Hero Card with crisp white inner container, growth teal eyebrow, pure white heading on navy hero, and deep navy result amount.
+  * 3 Prominent Funding Options Grid (Lumpsum, Fixed Monthly SIP, Step-Up SIP starting amount).
+  * EMI Affordability Card with projected income, planned limit, and factual status.
+  * Goal Funding Progress Bar with already earmarked vs remaining need.
+  * Transparent "How was this calculated?" mathematical breakdown accordion.
+  * Pre-populated advisory WhatsApp consultation bridge + `/contact` booking.
+  * "Try Sample Scenario" (Indore 3 BHK ₹1 Cr in 6 yrs) and "Reset" buttons.
+* **Astro Page & Integration:**
+  * Dedicated route `/tools/home-purchase` in `src/pages/tools/home-purchase.astro`.
+  * Added `home-purchase` calculator item and updated `home` goal link in `src/data/siteConfig.ts`.
+  * Route registered in dynamic XML sitemap in `src/pages/sitemap.xml.ts`.
+* **Testing & Quality Assurance:**
+  * Created unit test suite `src/utils/calculations/housePurchasePlanner.test.ts`.
+  * Total repository test suite: **186 passed, 0 failed** (16 Lumpsum + 67 Children's Planner + 45 REAL Statement + 33 Life Insurance Need + 25 Home Purchase Planner).
+  * Production static compilation `npm run build`: **25 static routes compiled with 0 errors and 0 warnings**.
+  * Puppeteer headless responsive audit: Verified **0px horizontal overflow, WCAG contrast, dynamic asset add/remove, and 0 training branding** across all 5 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1440×900`).
+
+---
+
 ## NEXT SESSION — START HERE
 
 
