@@ -701,6 +701,37 @@ npm run preview
 
 ---
 
+### Phase 21 — SWP Calculator (Monthly Sequential Simulation & Step-Up Longevity)
+* **Pure TypeScript Calculation Engine (`src/utils/calculations/swpCalculator.ts`):**
+  * **Effective Monthly Compounding Rate:** $i_{\text{monthly}} = (1 + r_{\text{annual}})^{1/12} - 1$.
+  * **Annual Step-Up Timing:** Planned monthly SWP increases every 12 months at Months 1, 13, 25, 37, 49... ($\text{plannedSWP} = P_0 \times (1 + g)^{\lfloor (m-1)/12 \rfloor}$).
+  * **Beginning-of-Month Withdrawal & Safety Capping:**
+    * $\text{actualSWP} = \min(\text{plannedSWP}, \text{beginningCorpus})$.
+    * $\text{actualLumpSum} = \min(\text{scheduledLumpSum}, \max(0, \text{beginningCorpus} - \text{actualSWP}))$.
+    * $\text{preReturnCorpus} = \text{beginningCorpus} - \text{actualSWP} - \text{actualLumpSum}$.
+    * $\text{closingCorpus} = \max(0, \text{preReturnCorpus} \times (1 + i_{\text{monthly}}))$.
+  * **Depletion & 600-Month Simulation:**
+    * Automatically detects depletion month ($T_{\text{months}}$) and fractional longevity ($T_{\text{years}} = T_{\text{months}} / 12$).
+    * Detects 50-year survival ($T_{\text{months}} = 600$) with surplus ending corpus.
+  * **Deterministic Regression Scenarios:**
+    * Scenario A (Candidates Benchmark): ₹20L corpus, ₹20k/mo, 8% return, 0% step-up $\to$ 159 months (13.25 years), ₹31.80 Lakh total withdrawals, ₹0 final corpus.
+    * Scenario B (Trainers Benchmark): ₹1 Cr corpus, ₹50k/mo, 9% return, 6% step-up, ₹1L lump sum at Yrs 1–5 $\to$ 264 months (22.00 years), ₹2.65 Cr total withdrawals, ₹0 final corpus.
+* **React 19 Island (`src/components/calculators/SWPCalculator.tsx`):**
+  * 4-Step Guided Wizard: Retirement Corpus & Age, Monthly SWP Withdrawal, Return & Annual Step-Up, Dynamic Milestone Lump-Sum Withdrawals (add/edit/delete).
+  * Results Dashboard: Dark navy gradient hero card (`#00182A`), Growth Teal eyebrow, bold Deep Navy duration (`22.0 Years` / `13.25 Years`), 4-metric grid (Starting Corpus, Total Withdrawals Delivered, SWP Duration, Remaining Corpus), interactive responsive SVG corpus depletion chart with hover/touch tooltips and milestone pins, milestone yearly progression table (expandable to all years), compounding journey flow, "How was this calculated?" accordion, WhatsApp advisory consultation bridge, and "Try Sample Scenario" / "Reset" buttons.
+* **Astro Page & Site Integration:**
+  * Dedicated route `/tools/swp` in `src/pages/tools/swp.astro`.
+  * Updated `swp` entry in `calculators` in `src/data/siteConfig.ts`.
+  * Added `/tools/swp` to XML sitemap in `src/pages/sitemap.xml.ts`.
+  * Integrated `/tools/swp` into `CalculatorsHub.tsx` featured suites and `Footer.astro`.
+* **Testing & Quality Assurance:**
+  * Created unit test suite `src/utils/calculations/swpCalculator.test.ts`.
+  * Total repository test suite: **325 passed, 0 failed** (16 Lumpsum + 67 Children's Planner + 45 REAL Statement + 33 Life Insurance Need + 25 Home Purchase Planner + 32 Retirement Accumulation Planner + 32 Retirement Distribution Planner + 37 SIP Growth Planner + 38 SWP Calculator).
+  * Production static compilation `npm run build`: **29 static routes compiled with 0 errors and 0 warnings**.
+  * Puppeteer headless responsive audit: Verified **0px horizontal overflow, WCAG contrast, sample scenario execution, and 0 training branding** across all 5 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1440×900`).
+
+---
+
 ## NEXT SESSION — START HERE
 
 

@@ -165,6 +165,13 @@ export const siteConfig = {
 
   calculators: [
     {
+      id: "swp",
+      title: "SWP Calculator",
+      description: "Estimate retirement withdrawal sustainability with annual step-ups and lump sum milestones.",
+      icon: "trending-down",
+      href: "/tools/swp",
+    },
+    {
       id: "sip-growth",
       title: "SIP Growth Planner",
       description: "See how your monthly SIP, annual step-ups and additional investments grow over time.",

@@ -53,6 +53,14 @@ interface CategoryGroup {
 
 const FEATURED_SUITES = [
   {
+    title: 'SWP Calculator',
+    icon: '📉',
+    badge: 'New • Retirement SWP',
+    desc: 'Plan retirement withdrawals with monthly simulations, annual step-ups and lump-sum milestones.',
+    href: '/tools/swp',
+    cta: 'Plan SWP Longevity →'
+  },
+  {
     title: 'SIP Growth Planner',
     icon: '🚀',
     badge: 'New • Multi-Lump-Sum',
@@ -115,6 +123,7 @@ const CATEGORIES: CategoryGroup[] = [
     category: 'Build Wealth',
     items: [
       { id: 'sip-growth', name: 'SIP Growth Planner', icon: '🚀', tag: 'New', href: '/tools/sip-growth' },
+      { id: 'swp', name: 'SWP Calculator', icon: '📉', tag: 'New', href: '/tools/swp' },
       { id: 'sip', name: 'Quick SIP Calculator', icon: '📈', tag: 'Monthly' },
       { id: 'lumpsum', name: 'Lumpsum Calculator', icon: '💰', tag: 'One-Time' },
     ]
@@ -122,6 +131,7 @@ const CATEGORIES: CategoryGroup[] = [
   {
     category: 'Plan for Goals',
     items: [
+      { id: 'swp-goal', name: 'SWP Longevity Calculator', icon: '📉', tag: 'New', href: '/tools/swp' },
       { id: 'retirement-distribution', name: 'Retirement Distribution Planner', icon: '⏳', tag: 'New', href: '/tools/retirement-distribution' },
       { id: 'retirement', name: 'Retirement Accumulation Planner', icon: '🌅', tag: 'New', href: '/tools/retirement' },
       { id: 'home', name: 'Home Purchase Planner', icon: '🏠', tag: 'New', href: '/tools/home-purchase' },

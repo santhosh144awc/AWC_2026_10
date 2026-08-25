@@ -18,3 +18,4 @@ export * from './housePurchasePlanner';
 export * from './retirementAccumulationPlanner';
 export * from './retirementDistributionPlanner';
 export * from './sipGrowthPlanner';
+export * from './swpCalculator';
