@@ -9,6 +9,7 @@ export const GET: APIRoute = async () => {
     { url: '/plan', changefreq: 'monthly', priority: '0.9' },
     { url: '/plan/children', changefreq: 'monthly', priority: '0.9' },
     { url: '/tools', changefreq: 'monthly', priority: '0.9' },
+    { url: '/tools/retirement', changefreq: 'monthly', priority: '0.9' },
     { url: '/tools/home-purchase', changefreq: 'monthly', priority: '0.9' },
     { url: '/tools/life-insurance', changefreq: 'monthly', priority: '0.9' },
     { url: '/health-check', changefreq: 'monthly', priority: '0.9' },

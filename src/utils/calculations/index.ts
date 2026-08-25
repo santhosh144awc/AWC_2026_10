@@ -15,3 +15,4 @@ export * from './childrenFuturePlanner';
 export * from './realFinancialStatement';
 export * from './lifeInsuranceNeed';
 export * from './housePurchasePlanner';
+export * from './retirementAccumulationPlanner';

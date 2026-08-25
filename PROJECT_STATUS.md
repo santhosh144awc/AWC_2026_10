@@ -599,6 +599,45 @@ npm run preview
 
 ---
 
+### Phase 18 — Retirement Accumulation Planner (Candidate Sheet Methodology Conversion)
+* **Pure TypeScript Calculation Engine (`src/utils/calculations/retirementAccumulationPlanner.ts`):**
+  * **Current Expense Aggregation:** $\text{Total Current Annual Expenses} = \text{Household} + \text{Lifestyle} + \text{Other}$, $\text{Monthly} = \text{Total} / 12$.
+  * **Retirement Timeline & Future Inflation:** $\text{Years to Retire} = \text{Retirement Age} - \text{Current Age}$. $\text{Future Annual Expenses} = \text{Current Annual} \times (1 + r_{\text{inf\_pre}})^t \times (1 - \text{Reduction\%})$.
+  * **Tax-Adjusted Return & Compound Fisher Real Return:**
+    $$r_{\text{tax}} = r_{\text{gross}} \times (1 - \text{Tax Rate}), \quad r_{\text{real}} = \frac{1 + r_{\text{tax}}}{1 + r_{\text{inf\_post}}} - 1$$
+  * **Annuity-Due Living Expense Capitalization ($type = 1$):**
+    $$PV_{\text{due}} = PMT \times \frac{1 - (1 + r_{\text{real}})^{-n}}{r_{\text{real}}} \times (1 + r_{\text{real}})$$
+    With $n = \text{Life Expectancy} - \text{Retirement Age}$ and $r = 0$ fallback ($PMT \times n$).
+  * **Discounted Legacy Corpus:** Optional children/charity corpus discounted using real return framework: $PV_{\text{legacy}} = C / (1 + r_{\text{real}})^n$.
+  * **Total Required Corpus:** $\text{Total} = PV_{\text{due}} + PV_{\text{legacy}}$.
+  * **Existing Resources at Retirement (No Double Compounding):** Aggregated expected maturity values across Employment Benefits (EPF/NPS, Gratuity, Superannuation) and Personal Assets (FD, Insurance, Mutual Funds).
+  * **Funding Deficit & Progress:** $\text{Deficit} = \max(0, \text{Total Corpus} - \text{Total Assets})$, $\text{Progress} = \min\left(100, \frac{\text{Total Assets}}{\text{Total Corpus}} \times 100\right)$.
+  * **3-Way Funding Plan:**
+    * **Lump Sum Today:** $PV = \text{Deficit} / (1 + r_{\text{invest}})^t$.
+    * **Fixed Monthly SIP:** $\text{Deficit} \times \frac{(1 + r)^{1/12} - 1}{(1 + r)^t - 1}$.
+    * **Step-Up Monthly SIP:** $P_0 = \frac{\text{Deficit} \times (r - g)}{(1+r)^t - (1+g)^t} \times \frac{(1 + r)^{1/12} - 1}{r}$.
+* **React 19 Island (`src/components/calculators/RetirementAccumulationPlanner.tsx`):**
+  * 5-Step Guided Stepper: Current Expenses, Timeline & Inflation, Required Corpus, Existing Resources, and Funding Plan.
+  * Results Hero Card with dark navy gradient, Growth Teal eyebrow, pure white heading, and white inner result container with deep navy amount.
+  * Goal Funding Progress Bar with already earmarked vs remaining funding gap.
+  * 3 Prominent Funding Options Grid (Lump Sum, Fixed Monthly SIP, Step-Up SIP starting amount).
+  * Capital Flow Journey: Today's Expenses $\to$ Expenses at Retirement $\to$ Required Corpus $\to$ Existing Assets $\to$ Funding Gap.
+  * Transparent "How was this calculated?" accordion detailing exact formulas and intermediate values.
+  * Pre-populated advisory WhatsApp consultation bridge + `/contact` booking.
+  * "Try Sample Scenario" (Age 50 to 60, ₹12L expenses, ₹2 Cr assets) and "Reset" buttons.
+* **Astro Page & Site Integration:**
+  * Dedicated route `/tools/retirement` in `src/pages/tools/retirement.astro`.
+  * Updated `retirement` goal and calculator links in `src/data/siteConfig.ts`.
+  * Added `/tools/retirement` to XML sitemap in `src/pages/sitemap.xml.ts`.
+  * Integrated `/tools/retirement` into `CalculatorsHub.tsx` featured suites and `Footer.astro`.
+* **Testing & Quality Assurance:**
+  * Created unit test suite `src/utils/calculations/retirementAccumulationPlanner.test.ts`.
+  * Total repository test suite: **218 passed, 0 failed** (16 Lumpsum + 67 Children's Planner + 45 REAL Statement + 33 Life Insurance Need + 25 Home Purchase Planner + 32 Retirement Planner).
+  * Production static compilation `npm run build`: **26 static routes compiled with 0 errors and 0 warnings**.
+  * Puppeteer headless responsive audit: Verified **0px horizontal overflow, WCAG contrast, sample scenario execution, and 0 training branding** across all 5 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1440×900`).
+
+---
+
 ## NEXT SESSION — START HERE
 
 

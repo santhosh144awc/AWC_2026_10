@@ -134,7 +134,7 @@ export const siteConfig = {
       title: "Retirement",
       icon: "retirement",
       description: "Ensure a dignified, stress-free life with passive income.",
-      href: "/plan?goal=retirement",
+      href: "/tools/retirement",
       color: "#F59E0B",
     },
     {
@@ -165,6 +165,13 @@ export const siteConfig = {
 
   calculators: [
     {
+      id: "retirement",
+      title: "Retirement Planner",
+      description: "Estimate your future living expenses, required corpus, and monthly SIP roadmap.",
+      icon: "sunset",
+      href: "/tools/retirement",
+    },
+    {
       id: "home-purchase",
       title: "Home Purchase Planner",
       description: "Estimate your future property cost, down payment, acquisition expenses and EMI affordability.",
@@ -191,13 +198,6 @@ export const siteConfig = {
       description: "See how a one-time investment can compound over time.",
       icon: "dollar-sign",
       href: "/tools?calc=lumpsum",
-    },
-    {
-      id: "retirement",
-      title: "Retirement Calculator",
-      description: "Will your retirement corpus be enough?",
-      icon: "sunset",
-      href: "/tools?calc=retirement",
     },
     {
       id: "goal-planner",

@@ -53,9 +53,17 @@ interface CategoryGroup {
 
 const FEATURED_SUITES = [
   {
+    title: 'Retirement Planner',
+    icon: '🌅',
+    badge: 'New • Annuity-Due',
+    desc: 'Estimate future living expenses, required corpus, existing resources & 3-way SIP roadmap.',
+    href: '/tools/retirement',
+    cta: 'Plan Retirement Corpus →'
+  },
+  {
     title: 'Home Purchase Planner',
     icon: '🏠',
-    badge: 'New • Candidates Sheet',
+    badge: 'New • Guided Plan',
     desc: 'Calculate future property cost, down payment, acquisition expenses & EMI affordability.',
     href: '/tools/home-purchase',
     cta: 'Plan Home Purchase →'
@@ -97,9 +105,9 @@ const CATEGORIES: CategoryGroup[] = [
   {
     category: 'Plan for Goals',
     items: [
+      { id: 'retirement', name: 'Retirement Accumulation Planner', icon: '🌅', tag: 'New', href: '/tools/retirement' },
       { id: 'home', name: 'Home Purchase Planner', icon: '🏠', tag: 'New', href: '/tools/home-purchase' },
       { id: 'children', name: "Children's Future Planner", icon: '🎓', tag: 'Education', href: '/plan/children' },
-      { id: 'retirement', name: 'Retirement Corpus Planner', icon: '🌅', tag: 'Freedom' },
       { id: 'goal', name: 'Comprehensive Goal Planner', icon: '🎯', tag: 'Milestones' },
     ]
   },

@@ -1,0 +1,481 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RetirementAccumulationPlanner from '../../components/calculators/RetirementAccumulationPlanner';
+---
+
+<BaseLayout 
+  title="Retirement Planner | Calculate Your Retirement Corpus | Ant Wealth Creation" 
+  description="Estimate your retirement corpus, understand your funding gap, and explore lump sum, fixed SIP and step-up SIP options based on your goals."
+  currentPath="/tools/retirement"
+>
+  <section class="retirement-page-hero">
+    <div class="container text-center">
+      <!-- Breadcrumb Navigation -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <a href="/" class="breadcrumb-link">Home</a>
+        <span class="breadcrumb-sep">/</span>
+        <a href="/tools" class="breadcrumb-link">Calculators</a>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Retirement Planner</span>
+      </nav>
+
+      <div class="badge-tag">
+        <span class="badge-dot"></span>
+        Goal-Based Financial Freedom Planning
+      </div>
+
+      <h1 class="page-title">How Much Do You Need for a Financially Independent Retirement?</h1>
+      
+      <p class="page-subtitle">
+        Know how much you may need for a financially independent retirement — estimate your post-retirement living expenses, required corpus, existing resource coverage, and your monthly investment roadmap.
+      </p>
+
+      <!-- Trust Perks Row -->
+      <div class="hero-perks-row">
+        <div class="perk-item">
+          <span class="perk-icon">🔒</span>
+          <span>100% Confidential</span>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">🚫</span>
+          <span>No Forced Lead Capture</span>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">📐</span>
+          <span>Annuity-Due Precision</span>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">⚖️</span>
+          <span>Tax & Inflation Adjusted</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Calculator Island -->
+  <section class="calculator-stage-section">
+    <div class="container">
+      <RetirementAccumulationPlanner client:load />
+    </div>
+  </section>
+
+  <!-- Educational Context Section -->
+  <section class="edu-article-section">
+    <div class="container max-w-4xl">
+      <div class="edu-card">
+        <div class="edu-badge">Educational Guide</div>
+        <h2 class="edu-title">Smart Strategies for Building a Stress-Free Retirement Corpus</h2>
+        
+        <p class="edu-p">
+          Retirement is the only life milestone for which no bank will give you a loan. Planning early with sound financial principles ensures your wealth continues to support you with dignity throughout your golden years:
+        </p>
+
+        <div class="pillars-grid">
+          <div class="pillar-box">
+            <span class="pillar-num">1</span>
+            <h3>Account for the "Silent Thief" — Post-Retirement Inflation</h3>
+            <p>At 6% inflation, a ₹50,000 monthly expense today will double to ₹1,00,000 in 12 years and cross ₹2,00,000 in 24 years. Your retirement corpus must generate real, inflation-beating returns even after taxes.</p>
+          </div>
+          <div class="pillar-box">
+            <span class="pillar-num">2</span>
+            <h3>Plan for Longevity & Healthcare with Annuity-Due Timing</h3>
+            <p>With increasing longevity in India, a 30-year retirement horizon (age 60 to 90) is standard. Modeling withdrawals at the start of each year (Annuity-Due) ensures you never experience cash flow gaps.</p>
+          </div>
+          <div class="pillar-box">
+            <span class="pillar-num">3</span>
+            <h3>Step-Up Your SIPs with Annual Income Growth</h3>
+            <p>You don't need to commit huge monthly sums on day one. Starting with an affordable SIP and stepping it up by 10% each year as your income increases can help you achieve multi-crore goals with ease.</p>
+          </div>
+        </div>
+
+        <div class="edu-footer-link">
+          <p>
+            Want to learn how systematic retirement planning works for Indian families?
+          </p>
+          <a href="/learn/how-to-start-planning-for-retirement" class="btn-read-guide">
+            Read Guide: How to Start Planning for Retirement →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cross Discovery Grid -->
+  <section class="discovery-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2 class="section-title">Explore More Planning Tools</h2>
+        <p class="section-subtitle">
+          Comprehensive, zero-jargon financial planning tools to help you make confident money decisions.
+        </p>
+      </div>
+
+      <div class="discovery-grid">
+        <a href="/tools/home-purchase" class="discovery-card">
+          <div class="discovery-icon">🏠</div>
+          <h3 class="discovery-heading">Home Purchase Planner</h3>
+          <p class="discovery-desc">Estimate your future property cost, down payment, acquisition expenses & EMI affordability.</p>
+          <span class="discovery-link-text">Plan Home Purchase →</span>
+        </a>
+
+        <a href="/tools/life-insurance" class="discovery-card">
+          <div class="discovery-icon">🛡️</div>
+          <h3 class="discovery-heading">Life Insurance Need Analysis</h3>
+          <p class="discovery-desc">Estimate your family's protection gap considering loans, living expenses, and goals.</p>
+          <span class="discovery-link-text">Check Life Cover →</span>
+        </a>
+
+        <a href="/health-check/real-statement" class="discovery-card">
+          <div class="discovery-icon">💎</div>
+          <h3 class="discovery-heading">REAL Financial Statement</h3>
+          <p class="discovery-desc">Audit your income, living expenses, ongoing savings, and calculate your Actual Net Worth.</p>
+          <span class="discovery-link-text">Open REAL Statement →</span>
+        </a>
+
+        <a href="/plan/children" class="discovery-card">
+          <div class="discovery-icon">🎓</div>
+          <h3 class="discovery-heading">Children's Future Planner</h3>
+          <p class="discovery-desc">Map your child's higher education and marriage milestones with inflation and step-up SIPs.</p>
+          <span class="discovery-link-text">Plan Children's Goals →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .retirement-page-hero {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 3.5rem 1.5rem 2.5rem;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-slate-muted, #64748B);
+    margin-bottom: 1.25rem;
+  }
+
+  .breadcrumb-link {
+    color: var(--color-slate-muted, #64748B);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--color-growth-teal, #00AB96);
+  }
+
+  .breadcrumb-sep {
+    color: #CBD5E1;
+  }
+
+  .breadcrumb-current {
+    color: var(--color-primary-navy, #00182A);
+    font-weight: 600;
+  }
+
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal, #00AB96);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-growth-teal, #00AB96);
+    border-radius: 50%;
+  }
+
+  .page-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-primary-navy, #00182A);
+    line-height: 1.2;
+    max-width: 800px;
+    margin: 0 auto 1.25rem auto;
+  }
+
+  .page-subtitle {
+    font-size: 1.1rem;
+    color: var(--color-slate-muted, #64748B);
+    max-width: 720px;
+    margin: 0 auto 2rem auto;
+    line-height: 1.6;
+  }
+
+  .hero-perks-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.75rem;
+    flex-wrap: wrap;
+    padding-top: 0.5rem;
+  }
+
+  .perk-item {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  .perk-icon {
+    font-size: 1rem;
+  }
+
+  /* Calculator Stage */
+  .calculator-stage-section {
+    padding: 2.5rem 1.5rem;
+    background-color: #F8FAFC;
+  }
+
+  /* Educational Article */
+  .edu-article-section {
+    padding: 3.5rem 1.5rem;
+    background-color: #FFFFFF;
+  }
+
+  .edu-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.05);
+  }
+
+  .edu-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-growth-teal, #00AB96);
+    background: rgba(0, 171, 150, 0.1);
+    padding: 0.2rem 0.65rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+
+  .edu-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-primary-navy, #00182A);
+    margin: 0 0 1rem 0;
+  }
+
+  .edu-p {
+    font-size: 1rem;
+    color: #475569;
+    line-height: 1.65;
+    margin-bottom: 2rem;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .pillar-box {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 1.5rem 1.25rem;
+    position: relative;
+  }
+
+  .pillar-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--color-growth-teal, #00AB96);
+    color: #FFFFFF;
+    font-size: 0.85rem;
+    font-weight: 800;
+    border-radius: 50%;
+    margin-bottom: 0.75rem;
+  }
+
+  .pillar-box h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-primary-navy, #00182A);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .pillar-box p {
+    font-size: 0.85rem;
+    color: #475569;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .edu-footer-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #F0FDF4;
+    border: 1px solid #86EFAC;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .edu-footer-link p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #166534;
+    margin: 0;
+  }
+
+  .btn-read-guide {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-growth-teal, #00AB96);
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0.6rem 1.25rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-read-guide:hover {
+    background: #008f7d;
+  }
+
+  /* Cross Discovery Section */
+  .discovery-section {
+    padding: 4rem 1.5rem;
+    background-color: #F8FAFC;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-primary-navy, #00182A);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+    color: var(--color-slate-muted, #64748B);
+    margin: 0;
+  }
+
+  .discovery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .discovery-card {
+    background: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 1.5rem 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  }
+
+  .discovery-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-growth-teal, #00AB96);
+    box-shadow: 0 12px 24px -6px rgba(0, 171, 150, 0.2);
+  }
+
+  .discovery-icon {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .discovery-heading {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-primary-navy, #00182A);
+    margin: 0 0 0.4rem 0;
+    line-height: 1.3;
+  }
+
+  .discovery-desc {
+    font-size: 0.8rem;
+    color: #64748B;
+    line-height: 1.45;
+    margin: 0 0 1.25rem 0;
+    flex-grow: 1;
+  }
+
+  .discovery-link-text {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-growth-teal, #00AB96);
+    margin-top: auto;
+  }
+
+  @media (max-width: 1024px) {
+    .discovery-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .pillars-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .retirement-page-hero {
+      padding: 2.5rem 1rem 2rem;
+    }
+    .page-title {
+      font-size: 1.85rem;
+    }
+    .hero-perks-row {
+      gap: 0.75rem;
+    }
+    .edu-card {
+      padding: 1.5rem 1rem;
+    }
+    .edu-footer-link {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .discovery-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
