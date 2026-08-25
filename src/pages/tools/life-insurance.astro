@@ -1,0 +1,485 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LifeInsuranceNeedCalculator from '../../components/calculators/LifeInsuranceNeedCalculator';
+---
+
+<BaseLayout 
+  title="Life Insurance Need Calculator | Ant Wealth Creation" 
+  description="Estimate your family's life insurance protection gap based on outstanding loans, future commitments, family living expenses and existing financial resources."
+  currentPath="/tools/life-insurance"
+>
+  <section class="insurance-page-hero">
+    <div class="container text-center">
+      <!-- Breadcrumb Navigation -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <a href="/" class="breadcrumb-link">Home</a>
+        <span class="breadcrumb-sep">/</span>
+        <a href="/tools" class="breadcrumb-link">Calculators</a>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Life Insurance Need</span>
+      </nav>
+
+      <div class="badge-tag">
+        <span class="badge-dot"></span>
+        QPFP Needs-Based Methodology
+      </div>
+
+      <h1 class="page-title">How Much Life Insurance Does Your Family Really Need?</h1>
+      
+      <p class="page-subtitle">
+        Estimate the financial protection your family may need by looking beyond simple income multiples and considering outstanding debt, future milestone commitments, living expenses, and resources already available.
+      </p>
+
+      <!-- Trust Perks Row -->
+      <div class="hero-perks-row">
+        <div class="perk-item">
+          <span class="perk-icon">🔒</span>
+          <span>100% Confidential</span>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">🚫</span>
+          <span>Zero Forced Lead Capture</span>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">📐</span>
+          <span>Annuity-Due Precision</span>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">🛡️</span>
+          <span>Debt & Goal Ring-Fencing</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Calculator Island -->
+  <section class="calculator-stage-section">
+    <div class="container">
+      <LifeInsuranceNeedCalculator client:load />
+    </div>
+  </section>
+
+  <!-- Educational Context Section -->
+  <section class="edu-article-section">
+    <div class="container max-w-4xl">
+      <div class="edu-card">
+        <div class="edu-badge">Educational Guide</div>
+        <h2 class="edu-title">Why Life Insurance Is About Family Protection, Not Investment</h2>
+        
+        <p class="edu-p">
+          Life insurance is fundamentally an <strong>income replacement and liability protection tool</strong>. If the primary earning member is no longer around, the family requires capital for three non-negotiable reasons:
+        </p>
+
+        <div class="pillars-grid">
+          <div class="pillar-box">
+            <span class="pillar-num">1</span>
+            <h3>Clearing Outstanding Debt</h3>
+            <p>Home loans, vehicle loans, and personal borrowings should be settled immediately so surviving family members are not burdened with EMI pressure.</p>
+          </div>
+          <div class="pillar-box">
+            <span class="pillar-num">2</span>
+            <h3>Funding Life Milestones</h3>
+            <p>Children's higher education, marriage, and family commitments should proceed uninterrupted regardless of life uncertainties.</p>
+          </div>
+          <div class="pillar-box">
+            <span class="pillar-num">3</span>
+            <h3>Supporting Living Expenses</h3>
+            <p>An inflation-adjusted corpus invested conservatively generates regular monthly cash flow to sustain the family's dignity and standard of living.</p>
+          </div>
+        </div>
+
+        <div class="edu-footer-link">
+          <p>
+            Want to learn more about choosing pure term insurance vs endowment plans?
+          </p>
+          <a href="/learn/why-life-insurance-is-important-for-a-family" class="btn-read-guide">
+            Read Guide: Why Life Insurance Is Important For a Family →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cross Discovery Grid -->
+  <section class="discovery-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2 class="section-title">Explore More Planning Tools</h2>
+        <p class="section-subtitle">
+          Comprehensive, zero-jargon financial tools to help you build financial security.
+        </p>
+      </div>
+
+      <div class="discovery-grid">
+        <a href="/health-check" class="discovery-card">
+          <div class="discovery-icon">🩺</div>
+          <h3 class="discovery-heading">3-Minute Financial Health Check</h3>
+          <p class="discovery-desc">Get your comprehensive 0–100 financial wellness score across 7 key pillars.</p>
+          <span class="discovery-link-text">Take Health Check →</span>
+        </a>
+
+        <a href="/health-check/real-statement" class="discovery-card">
+          <div class="discovery-icon">💎</div>
+          <h3 class="discovery-heading">REAL Financial Statement</h3>
+          <p class="discovery-desc">Audit your income, living expenses, ongoing savings, and calculate your Actual Net Worth.</p>
+          <span class="discovery-link-text">Open REAL Statement →</span>
+        </a>
+
+        <a href="/plan/children" class="discovery-card">
+          <div class="discovery-icon">🎓</div>
+          <h3 class="discovery-heading">Children's Future Planner</h3>
+          <p class="discovery-desc">Map your child's higher education and marriage milestones with inflation and step-up SIPs.</p>
+          <span class="discovery-link-text">Plan Children's Goals →</span>
+        </a>
+
+        <a href="/tools?calc=retirement" class="discovery-card">
+          <div class="discovery-icon">🌅</div>
+          <h3 class="discovery-heading">Retirement Corpus Planner</h3>
+          <p class="discovery-desc">Estimate the inflation-protected corpus required for a dignified, stress-free retirement.</p>
+          <span class="discovery-link-text">Plan Retirement →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .insurance-page-hero {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 3.5rem 1.5rem 2.5rem;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-slate-muted, #64748B);
+    margin-bottom: 1.25rem;
+  }
+
+  .breadcrumb-link {
+    color: var(--color-slate-muted, #64748B);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--color-growth-teal, #00AB96);
+  }
+
+  .breadcrumb-sep {
+    color: #CBD5E1;
+  }
+
+  .breadcrumb-current {
+    color: var(--color-primary-navy, #00182A);
+    font-weight: 600;
+  }
+
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal, #00AB96);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-growth-teal, #00AB96);
+    border-radius: 50%;
+  }
+
+  .page-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-primary-navy, #00182A);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    max-width: 840px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .page-subtitle {
+    font-size: 1.1rem;
+    color: var(--color-slate-muted, #475569);
+    max-width: 720px;
+    margin: 0 auto 2rem auto;
+    line-height: 1.6;
+  }
+
+  .hero-perks-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .perk-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #334155;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    padding: 0.4rem 0.85rem;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  }
+
+  .perk-icon {
+    font-size: 1rem;
+  }
+
+  /* Calculator Stage */
+  .calculator-stage-section {
+    background-color: #F8FAFC;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  /* Educational Section */
+  .edu-article-section {
+    padding: 4rem 1.5rem;
+    background: #FFFFFF;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  .edu-card {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 2.5rem;
+  }
+
+  .edu-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: #E2E8F0;
+    color: #334155;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+
+  .edu-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #00182A;
+    margin-bottom: 1rem;
+  }
+
+  .edu-p {
+    font-size: 1rem;
+    color: #334155;
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .pillar-box {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+
+  .pillar-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: #00AB96;
+    color: #FFFFFF;
+    font-weight: 800;
+    font-size: 0.85rem;
+    border-radius: 50%;
+    margin-bottom: 0.75rem;
+  }
+
+  .pillar-box h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #00182A;
+    margin: 0 0 0.4rem 0;
+  }
+
+  .pillar-box p {
+    font-size: 0.85rem;
+    color: #64748B;
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  .edu-footer-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #E2E8F0;
+    text-align: center;
+  }
+
+  .edu-footer-link p {
+    font-size: 0.95rem;
+    color: #475569;
+    margin: 0;
+  }
+
+  .btn-read-guide {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 700;
+    color: #00AB96;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .btn-read-guide:hover {
+    color: #007a6b;
+    text-decoration: underline;
+  }
+
+  /* Discovery Section */
+  .discovery-section {
+    padding: 4rem 1.5rem 5rem;
+    background: #F8FAFC;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #00182A;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+    color: #64748B;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .discovery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .discovery-card {
+    background: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease;
+  }
+
+  .discovery-card:hover {
+    transform: translateY(-4px);
+    border-color: #00AB96;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06);
+  }
+
+  .discovery-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .discovery-heading {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #00182A;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .discovery-desc {
+    font-size: 0.85rem;
+    color: #64748B;
+    line-height: 1.45;
+    margin: 0 0 1.25rem 0;
+  }
+
+  .discovery-link-text {
+    margin-top: auto;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #00AB96;
+  }
+
+  @media (max-width: 1024px) {
+    .discovery-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 1.85rem;
+    }
+    .page-subtitle {
+      font-size: 0.95rem;
+    }
+    .pillars-grid {
+      grid-template-columns: 1fr;
+    }
+    .discovery-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .insurance-page-hero {
+      padding: 2.5rem 1rem 1.75rem;
+    }
+    .calculator-stage-section {
+      padding: 1.5rem 0.75rem 3.5rem;
+    }
+    .edu-article-section {
+      padding: 2.5rem 1rem;
+    }
+    .edu-card {
+      padding: 1.5rem 1rem;
+    }
+    .discovery-section {
+      padding: 2.5rem 1rem;
+    }
+  }
+</style>

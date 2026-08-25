@@ -13,3 +13,4 @@ export * from './netWorth';
 export * from './financialHealth';
 export * from './childrenFuturePlanner';
 export * from './realFinancialStatement';
+export * from './lifeInsuranceNeed';

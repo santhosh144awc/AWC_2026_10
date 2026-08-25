@@ -283,6 +283,20 @@ export default function InsuranceCalculator() {
               *Illustrative financial-health benchmark. Actual requirements vary based on individual circumstances. Ant Wealth Creation does not solicit specific insurance policies or promise insurer payouts.
             </p>
           </div>
+
+          {/* Discovery Banner to Comprehensive 5-Step Tool */}
+          <div className="comprehensive-calc-banner">
+            <div className="comp-banner-left">
+              <span className="comp-banner-badge">QPFP Advanced Tool</span>
+              <h5 className="comp-banner-title">Need a Comprehensive Protection Analysis?</h5>
+              <p className="comp-banner-desc">
+                Evaluate individual outstanding loans, milestone goals, discounted family living expenses, inflation, and spouse earnings with our 5-step Annuity-Due calculator.
+              </p>
+            </div>
+            <a href="/tools/life-insurance" className="btn-goto-life-insurance">
+              Open 5-Step Calculator →
+            </a>
+          </div>
         </div>
       </div>
 
@@ -581,6 +595,84 @@ export default function InsuranceCalculator() {
           font-size: 0.75rem !important;
           color: #94A3B8 !important;
           font-style: italic;
+        }
+
+        .comprehensive-calc-banner {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
+          border-radius: 12px;
+          padding: 1.25rem 1.5rem;
+          margin-top: 1.5rem;
+          color: #FFFFFF;
+        }
+
+        .comp-banner-left {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+
+        .comp-banner-badge {
+          display: inline-block;
+          width: fit-content;
+          font-size: 0.7rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          background: rgba(0, 171, 150, 0.2);
+          color: #00AB96;
+          padding: 0.15rem 0.5rem;
+          border-radius: 4px;
+          margin-bottom: 0.25rem;
+        }
+
+        .comp-banner-title {
+          font-family: 'Outfit', sans-serif;
+          font-size: 1rem;
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 0;
+        }
+
+        .comp-banner-desc {
+          font-size: 0.8rem;
+          color: #CBD5E1;
+          line-height: 1.4;
+          margin: 0;
+        }
+
+        .btn-goto-life-insurance {
+          flex-shrink: 0;
+          display: inline-flex;
+          align-items: center;
+          background: #00AB96;
+          color: #FFFFFF;
+          font-size: 0.85rem;
+          font-weight: 700;
+          padding: 0.65rem 1rem;
+          border-radius: 8px;
+          text-decoration: none;
+          white-space: nowrap;
+          transition: all 0.2s ease;
+        }
+
+        .btn-goto-life-insurance:hover {
+          background: #008f7d;
+          transform: translateY(-1px);
+        }
+
+        @media (max-width: 900px) {
+          .comprehensive-calc-banner {
+            flex-direction: column;
+            align-items: stretch;
+          }
+          .btn-goto-life-insurance {
+            text-align: center;
+            justify-content: center;
+          }
         }
 
         @media (max-width: 900px) {

@@ -151,7 +151,7 @@ export const siteConfig = {
       title: "Protect My Family",
       icon: "protection",
       description: "Safeguard against life uncertainties with adequate cover.",
-      href: "/tools?calc=insurance",
+      href: "/tools/life-insurance",
       color: "#6366F1",
     },
     {
@@ -165,6 +165,13 @@ export const siteConfig = {
   ] as GoalItem[],
 
   calculators: [
+    {
+      id: "life-insurance",
+      title: "Life Insurance Need",
+      description: "Comprehensive 5-step QPFP protection gap analysis based on debt, goals, and living expenses.",
+      icon: "shield-check",
+      href: "/tools/life-insurance",
+    },
     {
       id: "sip",
       title: "SIP Calculator",
@@ -202,8 +209,8 @@ export const siteConfig = {
     },
     {
       id: "insurance",
-      title: "Insurance Calculator",
-      description: "Calculate your ideal term insurance coverage need.",
+      title: "Quick Insurance HLV",
+      description: "Calculate quick income replacement coverage need.",
       icon: "shield",
       href: "/tools?calc=insurance",
     },

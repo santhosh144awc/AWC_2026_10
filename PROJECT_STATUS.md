@@ -1,12 +1,12 @@
 # Ant Wealth Creation — Master Project Status & Handoff Document
 
-> **Document Version:** 1.5.0  
+> **Document Version:** 1.6.0  
 > **Last Updated:** August 25, 2026  
-> **Project Root:** `e:\Software\Website\AWC_2026_08_23\AntWealth_2026_08`  
+> **Project Root:** `c:\WORK\Software\Antigravity\AWC_2026_08_23`  
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** All 128 automated unit tests passing • 23 static pages compiled • 0px mobile overflow verified
+> **Status:** All 161 automated unit tests passing • 24 static pages compiled • 0px mobile overflow verified
 
 ---
 
@@ -73,6 +73,7 @@ AWC_2026_08_23/
     │   ├── calculators/                  # Interactive React Calculator Suite
     │   │   ├── CalculatorsHub.tsx        # Tabbed 5-in-1 calculator hub with URL query sync
     │   │   ├── ChildrenFuturePlanner.tsx # Multi-goal Children's Future Planner with asset projection
+    │   │   ├── LifeInsuranceNeedCalculator.tsx # 5-step QPFP Life Insurance Need Analysis calculator
     │   │   ├── REALFinancialStatement.tsx# 5-step REAL Financial Statement assessment & snapshot
     │   │   ├── SIPCalculator.tsx         # Monthly SIP, Step-Up SIP, and Lumpsum calculator
     │   │   ├── LumpsumCalculator.tsx     # Dedicated one-time compounding calculator
@@ -115,6 +116,8 @@ AWC_2026_08_23/
     │   ├── plan/
     │   │   └── children.astro            # Children's Future Planner (Multi-Goal Milestone Hub)
     │   ├── tools.astro                   # Calculators Toolbox (?calc= query support)
+    │   ├── tools/
+    │   │   └── life-insurance.astro      # Life Insurance Need Analysis (5-Step QPFP Calculator)
     │   ├── health-check.astro            # 3-Minute Financial Health Check
     │   ├── health-check/
     │   │   └── real-statement.astro      # REAL Financial Statement (5-Step Assessment)
@@ -124,7 +127,7 @@ AWC_2026_08_23/
     │   ├── about.astro                   # About Santhosh & Ant Wealth Creation
     │   ├── contact.astro                 # Contact channels & Consultation scheduler
     │   ├── privacy.astro                 # Privacy Policy
-    │   ├── terms.astro                 # Terms of Use
+    │   ├── terms.astro                   # Terms of Use
     │   ├── disclaimer.astro              # Regulatory Disclosures & AMFI ARN Details
     │   ├── 404.astro                     # Custom 404 recovery page
     │   └── sitemap.xml.ts                # Dynamic XML sitemap generator
@@ -132,6 +135,8 @@ AWC_2026_08_23/
     │   └── global.css                    # Design tokens, typography, CSS resets, utility classes
     └── utils/
         └── calculations/                 # Centralized Financial Math Calculation Engine
+            ├── lifeInsuranceNeed.ts      # Validated NetworkFP/QPFP Life Insurance Need Calculation Engine
+            ├── lifeInsuranceNeed.test.ts # 33 automated unit test cases
             ├── childrenFuturePlanner.ts  # Validated NetworkFP/QPFP multi-goal calculation engine
             ├── childrenFuturePlanner.test.ts # 67 automated regression test cases
             ├── realFinancialStatement.ts # NetworkFP/QPFP REAL Statement calculation engine
@@ -152,7 +157,7 @@ AWC_2026_08_23/
 
 ---
 
-## 4. Completed Phases Summary (Phases 1–15)
+## 4. Completed Phases Summary (Phases 1–16)
 
 * **Phase 1–2 (Scaffolding & Design System):** Setup Astro 5 with React 19, established global design tokens (`--color-navy-dark: #00182A`, `--color-growth-teal: #00AB96`, `--color-warm-gold: #FFC107`), mobile-first CSS architecture, and base layout.
 * **Phase 3 (Homepage & Hero Visual Blend):** Implemented a high-converting, trust-building homepage with approved two-column hero where `homeScreenimage.webp` seamlessly blends into the clean white hero background without boxed card borders.
@@ -168,34 +173,36 @@ AWC_2026_08_23/
 * **Phase 13 (Application-Wide Responsive QA & Global Mobile Optimization):** Audited 36 routes/states across 5 viewports (180 page evaluations with 0px horizontal overflow).
 * **Phase 14 (Children's Future Planner Inflation Cleanup):** Standardized 6% uniform default inflation, dynamic neutral wording, and 15 additional test cases (67 total).
 * **Phase 15 (REAL Financial Statement Excel-to-UI Conversion):** Built `/health-check/real-statement`, pure NetworkFP / QPFP REAL Statement calculation engine, 45 automated unit tests, 5-step guided assessment, Actual Net Worth hero, available investment surplus, and WhatsApp consultation bridge.
+* **Phase 16 (Life Insurance Need Analysis Excel-to-UI Conversion):** Built `/tools/life-insurance`, pure NetworkFP / QPFP Life Insurance Need calculation engine with exact compound Fisher real return and Annuity-Due ($type = 1$) future living expense corpus, 33 automated unit tests, 5-step guided assessment, protection gap hero, and WhatsApp consultation bridge.
 
 ---
 
-## 5. All Production Routes / Pages (23 Total)
+## 5. All Production Routes / Pages (24 Total)
 
 1. `/` — **Homepage:** Hero with family image blend, Health Check teaser, 6 Goal cards, 5 Calculator teasers, 6-Step Journey, Learning teaser, Trust pillars, Founder story teaser, Consultation CTA, and Footer.
 2. `/plan` — **Goal Discovery Hub:** Preconfigured goal presets (`?goal=education|home|retirement|wedding|car|wealth`) with discovery banner to `/plan/children`.
 3. `/plan/children` — **Children's Future Planner:** Multi-goal planning suite for graduation, post-graduation, marriage, and custom milestones.
 4. `/tools` — **Calculators Suite:** Tabbed 6-in-1 calculators (`?calc=sip|lumpsum|retirement|loan-vs-invest|insurance|net-worth`).
-5. `/health-check` — **3-Minute Financial Health Check:** 7-step diagnostic questionnaire with category breakdown, action tips, and discovery banner to REAL Statement.
-6. `/health-check/real-statement` — **REAL Financial Statement:** 5-step guided assessment (Income, Expenses, Savings & Investing, Assets, Liabilities) calculating Actual Net Worth, investable surplus, and cash flow balance sheet story.
-7. `/learn` — **Learning Center Hub:** Filterable library of articles with reading times, category tags, and calculator CTA bridges.
-8. `/about` — **About Santhosh & Mission:** Meet Santhosh, The Story (LIC heritage, established 14 April 2023), Why AWC Exists, 5 Philosophy Cards, Verified Credentials, 5-Step Process, Soft CTA.
-9. `/contact` — **Contact & Consultation:** WhatsApp, Phone, Email, Dharmapuri Office, and 4-step voluntary appointment scheduler.
-10. `/privacy` — **Privacy Policy:** Data confidentiality, voluntary scheduling data handling, zero forced capture policy.
-11. `/terms` — **Terms of Use:** Legal usage terms, educational simulation notices, AMFI distributor scope.
-12. `/disclaimer` — **Disclaimers & Disclosures:** Official AMFI ARN: 266896 details, mutual fund risk warnings, non-RIA disclosure.
-13. `/404` — **Page Not Found:** Branded recovery screen with navigation action buttons.
-14. `/learn/what-is-a-mutual-fund`
-15. `/learn/what-is-sip-and-how-does-it-work`
-16. `/learn/sip-vs-lumpsum-what-is-the-difference`
-17. `/learn/how-much-emergency-fund-should-you-have`
-18. `/learn/what-is-asset-allocation`
-19. `/learn/how-to-plan-for-your-childs-education`
-20. `/learn/how-to-start-planning-for-retirement`
-21. `/learn/why-life-insurance-is-important-for-a-family`
-22. `/learn/what-is-financial-freedom`
-23. `/learn/what-is-goal-based-financial-planning`
+5. `/tools/life-insurance` — **Life Insurance Need Calculator:** 5-step guided QPFP protection gap analysis (Loans, Goals, Living Expenses, Assumptions, Resources).
+6. `/health-check` — **3-Minute Financial Health Check:** 7-step diagnostic questionnaire with category breakdown, action tips, and discovery banner to REAL Statement.
+7. `/health-check/real-statement` — **REAL Financial Statement:** 5-step guided assessment (Income, Expenses, Savings & Investing, Assets, Liabilities) calculating Actual Net Worth, investable surplus, and cash flow balance sheet story.
+8. `/learn` — **Learning Center Hub:** Filterable library of articles with reading times, category tags, and calculator CTA bridges.
+9. `/about` — **About Santhosh & Mission:** Meet Santhosh, The Story (LIC heritage, established 14 April 2023), Why AWC Exists, 5 Philosophy Cards, Verified Credentials, 5-Step Process, Soft CTA.
+10. `/contact` — **Contact & Consultation:** WhatsApp, Phone, Email, Dharmapuri Office, and 4-step voluntary appointment scheduler.
+11. `/privacy` — **Privacy Policy:** Data confidentiality, voluntary scheduling data handling, zero forced capture policy.
+12. `/terms` — **Terms of Use:** Legal usage terms, educational simulation notices, AMFI distributor scope.
+13. `/disclaimer` — **Disclaimers & Disclosures:** Official AMFI ARN: 266896 details, mutual fund risk warnings, non-RIA disclosure.
+14. `/404` — **Page Not Found:** Branded recovery screen with navigation action buttons.
+15. `/learn/what-is-a-mutual-fund`
+16. `/learn/what-is-sip-and-how-does-it-work`
+17. `/learn/sip-vs-lumpsum-what-is-the-difference`
+18. `/learn/how-much-emergency-fund-should-you-have`
+19. `/learn/what-is-asset-allocation`
+20. `/learn/how-to-plan-for-your-childs-education`
+21. `/learn/how-to-start-planning-for-retirement`
+22. `/learn/why-life-insurance-is-important-for-a-family`
+23. `/learn/what-is-financial-freedom`
+24. `/learn/what-is-goal-based-financial-planning`
 
 ---
 
@@ -514,6 +521,41 @@ npm run preview
   * Created unit test suite `src/utils/calculations/realFinancialStatement.test.ts` (45 passed, 0 failed).
   * Combined repository test suite: **128 passed, 0 failed** (16 Lumpsum + 67 Children's Planner + 45 REAL Statement).
   * Production static compilation `npm run build`: **23 static routes compiled in 3.61s with 0 errors and 0 warnings**.
+  * Puppeteer headless responsive audit: Verified **0px horizontal overflow across 5 viewports** (`375×812`, `390×844`, `412×915`, `768×1024`, `1440×900`).
+
+---
+
+## 21. Phase 16 — Life Insurance Need Analysis Excel-to-UI Conversion (Completed)
+
+* **Objective:** Convert the validated NetworkFP / QPFP Life Insurance Need methodology (`ProTool_15_-_Life_Insurance_Calculator.xlsx`) into a guided, mobile-first 5-step financial assessment tool at `/tools/life-insurance`.
+* **Methodology & Mathematical Engine (`src/utils/calculations/lifeInsuranceNeed.ts`):**
+  * **Component A — Outstanding Liabilities:** Current principal balances across Home Loan, Vehicle Loan, Personal Loan, Education Loan, and Other Loans.
+  * **Component B — Family Goals & Commitments:** Present-value estimates for Higher Education & Marriage, Primary Education, Contribution to Dependent Parents, and First House Purchase (entered in today's money without artificial independent inflation).
+  * **Component C — Future Living Expense Corpus (Annuity Due):**
+    * Annual family expenses after personal consumption discount: $\text{Annual Expenses} \times (1 - \text{Personal Discount})$.
+    * Tax-adjusted investment return: $r_{\text{tax}} = r_{\text{gross}} \times (1 - \text{Tax Rate})$.
+    * Exact Fisher compound real return: $r_{\text{real}} = \frac{1 + r_{\text{tax}}}{1 + \text{Inflation}} - 1$.
+    * Present value of expenses using **Annuity Due ($type = 1$, beginning-of-period withdrawals)**: $PV_{\text{due}} = E \times \frac{1 - (1 + r)^{-n}}{r} \times (1 + r)$ (with $r = 0$ fallback $E \times n$).
+  * **Total Life Insurance Requirement:** $\text{Total Requirement} = A + B + C$.
+  * **Existing Resources:** Sum of existing life insurance sum assured, liquid/financial investment assets, and present value of spouse's future earnings.
+  * **Additional Cover Required:** $\max(0, \text{Total Requirement} - \text{Total Resources})$.
+* **React 19 Island (`src/components/calculators/LifeInsuranceNeedCalculator.tsx`):**
+  * 5-Step Guided Stepper: Step 1 (Loans), Step 2 (Goals), Step 3 (Living Expenses & Personal Discount slider), Step 4 (Advanced Assumptions with live real-return breakdown), Step 5 (Existing Resources), and Results (Family Protection Snapshot).
+  * Prominent Additional Cover Required Hero Card with Lakhs/Crores display.
+  * Reassuring overfunded state handling (zero gap message).
+  * 3-Component Requirement Breakdown (A + B + C) and Visual Comparison Progress Bar.
+  * Transparent "How was my result calculated?" accordion with mathematical breakdown.
+  * Pre-populated advisory WhatsApp consultation bridge + `/contact` booking.
+  * Statutory AMFI ARN: 266896, QPFP Certified, and non-guarantee educational disclaimers.
+* **Astro Page & Cross-Discovery:**
+  * Dedicated route `/tools/life-insurance` in `src/pages/tools/life-insurance.astro`.
+  * Contextual discovery callout banner added to `/tools?calc=insurance` in `src/components/calculators/InsuranceCalculator.tsx`.
+  * Goal and calculator entry added in `src/data/siteConfig.ts`.
+  * Route registered in dynamic XML sitemap in `src/pages/sitemap.xml.ts`.
+* **Testing & Quality Assurance:**
+  * Created unit test suite `src/utils/calculations/lifeInsuranceNeed.test.ts` (33 passed, 0 failed).
+  * Total repository test suite: **161 passed, 0 failed** (16 Lumpsum + 67 Children's Planner + 45 REAL Statement + 33 Life Insurance Need).
+  * Production static compilation `npm run build`: **24 static routes compiled with 0 errors and 0 warnings**.
   * Puppeteer headless responsive audit: Verified **0px horizontal overflow across 5 viewports** (`375×812`, `390×844`, `412×915`, `768×1024`, `1440×900`).
 
 ---
