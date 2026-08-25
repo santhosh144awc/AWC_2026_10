@@ -165,6 +165,13 @@ export const siteConfig = {
 
   calculators: [
     {
+      id: "sip-growth",
+      title: "SIP Growth Planner",
+      description: "See how your monthly SIP, annual step-ups and additional investments grow over time.",
+      icon: "trending-up",
+      href: "/tools/sip-growth",
+    },
+    {
       id: "retirement-distribution",
       title: "Retirement Distribution Planner",
       description: "Structure your post-retirement corpus across liquidity, safety, and wealth creation buckets.",

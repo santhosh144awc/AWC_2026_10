@@ -671,6 +671,36 @@ npm run preview
 
 ---
 
+### Phase 20 — SIP Growth Planner (Annual Step-Up & Multi-Lump-Sum Methodology)
+* **Pure TypeScript Calculation Engine (`src/utils/calculations/sipGrowthPlanner.ts`):**
+  * **Effective Monthly Compounding Rate:** $i_{\text{monthly}} = (1 + r_{\text{annual}})^{1/12} - 1$.
+  * **Annual Step-Up Progression & Duration Capping:**
+    * $\text{Year } y \le \text{Step-Up Duration}$: $\text{MonthlySIP}_y = P_0 \times (1 + g)^{y-1}$.
+    * $\text{Step-Up Duration} < y \le \text{SIP Duration}$: $\text{MonthlySIP}_y = P_0 \times (1 + g)^{\text{Step-Up Duration}-1}$.
+    * $y > \text{SIP Duration}$: $\text{MonthlySIP}_y = 0$ (post-SIP compounding).
+  * **Beginning-of-Month Annuity-Due Monthly Timing ($type = 1$):**
+    $$\text{FV}_{\text{SIP}} = \text{MonthlySIP}_y \times \frac{(1 + i)^{12} - 1}{i} \times (1 + i)$$
+  * **Year-End Closing Base & Lump-Sum Compounding:**
+    $$\text{Base}_y = \text{OpeningCorpus}_y + \text{LumpSum}_y, \quad \text{ClosingCorpus}_y = \text{Base}_y \times (1 + r_{\text{annual}}) + \text{FV}_{\text{SIP}}$$
+  * **Total Investments, Wealth Created & Growth Percentage:**
+    $$\text{Total Invested} = \sum (\text{MonthlySIP}_y \times 12) + \sum \text{LumpSums}$$
+    $$\text{Wealth Created} = \max(0, \text{FinalCorpus} - \text{Total Invested}), \quad \text{Growth \%} = \frac{\text{Wealth Created}}{\text{Total Invested}} \times 100$$
+* **React 19 Island (`src/components/calculators/SIPGrowthPlanner.tsx`):**
+  * 4-Step Guided Wizard: Starting Monthly SIP & Duration, Annual Step-Up % & Duration, Expected Return & Post-SIP Horizon, Dynamic Multi-Lump-Sum Investments (add/edit/delete).
+  * Results Dashboard: Dark navy gradient hero card (`#00182A`), Growth Teal eyebrow, bold Deep Navy estimated corpus (`₹3.45 Cr`), 4-metric grid (Total Invested, Estimated Corpus, Wealth Created, Growth %), Invested vs Growth horizontal stacked bar, interactive responsive SVG growth area chart with hover/touch tooltips and milestone pins, milestone progression table (expandable to all years), compounding journey flow, "How was this calculated?" accordion, WhatsApp advisory consultation bridge, and "Try Sample Scenario" / "Reset" buttons.
+* **Astro Page & Site Integration:**
+  * Dedicated route `/tools/sip-growth` in `src/pages/tools/sip-growth.astro`.
+  * Added `sip-growth` to `calculators` in `src/data/siteConfig.ts`.
+  * Added `/tools/sip-growth` to XML sitemap in `src/pages/sitemap.xml.ts`.
+  * Integrated `/tools/sip-growth` into `CalculatorsHub.tsx` featured suites and `Footer.astro`.
+* **Testing & Quality Assurance:**
+  * Created unit test suite `src/utils/calculations/sipGrowthPlanner.test.ts`.
+  * Total repository test suite: **287 passed, 0 failed** (16 Lumpsum + 67 Children's Planner + 45 REAL Statement + 33 Life Insurance Need + 25 Home Purchase Planner + 32 Retirement Accumulation Planner + 32 Retirement Distribution Planner + 37 SIP Growth Planner).
+  * Production static compilation `npm run build`: **28 static routes compiled with 0 errors and 0 warnings**.
+  * Puppeteer headless responsive audit: Verified **0px horizontal overflow, WCAG contrast, sample scenario execution, and 0 training branding** across all 5 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1440×900`).
+
+---
+
 ## NEXT SESSION — START HERE
 
 

@@ -53,6 +53,14 @@ interface CategoryGroup {
 
 const FEATURED_SUITES = [
   {
+    title: 'SIP Growth Planner',
+    icon: '🚀',
+    badge: 'New • Multi-Lump-Sum',
+    desc: 'See how your monthly SIP, annual step-ups and additional investments grow over time.',
+    href: '/tools/sip-growth',
+    cta: 'Plan SIP Growth →'
+  },
+  {
     title: 'Retirement Distribution Planner',
     icon: '⏳',
     badge: 'New • Three-Bucket',
@@ -106,7 +114,8 @@ const CATEGORIES: CategoryGroup[] = [
   {
     category: 'Build Wealth',
     items: [
-      { id: 'sip', name: 'SIP & Step-Up Calculator', icon: '📈', tag: 'Monthly' },
+      { id: 'sip-growth', name: 'SIP Growth Planner', icon: '🚀', tag: 'New', href: '/tools/sip-growth' },
+      { id: 'sip', name: 'Quick SIP Calculator', icon: '📈', tag: 'Monthly' },
       { id: 'lumpsum', name: 'Lumpsum Calculator', icon: '💰', tag: 'One-Time' },
     ]
   },
