@@ -287,7 +287,7 @@ export default function InsuranceCalculator() {
           {/* Discovery Banner to Comprehensive 5-Step Tool */}
           <div className="comprehensive-calc-banner">
             <div className="comp-banner-left">
-              <span className="comp-banner-badge">QPFP Advanced Tool</span>
+              <span className="comp-banner-badge">Comprehensive Analysis</span>
               <h5 className="comp-banner-title">Need a Comprehensive Protection Analysis?</h5>
               <p className="comp-banner-desc">
                 Evaluate individual outstanding loans, milestone goals, discounted family living expenses, inflation, and spouse earnings with our 5-step Annuity-Due calculator.

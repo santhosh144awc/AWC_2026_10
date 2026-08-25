@@ -541,14 +541,17 @@ npm run preview
   * **Additional Cover Required:** $\max(0, \text{Total Requirement} - \text{Total Resources})$.
 * **React 19 Island (`src/components/calculators/LifeInsuranceNeedCalculator.tsx`):**
   * 5-Step Guided Stepper: Step 1 (Loans), Step 2 (Goals), Step 3 (Living Expenses & Personal Discount slider), Step 4 (Advanced Assumptions with live real-return breakdown), Step 5 (Existing Resources), and Results (Family Protection Snapshot).
-  * Prominent Additional Cover Required Hero Card with Lakhs/Crores display.
+  * Prominent Additional Cover Required Hero Card with crisp white inner card (`#FFFFFF`), growth teal eyebrow (`#00AB96`), white heading (`#FFFFFF`), and deep navy result amount (`#00182A`).
   * Reassuring overfunded state handling (zero gap message).
   * 3-Component Requirement Breakdown (A + B + C) and Visual Comparison Progress Bar.
   * Transparent "How was my result calculated?" accordion with mathematical breakdown.
   * Pre-populated advisory WhatsApp consultation bridge + `/contact` booking.
+  * Active Results stepper tab styled with vibrant Growth Teal (`#00AB96`) and white icon.
   * Statutory AMFI ARN: 266896, QPFP Certified, and non-guarantee educational disclaimers.
-* **Astro Page & Cross-Discovery:**
+* **Astro Page & Branding Separation:**
   * Dedicated route `/tools/life-insurance` in `src/pages/tools/life-insurance.astro`.
+  * Consumer-facing methodology descriptor: `Needs-Based Family Protection Planning` (rendered exactly once on page hero).
+  * Professional qualifications (`QPFP Certified | AMFI-Registered MFD`) strictly preserved across site footer, About page, and statutory disclosures.
   * Contextual discovery callout banner added to `/tools?calc=insurance` in `src/components/calculators/InsuranceCalculator.tsx`.
   * Goal and calculator entry added in `src/data/siteConfig.ts`.
   * Route registered in dynamic XML sitemap in `src/pages/sitemap.xml.ts`.
@@ -556,7 +559,7 @@ npm run preview
   * Created unit test suite `src/utils/calculations/lifeInsuranceNeed.test.ts` (33 passed, 0 failed).
   * Total repository test suite: **161 passed, 0 failed** (16 Lumpsum + 67 Children's Planner + 45 REAL Statement + 33 Life Insurance Need).
   * Production static compilation `npm run build`: **24 static routes compiled with 0 errors and 0 warnings**.
-  * Puppeteer headless responsive audit: Verified **0px horizontal overflow across 5 viewports** (`375×812`, `390×844`, `412×915`, `768×1024`, `1440×900`).
+  * Puppeteer headless responsive audit: Verified **0px horizontal overflow and WCAG contrast across 5 viewports** (`375×812`, `390×844`, `412×915`, `768×1024`, `1440×900`).
 
 ---
 

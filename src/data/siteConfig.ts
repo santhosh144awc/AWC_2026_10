@@ -168,7 +168,7 @@ export const siteConfig = {
     {
       id: "life-insurance",
       title: "Life Insurance Need",
-      description: "Comprehensive 5-step QPFP protection gap analysis based on debt, goals, and living expenses.",
+      description: "Comprehensive 5-step family protection gap analysis based on debt, goals, and living expenses.",
       icon: "shield-check",
       href: "/tools/life-insurance",
     },

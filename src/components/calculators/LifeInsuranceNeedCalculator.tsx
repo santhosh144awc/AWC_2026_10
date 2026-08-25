@@ -103,7 +103,7 @@ I would like help reviewing my family's protection plan.`;
       <div className="calc-top-action-bar">
         <div className="action-tagline">
           <span className="live-pulse"></span>
-          <span>QPFP Needs-Based Methodology</span>
+          <span>Family Protection Assessment</span>
         </div>
         <div className="action-btn-group">
           <button
@@ -158,7 +158,7 @@ I would like help reviewing my family's protection plan.`;
             <button
               type="button"
               onClick={() => setCurrentStep('results')}
-              className={`stepper-btn ${currentStep === 'results' ? 'active' : ''}`}
+              className={`stepper-btn results-stepper-btn ${currentStep === 'results' ? 'active' : ''}`}
               aria-current={currentStep === 'results' ? 'step' : undefined}
             >
               <span className="step-num">★</span>
@@ -694,7 +694,7 @@ I would like help reviewing my family's protection plan.`;
 
           {/* Mathematical Rate Breakdown Card */}
           <div className="rate-breakdown-card">
-            <h3 className="rate-breakdown-title">Compounding Rate Journey (QPFP Fisher Relation)</h3>
+            <h3 className="rate-breakdown-title">Compounding Rate Journey (Compound Fisher Relation)</h3>
             <div className="rate-journey-track">
               <div className="journey-node">
                 <span className="node-label">Gross Return</span>
@@ -860,16 +860,16 @@ I would like help reviewing my family's protection plan.`;
           {/* Hero Result Banner */}
           <div className="results-hero-card">
             <div className="hero-eyebrow">YOUR FAMILY PROTECTION SNAPSHOT</div>
-            <h2 className="hero-heading">How much life insurance cover does your family need?</h2>
+            <h2 className="hero-heading">How Much Life Insurance Does Your Family Really Need?</h2>
 
             <div className="primary-result-box">
-              <span className="result-tag">Estimated Additional Cover Required</span>
+              <span className="result-tag">ESTIMATED ADDITIONAL COVER REQUIRED</span>
               <div className="result-main-number">
                 {result.isCovered ? '₹0' : formatLakhsCrores(result.additionalCoverRequired)}
               </div>
               <div className="result-exact-number">
                 {result.isCovered
-                  ? 'Your existing resources cover the estimated requirement'
+                  ? 'Your estimated existing resources cover the calculated requirement'
                   : `Exact Protection Gap: ${formatIndianCurrency(result.additionalCoverRequired)}`}
               </div>
             </div>
@@ -1180,6 +1180,18 @@ I would like help reviewing my family's protection plan.`;
         .stepper-btn.active .step-num {
           background: #00AB96;
           color: #FFFFFF;
+        }
+
+        .stepper-btn.results-stepper-btn.active {
+          background: #00AB96;
+          border-color: #00AB96;
+          color: #FFFFFF;
+          box-shadow: 0 4px 14px rgba(0, 171, 150, 0.3);
+        }
+
+        .stepper-btn.results-stepper-btn.active .step-num {
+          background: #FFFFFF;
+          color: #00AB96;
         }
 
         .stepper-btn.completed {
@@ -1616,58 +1628,66 @@ I would like help reviewing my family's protection plan.`;
 
         .results-hero-card {
           background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
+          border: 1px solid rgba(255, 255, 255, 0.1);
           border-radius: 20px;
-          padding: 2.5rem;
+          padding: 2.75rem 2rem 2.25rem;
           color: #FFFFFF;
           text-align: center;
-          box-shadow: 0 20px 40px -15px rgba(0, 24, 42, 0.3);
+          box-shadow: 0 20px 40px -15px rgba(0, 24, 42, 0.35);
         }
 
         .hero-eyebrow {
-          font-size: 0.8rem;
-          font-weight: 700;
+          font-size: 0.85rem;
+          font-weight: 800;
           letter-spacing: 0.08em;
           color: #00AB96;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.6rem;
+          text-transform: uppercase;
         }
 
         .hero-heading {
           font-family: 'Outfit', sans-serif;
-          font-size: 1.85rem;
-          font-weight: 700;
+          font-size: 2.1rem;
+          font-weight: 800;
+          color: #FFFFFF !important;
           margin: 0 0 1.75rem 0;
+          line-height: 1.25;
         }
 
         .primary-result-box {
-          background: rgba(255, 255, 255, 0.06);
-          border: 1.5px solid rgba(0, 171, 150, 0.4);
+          background: #FFFFFF;
+          border: 1.5px solid #E2E8F0;
           border-radius: 16px;
-          padding: 1.75rem;
-          max-width: 500px;
-          margin: 0 auto 1.25rem auto;
+          padding: 2rem 1.5rem;
+          max-width: 520px;
+          margin: 0 auto 1.5rem auto;
+          box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.18);
+          text-align: center;
         }
 
         .result-tag {
-          font-size: 0.85rem;
-          font-weight: 700;
+          display: block;
+          font-size: 0.825rem;
+          font-weight: 800;
           text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: #FFC107;
+          letter-spacing: 0.06em;
+          color: #00AB96;
+          margin-bottom: 0.35rem;
         }
 
         .result-main-number {
           font-family: 'Outfit', sans-serif;
-          font-size: 3rem;
+          font-size: 3.25rem;
           font-weight: 900;
-          color: #FFFFFF;
-          margin: 0.4rem 0;
+          color: #00182A;
+          margin: 0.25rem 0 0.5rem 0;
           line-height: 1.1;
         }
 
         .result-exact-number {
-          font-size: 0.9rem;
-          color: #94A3B8;
-          font-weight: 500;
+          font-size: 0.95rem;
+          color: #64748B;
+          font-weight: 600;
         }
 
         .covered-status-card {
@@ -1695,11 +1715,11 @@ I would like help reviewing my family's protection plan.`;
         }
 
         .hero-disclaimer-note {
-          font-size: 0.875rem;
-          color: #94A3B8;
+          font-size: 0.9rem;
+          color: #CBD5E1;
           max-width: 640px;
           margin: 0 auto;
-          line-height: 1.5;
+          line-height: 1.55;
         }
 
         /* 3-Component Grid */
@@ -2069,10 +2089,19 @@ I would like help reviewing my family's protection plan.`;
             grid-template-columns: repeat(3, 1fr);
           }
           .results-hero-card {
-            padding: 1.75rem 1rem;
+            padding: 1.75rem 1rem 1.5rem;
+            border-radius: 16px;
+          }
+          .hero-heading {
+            font-size: 1.5rem !important;
+            margin-bottom: 1.25rem;
+          }
+          .primary-result-box {
+            padding: 1.5rem 1rem;
+            border-radius: 12px;
           }
           .result-main-number {
-            font-size: 2.25rem;
+            font-size: 2.35rem;
           }
           .rate-journey-track {
             flex-direction: column;
