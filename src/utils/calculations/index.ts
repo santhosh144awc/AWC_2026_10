@@ -12,3 +12,4 @@ export * from './emergencyFund';
 export * from './netWorth';
 export * from './financialHealth';
 export * from './childrenFuturePlanner';
+export * from './realFinancialStatement';

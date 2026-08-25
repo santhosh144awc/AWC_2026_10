@@ -1,0 +1,204 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import REALFinancialStatement from '../../components/calculators/REALFinancialStatement';
+---
+
+<BaseLayout 
+  title="REAL Financial Statement — Ant Wealth Creation" 
+  description="Create a simple financial snapshot of your income, spending, savings, investments, assets, liabilities, and actual net worth."
+  currentPath="/health-check/real-statement"
+>
+  <section class="real-statement-hero">
+    <div class="container text-center">
+      <!-- Breadcrumb Navigation -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <a href="/" class="breadcrumb-link">Home</a>
+        <span class="breadcrumb-sep">/</span>
+        <a href="/health-check" class="breadcrumb-link">Financial Health</a>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">REAL Financial Statement</span>
+      </nav>
+
+      <div class="badge-tag">
+        <span class="badge-dot"></span>
+        QPFP Diagnostic Methodology
+      </div>
+
+      <h1 class="page-title">REAL Financial Statement</h1>
+      
+      <p class="page-tagline">
+        Know Where You Stand Before You Plan Where You're Going.
+      </p>
+
+      <p class="page-subtitle">
+        A simple, transparent snapshot of your income, spending, savings, ongoing investments, assets, liabilities, and actual net worth.
+      </p>
+
+      <!-- Trust Perks Row -->
+      <div class="hero-perks-row">
+        <div class="perk-item">
+          <span class="perk-icon">🔒</span>
+          <span>100% Confidential</span>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">🚫</span>
+          <span>Zero Forced Lead Capture</span>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">⏱</span>
+          <span>5-Minute Guided Audit</span>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">💎</span>
+          <span>Actual Net Worth Calculation</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="statement-stage-section">
+    <div class="container">
+      <REALFinancialStatement client:load />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .real-statement-hero {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 3rem 1.5rem 2.5rem;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-slate-muted, #64748B);
+    margin-bottom: 1.25rem;
+  }
+
+  .breadcrumb-link {
+    color: var(--color-slate-muted, #64748B);
+    text-decoration: none;
+    transition: color var(--transition-fast, 0.2s);
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--color-growth-teal, #00AB96);
+  }
+
+  .breadcrumb-sep {
+    color: #CBD5E1;
+  }
+
+  .breadcrumb-current {
+    color: var(--color-primary-navy, #00182A);
+    font-weight: 600;
+  }
+
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal, #00AB96);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-growth-teal, #00AB96);
+    border-radius: 50%;
+  }
+
+  .page-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: var(--color-primary-navy, #00182A);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .page-tagline {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--color-growth-teal, #00AB96);
+    margin-bottom: 0.75rem;
+  }
+
+  .page-subtitle {
+    font-size: 1.05rem;
+    color: var(--color-slate-body, #334155);
+    max-width: 680px;
+    margin: 0 auto 1.75rem auto;
+    line-height: 1.6;
+  }
+
+  .hero-perks-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .perk-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.825rem;
+    color: #334155;
+    font-weight: 600;
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;
+  }
+
+  .perk-icon {
+    font-size: 0.95rem;
+  }
+
+  .statement-stage-section {
+    background-color: #F8FAFC;
+    padding: 2.5rem 1.5rem 5rem;
+    min-height: 600px;
+  }
+
+  @media (max-width: 768px) {
+    .real-statement-hero {
+      padding: 2rem 1rem 1.75rem;
+    }
+
+    .page-title {
+      font-size: 2.1rem;
+    }
+
+    .page-tagline {
+      font-size: 1.1rem;
+    }
+
+    .page-subtitle {
+      font-size: 0.95rem;
+    }
+
+    .statement-stage-section {
+      padding: 1.5rem 1rem 3.5rem;
+    }
+
+    .hero-perks-row {
+      gap: 0.5rem;
+    }
+  }
+</style>

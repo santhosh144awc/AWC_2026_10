@@ -13,6 +13,19 @@ import HealthQuestionnaire from '../components/health/HealthQuestionnaire';
     <div class="container page-container">
       <HealthCheckIntro />
       <HealthQuestionnaire client:load />
+
+      <div class="real-statement-discovery-card">
+        <div class="disc-text">
+          <span class="disc-tag">Comprehensive Diagnostic</span>
+          <h3 class="disc-title">Want a deeper look at your finances?</h3>
+          <p class="disc-desc">
+            Create your <strong>REAL Financial Statement</strong> — map your income, expenses, savings velocity, assets, liabilities, and calculate your <strong>Actual Net Worth</strong>.
+          </p>
+        </div>
+        <a href="/health-check/real-statement" class="btn-disc">
+          Create REAL Statement →
+        </a>
+      </div>
     </div>
   </main>
 </BaseLayout>
@@ -30,9 +43,87 @@ import HealthQuestionnaire from '../components/health/HealthQuestionnaire';
     padding: 0 1.5rem;
   }
 
+  .real-statement-discovery-card {
+    margin-top: 3.5rem;
+    background: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 2rem 2.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s ease;
+  }
+
+  .real-statement-discovery-card:hover {
+    border-color: #00AB96;
+    box-shadow: 0 8px 25px rgba(0, 171, 150, 0.08);
+  }
+
+  .disc-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #00AB96;
+    background-color: rgba(0, 171, 150, 0.1);
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    margin-bottom: 0.4rem;
+  }
+
+  .disc-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #00182A;
+    margin: 0 0 0.35rem 0;
+  }
+
+  .disc-desc {
+    font-size: 0.925rem;
+    color: #64748B;
+    margin: 0;
+    line-height: 1.5;
+    max-width: 600px;
+  }
+
+  .btn-disc {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.85rem 1.5rem;
+    background-color: #00182A;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: 8px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+
+  .btn-disc:hover {
+    background-color: #00AB96;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 171, 150, 0.25);
+  }
+
   @media (max-width: 768px) {
     .health-check-page {
       padding: 2.5rem 0 4rem 0;
+    }
+
+    .real-statement-discovery-card {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1.5rem 1.25rem;
+    }
+
+    .btn-disc {
+      width: 100%;
+      justify-content: center;
     }
   }
 </style>

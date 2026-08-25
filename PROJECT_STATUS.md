@@ -1,12 +1,12 @@
 # Ant Wealth Creation — Master Project Status & Handoff Document
 
-> **Document Version:** 1.4.0  
+> **Document Version:** 1.5.0  
 > **Last Updated:** August 25, 2026  
 > **Project Root:** `e:\Software\Website\AWC_2026_08_23\AntWealth_2026_08`  
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** All 83 automated unit tests passing • 22 static pages compiled • 0px mobile overflow verified
+> **Status:** All 128 automated unit tests passing • 23 static pages compiled • 0px mobile overflow verified
 
 ---
 
@@ -469,7 +469,43 @@ npm run preview
 
 ---
 
+## 20. Phase 15 — REAL Financial Statement Excel-to-UI Conversion (Completed)
+
+* **Objective:** Convert the validated NetworkFP / QPFP REAL Statement methodology (`ProTool_04_-_REAL_Statement.xlsx`) into a guided, mobile-first 5-step financial assessment tool at `/health-check/real-statement`.
+* **Methodology & Mathematical Engine (`src/utils/calculations/realFinancialStatement.ts`):**
+  * **Income (Annual Source of Truth):** Gross salary (primary + spouse), bonus, business, rental, and investment income. Monthly equivalent is dynamically derived as $\text{Annual} / 12$.
+  * **Expenses (Monthly Inputs):** 5 consumer categories (Household, Lifestyle, Family & Dependents, Insurance, Loan EMIs) converted to annual expenses via $\text{Monthly} \times 12$.
+  * **Savings & Savings Rate:** $\text{Annual Savings} = \text{Annual Income} - \text{Annual Expenses}$. $\text{Savings Rate} = (\text{Annual Savings} / \text{Annual Income}) \times 100$. Safe division-by-zero protection.
+  * **Ongoing Investments & Surplus Available for New Investments:** Monthly SIPs, RDs/Policies, and ongoing commitments $\times 12$. $\text{Surplus Available} = \text{Annual Savings} - \text{Annual Ongoing Investments}$ (displayed prominently as ₹/month and ₹/year).
+  * **Asset Categories & Personal-Use Isolation:** 6 categories (Liquid, Debt, Equity, Gold, Real Estate, Personal). Explicitly isolates **Personal-Use Assets** ($\text{Primary Residence} + \text{Vehicles} + \text{Jewellery} + \text{Personal Effects}$) from Productive/Financial Investment Assets.
+  * **Notional vs Actual Net Worth:**
+    * $\text{Notional Net Worth} = \text{Total Assets} - \text{Total Liabilities}$.
+    * $\text{Actual Net Worth (Primary Hero Result)} = \text{Total Assets} - \text{Personal-Use Assets} - \text{Total Liabilities} = \text{Productive Assets} - \text{Total Liabilities}$.
+  * **Factual Observations:** Automated data-driven factual insights across savings velocity, available surplus capacity, leverage ratio, and asset composition.
+* **React 19 Island (`src/components/calculators/REALFinancialStatement.tsx`):**
+  * 5-Step Stepper: Step 1 (Income), Step 2 (Expenses), Step 3 (Savings & Investing), Step 4 (Assets), Step 5 (Liabilities), and Results (Financial Snapshot Dashboard).
+  * Expandable accordion groups per category with live subtotals.
+  * Interactive Hero Results card with Actual Net Worth prominent display.
+  * Key Financial Metrics Grid (Savings Rate, Investment Rate, Surplus for New Goals, Debt-to-Asset Ratio).
+  * Complete Cash Flow & Balance Sheet story track (Earn $\to$ Spend $\to$ Save $\to$ Invest $\to$ Surplus $\to$ Own $\to$ Owe $\to$ Net Worth).
+  * Visual stacked asset allocation bar and distribution table.
+  * Pre-populated advisory WhatsApp bridge + `/contact` free consultation booking.
+  * Cross-discovery links to `/health-check`, `/plan/children`, and `/tools?calc=retirement`.
+  * Official statutory AMFI ARN: 266896 and QPFP Certified disclosures.
+* **Astro Page & Cross-Discovery:**
+  * Route: `/health-check/real-statement` in `src/pages/health-check/real-statement.astro`.
+  * Contextual discovery callout banner added to `/health-check` in `src/pages/health-check.astro`.
+  * Route added to dynamic XML sitemap in `src/pages/sitemap.xml.ts`.
+* **Testing & Quality Assurance:**
+  * Created unit test suite `src/utils/calculations/realFinancialStatement.test.ts` (45 passed, 0 failed).
+  * Combined repository test suite: **128 passed, 0 failed** (16 Lumpsum + 67 Children's Planner + 45 REAL Statement).
+  * Production static compilation `npm run build`: **23 static routes compiled in 3.61s with 0 errors and 0 warnings**.
+  * Puppeteer headless responsive audit: Verified **0px horizontal overflow across 5 viewports** (`375×812`, `390×844`, `412×915`, `768×1024`, `1440×900`).
+
+---
+
 ## NEXT SESSION — START HERE
+
 
 > **ATTENTION NEXT AGENT / DEVELOPER:**  
 > **Before writing any code or modifying any file, YOU MUST READ THIS FILE (`PROJECT_STATUS.md`) ENTIRELY.**
