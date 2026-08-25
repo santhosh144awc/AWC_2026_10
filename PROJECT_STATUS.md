@@ -1,12 +1,12 @@
 # Ant Wealth Creation — Master Project Status & Handoff Document
 
-> **Document Version:** 1.6.0  
-> **Last Updated:** August 25, 2026  
+> **Document Version:** 1.8.0  
+> **Last Updated:** August 26, 2026  
 > **Project Root:** `c:\WORK\Software\Antigravity\AWC_2026_08_23`  
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** All 161 automated unit tests passing • 24 static pages compiled • 0px mobile overflow verified
+> **Status:** All 250 automated unit tests passing • 27 static pages compiled • 0px mobile overflow verified
 
 ---
 
@@ -632,8 +632,41 @@ npm run preview
   * Integrated `/tools/retirement` into `CalculatorsHub.tsx` featured suites and `Footer.astro`.
 * **Testing & Quality Assurance:**
   * Created unit test suite `src/utils/calculations/retirementAccumulationPlanner.test.ts`.
-  * Total repository test suite: **218 passed, 0 failed** (16 Lumpsum + 67 Children's Planner + 45 REAL Statement + 33 Life Insurance Need + 25 Home Purchase Planner + 32 Retirement Planner).
+  * Total repository test suite: **218 passed, 0 failed** (16 Lumpsum + 67 Children's Planner + 45 REAL Statement + 33 Life Insurance Need + 25 Home Purchase Planner + 32 Retirement Accumulation Planner).
   * Production static compilation `npm run build`: **26 static routes compiled with 0 errors and 0 warnings**.
+  * Puppeteer headless responsive audit: Verified **0px horizontal overflow, WCAG contrast, sample scenario execution, and 0 training branding** across all 5 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1440×900`).
+
+---
+
+### Phase 19 — Retirement Distribution Planner (Three-Bucket Decumulation Methodology)
+* **Pure TypeScript Calculation Engine (`src/utils/calculations/retirementDistributionPlanner.ts`):**
+  * **Distribution Horizon & Three-Bucket Partitioning:**
+    * $\text{Distribution Years} = \max(0, \text{Life Expectancy} - \text{Retirement Age})$.
+    * $B_1 = \min(3, \text{Distribution Years})$ (Liquidity).
+    * $B_2 = \min(4, \max(0, \text{Distribution Years} - B_1))$ (Safety).
+    * $B_3 = \max(0, \text{Distribution Years} - B_1 - B_2)$ (Wealth Creation).
+  * **Inflation-Adjusted Starting Expense per Bucket:** $\text{Expense}_k = \text{Annual Expense} \times (1 + \text{Inflation})^{\text{Start Year Offset}}$.
+  * **Compound Fisher Real Return per Bucket:** $r_{\text{real}, k} = \frac{1 + r_{\text{post-tax}, k}}{1 + \text{Inflation}} - 1$.
+  * **Annuity-Due Living Expense Capitalization ($type = 1$):**
+    $$PV_{\text{due}} = PMT \times \frac{1 - (1 + r_{\text{real}})^{-n}}{r_{\text{real}}} \times (1 + r_{\text{real}})$$
+  * **Present Value Discounting to Today:**
+    $$\text{InvestmentToday}_1 = PV_{\text{due}, 1}$$
+    $$\text{InvestmentToday}_2 = \frac{PV_{\text{due}, 2}}{(1 + R_2)^{B_1}}$$
+    $$\text{InvestmentToday}_3 = \frac{PV_{\text{due}, 3}}{(1 + R_3)^{B_1 + B_2}}$$
+  * **Weighted Post-Tax Return & Overall Real Return:**
+    $$\bar{R} = \frac{\sum (B_k \times R_k)}{\sum B_k}, \quad r_{\text{overall, real}} = \frac{1 + \bar{R}}{1 + \text{Inflation}} - 1$$
+* **React 19 Island (`src/components/calculators/RetirementDistributionPlanner.tsx`):**
+  * 3-Step Guided Stepper: Retirement Details (Age 60, Exp ₹1L/mo, Life Exp 90), Return & Inflation Assumptions (6/8/10% returns, 6% inflation), and Three Buckets Strategy.
+  * Results Dashboard: Dark navy hero with Growth Teal eyebrow, pure white heading, crisp white inner card, bold deep navy result amount (`₹2.26 Cr`), horizontal responsive allocation bar, 3 bucket cards, capital flow journey, "Why does timing matter?" & "How was this calculated?" accordions, advisory WhatsApp bridge, and "Try Sample Scenario" / "Reset" buttons.
+* **Astro Page & Site Integration:**
+  * Dedicated route `/tools/retirement-distribution` in `src/pages/tools/retirement-distribution.astro`.
+  * Added `retirement-distribution` to `calculators` and updated `income` goal in `src/data/siteConfig.ts`.
+  * Added `/tools/retirement-distribution` to XML sitemap in `src/pages/sitemap.xml.ts`.
+  * Integrated `/tools/retirement-distribution` into `CalculatorsHub.tsx` featured suites and `Footer.astro`.
+* **Testing & Quality Assurance:**
+  * Created unit test suite `src/utils/calculations/retirementDistributionPlanner.test.ts`.
+  * Total repository test suite: **250 passed, 0 failed** (16 Lumpsum + 67 Children's Planner + 45 REAL Statement + 33 Life Insurance Need + 25 Home Purchase Planner + 32 Retirement Accumulation Planner + 32 Retirement Distribution Planner).
+  * Production static compilation `npm run build`: **27 static routes compiled with 0 errors and 0 warnings**.
   * Puppeteer headless responsive audit: Verified **0px horizontal overflow, WCAG contrast, sample scenario execution, and 0 training branding** across all 5 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1440×900`).
 
 ---

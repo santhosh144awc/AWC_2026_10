@@ -16,3 +16,4 @@ export * from './realFinancialStatement';
 export * from './lifeInsuranceNeed';
 export * from './housePurchasePlanner';
 export * from './retirementAccumulationPlanner';
+export * from './retirementDistributionPlanner';

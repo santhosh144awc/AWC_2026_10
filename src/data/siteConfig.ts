@@ -158,15 +158,22 @@ export const siteConfig = {
       title: "Create Regular Income",
       icon: "income",
       description: "Generate steady cash flow through systematic withdrawal plans.",
-      href: "/tools?calc=sip",
+      href: "/tools/retirement-distribution",
       color: "#EC4899",
     },
   ] as GoalItem[],
 
   calculators: [
     {
+      id: "retirement-distribution",
+      title: "Retirement Distribution Planner",
+      description: "Structure your post-retirement corpus across liquidity, safety, and wealth creation buckets.",
+      icon: "sunset",
+      href: "/tools/retirement-distribution",
+    },
+    {
       id: "retirement",
-      title: "Retirement Planner",
+      title: "Retirement Accumulation Planner",
       description: "Estimate your future living expenses, required corpus, and monthly SIP roadmap.",
       icon: "sunset",
       href: "/tools/retirement",

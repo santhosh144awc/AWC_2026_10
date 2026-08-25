@@ -53,7 +53,15 @@ interface CategoryGroup {
 
 const FEATURED_SUITES = [
   {
-    title: 'Retirement Planner',
+    title: 'Retirement Distribution Planner',
+    icon: '⏳',
+    badge: 'New • Three-Bucket',
+    desc: 'Structure your post-retirement corpus across liquidity, safety, and wealth creation buckets.',
+    href: '/tools/retirement-distribution',
+    cta: 'Structure Retirement Buckets →'
+  },
+  {
+    title: 'Retirement Accumulation Planner',
     icon: '🌅',
     badge: 'New • Annuity-Due',
     desc: 'Estimate future living expenses, required corpus, existing resources & 3-way SIP roadmap.',
@@ -105,6 +113,7 @@ const CATEGORIES: CategoryGroup[] = [
   {
     category: 'Plan for Goals',
     items: [
+      { id: 'retirement-distribution', name: 'Retirement Distribution Planner', icon: '⏳', tag: 'New', href: '/tools/retirement-distribution' },
       { id: 'retirement', name: 'Retirement Accumulation Planner', icon: '🌅', tag: 'New', href: '/tools/retirement' },
       { id: 'home', name: 'Home Purchase Planner', icon: '🏠', tag: 'New', href: '/tools/home-purchase' },
       { id: 'children', name: "Children's Future Planner", icon: '🎓', tag: 'Education', href: '/plan/children' },
