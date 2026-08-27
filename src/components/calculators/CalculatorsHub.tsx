@@ -53,6 +53,14 @@ interface CategoryGroup {
 
 const FEATURED_SUITES = [
   {
+    title: 'Home Loan Foreclosure Planner',
+    icon: '🏠',
+    badge: 'New • Foreclosure Strategy',
+    desc: 'See how a parallel SIP alongside your EMI could help you plan for an earlier home-loan closure.',
+    href: '/tools/home-loan-foreclosure',
+    cta: 'Plan Loan Foreclosure →'
+  },
+  {
     title: 'SWP Calculator',
     icon: '📉',
     badge: 'New • Retirement SWP',
@@ -122,6 +130,7 @@ const CATEGORIES: CategoryGroup[] = [
   {
     category: 'Build Wealth',
     items: [
+      { id: 'home-loan-foreclosure', name: 'Home Loan Foreclosure Planner', icon: '🏠', tag: 'New', href: '/tools/home-loan-foreclosure' },
       { id: 'sip-growth', name: 'SIP Growth Planner', icon: '🚀', tag: 'New', href: '/tools/sip-growth' },
       { id: 'swp', name: 'SWP Calculator', icon: '📉', tag: 'New', href: '/tools/swp' },
       { id: 'sip', name: 'Quick SIP Calculator', icon: '📈', tag: 'Monthly' },
@@ -131,6 +140,7 @@ const CATEGORIES: CategoryGroup[] = [
   {
     category: 'Plan for Goals',
     items: [
+      { id: 'home-foreclosure-goal', name: 'Home Loan Foreclosure Planner', icon: '🏠', tag: 'New', href: '/tools/home-loan-foreclosure' },
       { id: 'swp-goal', name: 'SWP Longevity Calculator', icon: '📉', tag: 'New', href: '/tools/swp' },
       { id: 'retirement-distribution', name: 'Retirement Distribution Planner', icon: '⏳', tag: 'New', href: '/tools/retirement-distribution' },
       { id: 'retirement', name: 'Retirement Accumulation Planner', icon: '🌅', tag: 'New', href: '/tools/retirement' },

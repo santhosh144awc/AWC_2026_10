@@ -1,12 +1,12 @@
 # Ant Wealth Creation — Master Project Status & Handoff Document
 
-> **Document Version:** 2.0.0  
-> **Last Updated:** August 26, 2026  
+> **Document Version:** 2.1.0  
+> **Last Updated:** August 27, 2026  
 > **Project Root:** `c:\WORK\Software\Antigravity\AWC_2026_08_23`  
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** All 325 automated unit tests passing • 29 static pages compiled • 0px mobile overflow verified
+> **Status:** All 370 automated unit tests passing • 30 static pages compiled • 0px mobile overflow verified
 
 ---
 
@@ -71,7 +71,8 @@ AWC_2026_08_23/
     │   ├── WhyAntWealth.astro            # 5 Core Philosophy Cards
     │   ├── ConsultationExpectations.astro# 3-step "What happens when you talk to Santhosh?" module
     │   ├── calculators/                  # Interactive React Calculator Suite
-    │   │   ├── SWPCalculator.tsx         # Monthly sequential SWP simulation with step-up & lump sum milestones
+    │   │   ├── HomeLoanForeclosurePlanner.tsx # Month-by-month parallel amortization & SIP foreclosure planner
+│   │   ├── SWPCalculator.tsx         # Monthly sequential SWP simulation with step-up & lump sum milestones
     │   │   ├── SIPGrowthPlanner.tsx      # Annual Step-Up SIP with effective monthly compounding & multi-lump sums
     │   │   ├── RetirementDistributionPlanner.tsx # Three-Bucket decumulation planner with Fisher real returns
     │   │   ├── RetirementAccumulationPlanner.tsx # Annuity-Due retirement corpus & 3-way SIP roadmap
@@ -734,6 +735,37 @@ npm run preview
   * Created unit test suite `src/utils/calculations/swpCalculator.test.ts`.
   * Total repository test suite: **325 passed, 0 failed** (16 Lumpsum + 67 Children's Planner + 45 REAL Statement + 33 Life Insurance Need + 25 Home Purchase Planner + 32 Retirement Accumulation Planner + 32 Retirement Distribution Planner + 37 SIP Growth Planner + 38 SWP Calculator).
   * Production static compilation `npm run build`: **29 static routes compiled with 0 errors and 0 warnings**.
+  * Puppeteer headless responsive audit: Verified **0px horizontal overflow, WCAG contrast, sample scenario execution, and 0 training branding** across all 5 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1440×900`).
+
+---
+
+### Phase 22 — Home Loan Foreclosure Planner (Parallel Amortization & SIP Accumulation)
+* **Pure TypeScript Calculation Engine (`src/utils/calculations/homeLoanForeclosurePlanner.ts`):**
+  * **Loan Amortization Model:** Standard monthly reducing balance loan amortization ($\text{EMI} = P \times \frac{i(1+i)^n}{(1+i)^n - 1}$), tracking opening principal, interest component ($P_m \times i_{\text{loan}}$), principal component ($\text{EMI} - \text{Interest}_m$), and closing loan balance across the full contractual loan tenure.
+  * **Effective Monthly SIP Compounding Rate:** Mutual fund growth uses true geometric compounding: $i_{\text{SIP}} = (1 + r_{\text{annual}})^{1/12} - 1$ (e.g. $12\% \text{ p.a.} \to 0.94888\%/\text{month}$).
+  * **Beginning-of-Period Annuity Due Timing:** $\text{ClosingCorpus}_m = (\text{OpeningCorpus}_m + \text{MonthlySIP}) \times (1 + i_{\text{SIP}})$.
+  * **Option 1 (Target Earlier Closure Horizon):**
+    * Calculates outstanding loan principal after target months $n$ ($P_n$).
+    * Solves for required monthly Annuity Due: $\text{RequiredSIP} = \frac{P_n}{\frac{(1 + i_{\text{SIP}})^n - 1}{i_{\text{SIP}}} \times (1 + i_{\text{SIP}})}$.
+  * **Option 2 (Fixed Affordable Monthly SIP Budget):**
+    * Simulates 240+ monthly amortization and parallel SIP accumulation rows.
+    * Identifies the earliest crossover month where $\text{ClosingSIPCorpus} \ge \text{ClosingPrincipal}$.
+  * **Deterministic Regression Benchmarks:**
+    * Baseline: ₹50L loan, 20-year tenure, 8% interest $\to$ EMI = ₹41,822.01/mo.
+    * Option 1 (10-Yr Target @ 12% SIP return): Outstanding Principal = ₹34,47,030.56, Required Monthly SIP = ₹15,386.07/mo, Total SIP Investment = ₹18,46,328.21, SIP Wealth Created = ₹16,00,702.35.
+    * Option 2 (Fixed SIP ₹10,000/mo @ 12%): Crossover at Month 142 (11.83 years / 11 yrs 10 mos), Loan Principal = ₹30,34,801.46, SIP Corpus = ₹30,03,402.64 $\to$ covered at Month 142.
+* **React 19 Interactive Island (`src/components/calculators/HomeLoanForeclosurePlanner.tsx`):**
+  * 4-Step Guided Wizard: Home Loan Details, SIP Return Assumptions, Choose Strategy (Option A vs Option B), Results Dashboard.
+  * Results Dashboard: Dark navy hero card (`#00182A`), Growth Teal eyebrow, White primary result container, 4-Metric Grid (Monthly EMI, Outstanding Principal at Milestone, Projected SIP Corpus, Potential Surplus / Gap), interactive responsive SVG dual-curve crossover chart with **"★ Potential Loan Coverage Point"** badge and hover tooltips, visual investment journey track, collapsible milestone & full year-by-year table, responsible educational disclaimer, "How was this calculated?" accordion, "Scenario A" / "Scenario B" / "Reset" presets, and pre-populated WhatsApp consultation bridge.
+* **Astro Page & Site Integration:**
+  * Dedicated route `/tools/home-loan-foreclosure` in `src/pages/tools/home-loan-foreclosure.astro`.
+  * Updated `home-loan-foreclosure` entry in `calculators` in `src/data/siteConfig.ts`.
+  * Added `/tools/home-loan-foreclosure` to XML sitemap in `src/pages/sitemap.xml.ts`.
+  * Integrated `/tools/home-loan-foreclosure` into `CalculatorsHub.tsx` featured suites and `Footer.astro`.
+* **Testing & Quality Assurance:**
+  * Created unit test suite `src/utils/calculations/homeLoanForeclosurePlanner.test.ts`.
+  * Total repository test suite: **370 passed, 0 failed** (16 Lumpsum + 67 Children's Planner + 45 REAL Statement + 33 Life Insurance Need + 25 Home Purchase Planner + 32 Retirement Accumulation Planner + 32 Retirement Distribution Planner + 37 SIP Growth Planner + 38 SWP Calculator + 45 Home Loan Foreclosure Planner).
+  * Production static compilation `npm run build`: **30 static routes compiled with 0 errors and 0 warnings**.
   * Puppeteer headless responsive audit: Verified **0px horizontal overflow, WCAG contrast, sample scenario execution, and 0 training branding** across all 5 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1440×900`).
 
 ---

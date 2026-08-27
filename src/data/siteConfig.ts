@@ -165,6 +165,13 @@ export const siteConfig = {
 
   calculators: [
     {
+      id: "home-loan-foreclosure",
+      title: "Home Loan Foreclosure Planner",
+      description: "See how a parallel SIP alongside your EMI could help you plan for an earlier home-loan closure.",
+      icon: "home",
+      href: "/tools/home-loan-foreclosure",
+    },
+    {
       id: "swp",
       title: "SWP Calculator",
       description: "Estimate retirement withdrawal sustainability with annual step-ups and lump sum milestones.",

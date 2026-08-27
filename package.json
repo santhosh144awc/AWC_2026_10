@@ -7,7 +7,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "test": "npx tsx src/utils/calculations/lumpsum.test.ts && npx tsx src/utils/calculations/childrenFuturePlanner.test.ts && npx tsx src/utils/calculations/realFinancialStatement.test.ts && npx tsx src/utils/calculations/lifeInsuranceNeed.test.ts && npx tsx src/utils/calculations/housePurchasePlanner.test.ts && npx tsx src/utils/calculations/retirementAccumulationPlanner.test.ts && npx tsx src/utils/calculations/retirementDistributionPlanner.test.ts && npx tsx src/utils/calculations/sipGrowthPlanner.test.ts && npx tsx src/utils/calculations/swpCalculator.test.ts",
+    "test": "npx tsx src/utils/calculations/lumpsum.test.ts && npx tsx src/utils/calculations/childrenFuturePlanner.test.ts && npx tsx src/utils/calculations/realFinancialStatement.test.ts && npx tsx src/utils/calculations/lifeInsuranceNeed.test.ts && npx tsx src/utils/calculations/housePurchasePlanner.test.ts && npx tsx src/utils/calculations/retirementAccumulationPlanner.test.ts && npx tsx src/utils/calculations/retirementDistributionPlanner.test.ts && npx tsx src/utils/calculations/sipGrowthPlanner.test.ts && npx tsx src/utils/calculations/swpCalculator.test.ts && npx tsx src/utils/calculations/homeLoanForeclosurePlanner.test.ts",
     "astro": "astro"
   },
   "dependencies": {
