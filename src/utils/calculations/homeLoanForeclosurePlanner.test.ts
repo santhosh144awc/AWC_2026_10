@@ -293,6 +293,104 @@ const zeroInterestPlan = calculateHomeLoanForeclosurePlan({
 assert(zeroInterestPlan.emi === 10000, '0% loan interest plan EMI = ₹10,000');
 assert(zeroInterestPlan.outstandingPrincipalAtTarget === 1200000, '0% loan principal after 10y = ₹12,00,000');
 
+// Max Reasonable Tenure: 30 Years
+const maxTenurePlan = calculateHomeLoanForeclosurePlan({
+  loanAmount: 10000000, // ₹1 Crore
+  loanTenureYears: 30,
+  loanInterestRate: 8.5,
+  sipReturnRate: 12,
+  strategy: 'targetYear',
+  targetClosureYears: 15
+});
+assert(maxTenurePlan.projection.length === 360, '30-year loan generates 360 monthly projections');
+assert(maxTenurePlan.yearlySummary.length === 30, '30-year loan generates 30 yearly summaries');
+assert(!isNaN(maxTenurePlan.emi) && isFinite(maxTenurePlan.emi), '30-year loan EMI is valid');
+
+// Target Horizon = 1 Year
+const target1YrPlan = calculateHomeLoanForeclosurePlan({
+  loanAmount: 5000000,
+  loanTenureYears: 20,
+  loanInterestRate: 8,
+  sipReturnRate: 12,
+  strategy: 'targetYear',
+  targetClosureYears: 1
+});
+assert(target1YrPlan.targetClosureYears === 1, 'Target 1 year recognized');
+assert(target1YrPlan.outstandingPrincipalAtTarget > 4800000, 'Outstanding principal after 1 year > ₹48 Lakh');
+
+// Target Horizon = Full Tenure (20 Years)
+const targetFullTenurePlan = calculateHomeLoanForeclosurePlan({
+  loanAmount: 5000000,
+  loanTenureYears: 20,
+  loanInterestRate: 8,
+  sipReturnRate: 12,
+  strategy: 'targetYear',
+  targetClosureYears: 20
+});
+assert(targetFullTenurePlan.targetClosureYears === 20, 'Target full tenure recognized');
+assert(targetFullTenurePlan.outstandingPrincipalAtTarget < 1, 'Outstanding principal at end of tenure is 0');
+assert(targetFullTenurePlan.requiredMonthlySIP === 0, 'Required SIP at full maturity is 0');
+
+// Return Rate Lower Than Loan Rate (6% SIP return vs 9% loan)
+const lowerReturnPlan = calculateHomeLoanForeclosurePlan({
+  loanAmount: 5000000,
+  loanTenureYears: 20,
+  loanInterestRate: 9,
+  sipReturnRate: 6,
+  strategy: 'fixedSIP',
+  monthlySIP: 15000
+});
+assert(!isNaN(lowerReturnPlan.emi), 'Valid EMI when SIP return < loan rate');
+assert(lowerReturnPlan.projection.every(p => p.closingPrincipal >= 0 && p.closingSIPCorpus >= 0), 'All balances non-negative when SIP return < loan rate');
+
+// Return Rate Equal To Loan Rate (8% SIP return vs 8% loan)
+const equalRatePlan = calculateHomeLoanForeclosurePlan({
+  loanAmount: 5000000,
+  loanTenureYears: 20,
+  loanInterestRate: 8,
+  sipReturnRate: 8,
+  strategy: 'targetYear',
+  targetClosureYears: 10
+});
+assert(!isNaN(equalRatePlan.requiredMonthlySIP!), 'Valid required SIP when SIP return = loan rate');
+
+// Return Rate Higher Than Loan Rate (14% SIP return vs 7.5% loan)
+const higherRatePlan = calculateHomeLoanForeclosurePlan({
+  loanAmount: 5000000,
+  loanTenureYears: 20,
+  loanInterestRate: 7.5,
+  sipReturnRate: 14,
+  strategy: 'fixedSIP',
+  monthlySIP: 15000
+});
+assert(higherRatePlan.isForeclosureAchievedWithinTenure === true, 'Higher return achieves early crossover');
+
+// Immediate Crossover: Huge SIP in Month 1
+const month1CrossoverPlan = calculateHomeLoanForeclosurePlan({
+  loanAmount: 1000000, // ₹10 Lakh loan
+  loanTenureYears: 10,
+  loanInterestRate: 8,
+  sipReturnRate: 12,
+  strategy: 'fixedSIP',
+  monthlySIP: 1500000 // ₹15 Lakh/mo SIP
+});
+assert(month1CrossoverPlan.foreclosureMonth === 1, 'Huge SIP achieves crossover at Month 1');
+assert(month1CrossoverPlan.isForeclosureAchievedWithinTenure === true, 'Month 1 crossover recognized');
+
+// Negative / Invalid Inputs Safety Check
+const invalidInputsPlan = calculateHomeLoanForeclosurePlan({
+  loanAmount: -1000000,
+  loanTenureYears: -5,
+  loanInterestRate: -8,
+  sipReturnRate: -12,
+  strategy: 'fixedSIP',
+  monthlySIP: -5000
+});
+assert(invalidInputsPlan.loanAmount === 0, 'Negative loan amount sanitized to 0');
+assert(invalidInputsPlan.loanTenureYears === 1, 'Negative tenure sanitized to minimum 1 year');
+assert(invalidInputsPlan.emi === 0, 'Sanitized EMI is 0');
+assert(invalidInputsPlan.projection.every(p => !isNaN(p.closingPrincipal) && !isNaN(p.closingSIPCorpus)), 'No NaN in projection under negative inputs');
+
 // --- 9. Formatters ---
 console.log('\n--- 9. Formatters ---');
 assert(formatIndianCurrency(0) === '₹0', 'formatIndianCurrency(0) = ₹0');
