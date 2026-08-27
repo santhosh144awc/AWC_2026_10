@@ -315,21 +315,36 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
           {/* Live Loan Preview Card */}
           <div className="live-preview-box">
             <div className="preview-item">
-              <span className="preview-label">Your Monthly EMI</span>
-              <span className="preview-value emi-highlight">
-                {formatIndianCurrency(plan.loanDetails.emi)}
-                <small className="per-month">/month</small>
-              </span>
+              <span className="preview-label">Loan Principal</span>
+              <span className="preview-value">{formatLakhsCrores(plan.loanDetails.loanAmount)}</span>
+              <span className="preview-subtext">{plan.loanDetails.loanTenureYears} Years @ {plan.loanDetails.annualLoanInterestRate}%</span>
             </div>
             <div className="preview-divider" />
             <div className="preview-item">
-              <span className="preview-label">Total Interest Payable</span>
+              <span className="preview-label">Your Monthly EMI</span>
+              <span className="preview-value emi-highlight">
+                {formatIndianCurrency(plan.loanDetails.emi)}
+                <small className="per-month">/mo</small>
+              </span>
+              <span className="preview-subtext">{plan.loanDetails.loanTenureMonths} monthly payments</span>
+            </div>
+            <div className="preview-divider" />
+            <div className="preview-item">
+              <span className="preview-label">Total Loan Interest</span>
               <span className="preview-value interest-highlight">
                 {formatLakhsCrores(plan.loanDetails.totalInterest)}
               </span>
               <span className="preview-subtext">
-                ({(plan.loanDetails.interestToPrincipalRatio * 100).toFixed(0)}% of principal)
+                {(plan.loanDetails.interestToPrincipalRatio * 100).toFixed(0)}% of principal
               </span>
+            </div>
+            <div className="preview-divider" />
+            <div className="preview-item">
+              <span className="preview-label">Total Loan Repayment</span>
+              <span className="preview-value total-repayment-highlight">
+                {formatLakhsCrores(plan.loanDetails.totalScheduledRepayment)}
+              </span>
+              <span className="preview-subtext">Principal + Interest</span>
             </div>
           </div>
 
@@ -353,7 +368,7 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
             <span className="step-badge">Step 2 of 4</span>
             <h2 className="step-title">How much could your SIP potentially recover?</h2>
             <p className="step-subtitle">
-              Your EMI pays off the loan contract. A parallel SIP puts compounding to work to build an offsetting wealth corpus.
+              Your EMI pays off the loan contract. A parallel SIP puts compounding to work to build an offsetting wealth corpus over your {plan.sipDurationYears}-year investment horizon.
             </p>
           </div>
 
@@ -362,22 +377,30 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
             {/* Card 1: Interest Recovery */}
             <div className="target-card card-interest">
               <div className="target-eyebrow">TARGET 1</div>
-              <h3 className="target-heading">Recover Total Loan Interest</h3>
+              <h3 className="target-heading">Potentially Offset Loan Interest</h3>
               <div className="target-amount">{formatLakhsCrores(plan.loanDetails.totalInterest)}</div>
               <p className="target-desc">
-                Total interest payable to the bank over your {plan.loanDetails.loanTenureYears}-year tenure.
+                Total interest payable over your {plan.loanDetails.loanTenureYears}-year loan tenure.
               </p>
 
               <div className="target-metric-box">
                 <div className="metric-row">
                   <span className="metric-title">Estimated SIP Required</span>
-                  <span className="metric-val">{formatIndianCurrency(plan.interestRecovery.requiredMonthlySIP)}/mo</span>
+                  <span className="metric-val">{formatIndianCurrency(plan.interestRecovery.requiredMonthlySIP)}/month</span>
                 </div>
                 <div className="metric-row">
-                  <span className="metric-title">Percentage of your EMI</span>
+                  <span className="metric-title">% of Monthly EMI</span>
                   <span className="metric-val percent-badge">
-                    approx {plan.interestRecovery.sipPercentageOfEMI.toFixed(0)}% of EMI
+                    {plan.interestRecovery.sipPercentageOfEMI.toFixed(1)}% of EMI
                   </span>
+                </div>
+                <div className="metric-row">
+                  <span className="metric-title">Investment Horizon</span>
+                  <span className="metric-val">{plan.sipDurationYears} Years</span>
+                </div>
+                <div className="metric-row">
+                  <span className="metric-title">Potential Corpus at Horizon</span>
+                  <span className="metric-val">{formatLakhsCrores(plan.interestRecovery.projectedCorpus)}</span>
                 </div>
               </div>
 
@@ -399,7 +422,7 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
             {/* Card 2: Complete Loan Cost Recovery */}
             <div className="target-card card-complete">
               <div className="target-eyebrow">TARGET 2</div>
-              <h3 className="target-heading">Recover Complete Loan Cost</h3>
+              <h3 className="target-heading">Potentially Offset Complete Loan Cost</h3>
               <div className="target-amount">{formatLakhsCrores(plan.loanDetails.totalScheduledRepayment)}</div>
               
               {/* Breakdown formula */}
@@ -407,18 +430,28 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
                 <span className="cost-tag">Principal: {formatLakhsCrores(plan.loanDetails.loanAmount)}</span>
                 <span className="math-plus">+</span>
                 <span className="cost-tag">Interest: {formatLakhsCrores(plan.loanDetails.totalInterest)}</span>
+                <span className="math-plus">=</span>
+                <span className="cost-tag highlight-tag">Total Repayment: {formatLakhsCrores(plan.loanDetails.totalScheduledRepayment)}</span>
               </div>
 
               <div className="target-metric-box">
                 <div className="metric-row">
                   <span className="metric-title">Estimated SIP Required</span>
-                  <span className="metric-val">{formatIndianCurrency(plan.completeLoanRecovery.requiredMonthlySIP)}/mo</span>
+                  <span className="metric-val">{formatIndianCurrency(plan.completeLoanRecovery.requiredMonthlySIP)}/month</span>
                 </div>
                 <div className="metric-row">
-                  <span className="metric-title">Percentage of your EMI</span>
+                  <span className="metric-title">% of Monthly EMI</span>
                   <span className="metric-val percent-badge teal-badge">
-                    approx {plan.completeLoanRecovery.sipPercentageOfEMI.toFixed(0)}% of EMI
+                    {plan.completeLoanRecovery.sipPercentageOfEMI.toFixed(1)}% of EMI
                   </span>
+                </div>
+                <div className="metric-row">
+                  <span className="metric-title">Investment Horizon</span>
+                  <span className="metric-val">{plan.sipDurationYears} Years</span>
+                </div>
+                <div className="metric-row">
+                  <span className="metric-title">Potential Corpus at Horizon</span>
+                  <span className="metric-val">{formatLakhsCrores(plan.completeLoanRecovery.projectedCorpus)}</span>
                 </div>
               </div>
 
@@ -611,7 +644,7 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
           {/* Quick Snapshot Card */}
           <div className="custom-snapshot-card">
             <div className="snapshot-item">
-              <span className="snapshot-label">Interest Recovery Target</span>
+              <span className="snapshot-label">Interest Offset Milestone</span>
               <span className="snapshot-val">
                 {plan.customInterestMilestone.isReached
                   ? `Reached in ${plan.customInterestMilestone.formattedDuration}`
@@ -620,7 +653,7 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
             </div>
             <div className="snapshot-divider" />
             <div className="snapshot-item">
-              <span className="snapshot-label">Complete Loan Cost Target</span>
+              <span className="snapshot-label">Complete Loan Cost Milestone</span>
               <span className="snapshot-val highlight-val">
                 {plan.customCompleteLoanMilestone.isReached
                   ? `Reached in ${plan.customCompleteLoanMilestone.formattedDuration}`
@@ -701,28 +734,26 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
             {/* 4-Metric Grid */}
             <div className="metric-quad-grid">
               <div className="quad-item">
+                <span className="quad-label">Loan Principal</span>
+                <span className="quad-val">{formatLakhsCrores(plan.loanDetails.loanAmount)}</span>
+                <span className="quad-sub">{plan.loanDetails.loanTenureYears} Years</span>
+              </div>
+              <div className="quad-item">
                 <span className="quad-label">Monthly EMI</span>
                 <span className="quad-val">{formatIndianCurrency(plan.loanDetails.emi)}</span>
-                <span className="quad-sub">for {plan.loanDetails.loanTenureYears} Years</span>
+                <span className="quad-sub">Monthly Outflow</span>
               </div>
               <div className="quad-item">
-                <span className="quad-label">Your Monthly SIP</span>
-                <span className="quad-val">{formatIndianCurrency(plan.customSipAmount)}</span>
-                <span className="quad-sub">{plan.customSipPercentageOfEMI.toFixed(1)}% of EMI</span>
+                <span className="quad-label">Total Loan Interest</span>
+                <span className="quad-val">{formatLakhsCrores(plan.loanDetails.totalInterest)}</span>
+                <span className="quad-sub">Total Interest Paid</span>
               </div>
               <div className="quad-item">
-                <span className="quad-label">Total Loan Cost</span>
-                <span className="quad-val">{formatLakhsCrores(plan.loanDetails.totalScheduledRepayment)}</span>
-                <span className="quad-sub">Principal + Interest</span>
-              </div>
-              <div className="quad-item">
-                <span className="quad-label">SIP Corpus at Complete Recovery</span>
+                <span className="quad-label">Total Loan Repayment</span>
                 <span className="quad-val teal-text">
-                  {formatLakhsCrores(plan.customCompleteLoanMilestone.corpusAtRecovery || plan.loanDetails.totalScheduledRepayment)}
+                  {formatLakhsCrores(plan.loanDetails.totalScheduledRepayment)}
                 </span>
-                <span className="quad-sub">
-                  Invested: {formatLakhsCrores(plan.customCompleteLoanMilestone.totalSIPInvestedAtRecovery)}
-                </span>
+                <span className="quad-sub">Principal + Interest</span>
               </div>
             </div>
           </div>
@@ -730,13 +761,33 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
           {/* Two Milestone Summary Cards */}
           <div className="milestones-row">
             <div className="milestone-box box-interest">
-              <div className="milestone-badge">MILESTONE 1</div>
-              <h3 className="milestone-title">Total Loan Interest Offset</h3>
+              <div className="milestone-badge">TARGET 1</div>
+              <h3 className="milestone-title">Potentially Offset Loan Interest</h3>
               <div className="milestone-target">{formatLakhsCrores(plan.loanDetails.totalInterest)}</div>
+              
+              <div className="milestone-details-grid">
+                <div className="milestone-detail-item">
+                  <span className="detail-label">Required SIP:</span>
+                  <span className="detail-val">{formatIndianCurrency(plan.interestRecovery.requiredMonthlySIP)}/mo</span>
+                </div>
+                <div className="milestone-detail-item">
+                  <span className="detail-label">% of EMI:</span>
+                  <span className="detail-val">{plan.interestRecovery.sipPercentageOfEMI.toFixed(1)}%</span>
+                </div>
+                <div className="milestone-detail-item">
+                  <span className="detail-label">Investment Period:</span>
+                  <span className="detail-val">{plan.sipDurationYears} Years</span>
+                </div>
+                <div className="milestone-detail-item">
+                  <span className="detail-label">Value at Horizon:</span>
+                  <span className="detail-val">{formatLakhsCrores(plan.interestRecovery.projectedCorpus)}</span>
+                </div>
+              </div>
+
               <div className="milestone-time">
                 {plan.customInterestMilestone.isReached ? (
                   <>
-                    Potentially reached in <strong>{plan.customInterestMilestone.formattedDuration}</strong>
+                    With your {formatIndianCurrency(plan.customSipAmount)}/mo SIP: reached in <strong>{plan.customInterestMilestone.formattedDuration}</strong>
                   </>
                 ) : (
                   'Not reached within projection period'
@@ -748,13 +799,33 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
             </div>
 
             <div className="milestone-box box-complete">
-              <div className="milestone-badge teal-badge">MILESTONE 2</div>
-              <h3 className="milestone-title">Complete Loan Cost Offset</h3>
+              <div className="milestone-badge teal-badge">TARGET 2</div>
+              <h3 className="milestone-title">Potentially Offset Complete Loan Cost</h3>
               <div className="milestone-target">{formatLakhsCrores(plan.loanDetails.totalScheduledRepayment)}</div>
+
+              <div className="milestone-details-grid">
+                <div className="milestone-detail-item">
+                  <span className="detail-label">Required SIP:</span>
+                  <span className="detail-val">{formatIndianCurrency(plan.completeLoanRecovery.requiredMonthlySIP)}/mo</span>
+                </div>
+                <div className="milestone-detail-item">
+                  <span className="detail-label">% of EMI:</span>
+                  <span className="detail-val">{plan.completeLoanRecovery.sipPercentageOfEMI.toFixed(1)}%</span>
+                </div>
+                <div className="milestone-detail-item">
+                  <span className="detail-label">Investment Period:</span>
+                  <span className="detail-val">{plan.sipDurationYears} Years</span>
+                </div>
+                <div className="milestone-detail-item">
+                  <span className="detail-label">Value at Horizon:</span>
+                  <span className="detail-val">{formatLakhsCrores(plan.completeLoanRecovery.projectedCorpus)}</span>
+                </div>
+              </div>
+
               <div className="milestone-time">
                 {plan.customCompleteLoanMilestone.isReached ? (
                   <>
-                    Potentially reached in <strong>{plan.customCompleteLoanMilestone.formattedDuration}</strong>
+                    With your {formatIndianCurrency(plan.customSipAmount)}/mo SIP: reached in <strong>{plan.customCompleteLoanMilestone.formattedDuration}</strong>
                   </>
                 ) : (
                   'Not reached within projection period'
@@ -788,6 +859,10 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
                   <span className="legend-swatch complete-line-swatch" />
                   <span>Complete Cost Target ({formatLakhsCrores(plan.loanDetails.totalScheduledRepayment)})</span>
                 </div>
+                <div className="legend-item">
+                  <span className="legend-swatch maturity-swatch" />
+                  <span>Loan Maturity ({plan.loanDetails.loanTenureYears}y)</span>
+                </div>
               </div>
             </div>
 
@@ -820,6 +895,7 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
                 // Recovery milestone positions
                 const intMonth = plan.customInterestMilestone.recoveryMonth;
                 const compMonth = plan.customCompleteLoanMilestone.recoveryMonth;
+                const loanMaturityMonth = plan.loanDetails.loanTenureMonths;
 
                 const activePoint = hoveredPointIndex !== null ? displayRows[hoveredPointIndex] : null;
 
@@ -858,6 +934,31 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
                         </g>
                       );
                     })}
+
+                    {/* Loan Tenure Maturity Vertical Line */}
+                    {loanMaturityMonth <= totalMonths && (
+                      <g className="maturity-marker-group">
+                        <line
+                          x1={getX(loanMaturityMonth)}
+                          y1={padding.top}
+                          x2={getX(loanMaturityMonth)}
+                          y2={height - padding.bottom}
+                          stroke="#64748B"
+                          strokeWidth="1.5"
+                          strokeDasharray="3,3"
+                        />
+                        <text
+                          x={getX(loanMaturityMonth)}
+                          y={padding.top - 6}
+                          textAnchor="middle"
+                          fontSize="10"
+                          fontWeight="600"
+                          fill="#475569"
+                        >
+                          Loan End ({plan.loanDetails.loanTenureYears}y)
+                        </text>
+                      </g>
+                    )}
 
                     {/* Target Line 1: Total Loan Interest */}
                     <line
@@ -1929,15 +2030,42 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
           margin: 0 0 6px 0;
         }
         .milestone-target {
-          font-size: 22px;
+          font-size: 24px;
           font-weight: 800;
           color: #0F172A;
-          margin-bottom: 8px;
+          margin-bottom: 12px;
+        }
+        .milestone-details-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px 12px;
+          background: #F8FAFC;
+          border-radius: 8px;
+          padding: 10px 12px;
+          margin-bottom: 14px;
+          border: 1px solid #E2E8F0;
+        }
+        .milestone-detail-item {
+          display: flex;
+          justify-content: space-between;
+          font-size: 12px;
+        }
+        .detail-label {
+          color: #64748B;
+          font-weight: 500;
+        }
+        .detail-val {
+          font-weight: 700;
+          color: #0F172A;
         }
         .milestone-time {
-          font-size: 14px;
+          font-size: 13px;
           color: #334155;
           margin-bottom: 8px;
+          background: #EFF6FF;
+          padding: 8px 12px;
+          border-radius: 6px;
+          border-left: 3px solid #3B82F6;
         }
         .milestone-note {
           font-size: 12px;
@@ -2001,6 +2129,13 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
         .complete-line-swatch {
           background: #008080;
           border-top: 1px dashed #008080;
+        }
+        .maturity-swatch {
+          background: #64748B;
+          border-top: 1px dashed #64748B;
+        }
+        .total-repayment-highlight {
+          color: #0F766E;
         }
         .svg-container {
           width: 100%;
@@ -2325,6 +2460,15 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
           .form-grid {
             grid-template-columns: 1fr;
           }
+          .live-preview-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            padding: 16px;
+          }
+          .preview-divider {
+            display: none;
+          }
           .targets-grid {
             grid-template-columns: 1fr;
           }
@@ -2343,6 +2487,9 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
             grid-template-columns: 1fr 1fr;
           }
           .milestones-row {
+            grid-template-columns: 1fr;
+          }
+          .milestone-details-grid {
             grid-template-columns: 1fr;
           }
           .horizontal-timeline {
@@ -2364,6 +2511,20 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
           }
           .bridge-actions {
             flex-direction: column;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .live-preview-box {
+            grid-template-columns: 1fr;
+            text-align: left;
+          }
+          .preview-item {
+            align-items: flex-start;
+            text-align: left;
+          }
+          .metric-quad-grid {
+            grid-template-columns: 1fr;
           }
         }
       `}</style>

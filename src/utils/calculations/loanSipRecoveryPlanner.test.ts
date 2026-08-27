@@ -309,6 +309,45 @@ assert(lowSIPPlan.customCompleteLoanMilestone.isReached === false, 'Very low SIP
 assert(lowSIPPlan.customCompleteLoanMilestone.recoveryMonth === null, 'Unreached recoveryMonth is null');
 assert(lowSIPPlan.customCompleteLoanMilestone.comparisonStatus === 'unreached', 'Status is unreached');
 
+// Return Rate Sweep: 6%, 10%, 12%, 18%
+console.log('\n--- 8b. Return Rate Sweeps ---');
+const plan6 = calculateLoanSIPRecoveryPlan({ ...benchInputs, sipReturnRate: 6 });
+assert(plan6.interestRecovery.requiredMonthlySIP > plan.interestRecovery.requiredMonthlySIP, '6% return requires higher SIP than 12%');
+assert(!isNaN(plan6.interestRecovery.requiredMonthlySIP), '6% required SIP is finite');
+
+const plan18 = calculateLoanSIPRecoveryPlan({ ...benchInputs, sipReturnRate: 18 });
+assert(plan18.interestRecovery.requiredMonthlySIP < plan.interestRecovery.requiredMonthlySIP, '18% return requires lower SIP than 12%');
+assert(!isNaN(plan18.interestRecovery.requiredMonthlySIP), '18% required SIP is finite');
+
+// Tenure Sweeps: 1 Year Short Loan, 30 Year Long Loan
+console.log('\n--- 8c. Tenure Sweeps ---');
+const shortLoan = calculateLoanSIPRecoveryPlan({
+  loanType: 'Personal Loan',
+  loanAmount: 200000,
+  annualLoanInterestRate: 12,
+  loanTenureYears: 1,
+  loanStartDate: '2026-01-01'
+});
+assertClose(shortLoan.loanDetails.emi, 17769.77, 1.0, '1-year loan EMI verified');
+assert(shortLoan.loanDetails.loanTenureMonths === 12, '1-year tenure is 12 months');
+
+const longLoan = calculateLoanSIPRecoveryPlan({
+  loanType: 'Home Loan',
+  loanAmount: 20000000, // ₹2 Crore
+  annualLoanInterestRate: 8.5,
+  loanTenureYears: 30,
+  loanStartDate: '2026-01-01'
+});
+assert(longLoan.loanDetails.loanTenureMonths === 360, '30-year tenure is 360 months');
+assertClose(longLoan.loanDetails.emi, 153783.33, 5.0, '₹2 Crore 30-year EMI verified');
+assert(!isNaN(longLoan.completeLoanRecovery.requiredMonthlySIP), '₹2 Cr required SIP is valid');
+
+// Custom SIP equal to exact Target 1 required SIP
+const exactTarget1SIP = Math.round(plan.interestRecovery.requiredMonthlySIP);
+const exactPlan = calculateLoanSIPRecoveryPlan({ ...benchInputs, customSipAmount: exactTarget1SIP });
+assert(exactPlan.customInterestMilestone.isReached === true, 'Exact required SIP reaches interest target');
+assert(exactPlan.customInterestMilestone.recoveryMonth === 240, `Exact required SIP reaches at Month 240 (got ${exactPlan.customInterestMilestone.recoveryMonth})`);
+
 // Projection check
 const proj = calculateCustomSIPProjection(benchInputs, 9000);
 assert(proj.length >= 240, 'Projection generated for at least 240 months');
