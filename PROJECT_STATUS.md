@@ -76,77 +76,96 @@ AWC_2026_08_23/
     │   ├── WhyAntWealth.astro            # 5 Core Philosophy Cards
     │   ├── ConsultationExpectations.astro# 3-step "What happens when you talk to Santhosh?" module
     │   ├── calculators/                  # Interactive React Calculator Suite
+    │   │   ├── LoanSIPRecoveryPlanner.tsx    # 4-step Loan + SIP wealth recovery opportunity planner
     │   │   ├── HomeLoanForeclosurePlanner.tsx # Month-by-month parallel amortization & SIP foreclosure planner
-│   │   ├── SWPCalculator.tsx         # Monthly sequential SWP simulation with step-up & lump sum milestones
-    │   │   ├── SIPGrowthPlanner.tsx      # Annual Step-Up SIP with effective monthly compounding & multi-lump sums
+    │   │   ├── SWPCalculator.tsx             # Monthly sequential SWP simulation with step-up & lump sum milestones
+    │   │   ├── SIPGrowthPlanner.tsx          # Annual Step-Up SIP with effective monthly compounding & multi-lump sums
     │   │   ├── RetirementDistributionPlanner.tsx # Three-Bucket decumulation planner with Fisher real returns
     │   │   ├── RetirementAccumulationPlanner.tsx # Annuity-Due retirement corpus & 3-way SIP roadmap
     │   │   ├── HousePurchasePlannerCalculator.tsx # 4-step home purchase planner with property inflation & loan EMI
     │   │   ├── LifeInsuranceNeedCalculator.tsx # 5-step Life Insurance Need Analysis calculator
-    │   │   ├── REALFinancialStatement.tsx# 5-step REAL Financial Statement assessment & snapshot
-    │   │   ├── ChildrenFuturePlanner.tsx # Multi-goal Children's Future Planner with asset projection
-    │   │   ├── CalculatorsHub.tsx        # Tabbed 5-in-1 calculator hub with URL query sync
-    │   │   ├── SIPCalculator.tsx         # Quick Monthly SIP and Step-Up SIP calculator
-    │   │   ├── LumpsumCalculator.tsx     # Dedicated one-time compounding calculator
-    │   │   ├── GoalPlannerCalculator.tsx # Inflation-adjusted milestone goal planner
+    │   │   ├── REALFinancialStatement.tsx    # 5-step REAL Financial Statement assessment & snapshot
+    │   │   ├── ChildrenFuturePlanner.tsx     # Multi-goal Children's Future Planner with asset projection
+    │   │   ├── CalculatorsHub.tsx            # Tabbed 5-in-1 calculator hub with URL query sync
+    │   │   ├── SIPCalculator.tsx             # Quick Monthly SIP and Step-Up SIP calculator
+    │   │   ├── LumpsumCalculator.tsx         # Dedicated one-time compounding calculator
+    │   │   ├── GoalPlannerCalculator.tsx     # Inflation-adjusted milestone goal planner
     │   │   ├── LoanVsInvestmentCalculator.tsx # Prepayment vs mutual fund SIP simulator
-    │   │   ├── InsuranceCalculator.tsx   # Income replacement human life value tool
-    │   │   └── NetWorthCalculator.tsx    # Liquid/Fixed assets vs liabilities balance calculator
+    │   │   ├── InsuranceCalculator.tsx       # Income replacement human life value tool
+    │   │   └── NetWorthCalculator.tsx        # Liquid/Fixed assets vs liabilities balance calculator
     │   ├── consultation/
-    │   │   └── ConsultationBooking.tsx   # 4-step voluntary scheduler with direct WhatsApp bridge
+    │   │   └── ConsultationBooking.tsx       # 4-step voluntary scheduler with direct WhatsApp bridge
     │   ├── health/
-    │   │   ├── HealthCheckIntro.astro    # Financial Health Check introduction hero
-    │   │   ├── HealthQuestionnaire.tsx   # 7-step weighted financial health diagnostic
-    │   │   └── HealthScoreGauge.tsx      # SVG interactive radial gauge
+    │   │   ├── HealthCheckIntro.astro        # Financial Health Check introduction hero
+    │   │   ├── HealthQuestionnaire.tsx       # 7-step weighted financial health diagnostic
+    │   │   └── HealthScoreGauge.tsx          # SVG interactive radial gauge
     │   └── learning/
-    │       ├── ArticleCard.astro         # Card item for educational articles
-    │       ├── CategoryCard.astro        # Category selector card
-    │       └── RelatedArticles.astro     # Related reading suggestions
+    │       ├── ArticleCard.astro             # Card item for educational articles
+    │       ├── CategoryCard.astro            # Category selector card
+    │       └── RelatedArticles.astro         # Related reading suggestions
     ├── content/
-    │   ├── config.ts                     # Zod schema for article content collections
-    │   └── articles/                     # 10 foundational financial guides (Markdown)
+    │   ├── config.ts                         # Zod schema for article content collections
+    │   └── articles/                         # 10 foundational financial guides (Markdown)
     ├── data/
-    │   └── siteConfig.ts                 # Single source of truth for business data, phone, email, disclaimers
+    │   └── siteConfig.ts                     # Single source of truth for business data, phone, email, disclaimers
     ├── layouts/
-    │   ├── BaseLayout.astro              # Global layout with SEO meta tags & FinancialService JSON-LD
-    │   └── ArticleLayout.astro           # Long-form article layout with Breadcrumbs & Article JSON-LD
+    │   ├── BaseLayout.astro                  # Global layout with SEO meta tags & FinancialService JSON-LD
+    │   └── ArticleLayout.astro               # Long-form article layout with Breadcrumbs & Article JSON-LD
     ├── pages/
-    │   ├── index.astro                   # Homepage
-    │   ├── plan.astro                    # Goal Discovery & Planning Hub
+    │   ├── index.astro                       # Homepage
+    │   ├── plan.astro                        # Goal Discovery & Planning Hub
     │   ├── plan/
-    │   │   └── children.astro            # Children's Future Planner (Multi-Goal Milestone Hub)
-    │   ├── tools.astro                   # Calculators Toolbox (?calc= query support)
+    │   │   └── children.astro                # Children's Future Planner (Multi-Goal Milestone Hub)
+    │   ├── tools.astro                       # Calculators Toolbox (?calc= query support)
     │   ├── tools/
-    │   │   ├── swp.astro                 # SWP Calculator (/tools/swp)
-    │   │   ├── sip-growth.astro          # SIP Growth Planner (/tools/sip-growth)
+    │   │   ├── loan-sip-recovery.astro       # Loan + SIP Recovery Planner (/tools/loan-sip-recovery)
+    │   │   ├── home-loan-foreclosure.astro   # Home Loan Foreclosure Planner (/tools/home-loan-foreclosure)
+    │   │   ├── swp.astro                     # SWP Calculator (/tools/swp)
+    │   │   ├── sip-growth.astro              # SIP Growth Planner (/tools/sip-growth)
     │   │   ├── retirement-distribution.astro # Retirement Distribution Planner (/tools/retirement-distribution)
-    │   │   ├── retirement.astro          # Retirement Accumulation Planner (/tools/retirement)
-    │   │   ├── home-purchase.astro       # Home Purchase Planner (/tools/home-purchase)
-    │   │   └── life-insurance.astro      # Life Insurance Need Analysis (/tools/life-insurance)
-    │   ├── health-check.astro            # 3-Minute Financial Health Check
+    │   │   ├── retirement.astro              # Retirement Accumulation Planner (/tools/retirement)
+    │   │   ├── home-purchase.astro           # Home Purchase Planner (/tools/home-purchase)
+    │   │   └── life-insurance.astro          # Life Insurance Need Analysis (/tools/life-insurance)
+    │   ├── health-check.astro                # 3-Minute Financial Health Check
     │   ├── health-check/
-    │   │   └── real-statement.astro      # REAL Financial Statement Assessment
-    │   ├── learn.astro                   # Financial Education Hub
+    │   │   └── real-statement.astro          # REAL Financial Statement Assessment
+    │   ├── learn.astro                       # Financial Education Hub
     │   ├── learn/
-    │   │   └── [...slug].astro           # Dynamic Article Template
-    │   ├── about.astro                   # About Santhosh & AMFI MFD Disclosures
-    │   ├── contact.astro                 # Contact, Office Address & Consultation Scheduler
-    │   ├── disclaimer.astro              # Regulatory, SEBI/AMFI Disclosures & Mutual Fund Risk Warnings
-    │   ├── privacy.astro                 # Privacy Policy
-    │   ├── terms.astro                   # Terms of Service
-    │   ├── 404.astro                     # Custom 404 Error Page
-    │   └── sitemap.xml.ts                # Dynamic XML Sitemap (29 routes)
+    │   │   └── [...slug].astro               # Dynamic Article Template
+    │   ├── about.astro                       # About Santhosh & AMFI MFD Disclosures
+    │   ├── contact.astro                     # Contact, Office Address & Consultation Scheduler
+    │   ├── disclaimer.astro                  # Regulatory, SEBI/AMFI Disclosures & Mutual Fund Risk Warnings
+    │   ├── privacy.astro                     # Privacy Policy
+    │   ├── terms.astro                       # Terms of Service
+    │   ├── 404.astro                         # Custom 404 Error Page
+    │   └── sitemap.xml.ts                    # Dynamic XML Sitemap (31 routes)
     └── utils/
         └── calculations/
-            ├── swpCalculator.ts          # SWP Calculator Engine & Types
-            ├── swpCalculator.test.ts     # 38 Unit Tests for SWP Calculator
-            ├── sipGrowthPlanner.ts       # SIP Growth Planner Engine & Types
-            ├── sipGrowthPlanner.test.ts  # 37 Unit Tests for SIP Growth Planner
+            ├── loanSipRecoveryPlanner.ts     # Loan + SIP Recovery Planner Engine & Types
+            ├── loanSipRecoveryPlanner.test.ts # 45 Unit Tests for Loan + SIP Recovery
+            ├── homeLoanForeclosurePlanner.ts # Home Loan Foreclosure Engine & Types
+            ├── homeLoanForeclosurePlanner.test.ts # 45 Unit Tests for Foreclosure Planner
+            ├── swpCalculator.ts              # SWP Calculator Engine & Types
+            ├── swpCalculator.test.ts         # 38 Unit Tests for SWP Calculator
+            ├── sipGrowthPlanner.ts           # SIP Growth Planner Engine & Types
+            ├── sipGrowthPlanner.test.ts      # 37 Unit Tests for SIP Growth Planner
             ├── retirementDistributionPlanner.ts # Retirement Distribution Engine & Types
             ├── retirementDistributionPlanner.test.ts # 32 Unit Tests for Retirement Distribution
             ├── retirementAccumulationPlanner.ts # Retirement Accumulation Engine & Types
             ├── retirementAccumulationPlanner.test.ts # 32 Unit Tests for Retirement Accumulation
-            ├── housePurchasePlanner.ts   # Home Purchase Engine & Types
+            ├── housePurchasePlanner.ts       # Home Purchase Engine & Types
+            ├── housePurchasePlanner.test.ts  # 25 Unit Tests for Home Purchase
+            ├── lifeInsuranceNeed.ts          # Life Insurance Need Engine & Types
+            ├── lifeInsuranceNeed.test.ts     # 33 Unit Tests for Life Insurance Need
+            ├── realFinancialStatement.ts     # REAL Financial Statement Engine & Types
+            ├── realFinancialStatement.test.ts # 45 Unit Tests for REAL Statement
+            ├── childrenFuturePlanner.ts      # Children's Planner Engine & Types
+            ├── lumpsum.ts                    # Lumpsum Engine
+            ├── lumpsum.test.ts               # 16 Unit Tests for Lumpsum Engine
+            ├── emergencyFund.ts              # Emergency Fund Engine
+            ├── financialHealth.ts            # Financial Health Diagnostic Engine
+            ├── goalPlanner.ts                # Milestone Goal Planner Engine
+.ts   # Home Purchase Engine & Types
             ├── housePurchasePlanner.test.ts # 25 Unit Tests for Home Purchase
             ├── lifeInsuranceNeed.ts      # Life Insurance Need Engine & Types
             ├── lifeInsuranceNeed.test.ts # 33 Unit Tests for Life Insurance Need
