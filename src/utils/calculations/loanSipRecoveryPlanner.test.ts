@@ -309,15 +309,42 @@ assert(lowSIPPlan.customCompleteLoanMilestone.isReached === false, 'Very low SIP
 assert(lowSIPPlan.customCompleteLoanMilestone.recoveryMonth === null, 'Unreached recoveryMonth is null');
 assert(lowSIPPlan.customCompleteLoanMilestone.comparisonStatus === 'unreached', 'Status is unreached');
 
-// Return Rate Sweep: 6%, 10%, 12%, 18%
-console.log('\n--- 8b. Return Rate Sweeps ---');
+// Return Rate Sweep: 6%, 10%, 12%, 15%, 18%
+console.log('\n--- 8b. Return Rate Sensitivity Sweeps ---');
 const plan6 = calculateLoanSIPRecoveryPlan({ ...benchInputs, sipReturnRate: 6 });
-assert(plan6.interestRecovery.requiredMonthlySIP > plan.interestRecovery.requiredMonthlySIP, '6% return requires higher SIP than 12%');
-assert(!isNaN(plan6.interestRecovery.requiredMonthlySIP), '6% required SIP is finite');
-
+const plan10 = calculateLoanSIPRecoveryPlan({ ...benchInputs, sipReturnRate: 10 });
+const plan12 = calculateLoanSIPRecoveryPlan({ ...benchInputs, sipReturnRate: 12 });
+const plan15 = calculateLoanSIPRecoveryPlan({ ...benchInputs, sipReturnRate: 15 });
 const plan18 = calculateLoanSIPRecoveryPlan({ ...benchInputs, sipReturnRate: 18 });
-assert(plan18.interestRecovery.requiredMonthlySIP < plan.interestRecovery.requiredMonthlySIP, '18% return requires lower SIP than 12%');
-assert(!isNaN(plan18.interestRecovery.requiredMonthlySIP), '18% required SIP is finite');
+
+// 1. 6% produces higher required SIP than 12%
+assert(plan6.interestRecovery.requiredMonthlySIP > plan12.interestRecovery.requiredMonthlySIP, '6% return requires higher SIP than 12%');
+assert(plan6.completeLoanRecovery.requiredMonthlySIP > plan12.completeLoanRecovery.requiredMonthlySIP, '6% complete recovery requires higher SIP than 12%');
+
+// 2. 10% produces higher required SIP than 12%
+assert(plan10.interestRecovery.requiredMonthlySIP > plan12.interestRecovery.requiredMonthlySIP, '10% return requires higher SIP than 12%');
+
+// 3. 12% matches baseline regression benchmark
+assertClose(plan12.interestRecovery.requiredMonthlySIP, 6301.60, 1.0, '12% Target 1 matches benchmark (₹6,301.60)');
+assertClose(plan12.completeLoanRecovery.requiredMonthlySIP, 11737.09, 1.0, '12% Target 2 matches benchmark (₹11,737.09)');
+
+// 4. 15% produces lower required SIP than 12%
+assert(plan15.interestRecovery.requiredMonthlySIP < plan12.interestRecovery.requiredMonthlySIP, '15% return requires lower SIP than 12%');
+
+// 5. 18% produces lower required SIP than 15%
+assert(plan18.interestRecovery.requiredMonthlySIP < plan15.interestRecovery.requiredMonthlySIP, '18% return requires lower SIP than 15%');
+
+// 6. % of EMI responds directly
+assert(plan6.interestRecovery.sipPercentageOfEMI > plan12.interestRecovery.sipPercentageOfEMI, '6% return produces higher % of EMI than 12%');
+assert(plan18.interestRecovery.sipPercentageOfEMI < plan12.interestRecovery.sipPercentageOfEMI, '18% return produces lower % of EMI than 12%');
+
+// 7. Both targets use the exact selected return
+assert(plan12.interestRecovery.sipReturnRate === 12, 'Target 1 uses selected 12% return');
+assert(plan12.completeLoanRecovery.sipReturnRate === 12, 'Target 2 uses selected 12% return');
+
+// 8. Investment horizon changes recalculate required SIP
+const planHorizon10 = calculateLoanSIPRecoveryPlan({ ...benchInputs, sipDurationYears: 10 });
+assert(planHorizon10.interestRecovery.requiredMonthlySIP > plan12.interestRecovery.requiredMonthlySIP, '10-year horizon requires higher SIP than 20-year horizon');
 
 // Tenure Sweeps: 1 Year Short Loan, 30 Year Long Loan
 console.log('\n--- 8c. Tenure Sweeps ---');

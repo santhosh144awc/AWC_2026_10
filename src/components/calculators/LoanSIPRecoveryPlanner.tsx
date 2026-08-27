@@ -372,6 +372,81 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
             </p>
           </div>
 
+          {/* User-Editable SIP Return Assumption Panel */}
+          <div className="return-assumption-panel">
+            <div className="panel-header">
+              <span className="panel-badge">RETURN ASSUMPTION</span>
+              <h3 className="panel-title">What return should we assume for your SIP?</h3>
+              <p className="panel-subtitle">
+                Choose an illustrative annual return to see how the required SIP changes. Actual investment returns may vary.
+              </p>
+            </div>
+
+            <div className="return-control-card">
+              <div className="return-input-row">
+                <label htmlFor="step2-return-slider" className="return-label">
+                  Expected Annual SIP Return
+                </label>
+                <div className="return-input-wrapper">
+                  <input
+                    type="number"
+                    id="step2-return-number"
+                    aria-label="Expected Annual SIP Return Percentage"
+                    className="return-number-input"
+                    value={sipReturnRate}
+                    min={6.0}
+                    max={18.0}
+                    step={1.0}
+                    onChange={(e) => {
+                      const val = Number(e.target.value);
+                      if (!isNaN(val)) {
+                        handleReturnRateChange(Math.max(6, Math.min(18, val)));
+                      }
+                    }}
+                  />
+                  <span className="percent-suffix">%</span>
+                </div>
+              </div>
+
+              <input
+                type="range"
+                id="step2-return-slider"
+                aria-label="Expected Annual SIP Return Range Slider"
+                aria-valuemin={6}
+                aria-valuemax={18}
+                aria-valuenow={sipReturnRate}
+                className="range-slider return-slider-accent"
+                min={6.0}
+                max={18.0}
+                step={1.0}
+                value={sipReturnRate}
+                onChange={(e) => handleReturnRateChange(Number(e.target.value))}
+              />
+
+              <div className="range-hints">
+                <span>6%</span>
+                <span className="current-return-badge">{sipReturnRate}% p.a.</span>
+                <span>18%</span>
+              </div>
+
+              <div className="return-horizon-note">
+                <span className="horizon-tag">Investment Horizon: <strong>{plan.sipDurationYears} Years</strong></span>
+                <span className="default-horizon-text">(Default horizon: same as your loan tenure)</span>
+              </div>
+
+              {/* Dynamic Educational Impact Insight */}
+              <div className="return-impact-insight">
+                <div className="insight-icon">💡</div>
+                <div className="insight-text">
+                  <strong>Illustration: Required SIP is sensitive to the return assumption.</strong>
+                  <p>
+                    At <strong>{sipReturnRate}%</strong> assumed return, you would need approximately <strong>{formatIndianCurrency(plan.completeLoanRecovery.requiredMonthlySIP)}/month</strong> to potentially build a corpus equal to your complete loan repayment over {plan.sipDurationYears} years.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Two Large Visual Cards */}
           <div className="targets-grid">
             {/* Card 1: Interest Recovery */}
@@ -384,6 +459,10 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
               </p>
 
               <div className="target-metric-box">
+                <div className="metric-row">
+                  <span className="metric-title">Assumed SIP Return</span>
+                  <span className="metric-val return-val-highlight">{plan.sipReturnRate}% p.a.</span>
+                </div>
                 <div className="metric-row">
                   <span className="metric-title">Estimated SIP Required</span>
                   <span className="metric-val">{formatIndianCurrency(plan.interestRecovery.requiredMonthlySIP)}/month</span>
@@ -435,6 +514,10 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
               </div>
 
               <div className="target-metric-box">
+                <div className="metric-row">
+                  <span className="metric-title">Assumed SIP Return</span>
+                  <span className="metric-val return-val-highlight">{plan.sipReturnRate}% p.a.</span>
+                </div>
                 <div className="metric-row">
                   <span className="metric-title">Estimated SIP Required</span>
                   <span className="metric-val">{formatIndianCurrency(plan.completeLoanRecovery.requiredMonthlySIP)}/month</span>
@@ -756,6 +839,19 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
                 <span className="quad-sub">Principal + Interest</span>
               </div>
             </div>
+
+            {/* Assumptions Strip */}
+            <div className="hero-assumptions-strip">
+              <span className="assumption-pill">
+                Assumed SIP Return: <strong>{plan.sipReturnRate}% p.a.</strong>
+              </span>
+              <span className="assumption-pill">
+                Investment Horizon: <strong>{plan.sipDurationYears} Years</strong>
+              </span>
+              <span className="assumption-pill">
+                Effective Monthly Compounding: <strong>{(plan.effectiveMonthlySIPRate * 100).toFixed(4)}%/mo</strong>
+              </span>
+            </div>
           </div>
 
           {/* Two Milestone Summary Cards */}
@@ -766,6 +862,10 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
               <div className="milestone-target">{formatLakhsCrores(plan.loanDetails.totalInterest)}</div>
               
               <div className="milestone-details-grid">
+                <div className="milestone-detail-item">
+                  <span className="detail-label">Assumed Return:</span>
+                  <span className="detail-val return-highlight">{plan.sipReturnRate}% p.a.</span>
+                </div>
                 <div className="milestone-detail-item">
                   <span className="detail-label">Required SIP:</span>
                   <span className="detail-val">{formatIndianCurrency(plan.interestRecovery.requiredMonthlySIP)}/mo</span>
@@ -804,6 +904,10 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
               <div className="milestone-target">{formatLakhsCrores(plan.loanDetails.totalScheduledRepayment)}</div>
 
               <div className="milestone-details-grid">
+                <div className="milestone-detail-item">
+                  <span className="detail-label">Assumed Return:</span>
+                  <span className="detail-val return-highlight">{plan.sipReturnRate}% p.a.</span>
+                </div>
                 <div className="milestone-detail-item">
                   <span className="detail-label">Required SIP:</span>
                   <span className="detail-val">{formatIndianCurrency(plan.completeLoanRecovery.requiredMonthlySIP)}/mo</span>
@@ -1570,10 +1674,161 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
           color: #94A3B8;
           margin-top: 2px;
         }
-        .preview-divider {
-          width: 1px;
-          height: 50px;
-          background: #E2E8F0;
+        /* Return Assumption Panel (Step 2) */
+        .return-assumption-panel {
+          background: linear-gradient(180deg, #F0FDFA 0%, #FFFFFF 100%);
+          border: 1.5px solid #99F6E4;
+          border-radius: 16px;
+          padding: 24px;
+          margin-bottom: 24px;
+        }
+        .panel-header {
+          margin-bottom: 16px;
+        }
+        .panel-badge {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          color: #0F766E;
+          background: #CCFBF1;
+          padding: 3px 8px;
+          border-radius: 4px;
+          margin-bottom: 6px;
+        }
+        .panel-title {
+          font-size: 18px;
+          font-weight: 800;
+          color: #00182A;
+          margin: 0 0 6px 0;
+        }
+        .panel-subtitle {
+          font-size: 13px;
+          color: #475569;
+          margin: 0;
+          line-height: 1.4;
+        }
+        .return-control-card {
+          background: #FFFFFF;
+          border: 1px solid #E2E8F0;
+          border-radius: 12px;
+          padding: 20px;
+        }
+        .return-input-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 12px;
+        }
+        .return-label {
+          font-size: 14px;
+          font-weight: 700;
+          color: #1E293B;
+        }
+        .return-input-wrapper {
+          display: inline-flex;
+          align-items: center;
+          background: #F1F5F9;
+          border: 1.5px solid #CBD5E1;
+          border-radius: 8px;
+          padding: 4px 10px;
+        }
+        .return-number-input {
+          width: 54px;
+          font-size: 16px;
+          font-weight: 800;
+          color: #00182A;
+          border: none;
+          background: transparent;
+          text-align: right;
+          outline: none;
+        }
+        .percent-suffix {
+          font-size: 15px;
+          font-weight: 700;
+          color: #64748B;
+          margin-left: 2px;
+        }
+        .current-return-badge {
+          background: #008080;
+          color: #FFFFFF;
+          font-size: 12px;
+          font-weight: 700;
+          padding: 2px 8px;
+          border-radius: 4px;
+        }
+        .return-horizon-note {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-top: 12px;
+          font-size: 12px;
+          color: #64748B;
+          flex-wrap: wrap;
+        }
+        .horizon-tag {
+          background: #F1F5F9;
+          padding: 3px 8px;
+          border-radius: 4px;
+          color: #334155;
+        }
+        .default-horizon-text {
+          font-style: italic;
+          color: #94A3B8;
+        }
+        .return-impact-insight {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          background: #F0FDF4;
+          border: 1px solid #BBF7D0;
+          border-radius: 10px;
+          padding: 12px 14px;
+          margin-top: 16px;
+          font-size: 13px;
+          color: #166534;
+        }
+        .insight-icon {
+          font-size: 18px;
+          line-height: 1;
+        }
+        .insight-text strong {
+          display: block;
+          margin-bottom: 2px;
+          color: #14532D;
+        }
+        .insight-text p {
+          margin: 0;
+          font-size: 12px;
+          color: #15803D;
+          line-height: 1.4;
+        }
+        .return-val-highlight {
+          color: #008080;
+          font-weight: 800;
+        }
+        .return-highlight {
+          color: #0F766E;
+          font-weight: 700;
+        }
+        .hero-assumptions-strip {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+          margin-top: 16px;
+          padding-top: 14px;
+          border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .assumption-pill {
+          font-size: 11px;
+          color: #E2E8F0;
+          background: rgba(255, 255, 255, 0.08);
+          padding: 4px 10px;
+          border-radius: 6px;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .assumption-pill strong {
+          color: #2DD4BF;
         }
 
         /* Targets Grid (Step 2) */
