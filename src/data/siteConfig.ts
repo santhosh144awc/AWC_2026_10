@@ -165,6 +165,13 @@ export const siteConfig = {
 
   calculators: [
     {
+      id: "loan-sip-recovery",
+      title: "Loan + SIP Recovery Planner",
+      description: "See how investing a manageable percentage of your EMI into SIP can potentially offset your loan interest or complete loan cost.",
+      icon: "scale",
+      href: "/tools/loan-sip-recovery",
+    },
+    {
       id: "home-loan-foreclosure",
       title: "Home Loan Foreclosure Planner",
       description: "See how a parallel SIP alongside your EMI could help you plan for an earlier home-loan closure.",

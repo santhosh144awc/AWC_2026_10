@@ -1,0 +1,425 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LoanSIPRecoveryPlanner from '../../components/calculators/LoanSIPRecoveryPlanner';
+---
+
+<BaseLayout
+  title="Loan + SIP Recovery Planner | See How SIP Can Potentially Offset Your Loan | Ant Wealth Creation"
+  description="See how much SIP you may need to potentially offset your loan interest or complete loan cost. Enter your loan details, choose an SIP return assumption and discover your potential recovery timeline."
+  canonicalUrl="https://antwealth.in/tools/loan-sip-recovery"
+>
+  <main class="page-wrapper">
+    <!-- Header Section -->
+    <section class="tool-hero-section">
+      <div class="container">
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+          <ol class="breadcrumb-list">
+            <li><a href="/">Home</a></li>
+            <li class="separator">/</li>
+            <li><a href="/tools">Calculators</a></li>
+            <li class="separator">/</li>
+            <li aria-current="page">Loan + SIP Recovery Planner</li>
+          </ol>
+        </nav>
+
+        <div class="hero-content">
+          <span class="hero-tag">WEALTH CREATION OPPORTUNITY</span>
+          <h1 class="hero-title">Loan + SIP Recovery Planner</h1>
+          <p class="hero-subtitle">
+            Your EMI pays off the loan. Your SIP can potentially build the wealth to offset it. Discover how investing a manageable percentage of your EMI into mutual funds could help you build an offsetting wealth corpus over time.
+          </p>
+        </div>
+
+        <!-- Trust Indicators -->
+        <div class="trust-bar">
+          <div class="trust-perk">
+            <span class="perk-icon">🔒</span>
+            <span class="perk-text">100% Confidential</span>
+          </div>
+          <div class="trust-perk">
+            <span class="perk-icon">⚡</span>
+            <span class="perk-text">No Forced Lead Capture</span>
+          </div>
+          <div class="trust-perk">
+            <span class="perk-icon">🎯</span>
+            <span class="perk-text">Goal-Based Planning</span>
+          </div>
+          <div class="trust-perk">
+            <span class="perk-icon">📈</span>
+            <span class="perk-text">Compounding Illustration</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Island Section -->
+    <section class="calculator-container-section">
+      <div class="container">
+        <LoanSIPRecoveryPlanner client:load />
+      </div>
+    </section>
+
+    <!-- Educational & Methodology Guide -->
+    <section class="educational-section">
+      <div class="container">
+        <div class="edu-card">
+          <h2 class="edu-heading">How can a SIP potentially offset a loan?</h2>
+          <div class="edu-grid">
+            <div class="edu-item">
+              <div class="edu-icon">🏦</div>
+              <h3>1. The EMI Commitment</h3>
+              <p>
+                When you take a loan, your monthly Equated Monthly Installment (EMI) goes toward reducing the principal balance and paying lender interest. Over a typical 15 to 20-year tenure, total interest alone can often exceed 100% of the original principal amount.
+              </p>
+            </div>
+
+            <div class="edu-item">
+              <div class="edu-icon">🌱</div>
+              <h3>2. The Parallel SIP Strategy</h3>
+              <p>
+                Rather than putting all spare cash flow into early loan foreclosure, you can maintain your standard EMI schedule while directing a modest monthly amount (e.g. 15% to 25% of your EMI) into diversified mutual funds through a Systematic Investment Plan (SIP).
+              </p>
+            </div>
+
+            <div class="edu-item">
+              <div class="edu-icon">⚡</div>
+              <h3>3. The Power of Compounding</h3>
+              <p>
+                While your loan balance steadily amortizes down, your parallel SIP corpus compounds over time. Because equity mutual funds have historically offered higher long-term potential returns than debt interest rates, compounding allows your wealth to grow exponentially.
+              </p>
+            </div>
+
+            <div class="edu-item">
+              <div class="edu-icon">🏁</div>
+              <h3>4. The Potential Recovery Point</h3>
+              <p>
+                The recovery milestone marks the projected point in time where your accumulated SIP investment value matches or exceeds the total interest paid or the complete contractual loan cost (Principal + Total Interest).
+              </p>
+            </div>
+          </div>
+
+          <div class="edu-callout">
+            <strong>Important Distinction:</strong> This tool illustrates a parallel wealth-accumulation strategy alongside your regular EMI payments. It does not mean the SIP directly repays or forecloses your loan. To plan for earlier loan closure, explore our <a href="/tools/home-loan-foreclosure">Home Loan Foreclosure Planner</a>.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cross-Discovery Navigation Grid -->
+    <section class="cross-discovery-section">
+      <div class="container">
+        <h2 class="discovery-title">Explore Other Financial Planning Suites</h2>
+        <p class="discovery-subtitle">Comprehensive, goal-aligned planning tools built with precision mathematics.</p>
+
+        <div class="discovery-grid">
+          <a href="/tools/home-loan-foreclosure" class="discovery-card highlight-card">
+            <span class="discovery-badge">EARLY CLOSURE</span>
+            <h3>Home Loan Foreclosure Planner</h3>
+            <p>Want to close your loan earlier? Plan targeted loan foreclosure through monthly SIP accumulation.</p>
+            <span class="discovery-link">Plan Early Closure →</span>
+          </a>
+
+          <a href="/tools/sip-growth" class="discovery-card">
+            <span class="discovery-badge">WEALTH ACCUMULATION</span>
+            <h3>SIP Growth Planner</h3>
+            <p>Model fixed or annual step-up SIPs to build long-term wealth across varying return scenarios.</p>
+            <span class="discovery-link">Grow Your SIP →</span>
+          </a>
+
+          <a href="/tools/retirement" class="discovery-card">
+            <span class="discovery-badge">RETIREMENT</span>
+            <h3>Retirement Accumulation Planner</h3>
+            <p>Calculate your inflation-adjusted retirement nest egg and find your exact required monthly SIP.</p>
+            <span class="discovery-link">Plan Retirement →</span>
+          </a>
+
+          <a href="/tools/swp" class="discovery-card">
+            <span class="discovery-badge">INCOME HARVESTING</span>
+            <h3>SWP Cash Flow Calculator</h3>
+            <p>Simulate monthly systematic withdrawals, capital preservation, and inflation adjustments.</p>
+            <span class="discovery-link">Plan Cash Flow →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Disclaimers Section -->
+    <section class="disclaimer-section">
+      <div class="container">
+        <div class="disclaimer-card">
+          <h4>Important Regulatory & Educational Disclaimers</h4>
+          <p>
+            <strong>Educational Illustration Only:</strong> This calculator is designed solely for financial education and illustration purposes. Mutual fund investments are subject to market risks, read all scheme related documents carefully. Past performance is not indicative of future returns, and no returns or recovery outcomes are guaranteed.
+          </p>
+          <p>
+            <strong>Loan Terms:</strong> Loan calculations are based on standard reducing-balance amortization formulas. Actual interest rates, EMIs, processing fees, and terms depend on your specific loan agreement with your lending financial institution.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .page-wrapper {
+    background-color: #F8FAFC;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* Tool Hero Section */
+  .tool-hero-section {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 32px 0 24px;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .breadcrumb-nav {
+    margin-bottom: 16px;
+  }
+  .breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    color: #64748B;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .breadcrumb-list a {
+    color: #008080;
+    text-decoration: none;
+  }
+  .breadcrumb-list a:hover {
+    text-decoration: underline;
+  }
+  .separator {
+    color: #CBD5E1;
+  }
+
+  .hero-content {
+    max-width: 840px;
+    margin-bottom: 24px;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: #008080;
+    background: #E6F4F1;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+  .hero-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #00182A;
+    margin: 0 0 10px 0;
+    line-height: 1.25;
+  }
+  .hero-subtitle {
+    font-size: 16px;
+    color: #475569;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Trust Bar */
+  .trust-bar {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding-top: 16px;
+    border-top: 1px solid #EDF2F7;
+  }
+  .trust-perk {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+  }
+  .perk-icon {
+    font-size: 14px;
+  }
+
+  /* Calculator Container */
+  .calculator-container-section {
+    padding: 36px 0;
+  }
+
+  /* Educational Section */
+  .educational-section {
+    padding: 20px 0 40px;
+  }
+  .edu-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 36px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  }
+  .edu-heading {
+    font-size: 22px;
+    font-weight: 800;
+    color: #00182A;
+    margin: 0 0 24px 0;
+  }
+  .edu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  .edu-item {
+    background: #F8FAFC;
+    border: 1px solid #EDF2F7;
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .edu-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  .edu-item h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #00182A;
+    margin: 0 0 6px 0;
+  }
+  .edu-item p {
+    font-size: 13px;
+    color: #64748B;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .edu-callout {
+    background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 13px;
+    color: #1E3A8A;
+    line-height: 1.5;
+  }
+  .edu-callout a {
+    color: #008080;
+    font-weight: 700;
+    text-decoration: underline;
+  }
+
+  /* Cross-Discovery */
+  .cross-discovery-section {
+    padding: 20px 0 40px;
+  }
+  .discovery-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #00182A;
+    margin: 0 0 6px 0;
+  }
+  .discovery-subtitle {
+    font-size: 14px;
+    color: #64748B;
+    margin: 0 0 24px 0;
+  }
+  .discovery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+  .discovery-card {
+    background: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 24px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .discovery-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+    border-color: #008080;
+  }
+  .highlight-card {
+    border-color: #99F6E4;
+    background: linear-gradient(180deg, #F0FDFA 0%, #FFFFFF 100%);
+  }
+  .discovery-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: #008080;
+    margin-bottom: 8px;
+  }
+  .discovery-card h3 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #00182A;
+    margin: 0 0 8px 0;
+  }
+  .discovery-card p {
+    font-size: 12px;
+    color: #64748B;
+    line-height: 1.4;
+    margin: 0 0 16px 0;
+    flex-grow: 1;
+  }
+  .discovery-link {
+    font-size: 13px;
+    font-weight: 700;
+    color: #008080;
+  }
+
+  /* Disclaimers */
+  .disclaimer-section {
+    padding: 10px 0 20px;
+  }
+  .disclaimer-card {
+    background: #F1F5F9;
+    border-radius: 12px;
+    padding: 20px;
+    font-size: 12px;
+    color: #64748B;
+    line-height: 1.5;
+  }
+  .disclaimer-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #475569;
+    margin: 0 0 8px 0;
+  }
+  .disclaimer-card p {
+    margin: 0 0 8px 0;
+  }
+  .disclaimer-card p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 26px;
+    }
+    .trust-bar {
+      gap: 12px;
+    }
+    .edu-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

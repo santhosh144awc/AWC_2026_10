@@ -9,6 +9,7 @@ export const GET: APIRoute = async () => {
     { url: '/plan', changefreq: 'monthly', priority: '0.9' },
     { url: '/plan/children', changefreq: 'monthly', priority: '0.9' },
     { url: '/tools', changefreq: 'monthly', priority: '0.9' },
+    { url: '/tools/loan-sip-recovery', changefreq: 'monthly', priority: '0.9' },
     { url: '/tools/home-loan-foreclosure', changefreq: 'monthly', priority: '0.9' },
     { url: '/tools/swp', changefreq: 'monthly', priority: '0.9' },
     { url: '/tools/sip-growth', changefreq: 'monthly', priority: '0.9' },

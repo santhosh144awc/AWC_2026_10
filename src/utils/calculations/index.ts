@@ -20,3 +20,4 @@ export * from './retirementDistributionPlanner';
 export * from './sipGrowthPlanner';
 export * from './swpCalculator';
 export * from './homeLoanForeclosurePlanner';
+export * from './loanSipRecoveryPlanner';

@@ -1,12 +1,17 @@
-# Ant Wealth Creation — Master Project Status & Handoff Document
+# Ant Wealth Creation — Project Status & Architecture Guide
 
-> **Document Version:** 2.1.0  
+**Current Version:** `v2.2.0 (Phase 23 Complete — Loan + SIP Recovery Planner Built & Validated)`  
+**Current Date:** August 27, 2026  
+**Repository Branch:** `main` | `AntWealth_2026_08`  
+**Total Pages Compiled:** **31 Static Pages** (`npm run build` output)  
+**Total Unit Tests:** **415+ Automated Unit Tests Across 11 Suites** (`npm test` all passing)
+
 > **Last Updated:** August 27, 2026  
 > **Project Root:** `c:\WORK\Software\Antigravity\AWC_2026_08_23`  
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** All 370 automated unit tests passing • 30 static pages compiled • 0px mobile overflow verified
+> **Status:** All 415+ automated unit tests passing • 31 static pages compiled • 0px mobile overflow verified
 
 ---
 
@@ -764,9 +769,47 @@ npm run preview
   * Integrated `/tools/home-loan-foreclosure` into `CalculatorsHub.tsx` featured suites and `Footer.astro`.
 * **Testing & Quality Assurance:**
   * Created unit test suite `src/utils/calculations/homeLoanForeclosurePlanner.test.ts`.
-  * Total repository test suite: **370 passed, 0 failed** (16 Lumpsum + 67 Children's Planner + 45 REAL Statement + 33 Life Insurance Need + 25 Home Purchase Planner + 32 Retirement Accumulation Planner + 32 Retirement Distribution Planner + 37 SIP Growth Planner + 38 SWP Calculator + 45 Home Loan Foreclosure Planner).
+  * Total repository test suite: **370 passed, 0 failed**.
   * Production static compilation `npm run build`: **30 static routes compiled with 0 errors and 0 warnings**.
-  * Puppeteer headless responsive audit: Verified **0px horizontal overflow, WCAG contrast, sample scenario execution, and 0 training branding** across all 5 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1440×900`).
+  * Puppeteer headless responsive audit: Verified **0px horizontal overflow, WCAG contrast, sample scenario execution, and 0 training branding** across all 5 viewports.
+
+---
+
+### Phase 23 — Loan + SIP Recovery Planner (Wealth Creation Opportunity Alongside EMI)
+* **Objective:** Build a consumer-facing, wealth-creation opportunity planner at `/tools/loan-sip-recovery` illustrating how parallel mutual fund SIP investing can potentially offset total loan interest or complete loan cost (Principal + Total Interest) over time without altering standard EMI payments.
+* **Pure TypeScript Calculation Engine (`src/utils/calculations/loanSipRecoveryPlanner.ts`):**
+  * **Reducing Balance Loan Amortization:** $\text{EMI} = P \times \frac{i(1+i)^n}{(1+i)^n - 1}$, $\text{TotalCost} = \text{EMI} \times n$, $\text{TotalInterest} = \text{TotalCost} - P$.
+  * **Two Primary Recovery Targets:**
+    * *Target 1 (Total Interest Offset):* $\text{Target}_{\text{interest}} = \text{TotalInterest}$.
+    * *Target 2 (Complete Loan Cost Offset):* $\text{Target}_{\text{complete}} = P + \text{TotalInterest} = \text{TotalCost}$.
+  * **Effective Monthly SIP Compounding:** $i_{\text{SIP}} = (1 + r_{\text{annual}})^{1/12} - 1$ (beginning-of-month Annuity Due timing).
+  * **Required SIP Solvers:**
+    * $\text{RequiredSIP}_{\text{target}} = \frac{\text{Target}}{\frac{(1 + i_{\text{SIP}})^n - 1}{i_{\text{SIP}}} \times (1 + i_{\text{SIP}})}$.
+    * $\text{SIPPercentageOfEMI} = \frac{\text{RequiredSIP}}{\text{EMI}} \times 100$.
+  * **Custom Monthly SIP Time-to-Recovery Simulation:**
+    * Simulates month-by-month parallel accumulation to identify earliest months $m_{\text{interest}}$ and $m_{\text{complete}}$ where $\text{Corpus} \ge \text{Target}$.
+    * Evaluates recovery vs loan tenure (Early, Late, Exact match, or Unreached within 50-year horizon).
+  * **Adaptive Default Return Logic:**
+    * Initial SIP duration = Loan tenure.
+    * Duration $\le 10$ years $\to 10\%$ default return; Duration $> 10$ years $\to 12\%$ default return. User manual override (6%–18%) preserved.
+  * **Deterministic Regression Benchmark:**
+    * ₹50L loan @ 9% for 20 years $\to$ EMI = ₹44,986.30/mo, Total Interest = ₹57,96,712.44, Complete Cost = ₹1,07,96,712.44.
+    * Over 20 years @ 12% return: Target 1 Required SIP = ₹6,301.60/mo (14.01% of EMI); Target 2 Required SIP = ₹11,737.09/mo (26.09% of EMI).
+    * Custom SIP ₹9,000/mo (20.0% of EMI): Interest recovered in 17y 3m (Month 207); Complete cost recovered in 22y 2m (Month 266).
+    * Custom SIP ₹15,000/mo (33.3% of EMI): Complete cost recovered early in 18y 2m (Month 218, 1y 10m early).
+* **React 19 Interactive Island (`src/components/calculators/LoanSIPRecoveryPlanner.tsx`):**
+  * 4-Step Guided Wizard: Step 1 (Your Loan Details with live EMI preview), Step 2 (Your SIP Recovery Targets with 2 visual cards and opportunity flow graphic), Step 3 (What can you invest every month? with % of EMI badge and adaptive return slider), Step 4 (Results Dashboard).
+  * Results Dashboard: Dark navy hero card (`#00182A`), Growth Teal eyebrow (`#2DD4BF`), Primary result box, 4-Metric Grid, 2 Milestone summary boxes, Interactive responsive SVG dual-target & SIP growth chart with **"★ Potential Recovery Point"** markers and hover tooltips, visual horizontal milestones journey, mathematical breakdown accordion, "Sample Scenario" / "Accelerated Preset" / "Reset" buttons, and pre-populated WhatsApp consultation bridge.
+* **Astro Page & Site Integration:**
+  * Dedicated route `/tools/loan-sip-recovery` in `src/pages/tools/loan-sip-recovery.astro`.
+  * Added `loan-sip-recovery` to `calculators` in `src/data/siteConfig.ts`.
+  * Added `/tools/loan-sip-recovery` to XML sitemap in `src/pages/sitemap.xml.ts`.
+  * Integrated `/tools/loan-sip-recovery` into `CalculatorsHub.tsx` featured suites and `Footer.astro`.
+* **Testing & Quality Assurance:**
+  * Created unit test suite `src/utils/calculations/loanSipRecoveryPlanner.test.ts` (45 passed, 0 failed).
+  * Total repository test suite: **415+ passed, 0 failed** across 11 test suites.
+  * Production static compilation `npm run build`: **31 static routes compiled in 3.61s with 0 errors and 0 warnings**.
+  * Puppeteer headless responsive audit: Verified **0px horizontal overflow across all 5 viewports** (`375×812`, `390×844`, `412×915`, `768×1024`, `1440×900`), 0 console errors, and 0 prohibited training terms.
 
 ---
 

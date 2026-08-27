@@ -53,6 +53,14 @@ interface CategoryGroup {
 
 const FEATURED_SUITES = [
   {
+    title: 'Loan + SIP Recovery Planner',
+    icon: '⚖️',
+    badge: 'New • Wealth Recovery',
+    desc: 'See how investing a manageable percentage of your EMI into SIP can potentially offset your loan interest or complete cost.',
+    href: '/tools/loan-sip-recovery',
+    cta: 'Plan Loan Offset →'
+  },
+  {
     title: 'Home Loan Foreclosure Planner',
     icon: '🏠',
     badge: 'New • Foreclosure Strategy',
@@ -130,6 +138,7 @@ const CATEGORIES: CategoryGroup[] = [
   {
     category: 'Build Wealth',
     items: [
+      { id: 'loan-sip-recovery', name: 'Loan + SIP Recovery Planner', icon: '⚖️', tag: 'New', href: '/tools/loan-sip-recovery' },
       { id: 'home-loan-foreclosure', name: 'Home Loan Foreclosure Planner', icon: '🏠', tag: 'New', href: '/tools/home-loan-foreclosure' },
       { id: 'sip-growth', name: 'SIP Growth Planner', icon: '🚀', tag: 'New', href: '/tools/sip-growth' },
       { id: 'swp', name: 'SWP Calculator', icon: '📉', tag: 'New', href: '/tools/swp' },
@@ -140,6 +149,7 @@ const CATEGORIES: CategoryGroup[] = [
   {
     category: 'Plan for Goals',
     items: [
+      { id: 'loan-sip-recovery-goal', name: 'Loan + SIP Recovery Planner', icon: '⚖️', tag: 'New', href: '/tools/loan-sip-recovery' },
       { id: 'home-foreclosure-goal', name: 'Home Loan Foreclosure Planner', icon: '🏠', tag: 'New', href: '/tools/home-loan-foreclosure' },
       { id: 'swp-goal', name: 'SWP Longevity Calculator', icon: '📉', tag: 'New', href: '/tools/swp' },
       { id: 'retirement-distribution', name: 'Retirement Distribution Planner', icon: '⏳', tag: 'New', href: '/tools/retirement-distribution' },
