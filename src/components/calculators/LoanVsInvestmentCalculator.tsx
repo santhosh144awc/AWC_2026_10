@@ -232,10 +232,10 @@ export default function LoanVsInvestmentCalculator() {
               rel="noopener noreferrer"
               className="btn-whatsapp-consult"
             >
-              Discuss Your Strategy with Santhosh
+              💬 Talk to Santhosh
             </a>
             <a href="/contact" className="btn-book-consult">
-              Book a Free Financial Strategy Call
+              Book a Free Consultation
             </a>
           </div>
 

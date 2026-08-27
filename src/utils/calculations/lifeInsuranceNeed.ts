@@ -1,7 +1,7 @@
 /**
  * Ant Wealth Creation — Life Insurance Need Calculation Engine
  * 
- * Implements the validated NetworkFP / QPFP Life Insurance Need Analysis methodology.
+ * Implements the Needs-Based Human Life Value (HLV) methodology.
  * 
  * Mathematical Core:
  * - Outstanding Liabilities (A)

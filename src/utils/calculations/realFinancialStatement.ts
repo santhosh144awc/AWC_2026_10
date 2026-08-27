@@ -1,4 +1,4 @@
-// NetworkFP / QPFP REAL Statement Calculation Engine
+// Ant Wealth Creation — REAL Financial Statement Calculation Engine
 // Single source of truth for the REAL Financial Statement
 
 export interface IncomeInput {

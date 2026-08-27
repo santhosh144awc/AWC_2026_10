@@ -1,8 +1,7 @@
 /**
  * Ant Wealth Creation — Home Purchase Planning Calculation Engine
  * 
- * Implements the validated Candidates Sheet methodology for property appreciation,
- * loan-to-value allocation (excluding acquisition costs from loan base),
+ * Implements property appreciation, loan-to-value allocation,
  * down payment & acquisition cost accumulation, 8% compounding projected income,
  * monthly home loan EMI, dynamic asset allocation, lump sum, fixed monthly SIP,
  * and annual Step-Up SIP compounding.
@@ -207,7 +206,7 @@ export function calculateIdealMonthlyEMILimit(
 }
 
 /**
- * 9. Home Loan Monthly EMI (Candidates Sheet: periodic monthly rate = rate / 12)
+ * 9. Home Loan Monthly EMI (periodic monthly rate = rate / 12)
  * EMI = P * r * (1+r)^n / ((1+r)^n - 1)
  */
 export function calculateHomeLoanEMI(
@@ -284,7 +283,7 @@ export function calculateRequiredLumpSum(
 }
 
 /**
- * 14. Required Fixed Monthly SIP (Candidates Sheet: periodic compounding PMT)
+ * 14. Required Fixed Monthly SIP (periodic compounding PMT)
  * PMT = deficit * (i / ((1+i)^m - 1))
  * where i = r / 12, m = investmentPeriod * 12
  */
@@ -311,7 +310,7 @@ export function calculateRequiredFixedSIP(
 }
 
 /**
- * 15. Required Annual Step-Up Monthly SIP (Candidates Sheet Formula)
+ * 15. Required Annual Step-Up Monthly SIP
  * 
  * Monthly Step-Up Investment =
  *   -PMT(

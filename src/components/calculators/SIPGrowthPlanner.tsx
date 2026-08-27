@@ -94,7 +94,7 @@ export default function SIPGrowthPlanner() {
     );
   };
 
-  // Load Trainer Deterministic Benchmark Scenario
+  // Load Benchmark Scenario
   const handleLoadSampleData = () => {
     setMonthlySIP(20000);
     setSipDuration(20);

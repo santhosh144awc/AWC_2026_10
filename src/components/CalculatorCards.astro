@@ -1,200 +1,389 @@
 ---
-import { siteConfig } from '../data/siteConfig';
+// 4 Primary Pathways for Visitor Discovery
+const pathways = [
+  {
+    id: "health",
+    title: "Check My Financial Health",
+    description: "Understand your savings, emergency fund, protection and retirement readiness.",
+    cta: "Check My Financial Health",
+    href: "/health-check",
+    icon: "🩺",
+    badge: "2-Minute Diagnostic"
+  },
+  {
+    id: "goal",
+    title: "Plan My Goal",
+    description: "Work towards a home, child's education, retirement or another important milestone.",
+    cta: "Plan My Goal",
+    href: "/plan",
+    icon: "🎯",
+    badge: "Goal-Based Planning"
+  },
+  {
+    id: "investment",
+    title: "Grow My Money",
+    description: "Explore how SIP and lumpsum investments may grow over time.",
+    cta: "Explore Investment Calculators",
+    href: "/tools?calc=sip",
+    icon: "📈",
+    badge: "Wealth Compounding"
+  },
+  {
+    id: "protection",
+    title: "Protect My Family",
+    description: "Get an illustrative view of your family's financial protection gap.",
+    cta: "Check Protection Need",
+    href: "/tools?calc=insurance",
+    icon: "🛡️",
+    badge: "Risk Protection"
+  }
+];
 ---
 
-<section class="calculators-section section-padding">
+<section class="pathway-discovery-section section-padding">
   <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Know Your Numbers</h2>
+    <!-- Header -->
+    <div class="section-header text-center">
+      <div class="badge-tag">
+        <span class="badge-dot"></span>
+        Guided Discovery
+      </div>
+      <h2 class="section-title">Start With What Matters to You</h2>
       <p class="section-subtitle">
-        Use our simple calculators to plan your investments, evaluate trade-offs, and project your financial independence.
+        Not sure where to begin? Start with your financial health, a goal, or a simple calculation.
       </p>
     </div>
 
-    <div class="calculators-grid">
-      {siteConfig.calculators.map((calc) => (
-        <a href={calc.href} class="calc-card card-base">
-          <div class="calc-icon-box">
-            {calc.id === 'home-purchase' && (
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-              </svg>
-            )}
-            {calc.id === 'life-insurance' && (
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                <path d="m9 12 2 2 4-4"></path>
-              </svg>
-            )}
-            {calc.id === 'sip' && (
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect width="16" height="20" x="4" y="2" rx="2"></rect>
-                <line x1="8" x2="16" y1="6" y2="6"></line>
-                <line x1="16" x2="16" y1="14" y2="18"></line>
-                <path d="M16 10h.01"></path>
-                <path d="M12 10h.01"></path>
-                <path d="M8 10h.01"></path>
-                <path d="M12 14h.01"></path>
-                <path d="M8 14h.01"></path>
-                <path d="M12 18h.01"></path>
-                <path d="M8 18h.01"></path>
-              </svg>
-            )}
-            {calc.id === 'lumpsum' && (
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="9"></circle>
-                <path d="M14.5 9h-3.5a1.5 1.5 0 0 0 0 3h2a1.5 1.5 0 0 1 0 3H9.5"></path>
-                <path d="M12 7v10"></path>
-              </svg>
-            )}
-            {calc.id === 'retirement' && (
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17 18a5 5 0 0 0-10 0"></path>
-                <line x1="12" y1="2" x2="12" y2="9"></line>
-                <line x1="4.22" y1="10.22" x2="5.64" y2="11.64"></line>
-                <line x1="1" y1="18" x2="3" y2="18"></line>
-                <line x1="21" y1="18" x2="23" y2="18"></line>
-                <line x1="18.36" y1="11.64" x2="19.78" y2="10.22"></line>
-                <line x1="23" y1="22" x2="1" y2="22"></line>
-              </svg>
-            )}
-            {calc.id === 'goal-planner' && (
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <circle cx="12" cy="12" r="6"></circle>
-                <circle cx="12" cy="12" r="2"></circle>
-              </svg>
-            )}
-            {(calc.id === 'loan-vs-invest' || calc.id === 'loan-vs-investment') && (
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path>
-                <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path>
-                <path d="M7 21h10"></path>
-                <path d="M12 3v18"></path>
-                <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path>
-              </svg>
-            )}
-            {calc.id === 'insurance' && (
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              </svg>
-            )}
-            {calc.id === 'net-worth' && (
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 3v18h18"></path>
-                <path d="m19 9-5 5-4-4-3 3"></path>
-              </svg>
-            )}
+    <!-- 4 Primary Pathways Grid -->
+    <div class="pathway-grid">
+      {pathways.map((path) => (
+        <div class="pathway-card card-base">
+          <div class="card-top">
+            <span class="pathway-icon" aria-hidden="true">{path.icon}</span>
+            <span class="pathway-badge">{path.badge}</span>
           </div>
-          <h3 class="calc-title">{calc.title}</h3>
-          <p class="calc-desc">{calc.description}</p>
-        </a>
+          <h3 class="pathway-title">{path.title}</h3>
+          <p class="pathway-desc">{path.description}</p>
+          <a href={path.href} class="btn-pathway">
+            {path.cta} →
+          </a>
+        </div>
       ))}
     </div>
 
+    <!-- First-Time User Guidance Banner -->
+    <div class="guidance-banner">
+      <div class="guidance-header">
+        <span class="guidance-tag">💡 New to financial planning?</span>
+        <h3 class="guidance-heading">You don't need to understand every investment option to get started.</h3>
+      </div>
+      <div class="guidance-steps">
+        <div class="guidance-step">
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <strong>Check Health</strong>
+            <span>See where your finances stand today.</span>
+          </div>
+        </div>
+        <div class="guidance-arrow">→</div>
+        <div class="guidance-step">
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <strong>Define Goals</strong>
+            <span>Identify timelines and targets.</span>
+          </div>
+        </div>
+        <div class="guidance-arrow">→</div>
+        <div class="guidance-step">
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <strong>Calculate</strong>
+            <span>Model monthly investments needed.</span>
+          </div>
+        </div>
+        <div class="guidance-arrow">→</div>
+        <div class="guidance-step">
+          <div class="step-num">4</div>
+          <div class="step-text">
+            <strong>Take Action</strong>
+            <span>Start disciplined execution.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View All Calculators Subtle Link -->
     <div class="section-footer-link">
-      <a href="/tools" class="link-with-arrow">
-        Explore All Calculators
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-          <polyline points="12 5 19 12 12 19"></polyline>
-        </svg>
-      </a>
+      <p class="footer-subtle-text">
+        Looking for a specific calculation? 
+        <a href="/tools" class="link-view-all">
+          View All Calculators →
+        </a>
+      </p>
     </div>
   </div>
 </section>
 
 <style>
-  .calculators-section {
-    background-color: var(--color-bg-light);
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
+  .pathway-discovery-section {
+    background-color: #F8FAFC;
+    border-top: 1px solid #E2E8F0;
+    border-bottom: 1px solid #E2E8F0;
+    padding: 5rem 1.5rem;
   }
 
-  .calculators-grid {
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-growth-teal);
+    border-radius: 50%;
+  }
+
+  .section-header {
+    max-width: 680px;
+    margin: 0 auto 3rem;
+  }
+
+  .section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--color-primary-navy);
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.05rem;
+    color: #475569;
+    line-height: 1.5;
+  }
+
+  .pathway-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 3.5rem;
+  }
+
+  @media (max-width: 1024px) {
+    .pathway-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
   }
 
   @media (max-width: 640px) {
-    .calculators-grid {
-      grid-template-columns: repeat(2, 1fr);
+    .pathway-grid {
+      grid-template-columns: 1fr;
       gap: 1rem;
     }
   }
 
-  .calc-card {
-    padding: 2rem 1.25rem;
+  .pathway-card {
+    background-color: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    text-decoration: none;
-    border-radius: var(--radius-xl);
-    background-color: var(--color-white);
-    border: 1px solid var(--color-border);
-    transition: all var(--transition-normal);
+    box-shadow: 0 4px 15px rgba(0, 24, 42, 0.03);
+    transition: all 0.25s ease;
   }
 
-  .calc-card:hover {
-    transform: translateY(-5px);
+  .pathway-card:hover {
+    transform: translateY(-4px);
     border-color: var(--color-growth-teal);
-    box-shadow: var(--shadow-card-hover);
+    box-shadow: 0 12px 28px rgba(0, 171, 150, 0.1);
   }
 
-  .calc-icon-box {
-    width: 64px;
-    height: 64px;
-    border-radius: var(--radius-lg);
-    background-color: var(--color-bg-light);
-    color: var(--color-primary-navy);
+  .card-top {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     margin-bottom: 1.25rem;
-    border: 1px solid var(--color-border-subtle);
-    transition: all var(--transition-normal);
   }
 
-  .calc-card:hover .calc-icon-box {
-    background-color: var(--color-growth-teal-light);
-    color: var(--color-growth-teal);
-    transform: scale(1.08);
+  .pathway-icon {
+    font-size: 2.25rem;
+    line-height: 1;
   }
 
-  .calc-title {
-    font-size: 1.05rem;
+  .pathway-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #0F766E;
+    background-color: #CCFBF1;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+  }
+
+  .pathway-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--color-primary-navy);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.65rem;
     line-height: 1.3;
   }
 
-  .calc-desc {
-    font-size: 0.825rem;
-    color: var(--color-slate-muted);
-    line-height: 1.45;
+  .pathway-desc {
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.5;
+    margin-bottom: 1.75rem;
+    flex-grow: 1;
+  }
+
+  .btn-pathway {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.25rem;
+    background-color: var(--color-growth-teal);
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    min-height: 44px;
+  }
+
+  .btn-pathway:hover {
+    background-color: #008F7E;
+    box-shadow: 0 4px 12px rgba(0, 171, 150, 0.25);
+  }
+
+  /* Guidance Banner */
+  .guidance-banner {
+    background: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 2.25rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 15px rgba(0, 24, 42, 0.02);
+  }
+
+  .guidance-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+  }
+
+  .guidance-tag {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #0F766E;
+    margin-bottom: 0.5rem;
+  }
+
+  .guidance-heading {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--color-primary-navy);
+    margin: 0;
+  }
+
+  .guidance-steps {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .guidance-step {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+  }
+
+  .step-num {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    border-radius: 50%;
+    background-color: var(--color-growth-teal);
+    color: #FFFFFF;
+    font-weight: 800;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .step-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .step-text strong {
+    font-size: 0.9rem;
+    color: var(--color-primary-navy);
+  }
+
+  .step-text span {
+    font-size: 0.78rem;
+    color: #64748B;
+    line-height: 1.3;
+  }
+
+  .guidance-arrow {
+    font-size: 1.25rem;
+    color: #94A3B8;
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .guidance-steps {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+
+    .guidance-arrow {
+      display: none;
+    }
   }
 
   .section-footer-link {
     text-align: center;
   }
 
-  .link-with-arrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
+  .footer-subtle-text {
     font-size: 1rem;
-    font-weight: 600;
-    color: var(--color-primary-navy);
-    transition: color var(--transition-fast), transform var(--transition-fast);
+    color: #475569;
+    margin: 0;
   }
 
-  .link-with-arrow:hover {
+  .link-view-all {
+    font-weight: 700;
     color: var(--color-growth-teal);
-    transform: translateX(3px);
+    text-decoration: none;
+    margin-left: 0.35rem;
+    transition: all 0.2s ease;
+  }
+
+  .link-view-all:hover {
+    color: #008F7E;
+    text-decoration: underline;
   }
 </style>

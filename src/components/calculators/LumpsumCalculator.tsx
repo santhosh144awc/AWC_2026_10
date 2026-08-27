@@ -308,10 +308,10 @@ export default function LumpsumCalculator() {
               rel="noopener noreferrer"
               className="btn-whatsapp-consult"
             >
-              Discuss Lumpsum Investment with Santhosh
+              💬 Talk to Santhosh
             </a>
             <a href="/contact" className="btn-book-consult">
-              Book a Free Financial Consultation
+              Book a Free Consultation
             </a>
           </div>
 

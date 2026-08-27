@@ -10,7 +10,7 @@ readingTime: "6 min read"
 featured: false
 calculatorCTA:
   title: "Map Your Financial Goals"
-  description: "Select your life milestones and discover your exact inflation-adjusted investment roadmap."
+  description: "Select your life milestones and discover your estimated inflation-adjusted investment roadmap."
   buttonLabel: "Start Goal Planning"
   href: "/plan"
 ---

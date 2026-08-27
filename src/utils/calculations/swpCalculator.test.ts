@@ -85,8 +85,8 @@ assertClose(end1, 100643.40, 0.05, 'Ending corpus with positive pre-return corpu
 assert(calculateEndingCorpus(0, i8) === 0, 'Ending corpus = 0 when pre-return is 0');
 assert(calculateEndingCorpus(-5000, i8) === 0, 'Ending corpus = 0 when pre-return is negative');
 
-// --- 5. Deterministic Regression Scenario A (Candidates Sheet Benchmark) ---
-console.log('\n--- 5. Regression Scenario A (Candidates Benchmark) ---');
+// --- 5. Deterministic Regression Scenario A (Standard Benchmark) ---
+console.log('\n--- 5. Regression Scenario A (Standard Benchmark) ---');
 const candInput: SWPInputs = {
   currentAge: 59,
   startDate: '2026-01-02',
@@ -104,8 +104,8 @@ assertClose(candRes.totalWithdrawals, 3179834.07, 0.5, 'Scenario A: Total withdr
 assert(candRes.finalCorpus === 0, 'Scenario A: Final corpus = ₹0');
 assert(candRes.yearlySummary.length === 14, 'Scenario A: 14 yearly summary rows generated');
 
-// --- 6. Deterministic Regression Scenario B (Trainers Sheet Benchmark) ---
-console.log('\n--- 6. Regression Scenario B (Trainers Benchmark) ---');
+// --- 6. Deterministic Regression Scenario B (Reference Benchmark) ---
+console.log('\n--- 6. Regression Scenario B (Reference Benchmark) ---');
 const trainLumps = [
   { id: '1', monthNumber: 12, amount: 100000 },
   { id: '2', monthNumber: 24, amount: 100000 },

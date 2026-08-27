@@ -251,10 +251,10 @@ export default function RetirementCalculator() {
               rel="noopener noreferrer"
               className="btn-whatsapp-consult"
             >
-              Plan Your Retirement with Santhosh
+              💬 Talk to Santhosh
             </a>
             <a href="/contact" className="btn-book-consult">
-              Schedule Free 1-on-1 Consultation
+              Book a Free Consultation
             </a>
           </div>
 

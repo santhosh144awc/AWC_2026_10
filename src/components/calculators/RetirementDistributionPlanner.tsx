@@ -53,7 +53,7 @@ export default function RetirementDistributionPlanner() {
 
   const result = useMemo(() => calculateRetirementDistributionPlan(planInput), [planInput]);
 
-  // Load Trainer Deterministic Sample Scenario
+  // Load Deterministic Benchmark Scenario
   const handleLoadSampleData = () => {
     setRetirementAge(60);
     setMonthlyExpense(100000);

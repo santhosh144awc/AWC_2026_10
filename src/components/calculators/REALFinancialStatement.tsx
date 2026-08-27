@@ -1952,10 +1952,10 @@ export default function REALFinancialStatement() {
                 className="btn-whatsapp"
               >
                 <span className="wa-icon">💬</span>
-                Talk to Ant Wealth on WhatsApp
+                Talk to Santhosh on WhatsApp
               </a>
               <a href="/contact" className="btn-secondary-link">
-                Schedule a Consultation →
+                Book a Free Consultation →
               </a>
             </div>
           </div>
@@ -1965,7 +1965,7 @@ export default function REALFinancialStatement() {
             <a href="/health-check" className="discovery-card">
               <span className="disc-icon">🩺</span>
               <div>
-                <span className="disc-title">3-Minute Financial Health Check</span>
+                <span className="disc-title">2-Minute Financial Health Check</span>
                 <span className="disc-sub">Evaluate your risk score, emergency buffer & insurance cover</span>
               </div>
               <span className="disc-arrow">→</span>

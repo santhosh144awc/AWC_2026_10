@@ -1408,10 +1408,10 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
                   rel="noopener noreferrer"
                   className="whatsapp-btn"
                 >
-                  💬 Talk to Ant Wealth on WhatsApp
+                  💬 Talk to Santhosh
                 </a>
                 <a href="/contact" className="consultation-btn">
-                  📅 Book a Personal Consultation
+                  📅 Book a Free Consultation
                 </a>
               </div>
             </div>

@@ -1,3 +1,29 @@
+import { 
+  TOOLS_REGISTRY, 
+  PUBLIC_CALCULATORS, 
+  HOMEPAGE_CALCULATORS, 
+  START_HERE_TOOLS,
+  GOAL_PLANNING_TOOLS,
+  DECISION_TOOLS,
+  ADVANCED_TOOLS,
+  type ToolRegistryItem,
+  type ToolTier,
+  type ToolCategory
+} from './toolsRegistry';
+
+export { 
+  TOOLS_REGISTRY, 
+  PUBLIC_CALCULATORS, 
+  HOMEPAGE_CALCULATORS, 
+  START_HERE_TOOLS,
+  GOAL_PLANNING_TOOLS,
+  DECISION_TOOLS,
+  ADVANCED_TOOLS,
+  type ToolRegistryItem,
+  type ToolTier,
+  type ToolCategory
+};
+
 export interface NavItem {
   label: string;
   href: string;
@@ -163,106 +189,13 @@ export const siteConfig = {
     },
   ] as GoalItem[],
 
-  calculators: [
-    {
-      id: "loan-sip-recovery",
-      title: "Loan + SIP Recovery Planner",
-      description: "See how investing a manageable percentage of your EMI into SIP can potentially offset your loan interest or complete loan cost.",
-      icon: "scale",
-      href: "/tools/loan-sip-recovery",
-    },
-    {
-      id: "home-loan-foreclosure",
-      title: "Home Loan Foreclosure Planner",
-      description: "See how a parallel SIP alongside your EMI could help you plan for an earlier home-loan closure.",
-      icon: "home",
-      href: "/tools/home-loan-foreclosure",
-    },
-    {
-      id: "swp",
-      title: "SWP Calculator",
-      description: "Estimate retirement withdrawal sustainability with annual step-ups and lump sum milestones.",
-      icon: "trending-down",
-      href: "/tools/swp",
-    },
-    {
-      id: "sip-growth",
-      title: "SIP Growth Planner",
-      description: "See how your monthly SIP, annual step-ups and additional investments grow over time.",
-      icon: "trending-up",
-      href: "/tools/sip-growth",
-    },
-    {
-      id: "retirement-distribution",
-      title: "Retirement Distribution Planner",
-      description: "Structure your post-retirement corpus across liquidity, safety, and wealth creation buckets.",
-      icon: "sunset",
-      href: "/tools/retirement-distribution",
-    },
-    {
-      id: "retirement",
-      title: "Retirement Accumulation Planner",
-      description: "Estimate your future living expenses, required corpus, and monthly SIP roadmap.",
-      icon: "sunset",
-      href: "/tools/retirement",
-    },
-    {
-      id: "home-purchase",
-      title: "Home Purchase Planner",
-      description: "Estimate your future property cost, down payment, acquisition expenses and EMI affordability.",
-      icon: "home",
-      href: "/tools/home-purchase",
-    },
-    {
-      id: "life-insurance",
-      title: "Life Insurance Need",
-      description: "Comprehensive 5-step family protection gap analysis based on debt, goals, and living expenses.",
-      icon: "shield-check",
-      href: "/tools/life-insurance",
-    },
-    {
-      id: "sip",
-      title: "SIP Calculator",
-      description: "See how your monthly investment can grow over time.",
-      icon: "calculator",
-      href: "/tools?calc=sip",
-    },
-    {
-      id: "lumpsum",
-      title: "Lumpsum Calculator",
-      description: "See how a one-time investment can compound over time.",
-      icon: "dollar-sign",
-      href: "/tools?calc=lumpsum",
-    },
-    {
-      id: "goal-planner",
-      title: "Goal Planner",
-      description: "Plan for your dreams with the right investment amount.",
-      icon: "target",
-      href: "/tools?calc=goal",
-    },
-    {
-      id: "loan-vs-invest",
-      title: "Loan vs Investment",
-      description: "Should you prepay your loan or invest the surplus?",
-      icon: "scale",
-      href: "/tools?calc=loan-vs-invest",
-    },
-    {
-      id: "insurance",
-      title: "Quick Insurance HLV",
-      description: "Calculate quick income replacement coverage need.",
-      icon: "shield",
-      href: "/tools?calc=insurance",
-    },
-    {
-      id: "net-worth",
-      title: "Net Worth Calculator",
-      description: "Track your complete financial balance sheet in minutes.",
-      icon: "briefcase",
-      href: "/tools?calc=net-worth",
-    },
-  ] as CalculatorItem[],
+  calculators: HOMEPAGE_CALCULATORS.map(c => ({
+    id: c.id,
+    title: c.title,
+    description: c.description,
+    icon: c.icon,
+    href: c.route,
+  })) as CalculatorItem[],
 
   journeyStages: [
     {

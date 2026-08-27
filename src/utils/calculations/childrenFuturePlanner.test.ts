@@ -45,7 +45,7 @@ assert(getDefaultReturnForHorizon(9) === 9, 'Horizon 9y returns 9%');
 assert(getDefaultReturnForHorizon(10) === 12, 'Horizon 10y returns 12%');
 assert(getDefaultReturnForHorizon(15) === 12, 'Horizon 15y returns 12%');
 
-console.log('\n--- 2. Testing NetworkFP / QPFP Reference Scenarios ---');
+console.log('\n--- 2. Testing Benchmark Financial Planning Scenarios ---');
 
 // Reference Scenario 1: Graduation
 // Child Age: 5, Goal Age: 18 -> 13 yrs

@@ -1,17 +1,18 @@
 # Ant Wealth Creation — Project Status & Architecture Guide
 
-**Current Version:** `v2.2.2 (Phase 23 Enhanced — Step 2 User-Editable Return Assumption Panel Implemented & Validated)`  
-**Current Date:** August 27, 2026  
+**Current Version:** `v2.6.0 (Phase 14 — End-User Information Architecture & UX Redesign Completed)`  
+**Current Date:** August 28, 2026  
 **Repository Branch:** `main` | `AntWealth_2026_08`  
 **Total Pages Compiled:** **31 Static Pages** (`npm run build` output)  
-**Total Unit Tests:** **435+ Automated Unit Tests Across 11 Suites** (`npm test` all passing)
+**Total Unit Tests:** **435+ Automated Unit Tests Across 11 Suites** (`npm test` all passing)  
+**Automated Live QA Suite:** **78/78 End-to-End Tests Passing** (`scratch/test-phase14-ux-qa.js`)
 
-> **Last Updated:** August 27, 2026  
+> **Last Updated:** August 28, 2026  
 > **Project Root:** `c:\WORK\Software\Antigravity\AWC_2026_08_23`  
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** All 415+ automated unit tests passing • 31 static pages compiled • 0px mobile overflow verified
+> **Status:** Phase 14 Complete • 4-Tier Information Architecture Active • 4-Choice Homepage Entry Matrix • Curated /tools Directory • Standardized CTAs • 78/78 QA Tests Passing
 
 ---
 
@@ -829,6 +830,132 @@ npm run preview
   * Total repository test suite: **415+ passed, 0 failed** across 11 test suites.
   * Production static compilation `npm run build`: **31 static routes compiled in 3.61s with 0 errors and 0 warnings**.
   * Puppeteer headless responsive audit: Verified **0px horizontal overflow across all 5 viewports** (`375×812`, `390×844`, `412×915`, `768×1024`, `1440×900`), 0 console errors, and 0 prohibited training terms.
+
+---
+
+## 4. Phase 11 — Product Consistency, Calculator Integration & Full Functional QA
+
+### Completed Objectives:
+1. **Centralized Tool Registry (`src/data/toolsRegistry.ts` & `src/data/siteConfig.ts`):**
+   * Created single source of truth `TOOLS_REGISTRY` with strongly typed metadata (`id`, `title`, `description`, `category`, `icon`, `route`, `queryParam`, `componentKey`, `visibility`, `homepageVisibility`, `primaryCTA`, `relatedArticles`).
+   * Categorized strictly under **Build Wealth**, **Plan for Goals**, **Protect Your Family**, **Manage Your Money**.
+   * Re-exported from `siteConfig.ts` to power homepage cards, navigation, and tools hub without duplicate metadata.
+2. **Lumpsum Calculator as First-Class Tool & Deep Linking:**
+   * Fully exposed at `/tools?calc=lumpsum` and connected to homepage, calculators hub, and learning articles.
+   * Preserves mathematical calculations using `src/utils/calculations/lumpsum.ts`.
+3. **Calculator Hub Deep Linking & Hydration Synchronization:**
+   * Standardized query parameter handling in `CalculatorsHub.tsx` (`/tools?calc=sip`, `lumpsum`, `retirement`, `insurance`, `loan-vs-invest`, `net-worth`, `goal`).
+   * Added `popstate` event listeners and `history.pushState` integration for seamless tab switching with browser back/forward buttons.
+   * Eliminated React 19 hydration mismatch (#418) by initializing state with default SSR tree and synchronizing cleanly on client mount.
+4. **Goal Planner Preset Synchronization:**
+   * Synchronized `/plan?goal=home`, `education`, `retirement`, `wedding`, `car`, `wealth`, `custom` in `GoalPlannerCalculator.tsx`.
+   * Added browser back/forward history navigation for presets and eliminated initial flash.
+5. **Terminology & Compliance Standardization:**
+   * Standardized to `"2-Minute Financial Health Check"` and `"Financial Health Check"` throughout the codebase.
+   * Replaced definitive phrasing (*"exact monthly SIP"*) with responsible illustrative wording (*"Estimated monthly SIP requirement based on the assumptions entered"*).
+   * Verified 0 positive claims of *"Guaranteed Returns"*, *"Assured Returns"*, *"Risk Free"*, *"SEBI Registered Advisor"*, or *"RIA"*.
+   * Removed all internal training/proprietary references from source comments.
+6. **Insurance Calculator Conceptual Experience:**
+   * Implemented visual equation card in `InsuranceCalculator.tsx`:
+     $$\text{Income Replacement} + \text{Debts} + \text{Goals} - \text{Cover} - \text{Assets} = \text{Estimated Protection Gap}$$
+   * Labeled result as `"Estimated Protection Gap"` with standard non-guaranteed statutory disclaimers.
+7. **Consultation 4-Step Alignment:**
+   * Standardized step progression in `ConsultationBooking.tsx` to `Step 1 of 4` through `Step 4 of 4`.
+   * Updated Step 4 status to `"Request Ready"`, heading to `"Consultation Request Ready!"`, and CTA to `"💬 Send Request on WhatsApp"`.
+8. **Automated QA & Multi-Viewport Verification:**
+   * Created `scratch/test-phase11-consistency-qa.js` test runner.
+   * **32/32 End-to-End Tests Passed (100%)**:
+     * 7/7 Calculator Hub deep links verified.
+     * 7/7 Goal Planner presets verified.
+     * Browser history (back/forward) verified.
+     * 4-Step consultation flow verified.
+     * 0px horizontal overflow verified across 7 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1024×768`, `1440×900`, `1920×1080`).
+     * 0 runtime JavaScript page errors.
+    * All 11 calculation unit test suites passing (435+ assertions).
+    * All 31 static pages building cleanly (`npm run build` in 4.64s).
+
+---
+
+## 5. Phase 12 — Production Readiness, Tool Visibility Audit & Live QA
+
+### Key Findings & Architecture State:
+1. **Complete 31-Route Inventory:**
+   * **Core Public Lead-Generation (6 routes):** `/` (Home), `/plan` (Goal Planner), `/tools` (Calculator Hub), `/health-check` (2-Min Health Check), `/about` (Founder Trust), `/contact` (4-Step Consultation Scheduler).
+   * **Knowledge Center (11 routes):** `/learn` (Knowledge Base) + 10 SEO Educational Articles (`/learn/what-is-a-mutual-fund`, `/learn/what-is-sip-and-how-does-it-work`, `/learn/sip-vs-lumpsum-what-is-the-difference`, `/learn/how-much-emergency-fund-should-you-have`, `/learn/what-is-asset-allocation`, `/learn/how-to-plan-for-your-childs-education`, `/learn/how-to-start-planning-for-retirement`, `/learn/why-life-insurance-is-important-for-a-family`, `/learn/what-is-financial-freedom`, `/learn/what-is-goal-based-financial-planning`).
+   * **Specialized Deep-Dive Planning Suites (10 routes):** `/tools/loan-sip-recovery`, `/tools/home-loan-foreclosure`, `/tools/swp`, `/tools/sip-growth`, `/tools/retirement-distribution`, `/tools/retirement`, `/tools/home-purchase`, `/tools/life-insurance`, `/plan/children`, `/health-check/real-statement`.
+   * **Legal & Regulatory (3 routes):** `/privacy`, `/terms`, `/disclaimer`.
+   * **Utility (1 route):** `/404` (Custom Not Found).
+   * **Feed:** `/sitemap.xml` (Automated XML sitemap).
+2. **Tool Visibility Classification:**
+   * **Group A (Public Lead-Gen Tools):** SIP, Lumpsum, Goal Planner, Retirement, Insurance Needs, Loan vs Investment, Net Worth, 2-Minute Health Check.
+   * **Group B (Specialized Planning Suites):** Loan + SIP Recovery, Home Loan Foreclosure, SWP Longevity, SIP Growth, Retirement Distribution, Retirement Accumulation, Home Purchase, Life Insurance Need Analysis, Children's Future, REAL Statement.
+   * **Group C (Internal / Dev Tools):** 0 routes exposed publicly.
+3. **Compliance & Brand Language:**
+   * 0 positive claims of *"Guaranteed Returns"*, *"Assured Returns"*, *"Risk Free"*, *"SEBI Registered Advisor"*, or *"RIA"*.
+   * 0 proprietary/internal training references in code or UI comments.
+4. **Testing & QA Verification:**
+   * All 11 unit test suites passing (435+ assertions).
+   * All 31 static pages building in 7.77s.
+   * 32/32 End-to-End Puppeteer tests passing with 0 errors across 7 mobile and desktop viewports.
+
+---
+
+## 6. Phase 13 — Production Deployment Preparation & Live Business Validation
+
+### Verification & Validation Highlights:
+1. **Absolute Open Graph Production Metadata:**
+   * Updated `og:image` and `twitter:image` in `src/layouts/BaseLayout.astro` to absolute production URL: `https://antwealth.in/assets/Visiting%20Card%20Front.png`.
+   * Verified canonical URLs standardize across all pages to `https://antwealth.in`.
+2. **Comprehensive Live Smoke Test (72/72 Passed):**
+   * Script: `scratch/test-phase13-live-qa.js`.
+   * All 31 static HTML routes + `/sitemap.xml` + `/robots.txt` returned HTTP 200.
+   * All 7 public calculator tabs (`sip`, `lumpsum`, `retirement`, `insurance`, `loan-vs-invest`, `net-worth`, `goal`) verified for zero `NaN`, zero `Infinity`, zero `undefined`.
+   * All 10 specialized planning suites verified for zero `NaN`, zero `Infinity`, zero `undefined`.
+3. **End-to-End Consumer Journey Simulation:**
+   * Validated 7-step consumer pathway:
+     `Homepage` $\to$ `Health Check` $\to$ `Tools Hub` $\to$ `Goal Planner` $\to$ `Learning Center` $\to$ `Founder About` $\to$ `Consultation Scheduler`.
+   * Consultation 4-step wizard verified from `Step 1 of 4` through `Step 4 of 4 • Request Ready`.
+   * Generated WhatsApp bridge URL verified: targets AMFI distributor phone `+91 80879 71566`, includes visitor name, selected topic, and preferred date/time slot.
+4. **Mobile Responsiveness Across Key Viewports:**
+   * `375×812` (Mobile S / iPhone SE), `390×844` (Mobile M / iPhone 12/13/14), `412×915` (Mobile L / Pixel / Galaxy) verified with **0px horizontal overflow**.
+5. **Freeze & Feature Lock:**
+   * All calculation engines and UI layouts remain 100% frozen with zero scope creep.
+
+---
+
+## 7. Phase 14 — End-User Information Architecture & UX Redesign
+
+### Information Architecture & Discovery Enhancements:
+1. **Four-Tier Tool Hierarchy (`toolsRegistry.ts`):**
+   * **Tier 1 (Start Here):** Financial Health Check, SIP Calculator, Lumpsum Calculator, Goal Planner, Life Insurance Need Calculator, Personal Net Worth Calculator.
+   * **Tier 2 (Plan a Specific Goal):** Retirement Planner, Home Purchase Planner, Children's Future Planner, SIP Growth Planner.
+   * **Tier 3 (Compare Financial Decisions):** Loan vs Investment, Loan + SIP Recovery Planner.
+   * **Tier 4 (Advanced Planning Tools):** Home Loan Foreclosure Planner, SWP Longevity Calculator, Retirement Distribution Planner, Detailed Life Insurance Analysis, REAL Financial Statement.
+2. **Homepage 4-Choice Entry Matrix:**
+   * Replaced the large 10-tool grid with the 4-choice entry section (*"Start With What Matters to You"*):
+     - **Check My Financial Health** (`/health-check`)
+     - **Plan My Goal** (`/plan`)
+     - **Grow My Money** (`/tools?calc=sip`)
+     - **Protect My Family** (`/tools?calc=insurance`)
+     - Subtle secondary link: *"Looking for a specific calculation? View All Calculators →"* (`/tools`).
+     - Added 4-step first-time user guidance roadmap.
+3. **Curated `/tools` Directory:**
+   * Redesigned `/tools` into the 4 clear tiers with an interactive active calculation workspace stage.
+   * Standardized tool names: *"Life Insurance Need Calculator"* (Tier 1 public tool) vs *"Detailed Life Insurance Analysis"* (Tier 4 advanced tool).
+4. **Goal-First `/plan` Page:**
+   * Hero: *"What are you planning for? / Choose a goal and we'll help you understand what it may take."*
+   * Prominent visual goal cards for 7 presets with seamless query parameter synchronization (`?goal=home`, `?goal=education`, etc.).
+5. **Standardized CTA Terminology:**
+   * WhatsApp/direct contact: *"💬 Talk to Santhosh"* across all tools.
+   * Consultation booking: *"Book a Free Consultation"* across all tools and wizards.
+   * Replaced inconsistent phrases (*"Talk to Ant Wealth"*, *"Book a Goal Planning Session"*, etc.).
+6. **Curated Footer Popular Tools:**
+   * Replaced long uncurated tool dump with 6 popular tools + *"Explore Advanced Tools →"* (`/tools#advanced`).
+7. **Comprehensive QA (78/78 Passed):**
+   * All 31 static routes compile cleanly in 7.94s.
+   * All 11 unit test suites (435+ assertions) pass 100%.
+   * 0px horizontal overflow across all 7 screen resolutions (375 to 1920).
+   * 0 runtime errors, 0 NaN, 0 Infinity, 0 undefined.
 
 ---
 

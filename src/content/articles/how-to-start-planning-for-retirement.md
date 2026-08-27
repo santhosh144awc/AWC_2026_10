@@ -10,7 +10,7 @@ readingTime: "7 min read"
 featured: true
 calculatorCTA:
   title: "Calculate Your Retirement Corpus"
-  description: "Find out your required retirement corpus and exact monthly SIP needed to retire comfortably."
+  description: "Find out your required retirement corpus and estimated monthly SIP needed to retire comfortably."
   buttonLabel: "Open Retirement Calculator"
   href: "/tools?calc=retirement"
 ---

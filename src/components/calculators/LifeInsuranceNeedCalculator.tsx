@@ -1045,7 +1045,7 @@ I would like help reviewing my family's protection plan.`;
                 rel="noopener noreferrer"
                 className="btn-whatsapp-cta"
               >
-                <span>💬 Talk to Ant Wealth on WhatsApp</span>
+                <span>💬 Talk to Santhosh</span>
               </a>
               <a href="/contact" className="btn-contact-secondary">
                 Book a Free Consultation

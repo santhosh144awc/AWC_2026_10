@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SIPCalculator from './SIPCalculator';
 import LumpsumCalculator from './LumpsumCalculator';
 import RetirementCalculator from './RetirementCalculator';
@@ -7,7 +7,7 @@ import LoanVsInvestmentCalculator from './LoanVsInvestmentCalculator';
 import InsuranceCalculator from './InsuranceCalculator';
 import NetWorthCalculator from './NetWorthCalculator';
 
-type CalculatorTab = 'sip' | 'lumpsum' | 'retirement' | 'goal' | 'loan-vs-invest' | 'insurance' | 'net-worth';
+export type CalculatorTab = 'sip' | 'lumpsum' | 'retirement' | 'goal' | 'loan-vs-invest' | 'insurance' | 'net-worth';
 
 function normalizeTab(rawTab?: string | null): CalculatorTab {
   if (!rawTab) return 'sip';
@@ -30,7 +30,7 @@ function getTabFromUrl(): CalculatorTab {
     if (param) return normalizeTab(param);
     if (window.location.hash) {
       const hash = window.location.hash.replace('#', '');
-      if (hash) return normalizeTab(hash);
+      if (hash && hash !== 'advanced') return normalizeTab(hash);
     }
   } catch {
     // Fallback for safety
@@ -38,150 +38,15 @@ function getTabFromUrl(): CalculatorTab {
   return 'sip';
 }
 
-interface CategoryItem {
-  id: string;
-  name: string;
-  icon: string;
-  tag: string;
-  href?: string;
-}
-
-interface CategoryGroup {
-  category: string;
-  items: CategoryItem[];
-}
-
-const FEATURED_SUITES = [
-  {
-    title: 'Loan + SIP Recovery Planner',
-    icon: '⚖️',
-    badge: 'New • Wealth Recovery',
-    desc: 'See how investing a manageable percentage of your EMI into SIP can potentially offset your loan interest or complete cost.',
-    href: '/tools/loan-sip-recovery',
-    cta: 'Plan Loan Offset →'
-  },
-  {
-    title: 'Home Loan Foreclosure Planner',
-    icon: '🏠',
-    badge: 'New • Foreclosure Strategy',
-    desc: 'See how a parallel SIP alongside your EMI could help you plan for an earlier home-loan closure.',
-    href: '/tools/home-loan-foreclosure',
-    cta: 'Plan Loan Foreclosure →'
-  },
-  {
-    title: 'SWP Calculator',
-    icon: '📉',
-    badge: 'New • Retirement SWP',
-    desc: 'Plan retirement withdrawals with monthly simulations, annual step-ups and lump-sum milestones.',
-    href: '/tools/swp',
-    cta: 'Plan SWP Longevity →'
-  },
-  {
-    title: 'SIP Growth Planner',
-    icon: '🚀',
-    badge: 'New • Multi-Lump-Sum',
-    desc: 'See how your monthly SIP, annual step-ups and additional investments grow over time.',
-    href: '/tools/sip-growth',
-    cta: 'Plan SIP Growth →'
-  },
-  {
-    title: 'Retirement Distribution Planner',
-    icon: '⏳',
-    badge: 'New • Three-Bucket',
-    desc: 'Structure your post-retirement corpus across liquidity, safety, and wealth creation buckets.',
-    href: '/tools/retirement-distribution',
-    cta: 'Structure Retirement Buckets →'
-  },
-  {
-    title: 'Retirement Accumulation Planner',
-    icon: '🌅',
-    badge: 'New • Annuity-Due',
-    desc: 'Estimate future living expenses, required corpus, existing resources & 3-way SIP roadmap.',
-    href: '/tools/retirement',
-    cta: 'Plan Retirement Corpus →'
-  },
-  {
-    title: 'Home Purchase Planner',
-    icon: '🏠',
-    badge: 'New • Guided Plan',
-    desc: 'Calculate future property cost, down payment, acquisition expenses & EMI affordability.',
-    href: '/tools/home-purchase',
-    cta: 'Plan Home Purchase →'
-  },
-  {
-    title: 'Life Insurance Need Analysis',
-    icon: '🛡️',
-    badge: 'New • 5-Step Model',
-    desc: 'Needs-based protection gap audit factoring liabilities, living expenses & family goals.',
-    href: '/tools/life-insurance',
-    cta: 'Check Insurance Need →'
-  },
-  {
-    title: "Children's Future Planner",
-    icon: '🎓',
-    badge: 'Education & Marriage',
-    desc: "Map your child's higher education milestones with inflation and step-up SIPs.",
-    href: '/plan/children',
-    cta: "Plan Child's Goals →"
-  },
-  {
-    title: 'REAL Financial Statement',
-    icon: '💎',
-    badge: 'Comprehensive Audit',
-    desc: 'Audit income, living costs, ongoing savings, and calculate your Actual Net Worth.',
-    href: '/health-check/real-statement',
-    cta: 'Open REAL Statement →'
-  },
-];
-
-const CATEGORIES: CategoryGroup[] = [
-  {
-    category: 'Build Wealth',
-    items: [
-      { id: 'loan-sip-recovery', name: 'Loan + SIP Recovery Planner', icon: '⚖️', tag: 'New', href: '/tools/loan-sip-recovery' },
-      { id: 'home-loan-foreclosure', name: 'Home Loan Foreclosure Planner', icon: '🏠', tag: 'New', href: '/tools/home-loan-foreclosure' },
-      { id: 'sip-growth', name: 'SIP Growth Planner', icon: '🚀', tag: 'New', href: '/tools/sip-growth' },
-      { id: 'swp', name: 'SWP Calculator', icon: '📉', tag: 'New', href: '/tools/swp' },
-      { id: 'sip', name: 'Quick SIP Calculator', icon: '📈', tag: 'Monthly' },
-      { id: 'lumpsum', name: 'Lumpsum Calculator', icon: '💰', tag: 'One-Time' },
-    ]
-  },
-  {
-    category: 'Plan for Goals',
-    items: [
-      { id: 'loan-sip-recovery-goal', name: 'Loan + SIP Recovery Planner', icon: '⚖️', tag: 'New', href: '/tools/loan-sip-recovery' },
-      { id: 'home-foreclosure-goal', name: 'Home Loan Foreclosure Planner', icon: '🏠', tag: 'New', href: '/tools/home-loan-foreclosure' },
-      { id: 'swp-goal', name: 'SWP Longevity Calculator', icon: '📉', tag: 'New', href: '/tools/swp' },
-      { id: 'retirement-distribution', name: 'Retirement Distribution Planner', icon: '⏳', tag: 'New', href: '/tools/retirement-distribution' },
-      { id: 'retirement', name: 'Retirement Accumulation Planner', icon: '🌅', tag: 'New', href: '/tools/retirement' },
-      { id: 'home', name: 'Home Purchase Planner', icon: '🏠', tag: 'New', href: '/tools/home-purchase' },
-      { id: 'children', name: "Children's Future Planner", icon: '🎓', tag: 'Education', href: '/plan/children' },
-      { id: 'goal', name: 'Comprehensive Goal Planner', icon: '🎯', tag: 'Milestones' },
-    ]
-  },
-  {
-    category: 'Protect Your Family',
-    items: [
-      { id: 'life-insurance', name: 'Life Insurance Need Analysis', icon: '🛡️', tag: 'New', href: '/tools/life-insurance' },
-      { id: 'insurance', name: 'Quick Term Insurance Check', icon: '⚡', tag: 'Protection' },
-    ]
-  },
-  {
-    category: 'Manage Your Money',
-    items: [
-      { id: 'real-statement', name: 'REAL Financial Statement', icon: '💎', tag: 'Audit', href: '/health-check/real-statement' },
-      { id: 'loan-vs-invest', name: 'Loan Prepay vs Investment', icon: '⚖️', tag: 'Comparison' },
-      { id: 'net-worth', name: 'Personal Net Worth Calculator', icon: '📊', tag: 'Balance Sheet' },
-    ]
-  }
-];
-
 export default function CalculatorsHub() {
-  const [activeTab, setActiveTab] = useState<CalculatorTab>(getTabFromUrl);
+  const [activeTab, setActiveTab] = useState<CalculatorTab>('sip');
+  const stageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const currentTab = getTabFromUrl();
-    setActiveTab(currentTab);
+    if (currentTab !== 'sip') {
+      setActiveTab(currentTab);
+    }
 
     const handlePopState = () => {
       setActiveTab(getTabFromUrl());
@@ -193,13 +58,7 @@ export default function CalculatorsHub() {
     };
   }, []);
 
-  const handleSelectTab = (item: CategoryItem) => {
-    if (item.href) {
-      window.location.href = item.href;
-      return;
-    }
-
-    const tab = item.id as CalculatorTab;
+  const handleSelectEmbeddedTab = (tab: CalculatorTab, scroll: boolean = false) => {
     setActiveTab(tab);
     if (typeof window !== 'undefined') {
       try {
@@ -210,93 +69,347 @@ export default function CalculatorsHub() {
         const newUrl = `${window.location.pathname}?calc=${tab}`;
         window.history.pushState({ calc: tab }, '', newUrl);
       }
+
+      if (scroll && stageRef.current) {
+        stageRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
   };
 
   return (
     <div className="hub-container">
-      {/* Featured Planning Suites Grid */}
-      <div className="featured-suites-wrapper">
-        <div className="featured-header">
-          <span className="featured-badge">Featured Guided Planners</span>
-          <h2 className="featured-title">Specialized Financial Planning Suites</h2>
-          <p className="featured-sub">
-            Advanced, step-by-step financial decision tools based on validated planning frameworks.
-          </p>
+      {/* ====================================================== */}
+      {/* SECTION 1: START HERE (Tier 1 Simple Public Tools) */}
+      {/* ====================================================== */}
+      <section className="hub-section tier-1-section">
+        <div className="section-title-wrap">
+          <div className="tier-pill tier-pill-primary">Tier 1 • Quick & Simple</div>
+          <h2 className="tier-heading">Start Here</h2>
+          <p className="tier-subtext">Simple tools for everyday financial decisions and quick self-assessments.</p>
         </div>
 
-        <div className="featured-cards-grid">
-          {FEATURED_SUITES.map((suite) => (
-            <a key={suite.title} href={suite.href} className="featured-suite-card">
-              <div className="suite-card-top">
-                <span className="suite-icon">{suite.icon}</span>
-                <span className="suite-badge-tag">{suite.badge}</span>
-              </div>
-              <h3 className="suite-heading">{suite.title}</h3>
-              <p className="suite-desc">{suite.desc}</p>
-              <span className="suite-cta-link">{suite.cta}</span>
-            </a>
-          ))}
-        </div>
-      </div>
-
-      <div className="hub-divider">
-        <span className="divider-text">Or Use Our Quick Simulation Calculators</span>
-      </div>
-
-      {/* Category Navigation Bar */}
-      <div className="hub-nav-wrapper">
-        {CATEGORIES.map((catGroup) => (
-          <div key={catGroup.category} className="category-group">
-            <span className="group-title">{catGroup.category}</span>
-            <div className="group-buttons">
-              {catGroup.items.map((item) => {
-                if (item.href) {
-                  return (
-                    <a
-                      key={item.id}
-                      href={item.href}
-                      className="tab-btn tab-btn-link"
-                    >
-                      <span className="btn-icon">{item.icon}</span>
-                      <div className="btn-text-block">
-                        <span className="btn-name">{item.name}</span>
-                        <span className="btn-tag btn-tag-link">{item.tag} ↗</span>
-                      </div>
-                    </a>
-                  );
-                }
-
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => handleSelectTab(item)}
-                    className={`tab-btn ${activeTab === item.id ? 'tab-btn-active' : ''}`}
-                  >
-                    <span className="btn-icon">{item.icon}</span>
-                    <div className="btn-text-block">
-                      <span className="btn-name">{item.name}</span>
-                      <span className="btn-tag">{item.tag}</span>
-                    </div>
-                  </button>
-                );
-              })}
+        <div className="tools-grid-tier1">
+          {/* 1. Health Check */}
+          <a href="/health-check" className="tool-card-tier1">
+            <div className="card-top">
+              <span className="tool-icon">🩺</span>
+              <span className="card-badge badge-teal">Self-Assessment</span>
             </div>
+            <h3 className="tool-title">Financial Health Check</h3>
+            <p className="tool-desc">Understand your savings, emergency fund, protection and retirement readiness in 2 minutes.</p>
+            <span className="tool-btn-link">Check My Financial Health →</span>
+          </a>
+
+          {/* 2. SIP Calculator */}
+          <button 
+            type="button" 
+            onClick={() => handleSelectEmbeddedTab('sip', true)}
+            className={`tool-card-tier1 text-left ${activeTab === 'sip' ? 'active-tier1-card' : ''}`}
+          >
+            <div className="card-top">
+              <span className="tool-icon">📈</span>
+              <span className="card-badge badge-teal">Interactive</span>
+            </div>
+            <h3 className="tool-title">SIP Calculator</h3>
+            <p className="tool-desc">Calculate how disciplined monthly investments grow over time with compounding.</p>
+            <span className="tool-btn-link">Calculate My SIP →</span>
+          </button>
+
+          {/* 3. Lumpsum Calculator */}
+          <button 
+            type="button" 
+            onClick={() => handleSelectEmbeddedTab('lumpsum', true)}
+            className={`tool-card-tier1 text-left ${activeTab === 'lumpsum' ? 'active-tier1-card' : ''}`}
+          >
+            <div className="card-top">
+              <span className="tool-icon">💰</span>
+              <span className="card-badge badge-teal">Interactive</span>
+            </div>
+            <h3 className="tool-title">Lumpsum Calculator</h3>
+            <p className="tool-desc">See how a one-time lump sum investment can compound over your intended time horizon.</p>
+            <span className="tool-btn-link">Calculate Lumpsum →</span>
+          </button>
+
+          {/* 4. Goal Planner */}
+          <button 
+            type="button" 
+            onClick={() => handleSelectEmbeddedTab('goal', true)}
+            className={`tool-card-tier1 text-left ${activeTab === 'goal' ? 'active-tier1-card' : ''}`}
+          >
+            <div className="card-top">
+              <span className="tool-icon">🎯</span>
+              <span className="card-badge badge-teal">Interactive</span>
+            </div>
+            <h3 className="tool-title">Goal Planner</h3>
+            <p className="tool-desc">Plan for life milestones (education, home down payment, wedding) with inflation-adjusted targets.</p>
+            <span className="tool-btn-link">Plan My Goal →</span>
+          </button>
+
+          {/* 5. Life Insurance Need Calculator */}
+          <button 
+            type="button" 
+            onClick={() => handleSelectEmbeddedTab('insurance', true)}
+            className={`tool-card-tier1 text-left ${activeTab === 'insurance' ? 'active-tier1-card' : ''}`}
+          >
+            <div className="card-top">
+              <span className="tool-icon">🛡️</span>
+              <span className="card-badge badge-teal">Interactive</span>
+            </div>
+            <h3 className="tool-title">Life Insurance Need Calculator</h3>
+            <p className="tool-desc">Get an illustrative view of family protection needed based on income, debts, and goals.</p>
+            <span className="tool-btn-link">Check Protection Need →</span>
+          </button>
+
+          {/* 6. Personal Net Worth */}
+          <button 
+            type="button" 
+            onClick={() => handleSelectEmbeddedTab('net-worth', true)}
+            className={`tool-card-tier1 text-left ${activeTab === 'net-worth' ? 'active-tier1-card' : ''}`}
+          >
+            <div className="card-top">
+              <span className="tool-icon">📊</span>
+              <span className="card-badge badge-teal">Interactive</span>
+            </div>
+            <h3 className="tool-title">Personal Net Worth Calculator</h3>
+            <p className="tool-desc">Track your complete personal balance sheet, assets, and liabilities clearly in minutes.</p>
+            <span className="tool-btn-link">Calculate Net Worth →</span>
+          </button>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* INTERACTIVE CALCULATION WORKSPACE STAGE */}
+      {/* ====================================================== */}
+      <div ref={stageRef} className="active-workspace-wrapper">
+        <div className="workspace-header">
+          <span className="workspace-tag">Active Calculation Workspace</span>
+          <div className="workspace-tabs-bar">
+            <button 
+              type="button" 
+              onClick={() => handleSelectEmbeddedTab('sip')} 
+              className={`ws-tab-btn ${activeTab === 'sip' ? 'active' : ''}`}
+            >
+              📈 SIP
+            </button>
+            <button 
+              type="button" 
+              onClick={() => handleSelectEmbeddedTab('lumpsum')} 
+              className={`ws-tab-btn ${activeTab === 'lumpsum' ? 'active' : ''}`}
+            >
+              💰 Lumpsum
+            </button>
+            <button 
+              type="button" 
+              onClick={() => handleSelectEmbeddedTab('goal')} 
+              className={`ws-tab-btn ${activeTab === 'goal' ? 'active' : ''}`}
+            >
+              🎯 Goals
+            </button>
+            <button 
+              type="button" 
+              onClick={() => handleSelectEmbeddedTab('insurance')} 
+              className={`ws-tab-btn ${activeTab === 'insurance' ? 'active' : ''}`}
+            >
+              🛡️ Insurance
+            </button>
+            <button 
+              type="button" 
+              onClick={() => handleSelectEmbeddedTab('net-worth')} 
+              className={`ws-tab-btn ${activeTab === 'net-worth' ? 'active' : ''}`}
+            >
+              📊 Net Worth
+            </button>
+            <button 
+              type="button" 
+              onClick={() => handleSelectEmbeddedTab('loan-vs-invest')} 
+              className={`ws-tab-btn ${activeTab === 'loan-vs-invest' ? 'active' : ''}`}
+            >
+              ⚖️ Loan vs Invest
+            </button>
+            <button 
+              type="button" 
+              onClick={() => handleSelectEmbeddedTab('retirement')} 
+              className={`ws-tab-btn ${activeTab === 'retirement' ? 'active' : ''}`}
+            >
+              🌅 Retirement
+            </button>
           </div>
-        ))}
+        </div>
+
+        <div className="workspace-content-pane">
+          {activeTab === 'sip' && <SIPCalculator />}
+          {activeTab === 'lumpsum' && <LumpsumCalculator />}
+          {activeTab === 'retirement' && <RetirementCalculator />}
+          {activeTab === 'goal' && <GoalPlannerCalculator />}
+          {activeTab === 'loan-vs-invest' && <LoanVsInvestmentCalculator />}
+          {activeTab === 'insurance' && <InsuranceCalculator />}
+          {activeTab === 'net-worth' && <NetWorthCalculator />}
+        </div>
       </div>
 
-      {/* Active Calculator Container */}
-      <div className="active-calculator-stage">
-        {activeTab === 'sip' && <SIPCalculator />}
-        {activeTab === 'lumpsum' && <LumpsumCalculator />}
-        {activeTab === 'retirement' && <RetirementCalculator />}
-        {activeTab === 'goal' && <GoalPlannerCalculator />}
-        {activeTab === 'loan-vs-invest' && <LoanVsInvestmentCalculator />}
-        {activeTab === 'insurance' && <InsuranceCalculator />}
-        {activeTab === 'net-worth' && <NetWorthCalculator />}
-      </div>
+      {/* ====================================================== */}
+      {/* SECTION 2: PLAN A GOAL (Tier 2 Milestone Planners) */}
+      {/* ====================================================== */}
+      <section className="hub-section tier-2-section">
+        <div className="section-title-wrap">
+          <div className="tier-pill tier-pill-secondary">Tier 2 • Milestone Planning</div>
+          <h2 className="tier-heading">Plan a Specific Goal</h2>
+          <p className="tier-subtext">Detailed tools when you are ready to map out an important life milestone.</p>
+        </div>
+
+        <div className="tools-grid-secondary">
+          {/* Retirement Accumulation Planner */}
+          <a href="/tools/retirement" className="tool-card-secondary">
+            <div className="card-top">
+              <span className="tool-icon">🌅</span>
+              <span className="card-badge badge-slate">Corpus & SIP</span>
+            </div>
+            <h3 className="tool-title">Retirement Planner</h3>
+            <p className="tool-desc">Estimate future living expenses, required retirement corpus, and discover your required monthly SIP.</p>
+            <span className="tool-btn-secondary">Plan Retirement →</span>
+          </a>
+
+          {/* Home Purchase Planner */}
+          <a href="/tools/home-purchase" className="tool-card-secondary">
+            <div className="card-top">
+              <span className="tool-icon">🏡</span>
+              <span className="card-badge badge-slate">Guided Roadmap</span>
+            </div>
+            <h3 className="tool-title">Home Purchase Planner</h3>
+            <p className="tool-desc">Calculate future property cost, down payment targets, registration expenses, and EMI affordability.</p>
+            <span className="tool-btn-secondary">Plan Home Purchase →</span>
+          </a>
+
+          {/* Children's Future Planner */}
+          <a href="/plan/children" className="tool-card-secondary">
+            <div className="card-top">
+              <span className="tool-icon">🎓</span>
+              <span className="card-badge badge-slate">Multi-Milestone</span>
+            </div>
+            <h3 className="tool-title">Children's Future Planner</h3>
+            <p className="tool-desc">Map your child's higher education milestones and marriage timeline with inflation and step-up SIPs.</p>
+            <span className="tool-btn-secondary">Plan Child's Goals →</span>
+          </a>
+
+          {/* SIP Growth Planner */}
+          <a href="/tools/sip-growth" className="tool-card-secondary">
+            <div className="card-top">
+              <span className="tool-icon">🚀</span>
+              <span className="card-badge badge-slate">Multi-Lump-Sum</span>
+            </div>
+            <h3 className="tool-title">SIP Growth Planner</h3>
+            <p className="tool-desc">Model your monthly SIP, annual step-ups, and intermittent lump-sum additions over a custom horizon.</p>
+            <span className="tool-btn-secondary">Plan SIP Growth →</span>
+          </a>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECTION 3: COMPARE A DECISION (Tier 3 Trade-Off Tools) */}
+      {/* ====================================================== */}
+      <section className="hub-section tier-3-section">
+        <div className="section-title-wrap">
+          <div className="tier-pill tier-pill-secondary">Tier 3 • Decision Trade-Offs</div>
+          <h2 className="tier-heading">Compare Financial Decisions</h2>
+          <p className="tier-subtext">Understand the financial trade-offs before making a major loan or investment decision.</p>
+        </div>
+
+        <div className="tools-grid-secondary">
+          {/* Loan vs Investment */}
+          <button 
+            type="button" 
+            onClick={() => handleSelectEmbeddedTab('loan-vs-invest', true)}
+            className="tool-card-secondary text-left"
+          >
+            <div className="card-top">
+              <span className="tool-icon">⚖️</span>
+              <span className="card-badge badge-slate">Trade-off</span>
+            </div>
+            <h3 className="tool-title">Loan vs Investment</h3>
+            <p className="tool-desc">Evaluate whether you should prepay your loan or invest surplus funds into diversified equity mutual funds.</p>
+            <span className="tool-btn-secondary">Compare Decision →</span>
+          </button>
+
+          {/* Loan + SIP Recovery Planner */}
+          <a href="/tools/loan-sip-recovery" className="tool-card-secondary">
+            <div className="card-top">
+              <span className="tool-icon">⚖️</span>
+              <span className="card-badge badge-slate">Wealth Recovery</span>
+            </div>
+            <h3 className="tool-title">Loan + SIP Recovery Planner</h3>
+            <p className="tool-desc">See how investing a manageable percentage of your EMI into SIP can potentially offset loan interest or complete cost.</p>
+            <span className="tool-btn-secondary">Plan Loan Offset →</span>
+          </a>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECTION 4: ADVANCED PLANNING (Tier 4 Secondary Tools) */}
+      {/* ====================================================== */}
+      <section id="advanced" className="hub-section tier-4-section">
+        <div className="section-title-wrap">
+          <div className="tier-pill tier-pill-tertiary">Tier 4 • Deeper Analysis</div>
+          <h2 className="tier-heading">Advanced Planning Tools</h2>
+          <p className="tier-subtext">Comprehensive suites for detailed scenario analysis, withdrawal simulations, and deep audits.</p>
+        </div>
+
+        <div className="tools-grid-advanced">
+          {/* Home Loan Foreclosure */}
+          <a href="/tools/home-loan-foreclosure" className="tool-card-advanced">
+            <div className="card-top">
+              <span className="tool-icon">🏠</span>
+              <span className="card-badge badge-quiet">Foreclosure</span>
+            </div>
+            <h3 className="tool-title">Home Loan Foreclosure Planner</h3>
+            <p className="tool-desc">Model parallel SIP growth alongside EMI to identify exact month when investment corpus overtakes loan balance.</p>
+            <span className="tool-btn-quiet">Explore Foreclosure Plan →</span>
+          </a>
+
+          {/* SWP Longevity */}
+          <a href="/tools/swp" className="tool-card-advanced">
+            <div className="card-top">
+              <span className="tool-icon">📉</span>
+              <span className="card-badge badge-quiet">Withdrawal</span>
+            </div>
+            <h3 className="tool-title">SWP Longevity Calculator</h3>
+            <p className="tool-desc">Plan retirement withdrawals with monthly compounding simulations, annual step-ups, and inflation protection.</p>
+            <span className="tool-btn-quiet">Explore SWP Longevity →</span>
+          </a>
+
+          {/* Retirement Distribution */}
+          <a href="/tools/retirement-distribution" className="tool-card-advanced">
+            <div className="card-top">
+              <span className="tool-icon">⏳</span>
+              <span className="card-badge badge-quiet">Three-Bucket</span>
+            </div>
+            <h3 className="tool-title">Retirement Distribution Planner</h3>
+            <p className="tool-desc">Structure your post-retirement nest egg across Liquidity (1-3 yrs), Safety (4-7 yrs), and Growth (8+ yrs) buckets.</p>
+            <span className="tool-btn-quiet">Explore Three-Bucket Plan →</span>
+          </a>
+
+          {/* Detailed Life Insurance Analysis */}
+          <a href="/tools/life-insurance" className="tool-card-advanced">
+            <div className="card-top">
+              <span className="tool-icon">🛡️</span>
+              <span className="card-badge badge-quiet">5-Step Audit</span>
+            </div>
+            <h3 className="tool-title">Detailed Life Insurance Analysis</h3>
+            <p className="tool-desc">In-depth 5-step protection gap audit factoring liabilities, living expenses, future milestone goals, and assets.</p>
+            <span className="tool-btn-quiet">Explore Detailed Audit →</span>
+          </a>
+
+          {/* REAL Financial Statement */}
+          <a href="/health-check/real-statement" className="tool-card-advanced">
+            <div className="card-top">
+              <span className="tool-icon">💎</span>
+              <span className="card-badge badge-quiet">Diagnostic</span>
+            </div>
+            <h3 className="tool-title">REAL Financial Statement</h3>
+            <p className="tool-desc">Audit real income, living costs, ongoing savings rate, and calculate your true net worth position.</p>
+            <span className="tool-btn-quiet">Explore REAL Statement →</span>
+          </a>
+        </div>
+      </section>
 
       <style>{`
         .hub-container {
@@ -305,287 +418,327 @@ export default function CalculatorsHub() {
           margin: 0 auto;
         }
 
-        /* Featured Suites Grid */
-        .featured-suites-wrapper {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
-          border-radius: 20px;
-          padding: 2.25rem 2rem;
-          margin-bottom: 2.5rem;
-          box-shadow: 0 16px 36px -10px rgba(0, 24, 42, 0.25);
-          color: #FFFFFF;
+        .hub-section {
+          margin-bottom: 4rem;
         }
 
-        .featured-header {
-          text-align: center;
-          margin-bottom: 1.75rem;
+        .section-title-wrap {
+          margin-bottom: 2rem;
+          text-align: left;
         }
 
-        .featured-badge {
+        .tier-pill {
           display: inline-block;
           font-size: 0.75rem;
           font-weight: 800;
           text-transform: uppercase;
-          letter-spacing: 0.08em;
-          color: #00AB96;
-          background: rgba(0, 171, 150, 0.15);
+          letter-spacing: 0.06em;
           padding: 0.25rem 0.75rem;
           border-radius: 9999px;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.6rem;
         }
 
-        .featured-title {
+        .tier-pill-primary {
+          background-color: #CCFBF1;
+          color: #0F766E;
+        }
+
+        .tier-pill-secondary {
+          background-color: #F1F5F9;
+          color: #475569;
+        }
+
+        .tier-pill-tertiary {
+          background-color: #E2E8F0;
+          color: #334155;
+        }
+
+        .tier-heading {
           font-family: 'Outfit', sans-serif;
           font-size: 1.85rem;
           font-weight: 800;
-          color: #FFFFFF !important;
-          margin: 0 0 0.5rem 0;
+          color: #00182A;
+          margin: 0 0 0.4rem 0;
+          line-height: 1.25;
         }
 
-        .featured-sub {
-          font-size: 0.95rem;
-          color: #CBD5E1;
-          max-width: 600px;
-          margin: 0 auto;
+        .tier-subtext {
+          font-size: 1rem;
+          color: #475569;
+          margin: 0;
           line-height: 1.5;
         }
 
-        .featured-cards-grid {
+        /* Tier 1 Grid */
+        .tools-grid-tier1 {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 1rem;
-        }
-
-        .featured-suite-card {
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 14px;
-          padding: 1.25rem;
-          text-decoration: none;
-          color: #00182A;
-          display: flex;
-          flex-direction: column;
-          transition: all 0.25s ease;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .featured-suite-card:hover {
-          transform: translateY(-4px);
-          border-color: #00AB96;
-          box-shadow: 0 12px 24px -6px rgba(0, 171, 150, 0.25);
-        }
-
-        .suite-card-top {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 0.75rem;
-        }
-
-        .suite-icon {
-          font-size: 1.75rem;
-        }
-
-        .suite-badge-tag {
-          font-size: 0.65rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.04em;
-          background: #E6F7F5;
-          color: #00AB96;
-          padding: 0.15rem 0.45rem;
-          border-radius: 4px;
-        }
-
-        .suite-heading {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.05rem;
-          font-weight: 700;
-          color: #00182A;
-          margin: 0 0 0.4rem 0;
-          line-height: 1.3;
-        }
-
-        .suite-desc {
-          font-size: 0.8rem;
-          color: #64748B;
-          line-height: 1.4;
-          margin: 0 0 1rem 0;
-          flex-grow: 1;
-        }
-
-        .suite-cta-link {
-          font-size: 0.8rem;
-          font-weight: 700;
-          color: #00AB96;
-          margin-top: auto;
-        }
-
-        /* Hub Divider */
-        .hub-divider {
-          position: relative;
-          text-align: center;
-          margin: 2rem 0;
-        }
-
-        .hub-divider::before {
-          content: '';
-          position: absolute;
-          left: 0;
-          top: 50%;
-          width: 100%;
-          height: 1px;
-          background: #E2E8F0;
-          z-index: 1;
-        }
-
-        .divider-text {
-          position: relative;
-          z-index: 2;
-          background: #F8FAFC;
-          padding: 0 1rem;
-          font-size: 0.85rem;
-          font-weight: 700;
-          color: #64748B;
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-        }
-
-        /* Category Nav */
-        .hub-nav-wrapper {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 1rem;
-          margin-bottom: 2.5rem;
-        }
-
-        .category-group {
-          background-color: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 12px;
-          padding: 1rem;
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-        }
-
-        .group-title {
-          font-size: 0.75rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: #64748B;
-          margin-bottom: 0.25rem;
-        }
-
-        .group-buttons {
-          display: flex;
-          flex-direction: column;
-          gap: 0.4rem;
-        }
-
-        .tab-btn {
-          display: flex;
-          align-items: center;
-          gap: 0.6rem;
-          background-color: #F8FAFC;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 8px;
-          padding: 0.6rem 0.75rem;
-          text-align: left;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          text-decoration: none;
-          color: inherit;
-        }
-
-        .tab-btn:hover {
-          background-color: #F1F5F9;
-          border-color: #CBD5E1;
-        }
-
-        .tab-btn-link:hover {
-          border-color: #00AB96;
-          background-color: #F0FDF4;
-        }
-
-        .tab-btn-active {
-          background-color: #00182A !important;
-          border-color: #00182A !important;
-          color: #FFFFFF !important;
-        }
-
-        .tab-btn-active .btn-tag {
-          background-color: #00AB96;
-          color: #FFFFFF;
-        }
-
-        .btn-icon {
-          font-size: 1.1rem;
-          flex-shrink: 0;
-        }
-
-        .btn-text-block {
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-        }
-
-        .btn-name {
-          font-size: 0.825rem;
-          font-weight: 700;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .btn-tag {
-          font-size: 0.675rem;
-          font-weight: 600;
-          color: #64748B;
-          margin-top: 0.15rem;
-          display: inline-block;
-          width: fit-content;
-          padding: 0.1rem 0.35rem;
-          border-radius: 4px;
-          background-color: #E2E8F0;
-        }
-
-        .btn-tag-link {
-          background-color: #E6F7F5;
-          color: #00AB96;
-        }
-
-        .active-calculator-stage {
-          animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(6px); }
-          to { opacity: 1; transform: translateY(0); }
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.5rem;
         }
 
         @media (max-width: 1024px) {
-          .featured-cards-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          .hub-nav-wrapper {
+          .tools-grid-tier1 {
             grid-template-columns: repeat(2, 1fr);
           }
         }
 
         @media (max-width: 640px) {
-          .featured-suites-wrapper {
-            padding: 1.5rem 1rem;
-          }
-          .featured-title {
-            font-size: 1.4rem !important;
-          }
-          .featured-cards-grid {
+          .tools-grid-tier1 {
             grid-template-columns: 1fr;
           }
-          .hub-nav-wrapper {
+        }
+
+        .tool-card-tier1 {
+          background-color: #FFFFFF;
+          border: 1.5px solid #E2E8F0;
+          border-radius: 16px;
+          padding: 1.75rem 1.5rem;
+          display: flex;
+          flex-direction: column;
+          text-decoration: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 4px 15px rgba(0, 24, 42, 0.03);
+          font-family: inherit;
+        }
+
+        .tool-card-tier1:hover {
+          transform: translateY(-4px);
+          border-color: #00AB96;
+          box-shadow: 0 10px 24px rgba(0, 171, 150, 0.12);
+        }
+
+        .active-tier1-card {
+          border-color: #00AB96;
+          background-color: #F0FDF4;
+        }
+
+        .card-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 1rem;
+        }
+
+        .tool-icon {
+          font-size: 2rem;
+          line-height: 1;
+        }
+
+        .card-badge {
+          font-size: 0.72rem;
+          font-weight: 700;
+          padding: 0.2rem 0.55rem;
+          border-radius: 6px;
+        }
+
+        .badge-teal {
+          background-color: #CCFBF1;
+          color: #0F766E;
+        }
+
+        .badge-slate {
+          background-color: #F1F5F9;
+          color: #475569;
+        }
+
+        .badge-quiet {
+          background-color: #F8FAFC;
+          color: #64748B;
+          border: 1px solid #E2E8F0;
+        }
+
+        .tool-title {
+          font-family: 'Outfit', sans-serif;
+          font-size: 1.18rem;
+          font-weight: 700;
+          color: #00182A;
+          margin: 0 0 0.5rem 0;
+          line-height: 1.3;
+        }
+
+        .tool-desc {
+          font-size: 0.88rem;
+          color: #475569;
+          line-height: 1.45;
+          margin: 0 0 1.5rem 0;
+          flex-grow: 1;
+        }
+
+        .tool-btn-link {
+          font-size: 0.88rem;
+          font-weight: 700;
+          color: #00AB96;
+          display: inline-flex;
+          align-items: center;
+          transition: color 0.2s ease;
+        }
+
+        .tool-card-tier1:hover .tool-btn-link {
+          color: #008F7E;
+          text-decoration: underline;
+        }
+
+        /* Workspace Stage */
+        .active-workspace-wrapper {
+          background: #FFFFFF;
+          border: 2px solid #00AB96;
+          border-radius: 20px;
+          padding: 2rem;
+          margin-bottom: 4.5rem;
+          box-shadow: 0 14px 34px rgba(0, 171, 150, 0.08);
+        }
+
+        .workspace-header {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          margin-bottom: 2rem;
+          padding-bottom: 1.25rem;
+          border-bottom: 1px solid #E2E8F0;
+        }
+
+        .workspace-tag {
+          font-size: 0.8rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: #0F766E;
+        }
+
+        .workspace-tabs-bar {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+
+        .ws-tab-btn {
+          padding: 0.6rem 1rem;
+          border-radius: 10px;
+          font-family: 'Outfit', sans-serif;
+          font-size: 0.88rem;
+          font-weight: 700;
+          background-color: #F8FAFC;
+          color: #475569;
+          border: 1px solid #E2E8F0;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          min-height: 40px;
+        }
+
+        .ws-tab-btn:hover {
+          background-color: #F1F5F9;
+          color: #00182A;
+        }
+
+        .ws-tab-btn.active {
+          background-color: #00182A;
+          color: #FFFFFF;
+          border-color: #00182A;
+        }
+
+        /* Tier 2 & 3 Secondary Grids */
+        .tools-grid-secondary {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+          .tools-grid-secondary {
             grid-template-columns: 1fr;
           }
+        }
+
+        .tool-card-secondary {
+          background-color: #FFFFFF;
+          border: 1.5px solid #E2E8F0;
+          border-radius: 16px;
+          padding: 1.75rem 1.5rem;
+          display: flex;
+          flex-direction: column;
+          text-decoration: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 4px 12px rgba(0, 24, 42, 0.02);
+          font-family: inherit;
+        }
+
+        .tool-card-secondary:hover {
+          transform: translateY(-3px);
+          border-color: #94A3B8;
+          box-shadow: 0 8px 20px rgba(0, 24, 42, 0.06);
+        }
+
+        .tool-btn-secondary {
+          font-size: 0.88rem;
+          font-weight: 700;
+          color: #00182A;
+          display: inline-flex;
+          align-items: center;
+        }
+
+        .tool-card-secondary:hover .tool-btn-secondary {
+          color: #00AB96;
+          text-decoration: underline;
+        }
+
+        /* Tier 4 Advanced Grid */
+        .tier-4-section {
+          background-color: #F8FAFC;
+          border: 1.5px dashed #CBD5E1;
+          border-radius: 20px;
+          padding: 2.5rem 2rem;
+        }
+
+        .tools-grid-advanced {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.25rem;
+        }
+
+        @media (max-width: 1024px) {
+          .tools-grid-advanced {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (max-width: 640px) {
+          .tools-grid-advanced {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        .tool-card-advanced {
+          background-color: #FFFFFF;
+          border: 1px solid #E2E8F0;
+          border-radius: 12px;
+          padding: 1.5rem 1.25rem;
+          display: flex;
+          flex-direction: column;
+          text-decoration: none;
+          transition: all 0.2s ease;
+        }
+
+        .tool-card-advanced:hover {
+          border-color: #00AB96;
+          box-shadow: 0 6px 16px rgba(0, 24, 42, 0.04);
+        }
+
+        .tool-btn-quiet {
+          font-size: 0.82rem;
+          font-weight: 700;
+          color: #64748B;
+          display: inline-flex;
+          align-items: center;
+        }
+
+        .tool-card-advanced:hover .tool-btn-quiet {
+          color: #00AB96;
+        }
+
+        .text-left {
+          text-align: left;
         }
       `}</style>
     </div>

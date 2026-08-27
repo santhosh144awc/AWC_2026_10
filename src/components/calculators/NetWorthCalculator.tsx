@@ -285,10 +285,10 @@ export default function NetWorthCalculator() {
               rel="noopener noreferrer"
               className="btn-whatsapp-consult"
             >
-              Optimize Your Portfolio with Santhosh
+              💬 Talk to Santhosh
             </a>
             <a href="/contact" className="btn-book-consult">
-              Book a Comprehensive Portfolio Checkup
+              Book a Free Consultation
             </a>
           </div>
 

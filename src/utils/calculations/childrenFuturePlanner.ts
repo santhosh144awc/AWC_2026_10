@@ -1,7 +1,7 @@
 /**
  * Ant Wealth Creation — Children's Future Planner Calculation Engine
  * 
- * Implements the validated NetworkFP / QPFP Children's Future Planning methodology
+ * Implements comprehensive goal planning methodology
  * with modern consumer adaptations (current value asset inputs, horizon-based return defaults,
  * effective monthly compounding PMT, and geometric annual step-up compounding).
  */
@@ -252,7 +252,7 @@ export function calculateRequiredLumpSum(
 }
 
 /**
- * Calculates fixed monthly SIP using the validated NetworkFP / QPFP effective monthly compounding formula.
+ * Calculates fixed monthly SIP using the effective monthly compounding formula.
  * r_eff = (1 + r)^(1/12) - 1
  * PMT = FV * r_eff / ((1 + r_eff)^n - 1)
  */
@@ -280,7 +280,7 @@ export function calculateRequiredFixedSIP(
 }
 
 /**
- * Calculates starting monthly Step-Up SIP using the validated NetworkFP / QPFP geometric annual increment formula.
+ * Calculates starting monthly Step-Up SIP using geometric annual increment formula.
  * PMT_start = FV / Σ[y=1..Y] [ (1 + g)^(y-1) * ((1 + r_eff)^12 - 1) / r_eff * (1 + r)^(Y - y) ]
  */
 export function calculateRequiredStepUpSIP(

@@ -218,18 +218,36 @@ export default function InsuranceCalculator() {
         {/* Results Panel */}
         <div className="calc-result-panel">
           <div className="result-hero-box">
-            <span className="result-tag">Recommended Pure Term Cover</span>
+            <span className="result-tag">Estimated Protection Gap</span>
             <div className="maturity-number">₹{result.netAdditionalCoverRequired.toLocaleString('en-IN')}</div>
             <p className="result-note">
-              Comprehensive protection calculated to replace income for {yearsOfIncomeReplacement} years and clear all liabilities.
+              Illustrative life cover needed to replace income for {yearsOfIncomeReplacement} years, clear debts, and fund family milestones.
             </p>
+          </div>
+
+          {/* Conceptual Formula Breakdown Box */}
+          <div className="insurance-formula-card">
+            <span className="formula-card-title">How Your Protection Need Is Determined:</span>
+            <div className="formula-equation-row">
+              <span className="formula-pill add">Income Replacement (₹{result.incomeReplacementNeed.toLocaleString('en-IN')})</span>
+              <span className="formula-op">+</span>
+              <span className="formula-pill add">Outstanding Debts (₹{result.outstandingLoans.toLocaleString('en-IN')})</span>
+              <span className="formula-op">+</span>
+              <span className="formula-pill add">Future Goals (₹{result.futureMajorGoals.toLocaleString('en-IN')})</span>
+              <span className="formula-op">-</span>
+              <span className="formula-pill sub">Existing Cover (₹{existingLifeCover.toLocaleString('en-IN')})</span>
+              <span className="formula-op">-</span>
+              <span className="formula-pill sub">Liquid Assets (₹{existingLiquidAssets.toLocaleString('en-IN')})</span>
+              <span className="formula-op">=</span>
+              <span className="formula-pill result">Protection Gap: ₹{result.netAdditionalCoverRequired.toLocaleString('en-IN')}</span>
+            </div>
           </div>
 
           {/* Breakdown Grid */}
           <div className="result-metrics-grid">
             <div className="metric-box">
               <div className="metric-details">
-                <span className="metric-title">Gross Protection Need</span>
+                <span className="metric-title">Gross Family Protection Need</span>
                 <span className="metric-value">₹{result.totalGrossRequirement.toLocaleString('en-IN')}</span>
               </div>
             </div>
@@ -261,15 +279,15 @@ export default function InsuranceCalculator() {
           {/* Action CTAs */}
           <div className="calc-action-block">
             <a 
-              href={`https://wa.me/918087971566?text=Hi%20Santhosh,%20I%20used%20the%20Insurance%20Calculator%20and%20calculated%20a%20pure%20term%20cover%20need%20of%20₹${result.netAdditionalCoverRequired}.%20Can%20we%20review%20my%20insurance?`} 
+              href={`https://wa.me/918087971566?text=Hi%20Santhosh,%20I%20used%20the%20Insurance%20Calculator%20and%20calculated%20an%20estimated%20protection%20gap%20of%20₹${result.netAdditionalCoverRequired}.%20Can%20we%20review%20my%20insurance%20needs?`} 
               target="_blank" 
               rel="noopener noreferrer"
               className="btn-whatsapp-consult"
             >
-              Review Life Cover with Santhosh
+              Review Your Protection Need
             </a>
             <a href="/contact" className="btn-book-consult">
-              Book a Free Risk & Protection Review
+              Talk to Santhosh
             </a>
           </div>
 
@@ -277,10 +295,10 @@ export default function InsuranceCalculator() {
           <div className="calc-explanation">
             <h4>Needs-Based Protection Philosophy</h4>
             <p>
-              Rather than using a rigid rule of thumb (e.g. 10x salary), this tool uses the comprehensive Needs-Based Human Life Value approach: calculating the exact capital needed to sustain your family's lifestyle, pay off debts, and safeguard milestone goals minus your existing assets.
+              Rather than using a rigid rule of thumb (e.g. 10x salary), this tool uses the Needs-Based Human Life Value approach: calculating the capital needed to sustain your family's lifestyle, pay off debts, and safeguard milestone goals minus your existing assets.
             </p>
             <p className="disclaimer-text">
-              *Illustrative financial-health benchmark. Actual requirements vary based on individual circumstances. Ant Wealth Creation does not solicit specific insurance policies or promise insurer payouts.
+              *This is an illustrative estimate. Actual protection requirements depend on your family's circumstances, liabilities, assets, income, existing cover and future responsibilities. Ant Wealth Creation is an AMFI-Registered Mutual Fund Distributor (ARN: 266896) and does not solicit specific insurance policies.
             </p>
           </div>
 
@@ -479,6 +497,58 @@ export default function InsuranceCalculator() {
           font-size: 0.85rem;
           color: #CBD5E1;
           line-height: 1.4;
+        }
+
+        .insurance-formula-card {
+          background-color: #F8FAFC;
+          border: 1px solid #E2E8F0;
+          border-radius: 10px;
+          padding: 0.85rem 1rem;
+        }
+
+        .formula-card-title {
+          font-size: 0.75rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: #64748B;
+          display: block;
+          margin-bottom: 0.5rem;
+        }
+
+        .formula-equation-row {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 0.35rem;
+          font-size: 0.75rem;
+        }
+
+        .formula-pill {
+          padding: 0.2rem 0.5rem;
+          border-radius: 4px;
+          font-weight: 600;
+        }
+
+        .formula-pill.add {
+          background-color: #EFF6FF;
+          color: #1E40AF;
+        }
+
+        .formula-pill.sub {
+          background-color: #FEF2F2;
+          color: #991B1B;
+        }
+
+        .formula-pill.result {
+          background-color: #ECFDF5;
+          color: #065F46;
+          font-weight: 700;
+        }
+
+        .formula-op {
+          color: #94A3B8;
+          font-weight: 700;
         }
 
         .result-metrics-grid {

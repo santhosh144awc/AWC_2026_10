@@ -241,10 +241,10 @@ export default function SIPCalculator() {
               rel="noopener noreferrer"
               className="btn-whatsapp-consult"
             >
-              Start This SIP with Santhosh
+              💬 Talk to Santhosh
             </a>
             <a href="/contact" className="btn-book-consult">
-              Book a Free Financial Consultation
+              Book a Free Consultation
             </a>
           </div>
 

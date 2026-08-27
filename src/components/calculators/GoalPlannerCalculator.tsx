@@ -85,20 +85,36 @@ export const GOAL_PRESETS: GoalPreset[] = [
   }
 ];
 
+function getInitialPreset(initialGoalId: string = 'education'): GoalPreset {
+  if (typeof window !== 'undefined') {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryGoal = urlParams.get('goal');
+      const goalKey = queryGoal || initialGoalId;
+      const found = GOAL_PRESETS.find(p => p.id === goalKey || p.id.toLowerCase() === goalKey.toLowerCase());
+      if (found) return found;
+    } catch {
+      // Fallback
+    }
+  }
+  return GOAL_PRESETS.find(p => p.id === initialGoalId) || GOAL_PRESETS[0];
+}
+
 interface GoalPlannerProps {
   initialGoalId?: string;
 }
 
 export default function GoalPlannerCalculator({ initialGoalId = 'education' }: GoalPlannerProps) {
-  const [selectedGoalId, setSelectedGoalId] = useState(initialGoalId);
-  const [goalName, setGoalName] = useState('Child Higher Education');
-  const [targetCostToday, setTargetCostToday] = useState(2500000);
-  const [yearsToGoal, setYearsToGoal] = useState(12);
-  const [expectedInflation, setExpectedInflation] = useState(8);
-  const [currentSavings, setCurrentSavings] = useState(200000);
-  const [expectedReturnRate, setExpectedReturnRate] = useState(12);
-  const [stepUpPercentage, setStepUpPercentage] = useState(5);
-  const [enableStepUp, setEnableStepUp] = useState(false);
+  const defaultPreset = GOAL_PRESETS.find(p => p.id === initialGoalId) || GOAL_PRESETS[0];
+  const [selectedGoalId, setSelectedGoalId] = useState<string>(defaultPreset.id);
+  const [goalName, setGoalName] = useState<string>(defaultPreset.name);
+  const [targetCostToday, setTargetCostToday] = useState<number>(defaultPreset.defaultCost);
+  const [yearsToGoal, setYearsToGoal] = useState<number>(defaultPreset.defaultYears);
+  const [expectedInflation, setExpectedInflation] = useState<number>(defaultPreset.defaultInflation);
+  const [currentSavings, setCurrentSavings] = useState<number>(200000);
+  const [expectedReturnRate, setExpectedReturnRate] = useState<number>(defaultPreset.defaultReturn);
+  const [stepUpPercentage, setStepUpPercentage] = useState<number>(5);
+  const [enableStepUp, setEnableStepUp] = useState<boolean>(false);
 
   const costId = useId();
   const yearsId = useId();
@@ -107,23 +123,25 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
   const retId = useId();
   const stepUpId = useId();
 
-  // Listen to initialGoalId changes or URL search params
+  // Listen to initialGoalId changes and popstate events
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const urlParams = new URLSearchParams(window.location.search);
-      const queryGoal = urlParams.get('goal');
-      const goalKey = queryGoal || initialGoalId;
+    const handlePopState = () => {
+      const preset = getInitialPreset(initialGoalId);
+      setSelectedGoalId(preset.id);
+      setGoalName(preset.name);
+      setTargetCostToday(preset.defaultCost);
+      setYearsToGoal(preset.defaultYears);
+      setExpectedInflation(preset.defaultInflation);
+      setExpectedReturnRate(preset.defaultReturn);
+    };
 
-      const matchedPreset = GOAL_PRESETS.find(p => p.id === goalKey || p.id.toLowerCase() === goalKey.toLowerCase());
-      if (matchedPreset) {
-        setSelectedGoalId(matchedPreset.id);
-        setGoalName(matchedPreset.name);
-        setTargetCostToday(matchedPreset.defaultCost);
-        setYearsToGoal(matchedPreset.defaultYears);
-        setExpectedInflation(matchedPreset.defaultInflation);
-        setExpectedReturnRate(matchedPreset.defaultReturn);
-      }
-    }
+    // Sync on initial mount in browser
+    handlePopState();
+
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
   }, [initialGoalId]);
 
   const handleSelectPreset = (preset: GoalPreset) => {
@@ -135,8 +153,14 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
     setExpectedReturnRate(preset.defaultReturn);
 
     if (typeof window !== 'undefined') {
-      const newUrl = `${window.location.pathname}?goal=${preset.id}`;
-      window.history.replaceState({ path: newUrl }, '', newUrl);
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set('goal', preset.id);
+        window.history.pushState({ goal: preset.id }, '', url.toString());
+      } catch {
+        const newUrl = `${window.location.pathname}?goal=${preset.id}`;
+        window.history.pushState({ goal: preset.id }, '', newUrl);
+      }
     }
   };
 
@@ -152,9 +176,9 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
 
   return (
     <div className="goal-planner-wrapper">
-      {/* Preset Goal Selector Tabs */}
+      {/* Preset Goal Selector Cards */}
       <div className="preset-selector-row">
-        <span className="preset-row-label">Select Goal Category:</span>
+        <span className="preset-row-label">Select Your Goal:</span>
         <div className="preset-chips">
           {GOAL_PRESETS.map((preset) => (
             <button
@@ -371,9 +395,9 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
             </p>
           </div>
 
-          {/* Required Monthly SIP Box */}
+          {/* Estimated Monthly SIP Box */}
           <div className="sip-highlight-box">
-            <span className="sip-highlight-label">Required Monthly SIP to Achieve Goal</span>
+            <span className="sip-highlight-label">Estimated Monthly SIP to Achieve Goal</span>
             <div className="sip-highlight-value">₹{result.requiredMonthlySIP.toLocaleString('en-IN')} / month</div>
             <span className="sip-highlight-sub">
               {enableStepUp 
@@ -407,10 +431,10 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
               rel="noopener noreferrer"
               className="btn-whatsapp-consult"
             >
-              Start This Goal Plan with Santhosh
+              💬 Talk to Santhosh
             </a>
             <a href="/contact" className="btn-book-consult">
-              Book a Goal Planning Session
+              Book a Free Consultation
             </a>
           </div>
 
@@ -418,10 +442,10 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
           <div className="calc-explanation">
             <h4>How this goal is planned</h4>
             <p>
-              We first adjust today's cost for {expectedInflation}% inflation, subtract the compounding growth of your existing savings, and then calculate the exact monthly SIP needed to build the remaining corpus on schedule.
+              We first adjust today's cost for {expectedInflation}% inflation, subtract the compounding growth of your existing savings, and then calculate the estimated monthly SIP requirement needed to potentially build the remaining corpus on schedule.
             </p>
             <p className="disclaimer-text">
-              *All projections are educational illustrations and do not guarantee market returns.
+              *All projections are educational illustrations based on the assumptions entered and do not guarantee market returns.
             </p>
           </div>
         </div>

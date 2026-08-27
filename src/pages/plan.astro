@@ -5,7 +5,7 @@ import GoalPlannerCalculator from '../components/calculators/GoalPlannerCalculat
 
 <BaseLayout 
   title="Plan Your Life Goals — Ant Wealth Creation" 
-  description="Plan your children's higher education, dream home down payment, retirement independence, and family milestones with inflation-adjusted mathematical precision."
+  description="Choose a goal and understand what it may take. Plan your children's higher education, dream home down payment, retirement independence, and family milestones with inflation-adjusted mathematical precision."
   currentPath="/plan"
 >
   <section class="plan-page-hero">
@@ -14,9 +14,9 @@ import GoalPlannerCalculator from '../components/calculators/GoalPlannerCalculat
         <span class="badge-dot"></span>
         Goal-Based Financial Planning
       </div>
-      <h1 class="page-title">Map Your Milestones Into Action</h1>
+      <h1 class="page-title">What are you planning for?</h1>
       <p class="page-subtitle">
-        Select any milestone below to calculate inflation-adjusted future targets, evaluate your existing savings growth, and discover your exact monthly SIP requirement.
+        Choose a goal and we'll help you understand what it may take.
       </p>
     </div>
   </section>
@@ -65,7 +65,7 @@ import GoalPlannerCalculator from '../components/calculators/GoalPlannerCalculat
 
   .page-subtitle {
     font-size: 1.15rem;
-    color: var(--color-slate-muted);
+    color: #475569;
     max-width: 680px;
     margin: 0 auto;
     line-height: 1.6;
@@ -84,5 +84,13 @@ import GoalPlannerCalculator from '../components/calculators/GoalPlannerCalculat
       font-size: 1rem;
     }
   }
-</style>
 
+  @media (max-width: 640px) {
+    .plan-page-hero {
+      padding: 2.5rem 1rem 1.5rem;
+    }
+    .goal-planner-stage-section {
+      padding: 0 0.75rem 3.5rem;
+    }
+  }
+</style>

@@ -1,7 +1,7 @@
 /**
  * Unit Test Suite for Home Purchase Planning Calculation Engine
  * 
- * Verifies all 25 specific test categories covering Candidates Sheet methodology,
+ * Verifies all 25 specific test categories covering goal planning methodology,
  * property compounding, acquisition cost separation, loan amounts, 8% income growth,
  * EMI calculations, dynamic asset aggregation, lumpsum, fixed SIP, and Step-Up SIP.
  */
@@ -161,9 +161,9 @@ const zeroRetSip = calculateRequiredFixedSIP(2555557, 0, 6);
 assertClose(zeroRetSip, 35494, 2, '0% return divides deficit evenly by 72 months (₹35,494/mo)');
 assert(calculateRequiredFixedSIP(0, 12, 6) === 0, 'Zero deficit requires ₹0 SIP');
 
-// --- 9. Testing Required Step-Up SIP (Candidates Sheet Formula) ---
-console.log('\n--- 9. Testing Required Step-Up SIP (Candidates Sheet Formula) ---');
-// Candidates Sheet formula:
+// --- 9. Testing Required Step-Up SIP ---
+console.log('\n--- 9. Testing Required Step-Up SIP ---');
+// Step-Up formula:
 // Deficit = 2555557, r = 0.12, g = 0.10, t = 6
 // Numerator = 2555557 * (0.12 - 0.10) = 51111.14
 // Denominator = (1.12)^6 - (1.10)^6 = 1.973822685 - 1.771561 = 0.202261685

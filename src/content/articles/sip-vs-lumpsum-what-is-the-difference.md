@@ -9,10 +9,10 @@ authorTitle: "AMFI-Registered Mutual Fund Distributor (ARN: 266896)"
 readingTime: "5 min read"
 featured: false
 calculatorCTA:
-  title: "Compare Lumpsum & SIP Compounding"
-  description: "Check how different investment strategies grow over your intended time horizon."
-  buttonLabel: "Explore Calculators"
-  href: "/tools"
+  title: "Calculate Lumpsum Investment Growth"
+  description: "Check how a one-time lumpsum investment can compound over your intended time horizon."
+  buttonLabel: "Try Lumpsum Calculator"
+  href: "/tools?calc=lumpsum"
 ---
 
 When investing in mutual funds, one of the most common dilemmas investors face is whether to invest systematically every month (SIP) or commit a one-time single investment (Lumpsum).

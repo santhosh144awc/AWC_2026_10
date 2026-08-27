@@ -77,7 +77,7 @@ export const ConsultationBooking: React.FC = () => {
               >
                 <span className="dot-number">{step > s ? '✓' : s}</span>
                 <span className="dot-label">
-                  {s === 1 ? 'Topic' : s === 2 ? 'Date & Time' : s === 3 ? 'Details' : 'Confirmed'}
+                  {s === 1 ? 'Topic' : s === 2 ? 'Date & Time' : s === 3 ? 'Details' : 'Request Ready'}
                 </span>
               </div>
             ))}
@@ -88,7 +88,7 @@ export const ConsultationBooking: React.FC = () => {
         {step === 1 && (
           <div className="step-pane">
             <div className="step-title-block">
-              <span className="step-tag">Step 1 of 3</span>
+              <span className="step-tag">Step 1 of 4</span>
               <h3 className="step-heading">What would you like to discuss?</h3>
               <p className="step-subheading">Select the focus area for your conversation with Santhosh.</p>
             </div>
@@ -129,7 +129,7 @@ export const ConsultationBooking: React.FC = () => {
         {step === 2 && (
           <div className="step-pane">
             <div className="step-title-block">
-              <span className="step-tag">Step 2 of 3</span>
+              <span className="step-tag">Step 2 of 4</span>
               <h3 className="step-heading">Select Your Preferred Time Slot</h3>
               <p className="step-subheading">Choose when it is most convenient for you and your family.</p>
             </div>
@@ -190,7 +190,7 @@ export const ConsultationBooking: React.FC = () => {
         {step === 3 && (
           <form onSubmit={handleNext} className="step-pane">
             <div className="step-title-block">
-              <span className="step-tag">Step 3 of 3</span>
+              <span className="step-tag">Step 3 of 4</span>
               <h3 className="step-heading">Who is scheduling this conversation?</h3>
               <p className="step-subheading">Provide your basic contact information so Santhosh can confirm your session.</p>
             </div>
@@ -259,7 +259,7 @@ export const ConsultationBooking: React.FC = () => {
                 type="submit"
                 className="btn-next-step"
               >
-                Confirm Consultation Request ✓
+                Prepare Consultation Request →
               </button>
             </div>
           </form>
@@ -268,10 +268,11 @@ export const ConsultationBooking: React.FC = () => {
         {/* Step 4: Instant Confirmation */}
         {step === 4 && (
           <div className="step-pane text-center">
-            <div className="success-icon-badge">🎉</div>
-            <h3 className="success-heading">Consultation Request Received!</h3>
+            <div className="step-tag mb-2">Step 4 of 4 • Request Ready</div>
+            <div className="success-icon-badge">💬</div>
+            <h3 className="success-heading">Consultation Request Ready!</h3>
             <p className="success-message">
-              Thank you, <strong>{formData.name || 'Friend'}</strong>. Santhosh has received your request and will reach out to confirm your session.
+              Thank you, <strong>{formData.name || 'Friend'}</strong>. Your consultation details are ready. Tap below to send your request directly to Santhosh on WhatsApp to confirm your preferred slot.
             </p>
 
             <div className="summary-box">
@@ -296,7 +297,7 @@ export const ConsultationBooking: React.FC = () => {
                 rel="noopener noreferrer"
                 className="btn-whatsapp-confirm"
               >
-                💬 Open in WhatsApp & Message Santhosh Directly
+                💬 Send Request on WhatsApp
               </a>
               <button
                 type="button"

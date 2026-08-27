@@ -10,7 +10,7 @@ readingTime: "5 min read"
 featured: true
 calculatorCTA:
   title: "Check Your Financial Safety Buffer"
-  description: "Take the 3-minute Financial Health Check to evaluate your emergency preparedness."
+  description: "Take the 2-Minute Financial Health Check to evaluate your emergency preparedness."
   buttonLabel: "Start Financial Health Check"
   href: "/health-check"
 ---

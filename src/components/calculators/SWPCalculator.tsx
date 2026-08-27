@@ -92,7 +92,7 @@ export default function SWPCalculator() {
     setLumpSums(lumpSums.filter((item) => item.id !== id));
   };
 
-  // Load Trainer Regression Benchmark Scenario
+  // Load Benchmark Scenario
   const handleLoadSampleData = () => {
     setCurrentAge(60);
     setStartDate('2025-01-01');

@@ -110,7 +110,7 @@ export default function RetirementAccumulationPlanner() {
 
   const result = useMemo(() => calculateRetirementAccumulationPlan(planInput), [planInput]);
 
-  // Load Trainer Deterministic Sample Scenario
+  // Load Benchmark Scenario
   const handleLoadSampleData = () => {
     setHouseholdExpenses(1200000);
     setLifestyleExpenses(0);

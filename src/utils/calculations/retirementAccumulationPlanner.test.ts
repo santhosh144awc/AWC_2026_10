@@ -6,7 +6,7 @@
  * - Compound Fisher real return and tax-adjusted returns
  * - Annuity-Due living expense capitalization (type=1) vs ordinary annuity
  * - Existing assets aggregation at retirement (no double-compounding)
- * - Funding deficit, lump sum, fixed SIP, and Step-Up SIP (Candidates formula)
+ * - Funding deficit, lump sum, fixed SIP, and Step-Up SIP (Step-up annuity formula)
  * - Deterministic reference scenario validation
  * - Boundary handling and floating-point stability
  */
@@ -177,8 +177,8 @@ assertClose(fixedSip, 66142, 2, 'Fixed monthly SIP for ₹1.47 Cr @ 12% for 10 y
 assertClose(calculateRequiredFixedSIP(14678929, 0, 10), 122324, 2, '0% return divides deficit evenly across 120 months');
 assert(calculateRequiredFixedSIP(0, 12, 10) === 0, 'Zero deficit requires ₹0 SIP');
 
-// --- 8. Step-Up Monthly SIP (Candidates Sheet Formula) ---
-console.log('\n--- 8. Step-Up Monthly SIP (Candidates Sheet Formula) ---');
+// --- 8. Step-Up Monthly SIP ---
+console.log('\n--- 8. Step-Up Monthly SIP ---');
 // Deficit = 14678929, r = 0.12, g = 0.10, t = 10
 // Numerator = 14678929 * (0.12 - 0.10) = 293578.58
 // Denominator = (1.12)^10 - (1.10)^10 = 3.1058482 - 2.59374246 = 0.51210574
@@ -200,7 +200,7 @@ const delayedSip = calculateRequiredFixedSIP(14678929, 12, 8);
 assert(delayedSip > fixedSip, 'Delayed SIP requires higher monthly amount due to shorter horizon');
 assertClose(delayedSip, 94369, 2, '8-year fixed SIP for ₹1.47 Cr @ 12% ≈ ₹94,369/mo');
 
-// --- 10. Master End-to-End Orchestrator (Trainer Deterministic Reference Scenario) ---
+// --- 10. Master End-to-End Orchestrator (Deterministic Reference Scenario) ---
 console.log('\n--- 10. Master End-to-End Orchestrator ---');
 const sampleInput: RetirementPlannerInput = {
   expenses: {
