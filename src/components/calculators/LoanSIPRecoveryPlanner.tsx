@@ -432,6 +432,7 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
               <div className="return-horizon-note">
                 <span className="horizon-tag">Investment Horizon: <strong>{plan.sipDurationYears} Years</strong></span>
                 <span className="default-horizon-text">(Default horizon: same as your loan tenure)</span>
+                <span className="effective-rate-tag">Effective Monthly Compounding: <strong>{(plan.effectiveMonthlySIPRate * 100).toFixed(4)}%/mo</strong></span>
               </div>
 
               {/* Dynamic Educational Impact Insight */}
@@ -1775,6 +1776,13 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
         .default-horizon-text {
           font-style: italic;
           color: #94A3B8;
+        }
+        .effective-rate-tag {
+          background: #CCFBF1;
+          color: #0F766E;
+          padding: 3px 8px;
+          border-radius: 4px;
+          font-weight: 600;
         }
         .return-impact-insight {
           display: flex;
