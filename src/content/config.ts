@@ -7,16 +7,7 @@ const articlesCollection = defineCollection({
     description: z.string(),
     publishDate: z.date().or(z.string().transform((val) => new Date(val))),
     updatedDate: z.date().or(z.string().transform((val) => new Date(val))).optional(),
-    category: z.enum([
-      'Personal Finance',
-      'Mutual Funds',
-      'SIP & Investing',
-      'Goal Planning',
-      'Retirement Planning',
-      'Insurance & Protection',
-      'Wealth Creation',
-      'Financial Planning'
-    ]),
+    category: z.string(),
     tags: z.array(z.string()).default([]),
     author: z.string().default('C. Santhosh Sathriyan, B.E., QPFP Certified'),
     authorTitle: z.string().default('AMFI-Registered Mutual Fund Distributor (ARN: 266896)'),
