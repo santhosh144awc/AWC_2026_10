@@ -17,7 +17,7 @@ function normalizeTab(rawTab?: string | null): CalculatorTab {
   if (clean === 'retirement' || clean === 'retirement-calculator') return 'retirement';
   if (clean === 'goal' || clean === 'goal-planner' || clean === 'goals') return 'goal';
   if (clean === 'loan-vs-invest' || clean === 'loan-vs-investment' || clean === 'loan' || clean === 'loan-prepay') return 'loan-vs-invest';
-  if (clean === 'insurance' || clean === 'insurance-calculator' || clean === 'term-insurance' || clean === 'protection') return 'insurance';
+  if (clean === 'insurance' || clean === 'insurance-calculator' || clean === 'term-insurance' || clean === 'protection' || clean === 'life-insurance') return 'insurance';
   if (clean === 'net-worth' || clean === 'networth' || clean === 'net-worth-calculator') return 'net-worth';
   return 'sip';
 }
@@ -44,12 +44,20 @@ export default function CalculatorsHub() {
 
   useEffect(() => {
     const currentTab = getTabFromUrl();
-    if (currentTab !== 'sip') {
+    if (currentTab) {
       setActiveTab(currentTab);
+      // Auto-scroll to calculator stage if specific tab requested via URL query or hash
+      if (typeof window !== 'undefined' && (window.location.search.includes('calc=') || (window.location.hash && window.location.hash !== '#advanced'))) {
+        setTimeout(() => {
+          stageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 150);
+      }
     }
 
     const handlePopState = () => {
-      setActiveTab(getTabFromUrl());
+      const tab = getTabFromUrl();
+      setActiveTab(tab);
+      stageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -178,7 +186,7 @@ export default function CalculatorsHub() {
       </section>
 
       {/* Embedded Workspace Stage */}
-      <div id="calculator-stage" ref={stageRef} className="embedded-workspace-card">
+      <div id="calculator-stage" ref={stageRef} className="active-workspace-wrapper">
         <div className="workspace-header">
           <div className="workspace-title-row">
             <span className="workspace-tag">Interactive Workspace</span>
@@ -193,13 +201,13 @@ export default function CalculatorsHub() {
             </span>
           </div>
           
-          <div className="workspace-tabs-pills" role="tablist" aria-label="Calculator Workspace Selector">
+          <div className="workspace-tabs-bar" role="tablist" aria-label="Calculator Workspace Selector">
             <button
               type="button"
               role="tab"
               aria-selected={activeTab === 'sip'}
               onClick={() => handleSelectEmbeddedTab('sip')}
-              className={`pill-btn ${activeTab === 'sip' ? 'active' : ''}`}
+              className={`ws-tab-btn ${activeTab === 'sip' ? 'active' : ''}`}
             >
               SIP
             </button>
@@ -208,7 +216,7 @@ export default function CalculatorsHub() {
               role="tab"
               aria-selected={activeTab === 'lumpsum'}
               onClick={() => handleSelectEmbeddedTab('lumpsum')}
-              className={`pill-btn ${activeTab === 'lumpsum' ? 'active' : ''}`}
+              className={`ws-tab-btn ${activeTab === 'lumpsum' ? 'active' : ''}`}
             >
               Lumpsum
             </button>
@@ -217,7 +225,7 @@ export default function CalculatorsHub() {
               role="tab"
               aria-selected={activeTab === 'goal'}
               onClick={() => handleSelectEmbeddedTab('goal')}
-              className={`pill-btn ${activeTab === 'goal' ? 'active' : ''}`}
+              className={`ws-tab-btn ${activeTab === 'goal' ? 'active' : ''}`}
             >
               Goal
             </button>
@@ -226,7 +234,7 @@ export default function CalculatorsHub() {
               role="tab"
               aria-selected={activeTab === 'retirement'}
               onClick={() => handleSelectEmbeddedTab('retirement')}
-              className={`pill-btn ${activeTab === 'retirement' ? 'active' : ''}`}
+              className={`ws-tab-btn ${activeTab === 'retirement' ? 'active' : ''}`}
             >
               Retirement
             </button>
@@ -235,7 +243,7 @@ export default function CalculatorsHub() {
               role="tab"
               aria-selected={activeTab === 'loan-vs-invest'}
               onClick={() => handleSelectEmbeddedTab('loan-vs-invest')}
-              className={`pill-btn ${activeTab === 'loan-vs-invest' ? 'active' : ''}`}
+              className={`ws-tab-btn ${activeTab === 'loan-vs-invest' ? 'active' : ''}`}
             >
               Loan vs Invest
             </button>
@@ -244,7 +252,7 @@ export default function CalculatorsHub() {
               role="tab"
               aria-selected={activeTab === 'insurance'}
               onClick={() => handleSelectEmbeddedTab('insurance')}
-              className={`pill-btn ${activeTab === 'insurance' ? 'active' : ''}`}
+              className={`ws-tab-btn ${activeTab === 'insurance' ? 'active' : ''}`}
             >
               Insurance
             </button>
@@ -253,7 +261,7 @@ export default function CalculatorsHub() {
               role="tab"
               aria-selected={activeTab === 'net-worth'}
               onClick={() => handleSelectEmbeddedTab('net-worth')}
-              className={`pill-btn ${activeTab === 'net-worth' ? 'active' : ''}`}
+              className={`ws-tab-btn ${activeTab === 'net-worth' ? 'active' : ''}`}
             >
               Net Worth
             </button>
@@ -611,6 +619,7 @@ export default function CalculatorsHub() {
           padding: 2rem;
           margin-bottom: 4.5rem;
           box-shadow: 0 14px 34px rgba(0, 171, 150, 0.08);
+          scroll-margin-top: 100px;
         }
 
         .workspace-header {
