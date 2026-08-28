@@ -1031,6 +1031,58 @@ npm run preview
 
 ---
 
+## 10. Phase 15C — Homepage Content Reordering, Learn Hub & Testimonial Placeholders
+
+### Key Architecture & UX Implementations:
+1. **Homepage Final 8-Stage Storyflow:**
+   * **1. Hero:** *"Make Better Money Decisions. Build a Better Future."* + `Start Here →` (`/health-check`) & `Explore Tools →` (`/tools`).
+   * **2. Check Your Financial Health (`HealthCheckTeaser.astro`):** 6 key pillars (Savings, Emergency Fund, Protection, Investments, Goals, Retirement) + Sample Score Gauge preview.
+   * **3. Your Financial Wellbeing Journey (`FinancialJourney.astro`):** 6-Stage educational progression ($1 \rightarrow 2 \rightarrow 3 \rightarrow 4 \rightarrow 5 \rightarrow 6$).
+   * **4. Where Would You Like to Start? (`CalculatorCards.astro`):** Exactly 4 canonical pathways (*Understand My Finances*, *Plan a Goal*, *Grow My Money*, *Protect My Family*).
+   * **5. Learn About Money (`LearningSection.astro`):** Top 6 latest/featured articles dynamically queried from Astro content collection with `Explore All Guides →` (`/learn`).
+   * **6. What Our Clients Say (`TestimonialsSection.astro`):** Reusable `Testimonial` data structure with neutral placeholder avatars and explicit `TODO` markers.
+   * **7. Why Families Choose Ant Wealth Creation (`TrustSection.astro`):** 5 verified credibility pillars.
+   * **8. Need Help Understanding Your Numbers? (`MeetFounder.astro`):** Direct WhatsApp bridge & Free Consultation scheduler.
+   * **9. Footer (`Footer.astro`).**
+2. **Popular Tools Removed from Homepage:**
+   * Popular Tools 4-card preview grid completely removed from the homepage, leaving `/tools` as the dedicated calculator hub.
+3. **Dynamic Weekly Article System & Enhanced Learn Hub (`/learn`):**
+   * Flexible category validation in `src/content/config.ts`.
+   * Interactive "Browse by Topic" filter chips (`Money Basics`, `Saving`, `Investing`, `Protection`, `Goals`, `Loans`, `Retirement`).
+   * Added 2 new problem-oriented educational guides (`should-you-repay-your-loan-or-invest.md`, `how-much-should-you-save-for-a-future-goal.md`). Total 12 curated articles.
+
+---
+
+## 11. Phase 16A — Header Visual Alignment with Existing AWC Website
+
+### Key Visual Refinements:
+1. **Prominent Brand Logo:**
+   * Desktop logo displayed height increased to `62px` (from `52px`) with `width: auto` and `object-fit: contain`, matching the visual branding weight of `antwealth.themfbox.com`.
+2. **Header Height & Breathing Room:**
+   * Header height adjusted to `90px` desktop (`--nav-height: 90px`) with vertical centering for logo, navigation links, and action CTA.
+3. **Portfolio Login Action Button:**
+   * Replaced header CTA button with **"Portfolio Login"** pointing to `https://antwealth.themfbox.com/` (`target="_blank" rel="noopener noreferrer"`).
+   * Available on both desktop header and mobile slide drawer.
+4. **Preserved Simplified Navigation:**
+   * Maintained the 5 essential links (`Home`, `Plan a Goal`, `Tools`, `Learn`, `About`) with zero old-site menu clutter.
+
+---
+
+## 12. Phase 15D — Simplified Insurance Tool Restored in Financial Planning Tools
+
+### Root Cause & Resolution:
+1. **Bug Identification:**
+   * Inside `InsuranceCalculator.tsx` line 284, the WhatsApp consultation template referenced `result.annualLivingExpenses.toLocaleString('en-IN')`.
+   * Because `InsuranceResult` returns `annualIncome` (not `annualLivingExpenses`), this threw an uncaught runtime `TypeError` when mounting the tab, causing the React island to crash and display an empty workspace without the result panel.
+2. **Resolution & Fix:**
+   * Corrected property access to `result.annualIncome.toLocaleString('en-IN')`.
+   * Restored full interactive input panel and right-hand side Estimated Protection Gap result panel + equation breakdown.
+3. **Two Distinct Insurance Tools Preserved:**
+   * **Tool A (Simplified Workspace Tool):** `/tools?calc=insurance` — Quick protection gap calculation based on income replacement, debts, goals, and existing cushion.
+   * **Tool B (Detailed 5-Step Model):** `/tools/life-insurance` — Standalone 5-step detailed protection audit.
+
+---
+
 ## NEXT SESSION — START HERE
 
 > **ATTENTION NEXT AGENT / DEVELOPER:**  
@@ -1044,5 +1096,7 @@ npm run preview
    - Verify custom domain `https://antwealth.in` and SSL certificates.
 2. **Analytics Integration:**
    - When provided by Santhosh, insert the Google Analytics 4 (GA4) measurement tag into `src/layouts/BaseLayout.astro`.
-3. **Calendar Integration (Optional):**
+3. **Verified Client Testimonials:**
+   - When approved by Santhosh, replace dummy entries in `src/data/testimonials.ts` with real client feedback.
+4. **Calendar Integration (Optional):**
    - If an automated calendar scheduling URL (e.g. Cal.com or Calendly) is provided, insert it into `siteConfig.contact.consultationBookingUrl` in `src/data/siteConfig.ts`.
