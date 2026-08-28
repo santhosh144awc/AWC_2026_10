@@ -153,7 +153,7 @@ export default function CalculatorsHub() {
             <span className="tool-btn-link">Plan This Goal →</span>
           </button>
 
-          {/* 5. Life Insurance Need Calculator */}
+          {/* 5. Life Insurance Calculator */}
           <button 
             type="button" 
             onClick={() => handleSelectEmbeddedTab('insurance', true)}
@@ -163,7 +163,7 @@ export default function CalculatorsHub() {
               <span className="tool-icon">🛡️</span>
               <span className="card-badge badge-teal">Interactive</span>
             </div>
-            <h3 className="tool-title">Life Insurance Need Calculator</h3>
+            <h3 className="tool-title">Life Insurance Calculator</h3>
             <p className="tool-desc">Get an illustrative view of family protection needed based on income, debts, and goals.</p>
             <span className="tool-btn-link">Check My Protection Need →</span>
           </button>

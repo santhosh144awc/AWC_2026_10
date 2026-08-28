@@ -281,7 +281,7 @@ export default function InsuranceCalculator() {
             <a 
               href={`https://wa.me/918087971566?text=${encodeURIComponent(
                 `Hi Santhosh, I used the Life Insurance Calculator on Ant Wealth Creation.\n\n` +
-                `• Annual Living Expenses: ₹${result.annualLivingExpenses.toLocaleString('en-IN')}\n` +
+                `• Annual Income: ₹${result.annualIncome.toLocaleString('en-IN')}\n` +
                 `• Outstanding Loans: ₹${result.outstandingLoans.toLocaleString('en-IN')}\n` +
                 `• Existing Life Cover: ₹${result.existingLifeCover.toLocaleString('en-IN')}\n` +
                 `• Estimated Protection Gap: ₹${result.netAdditionalCoverRequired.toLocaleString('en-IN')}\n\n` +

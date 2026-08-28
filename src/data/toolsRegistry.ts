@@ -107,7 +107,7 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
   },
   {
     id: 'insurance',
-    title: 'Life Insurance Need Calculator',
+    title: 'Life Insurance Calculator',
     shortTitle: 'Protection Gap',
     description: 'Get an illustrative view of family protection needed based on income, debts, and goals.',
     tier: 'start',
