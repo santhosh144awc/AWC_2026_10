@@ -34,7 +34,7 @@ Instead of asking *Where will I get the highest return?*, goal-based investing a
 * **Short Term (< 3 yrs):** Liquid Funds, Bank FDs, Arbitrage Funds for Capital Preservation.
 * **Medium Term (3–5 yrs):** Balanced Advantage Funds, Conservative Hybrid Funds for Balanced Growth.
 * **Long Term (5–10 yrs):** Flexi-Cap, Multi-Cap Equity Funds for Inflation-Beating Growth.
-* **Very Long (> 10 yrs):** Mid-Cap, Large & Mid Cap Equity SIPs for Maximum Compounding Velocity.
+* **Very Long (> 10 yrs):** Mid-Cap, Large & Mid Cap Equity SIPs for Maximum Long-Term Growth.
 
 When every rupee you invest is tagged to a specific milestone, market fluctuations no longer cause emotional stress. If the market drops in year 3 of a 15-year retirement goal, you recognize that your SIP is simply accumulating more units at discounted prices.
 

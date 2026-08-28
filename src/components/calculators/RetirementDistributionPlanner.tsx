@@ -80,22 +80,16 @@ export default function RetirementDistributionPlanner() {
   // WhatsApp Prepopulated Deep Link
   const generateWhatsAppUrl = () => {
     const total = formatLakhsCrores(result.totalInvestmentRequiredToday);
-    const b1 = formatLakhsCrores(result.bucket1.investmentRequiredToday);
-    const b2 = formatLakhsCrores(result.bucket2.investmentRequiredToday);
-    const b3 = formatLakhsCrores(result.bucket3.investmentRequiredToday);
     const monthly = formatIndianCurrency(monthlyExpense);
 
     const message = `Hi Santhosh, I used the Retirement Distribution Planner on Ant Wealth Creation.
-Target Retirement Age: ${retirementAge} | Life Expectancy: ${lifeExpectancy} (${result.distributionYears} yrs)
-Starting Monthly Expense: ${monthly}/month
-Estimated Total Investment Required Today: ${total}
 
-3-Bucket Allocation:
-• Bucket 1 (Liquidity): ${b1} (${result.bucket1.allocationPercent}%)
-• Bucket 2 (Safety): ${b2} (${result.bucket2.allocationPercent}%)
-• Bucket 3 (Wealth Creation): ${b3} (${result.bucket3.allocationPercent}%)
+• Starting Monthly Income: ${monthly}/month
+• Retirement Period: Age ${retirementAge} to ${lifeExpectancy} (${result.distributionYears} Years)
+• Estimated Total Investment Needed: ${total}
+• Bucket 1 (Immediate Cash): ${result.bucket1.allocationPercent}% | Bucket 2 (Safety): ${result.bucket2.allocationPercent}% | Bucket 3 (Growth): ${result.bucket3.allocationPercent}%
 
-I would like to discuss structuring my post-retirement income strategy.`;
+Can we connect to discuss this plan?`;
 
     return `https://wa.me/918087971566?text=${encodeURIComponent(message)}`;
   };
@@ -605,7 +599,7 @@ I would like to discuss structuring my post-retirement income strategy.`;
                 <li><span>Starting Annual Outflow:</span> <strong>{formatLakhsCrores(result.bucket1.startingAnnualExpense)}/yr</strong></li>
                 <li><span>Monthly Equivalent:</span> <strong>{formatIndianCurrency(result.bucket1.startingMonthlyExpense)}/mo</strong></li>
                 <li><span>Expected Return:</span> <strong>{result.bucket1.postTaxReturn}% p.a.</strong></li>
-                <li><span>Real Return (Fisher):</span> <strong>{formatPercentage(result.bucket1.realReturn)}</strong></li>
+                <li><span>Real Return (Above Inflation):</span> <strong>{formatPercentage(result.bucket1.realReturn)}</strong></li>
               </ul>
             </div>
 
@@ -648,7 +642,7 @@ I would like to discuss structuring my post-retirement income strategy.`;
 
           {/* Capital Flow Story */}
           <div className="flow-story-card">
-            <h3 className="section-subtitle">Retirement Decumulation Capital Flow</h3>
+            <h3 className="section-subtitle">Retirement Income & Withdrawal Flow</h3>
             <div className="flow-steps-track">
               <div className="flow-step">
                 <span className="flow-step-lbl">Today's Capital</span>
@@ -699,7 +693,7 @@ I would like to discuss structuring my post-retirement income strategy.`;
             <div className="r-metric">
               <span className="r-lbl">Approximate Weighted Real Return</span>
               <span className="r-val text-teal">{formatPercentage(result.overallRealReturn)}</span>
-              <span className="r-sub">Compound Fisher return above inflation</span>
+              <span className="r-sub">Real growth above inflation</span>
             </div>
           </div>
 
@@ -730,7 +724,7 @@ I would like to discuss structuring my post-retirement income strategy.`;
             {showTimingExplainer && (
               <div className="accordion-content">
                 <p>
-                  In retirement, living expenses are required at the <strong>beginning of each period</strong> (Annuity-Due), rather than at the end of the year. This requires a slightly higher initial capital reserve compared to an ordinary end-of-period withdrawal model.
+                  In retirement, living expenses are needed at the <strong>beginning of each period</strong>, rather than at the end of the year. This ensures accurate year-by-year cash flow planning.
                 </p>
                 <p>
                   More importantly, time horizon dictates risk tolerance:
@@ -781,7 +775,7 @@ I would like to discuss structuring my post-retirement income strategy.`;
                 </div>
 
                 <div className="formula-step-block">
-                  <h4>3. Annuity-Due Capitalization & Present Value Discounting</h4>
+                  <h4>3. Three-Bucket Investment Calculations</h4>
                   <ul>
                     <li><strong>Bucket 1 Investment Today:</strong> <strong>₹{result.bucket1.investmentRequiredToday.toLocaleString('en-IN')}</strong></li>
                     <li><strong>Bucket 2 Investment Today:</strong> ₹{result.bucket2.corpusAtBucketStart.toLocaleString('en-IN')} / (1 + {bucket2Return}%)^{result.bucket1.durationYears} = <strong>₹{result.bucket2.investmentRequiredToday.toLocaleString('en-IN')}</strong></li>
@@ -806,14 +800,14 @@ I would like to discuss structuring my post-retirement income strategy.`;
                 rel="noopener noreferrer"
                 className="btn-whatsapp-cta"
               >
-                <span>💬 Discuss My Plan on WhatsApp</span>
+                <span>💬 Talk to Santhosh</span>
               </a>
               <a href="/contact" className="btn-contact-secondary">
                 Book a Free Consultation
               </a>
             </div>
             <p className="cta-disclaimer">
-              100% Voluntary • Zero forced lead capture • AMFI Registered Mutual Fund Distributor (ARN: 266896)
+              100% Voluntary • No Phone Number or Login Needed • AMFI Registered Mutual Fund Distributor (ARN: 266896)
             </p>
           </div>
 

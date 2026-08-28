@@ -279,23 +279,30 @@ export default function InsuranceCalculator() {
           {/* Action CTAs */}
           <div className="calc-action-block">
             <a 
-              href={`https://wa.me/918087971566?text=Hi%20Santhosh,%20I%20used%20the%20Insurance%20Calculator%20and%20calculated%20an%20estimated%20protection%20gap%20of%20₹${result.netAdditionalCoverRequired}.%20Can%20we%20review%20my%20insurance%20needs?`} 
+              href={`https://wa.me/918087971566?text=${encodeURIComponent(
+                `Hi Santhosh, I used the Life Insurance Calculator on Ant Wealth Creation.\n\n` +
+                `• Annual Living Expenses: ₹${result.annualLivingExpenses.toLocaleString('en-IN')}\n` +
+                `• Outstanding Loans: ₹${result.outstandingLoans.toLocaleString('en-IN')}\n` +
+                `• Existing Life Cover: ₹${result.existingLifeCover.toLocaleString('en-IN')}\n` +
+                `• Estimated Protection Gap: ₹${result.netAdditionalCoverRequired.toLocaleString('en-IN')}\n\n` +
+                `Can we connect to discuss this plan?`
+              )}`} 
               target="_blank" 
               rel="noopener noreferrer"
               className="btn-whatsapp-consult"
             >
-              Review Your Protection Need
+              💬 Talk to Santhosh
             </a>
             <a href="/contact" className="btn-book-consult">
-              Talk to Santhosh
+              Book a Free Consultation
             </a>
           </div>
 
           {/* Explanation */}
           <div className="calc-explanation">
-            <h4>Needs-Based Protection Philosophy</h4>
+            <h4>How this is calculated</h4>
             <p>
-              Rather than using a rigid rule of thumb (e.g. 10x salary), this tool uses the Needs-Based Human Life Value approach: calculating the capital needed to sustain your family's lifestyle, pay off debts, and safeguard milestone goals minus your existing assets.
+              We add up what your family would need to clear debts, fund major goals, and replace monthly living expenses, then subtract what you already own to find any remaining protection gap.
             </p>
             <p className="disclaimer-text">
               *This is an illustrative estimate. Actual protection requirements depend on your family's circumstances, liabilities, assets, income, existing cover and future responsibilities. Ant Wealth Creation is an AMFI-Registered Mutual Fund Distributor (ARN: 266896) and does not solicit specific insurance policies.
@@ -308,7 +315,7 @@ export default function InsuranceCalculator() {
               <span className="comp-banner-badge">Comprehensive Analysis</span>
               <h5 className="comp-banner-title">Need a Comprehensive Protection Analysis?</h5>
               <p className="comp-banner-desc">
-                Evaluate individual outstanding loans, milestone goals, discounted family living expenses, inflation, and spouse earnings with our 5-step Annuity-Due calculator.
+                Evaluate individual outstanding loans, milestone goals, discounted family living expenses, inflation, and spouse earnings with our comprehensive 5-step life insurance analysis.
               </p>
             </div>
             <a href="/tools/life-insurance" className="btn-goto-life-insurance">

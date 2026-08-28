@@ -117,18 +117,19 @@ export default function HomeLoanForeclosurePlanner() {
       ? formatIndianCurrency(Math.round(result.requiredMonthlySIP))
       : formatIndianCurrency(monthlySIP);
     const timeline = strategy === 'targetYear'
-      ? `${targetClosureYears} years`
+      ? `${targetClosureYears} Years`
       : result.foreclosureMonth
         ? formatYearsAndMonths(result.foreclosureMonth)
         : 'N/A';
 
     const message = `Hi Santhosh, I used the Home Loan Foreclosure Planner on Ant Wealth Creation.
-Loan Amount: ${formattedLoan} | Tenure: ${loanTenureYears} Years | Interest: ${loanInterestRate}% (EMI: ${formattedEMI}/mo)
-Strategy: ${strategy === 'targetYear' ? `Target ${targetClosureYears}-Year Closure` : `Fixed SIP of ${formattedSIP}/mo`}
-Expected Return: ${sipReturnRate}%
-Projected Coverage Timeline: ${timeline} | Projected SIP Corpus: ${formatLakhsCrores(result.SIPCorpusAtTarget)}
 
-I would like to understand whether this parallel SIP strategy fits my overall financial plan.`;
+• Loan Amount: ${formattedLoan} (EMI: ${formattedEMI}/month)
+• Parallel SIP: ${formattedSIP}/month
+• Target Closure: ${timeline}
+• Estimated SIP Corpus: ${formatLakhsCrores(result.SIPCorpusAtTarget)}
+
+Can we connect to discuss this plan?`;
 
     return `https://wa.me/918087971566?text=${encodeURIComponent(message)}`;
   };
@@ -524,7 +525,7 @@ I would like to understand whether this parallel SIP strategy fits my overall fi
               </p>
               <div className="rate-badge-row">
                 <span className="rate-pill">Effective Monthly Rate: {(effectiveMonthlySIPRate * 100).toFixed(4)}%/mo</span>
-                <span className="rate-pill-sub">Beginning-of-month Annuity Due timing</span>
+                <span className="rate-pill-sub">Invested at the start of each month</span>
               </div>
             </div>
           </div>
@@ -1024,7 +1025,7 @@ I would like to understand whether this parallel SIP strategy fits my overall fi
           <div className="table-card">
             <div className="table-header-row">
               <div>
-                <h3 className="section-subtitle">Yearly Loan Amortization & SIP Accumulation</h3>
+                <h3 className="section-subtitle">Yearly Loan Balance & SIP Growth</h3>
                 <span className="chart-subtitle-note">
                   {showFullProjection ? 'Showing all years of the loan' : 'Showing key milestones & crossover year'}
                 </span>
@@ -1086,7 +1087,7 @@ I would like to understand whether this parallel SIP strategy fits my overall fi
             <div className="disclaimer-content">
               <h4 className="disclaimer-heading">Important Educational & Planning Considerations</h4>
               <p className="disclaimer-text">
-                This calculator illustrates a mathematical comparison between an accumulating SIP corpus and an amortizing home loan. It does <strong>not guarantee investment returns</strong> or recommend that you automatically redeem your investments to repay your loan. Before making any prepayment or foreclosure decision, carefully evaluate capital gains taxes, exit loads, emergency fund buffers, and your family's overall financial goals.
+                This calculator illustrates a mathematical comparison between an accumulating SIP corpus and a decreasing home loan balance. It does <strong>not guarantee investment returns</strong> or recommend that you automatically redeem your investments to repay your loan. Before making any prepayment or foreclosure decision, carefully evaluate capital gains taxes, exit loads, emergency fund buffers, and your family's overall financial goals.
               </p>
             </div>
           </div>
@@ -1133,7 +1134,7 @@ I would like to understand whether this parallel SIP strategy fits my overall fi
                 <div className="calc-formula-block">
                   <h5>4. Option 1 Required Monthly SIP Formula</h5>
                   <p>
-                    For target months n, solving for required monthly annuity due:<br />
+                    For target months n, solving for required monthly SIP:<br />
                     <strong>Required SIP = Outstanding Principal at Month n / [((1 + i_SIP)^n - 1) / i_SIP × (1 + i_SIP)]</strong>
                   </p>
                 </div>
@@ -1156,7 +1157,7 @@ I would like to understand whether this parallel SIP strategy fits my overall fi
                 rel="noopener noreferrer"
                 className="btn-whatsapp-action"
               >
-                💬 Discuss on WhatsApp →
+                💬 Talk to Santhosh
               </a>
               <a href="/contact" className="btn-secondary-action">
                 Book a Free Consultation

@@ -236,7 +236,14 @@ export default function SIPCalculator() {
           {/* Action CTAs */}
           <div className="calc-action-block">
             <a 
-              href="https://wa.me/918087971566?text=Hi%20Santhosh,%20I%20used%20the%20SIP%20Calculator%20for%20a%20monthly%20SIP%20of%20₹" 
+              href={`https://wa.me/918087971566?text=${encodeURIComponent(
+                `Hi Santhosh, I used the SIP Calculator on Ant Wealth Creation.\n\n` +
+                `• Monthly Investment: ₹${monthlyInvestment.toLocaleString('en-IN')}\n` +
+                `• Investment Duration: ${timePeriodYears} Years\n` +
+                `• Expected Return: ${expectedReturnRate}% p.a.\n` +
+                `• Estimated Future Value: ₹${(result.totalValue || 0).toLocaleString('en-IN')}\n\n` +
+                `Can we connect to discuss this plan?`
+              )}`} 
               target="_blank" 
               rel="noopener noreferrer"
               className="btn-whatsapp-consult"
@@ -252,7 +259,7 @@ export default function SIPCalculator() {
           <div className="calc-explanation">
             <h4>How this is calculated</h4>
             <p>
-              This calculator uses compound interest formula for monthly annuities: Future Value = P × [((1 + r)ⁿ - 1) / r] × (1 + r), where P is your monthly investment, r is the periodic monthly rate, and n is the total number of months.
+              Each monthly investment earns compounding returns over time. Money invested in earlier months grows for longer. We calculate your total growth month-by-month at your selected annual return rate.
             </p>
             <p className="disclaimer-text">
               *Returns shown are illustrations based on the assumptions entered and are not guaranteed. Mutual fund investments are subject to market risks.

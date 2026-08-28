@@ -59,11 +59,11 @@ export default function LumpsumCalculator() {
 
   const whatsappMessage = encodeURIComponent(
     `Hi Santhosh, I used the Lumpsum Calculator on Ant Wealth Creation.\n\n` +
-    `• One-time Investment: ${formatIndianCurrency(result.investedAmount)}\n` +
-    `• Duration: ${safeYears} Years\n` +
-    `• Assumed Return: ${safeReturn}% p.a.\n` +
-    `• Estimated Maturity: ${formatIndianCurrency(result.totalValue)} (${formatLakhsCrores(result.totalValue)})\n\n` +
-    `I would like guidance on selecting the right mutual fund allocation for this lumpsum.`
+    `• One-Time Investment: ${formatIndianCurrency(result.investedAmount)}\n` +
+    `• Investment Duration: ${safeYears} Years\n` +
+    `• Expected Return: ${safeReturn}% p.a.\n` +
+    `• Estimated Future Value: ${formatIndianCurrency(result.totalValue)}\n\n` +
+    `Can we connect to discuss this plan?`
   );
 
   return (
@@ -322,7 +322,7 @@ export default function LumpsumCalculator() {
               A lumpsum investment is a one-time investment. If the investment earns returns and those returns remain invested, the value can compound over time. The longer the investment remains invested, the greater the potential effect of compounding.
             </p>
             <p className="formula-note">
-              Formula: <code>FV = PV × (1 + r)^t</code> where PV is your initial investment, r is the annual expected return rate, and t is the investment duration in years.
+              Your one-time investment grows through compounding returns. Every year, the returns you have already earned also start earning returns.
             </p>
             <p className="disclaimer-text">
               *Returns shown are illustrations based on the assumptions entered and are not guaranteed. Mutual fund investments are subject to market risks.

@@ -170,13 +170,13 @@ export default function RetirementAccumulationPlanner() {
     const sip = formatIndianCurrency(result.requiredFixedSIP);
 
     const message = `Hi Santhosh, I used the Retirement Planner on Ant Wealth Creation.
-Target Retirement Age: ${retirementAge} (in ${result.yearsUntilRetirement} years)
-Estimated Retirement Corpus: ${corpus}
-My Existing Resources at Retirement: ${assets}
-My Remaining Funding Gap: ${gap}
-Required Monthly SIP: ${sip}/month
 
-I would like to discuss a practical retirement investment strategy.`;
+• Required Retirement Corpus: ${corpus} (at Age ${retirementAge})
+• Existing Resources: ${assets}
+• Remaining Funding Gap: ${gap}
+• Required Monthly SIP: ${sip}/month
+
+Can we connect to discuss this plan?`;
 
     return `https://wa.me/918087971566?text=${encodeURIComponent(message)}`;
   };
@@ -539,7 +539,7 @@ I would like to discuss a practical retirement investment strategy.`;
               How large could your retirement corpus need to be?
             </h2>
             <p className="step-description">
-              We calculate the exact corpus required to sustain your living expenses from retirement at age {retirementAge} to life expectancy using the Annuity-Due framework.
+              We calculate the exact corpus required to sustain your living expenses from retirement at age {retirementAge} to life expectancy using accurate year-by-year cash flow math.
             </p>
           </div>
 
@@ -677,7 +677,7 @@ I would like to discuss a practical retirement investment strategy.`;
 
           {/* Mathematical Rate Journey Track */}
           <div className="rate-breakdown-card">
-            <h3 className="rate-breakdown-title">Compounding Rate Journey (Compound Fisher Relation)</h3>
+            <h3 className="rate-breakdown-title">How Inflation & Taxes Affect Your Returns</h3>
             <div className="rate-journey-track">
               <div className="journey-node">
                 <span className="node-label">Gross Return</span>
@@ -710,7 +710,7 @@ I would like to discuss a practical retirement investment strategy.`;
             <div className="corpus-banner-content">
               <span className="corpus-banner-lbl">Total Estimated Retirement Corpus Required</span>
               <div className="corpus-banner-amount text-navy">{formatLakhsCrores(result.totalRetirementCorpusRequired)}</div>
-              <div className="corpus-banner-exact">Exact Annuity-Due Requirement: {formatIndianCurrency(result.totalRetirementCorpusRequired)}</div>
+              <div className="corpus-banner-exact">Total Estimated Corpus Needed: {formatIndianCurrency(result.totalRetirementCorpusRequired)}</div>
               <p className="corpus-banner-note">
                 Sustains ₹{result.futureAnnualExpenses.toLocaleString('en-IN')}/year ({formatIndianCurrency(result.futureMonthlyExpenses)}/month) for {result.yearsPostRetirement} years from age {retirementAge} to {lifeExpectancyAge}.
               </p>
@@ -1097,7 +1097,7 @@ I would like to discuss a practical retirement investment strategy.`;
               <div className="journey-step-box highlight-j-box">
                 <span className="j-step-lbl">Corpus Required</span>
                 <span className="j-step-val text-navy">{formatLakhsCrores(result.totalRetirementCorpusRequired)}</span>
-                <span className="j-step-sub">30-yr Annuity Due</span>
+                <span className="j-step-sub">{result.yearsPostRetirement}-yr Living Corpus</span>
               </div>
               <div className="j-arrow">-</div>
               <div className="journey-step-box">
@@ -1241,19 +1241,19 @@ I would like to discuss a practical retirement investment strategy.`;
                 </div>
 
                 <div className="formula-step-block">
-                  <h4>2. Compound Fisher Real Return & Tax Adjustment</h4>
+                  <h4>2. Real Return Above Inflation & Tax Adjustment</h4>
                   <ul>
                     <li><strong>Gross Expected Corpus Return:</strong> {corpusReturnPreTax}% p.a.</li>
                     <li><strong>Tax-Adjusted Return:</strong> {corpusReturnPreTax}% × (1 - {taxRateOnCorpusReturn}%) = <strong>{formatPercentage(result.taxAdjustedReturn)}</strong></li>
-                    <li><strong>Compound Fisher Real Return:</strong> ((1 + {formatPercentage(result.taxAdjustedReturn)}) / (1 + {inflationPostRetirement}%)) - 1 = <strong>{formatPercentage(result.realReturn)}</strong></li>
+                    <li><strong>Real Return (Above Inflation):</strong> ((1 + {formatPercentage(result.taxAdjustedReturn)}) / (1 + {inflationPostRetirement}%)) - 1 = <strong>{formatPercentage(result.realReturn)}</strong></li>
                   </ul>
                 </div>
 
                 <div className="formula-step-block">
-                  <h4>3. Annuity-Due Retirement Living Corpus</h4>
+                  <h4>3. Retirement Living Expense Corpus</h4>
                   <ul>
                     <li><strong>Retirement Horizon:</strong> Age {retirementAge} to {lifeExpectancyAge} ({result.yearsPostRetirement} years)</li>
-                    <li><strong>Annuity-Due Formula:</strong> PMT × [1 - (1+r)^(-n)] / r × (1+r)</li>
+                    <li><strong>Living Expenses Formula:</strong> Calculates starting corpus assuming living expenses are withdrawn at the start of each year.</li>
                     <li><strong>Required Living Corpus:</strong> <strong>₹{result.livingExpenseCorpusRequired.toLocaleString('en-IN')}</strong></li>
                     {result.legacyCorpusDiscounted > 0 && (
                       <li><strong>Discounted Legacy Corpus:</strong> <strong>₹{result.legacyCorpusDiscounted.toLocaleString('en-IN')}</strong></li>
@@ -1291,14 +1291,14 @@ I would like to discuss a practical retirement investment strategy.`;
                 rel="noopener noreferrer"
                 className="btn-whatsapp-cta"
               >
-                <span>💬 Discuss My Plan on WhatsApp</span>
+                <span>💬 Talk to Santhosh</span>
               </a>
               <a href="/contact" className="btn-contact-secondary">
                 Book a Free Consultation
               </a>
             </div>
             <p className="cta-disclaimer">
-              100% Voluntary • No forced lead capture • AMFI Registered Mutual Fund Distributor (ARN: 266896)
+              100% Voluntary • No Phone Number or Login Needed • AMFI Registered Mutual Fund Distributor (ARN: 266896)
             </p>
           </div>
 

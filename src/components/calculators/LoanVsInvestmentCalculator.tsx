@@ -227,7 +227,14 @@ export default function LoanVsInvestmentCalculator() {
           {/* Action CTAs */}
           <div className="calc-action-block">
             <a 
-              href="https://wa.me/918087971566?text=Hi%20Santhosh,%20I%20used%20the%20Loan%20vs%20Investment%20tool%20and%20want%20to%20evaluate%20prepaying%20my%20loan%20vs%20investing.%20Can%20we%20discuss?" 
+              href={`https://wa.me/918087971566?text=${encodeURIComponent(
+                `Hi Santhosh, I used the Loan vs Investment Calculator on Ant Wealth Creation.\n\n` +
+                `• Loan Balance: ₹${loanAmount.toLocaleString('en-IN')} (${loanInterestRate}% for ${loanTenureYears} Years)\n` +
+                `• Lump Sum Available: ₹${lumpsumAvailable.toLocaleString('en-IN')}\n` +
+                `• Interest Saved if Prepaying: ₹${(result.interestSavedByPrepayment || 0).toLocaleString('en-IN')}\n` +
+                `• Potential Wealth if Investing: ₹${(result.investmentFutureValue || 0).toLocaleString('en-IN')}\n\n` +
+                `Can we connect to discuss this plan?`
+              )}`} 
               target="_blank" 
               rel="noopener noreferrer"
               className="btn-whatsapp-consult"
@@ -243,7 +250,7 @@ export default function LoanVsInvestmentCalculator() {
           <div className="calc-explanation">
             <h4>Decision Factors to Consider</h4>
             <p>
-              Neither strategy is universally superior for every family. The optimal choice depends on your loan interest rate after tax deductions (e.g. Sec 24b), your emergency fund buffer, risk appetite, and psychological comfort with debt.
+              We compare the guaranteed interest saved by paying down your loan early against the potential wealth you could build by investing that same money into mutual funds. The best choice depends on your loan interest rate, emergency safety buffer, and comfort with debt.
             </p>
             <p className="disclaimer-text">
               *Investment returns are illustrations based on assumptions entered and are not guaranteed. Prepayment interest savings assume constant interest rates.

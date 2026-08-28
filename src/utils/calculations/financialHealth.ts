@@ -57,7 +57,7 @@ export const HEALTH_CHECK_QUESTIONS: HealthCheckQuestion[] = [
       { id: 'cf_1', label: 'Less than 10%', sublabel: 'Struggling to save regularly after monthly expenses', score: 20 },
       { id: 'cf_2', label: '10% to 20%', sublabel: 'Consistent habit, with room to optimize cash flow', score: 55 },
       { id: 'cf_3', label: '20% to 40%', sublabel: 'Healthy, disciplined monthly allocation', score: 85 },
-      { id: 'cf_4', label: 'More than 40%', sublabel: 'Excellent savings velocity towards financial freedom', score: 100 }
+      { id: 'cf_4', label: 'More than 40%', sublabel: 'Excellent saving rate towards financial freedom', score: 100 }
     ]
   },
   {

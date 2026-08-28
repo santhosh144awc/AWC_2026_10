@@ -129,12 +129,13 @@ export default function SIPGrowthPlanner() {
     const sip = formatIndianCurrency(monthlySIP);
 
     const message = `Hi Santhosh, I used the SIP Growth Planner on Ant Wealth Creation.
-Starting Monthly SIP: ${sip} for ${sipDuration} years
-Annual Step-Up: ${stepUpRate}% for ${stepUpDuration} years | Expected Return: ${annualReturn}%
-Total Amount Invested: ${invested}
-Estimated Final Corpus: ${corpus} (Wealth Created: ${wealth})
 
-I would like to discuss structuring a disciplined goal-based SIP strategy.`;
+• Monthly SIP: ${sip}/month (${sipDuration} Years)
+• Total Invested: ${invested}
+• Estimated Final Corpus: ${corpus}
+• Wealth Created: ${wealth}
+
+Can we connect to discuss this plan?`;
 
     return `https://wa.me/918087971566?text=${encodeURIComponent(message)}`;
   };
@@ -1067,11 +1068,9 @@ I would like to discuss structuring a disciplined goal-based SIP strategy.`;
                 </div>
 
                 <div className="formula-step-block">
-                  <h4>2. Beginning-of-Month SIP Timing (Annuity-Due)</h4>
+                  <h4>2. Monthly SIP Timing Math</h4>
                   <p>
-                    Because monthly SIP installments are invested at the beginning of each calendar month, each installment compounds for that full monthly period:
-                    <br />
-                    <code>Yearly SIP FV = MonthlySIP × [((1 + i)^12 - 1) / i] × (1 + i)</code>
+                    Because monthly SIP installments are invested at the start of each month, each installment earns returns for that full monthly period.
                   </p>
                 </div>
 
@@ -1105,14 +1104,14 @@ I would like to discuss structuring a disciplined goal-based SIP strategy.`;
                 rel="noopener noreferrer"
                 className="btn-whatsapp-cta"
               >
-                <span>💬 Discuss My SIP Strategy on WhatsApp</span>
+                <span>💬 Talk to Santhosh</span>
               </a>
               <a href="/contact" className="btn-contact-secondary">
                 Book a Free Consultation
               </a>
             </div>
             <p className="cta-disclaimer">
-              100% Confidential • Zero forced lead capture • Calculations performed entirely on your device
+              100% Confidential • No Phone Number or Login Needed • AMFI Registered Mutual Fund Distributor (ARN: 266896)
             </p>
           </div>
 

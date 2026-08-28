@@ -83,7 +83,7 @@ export default function CalculatorsHub() {
       {/* ====================================================== */}
       <section className="hub-section tier-1-section">
         <div className="section-title-wrap">
-          <div className="tier-pill tier-pill-primary">Tier 1 • Quick & Simple</div>
+          <div className="tier-pill tier-pill-primary">Start Here</div>
           <h2 className="tier-heading">Start Here</h2>
           <p className="tier-subtext">Simple tools for everyday financial decisions and quick self-assessments.</p>
         </div>
@@ -160,78 +160,102 @@ export default function CalculatorsHub() {
             <span className="tool-btn-link">Check Protection Need →</span>
           </button>
 
-          {/* 6. Personal Net Worth */}
+          {/* 6. Net Worth Calculator */}
           <button 
             type="button" 
             onClick={() => handleSelectEmbeddedTab('net-worth', true)}
             className={`tool-card-tier1 text-left ${activeTab === 'net-worth' ? 'active-tier1-card' : ''}`}
           >
             <div className="card-top">
-              <span className="tool-icon">📊</span>
+              <span className="tool-icon">💎</span>
               <span className="card-badge badge-teal">Interactive</span>
             </div>
             <h3 className="tool-title">Personal Net Worth Calculator</h3>
-            <p className="tool-desc">Track your complete personal balance sheet, assets, and liabilities clearly in minutes.</p>
+            <p className="tool-desc">Map all your assets and liabilities to calculate your net worth and debt-to-asset balance.</p>
             <span className="tool-btn-link">Calculate Net Worth →</span>
           </button>
         </div>
       </section>
 
-      {/* ====================================================== */}
-      {/* INTERACTIVE CALCULATION WORKSPACE STAGE */}
-      {/* ====================================================== */}
-      <div ref={stageRef} className="active-workspace-wrapper">
+      {/* Embedded Workspace Stage */}
+      <div id="calculator-stage" ref={stageRef} className="embedded-workspace-card">
         <div className="workspace-header">
-          <span className="workspace-tag">Active Calculation Workspace</span>
-          <div className="workspace-tabs-bar">
-            <button 
-              type="button" 
-              onClick={() => handleSelectEmbeddedTab('sip')} 
-              className={`ws-tab-btn ${activeTab === 'sip' ? 'active' : ''}`}
+          <div className="workspace-title-row">
+            <span className="workspace-tag">Interactive Workspace</span>
+            <span className="active-tab-title">
+              {activeTab === 'sip' && 'SIP Calculator'}
+              {activeTab === 'lumpsum' && 'Lumpsum Calculator'}
+              {activeTab === 'retirement' && 'Retirement Calculator'}
+              {activeTab === 'goal' && 'Milestone Goal Planner'}
+              {activeTab === 'loan-vs-invest' && 'Loan vs Investment Calculator'}
+              {activeTab === 'insurance' && 'Life Insurance Calculator'}
+              {activeTab === 'net-worth' && 'Net Worth Calculator'}
+            </span>
+          </div>
+          
+          <div className="workspace-tabs-pills" role="tablist" aria-label="Calculator Workspace Selector">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'sip'}
+              onClick={() => handleSelectEmbeddedTab('sip')}
+              className={`pill-btn ${activeTab === 'sip' ? 'active' : ''}`}
             >
-              📈 SIP
+              SIP
             </button>
-            <button 
-              type="button" 
-              onClick={() => handleSelectEmbeddedTab('lumpsum')} 
-              className={`ws-tab-btn ${activeTab === 'lumpsum' ? 'active' : ''}`}
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'lumpsum'}
+              onClick={() => handleSelectEmbeddedTab('lumpsum')}
+              className={`pill-btn ${activeTab === 'lumpsum' ? 'active' : ''}`}
             >
-              💰 Lumpsum
+              Lumpsum
             </button>
-            <button 
-              type="button" 
-              onClick={() => handleSelectEmbeddedTab('goal')} 
-              className={`ws-tab-btn ${activeTab === 'goal' ? 'active' : ''}`}
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'goal'}
+              onClick={() => handleSelectEmbeddedTab('goal')}
+              className={`pill-btn ${activeTab === 'goal' ? 'active' : ''}`}
             >
-              🎯 Goals
+              Goal
             </button>
-            <button 
-              type="button" 
-              onClick={() => handleSelectEmbeddedTab('insurance')} 
-              className={`ws-tab-btn ${activeTab === 'insurance' ? 'active' : ''}`}
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'retirement'}
+              onClick={() => handleSelectEmbeddedTab('retirement')}
+              className={`pill-btn ${activeTab === 'retirement' ? 'active' : ''}`}
             >
-              🛡️ Insurance
+              Retirement
             </button>
-            <button 
-              type="button" 
-              onClick={() => handleSelectEmbeddedTab('net-worth')} 
-              className={`ws-tab-btn ${activeTab === 'net-worth' ? 'active' : ''}`}
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'loan-vs-invest'}
+              onClick={() => handleSelectEmbeddedTab('loan-vs-invest')}
+              className={`pill-btn ${activeTab === 'loan-vs-invest' ? 'active' : ''}`}
             >
-              📊 Net Worth
+              Loan vs Invest
             </button>
-            <button 
-              type="button" 
-              onClick={() => handleSelectEmbeddedTab('loan-vs-invest')} 
-              className={`ws-tab-btn ${activeTab === 'loan-vs-invest' ? 'active' : ''}`}
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'insurance'}
+              onClick={() => handleSelectEmbeddedTab('insurance')}
+              className={`pill-btn ${activeTab === 'insurance' ? 'active' : ''}`}
             >
-              ⚖️ Loan vs Invest
+              Insurance
             </button>
-            <button 
-              type="button" 
-              onClick={() => handleSelectEmbeddedTab('retirement')} 
-              className={`ws-tab-btn ${activeTab === 'retirement' ? 'active' : ''}`}
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'net-worth'}
+              onClick={() => handleSelectEmbeddedTab('net-worth')}
+              className={`pill-btn ${activeTab === 'net-worth' ? 'active' : ''}`}
             >
-              🌅 Retirement
+              Net Worth
             </button>
           </div>
         </div>
@@ -252,7 +276,7 @@ export default function CalculatorsHub() {
       {/* ====================================================== */}
       <section className="hub-section tier-2-section">
         <div className="section-title-wrap">
-          <div className="tier-pill tier-pill-secondary">Tier 2 • Milestone Planning</div>
+          <div className="tier-pill tier-pill-secondary">Plan a Goal</div>
           <h2 className="tier-heading">Plan a Specific Goal</h2>
           <p className="tier-subtext">Detailed tools when you are ready to map out an important life milestone.</p>
         </div>
@@ -309,7 +333,7 @@ export default function CalculatorsHub() {
       {/* ====================================================== */}
       <section className="hub-section tier-3-section">
         <div className="section-title-wrap">
-          <div className="tier-pill tier-pill-secondary">Tier 3 • Decision Trade-Offs</div>
+          <div className="tier-pill tier-pill-secondary">Compare Your Choices</div>
           <h2 className="tier-heading">Compare Financial Decisions</h2>
           <p className="tier-subtext">Understand the financial trade-offs before making a major loan or investment decision.</p>
         </div>
@@ -348,7 +372,7 @@ export default function CalculatorsHub() {
       {/* ====================================================== */}
       <section id="advanced" className="hub-section tier-4-section">
         <div className="section-title-wrap">
-          <div className="tier-pill tier-pill-tertiary">Tier 4 • Deeper Analysis</div>
+          <div className="tier-pill tier-pill-tertiary">Go Deeper</div>
           <h2 className="tier-heading">Advanced Planning Tools</h2>
           <p className="tier-subtext">Comprehensive suites for detailed scenario analysis, withdrawal simulations, and deep audits.</p>
         </div>
@@ -371,9 +395,9 @@ export default function CalculatorsHub() {
               <span className="tool-icon">📉</span>
               <span className="card-badge badge-quiet">Withdrawal</span>
             </div>
-            <h3 className="tool-title">SWP Longevity Calculator</h3>
-            <p className="tool-desc">Plan retirement withdrawals with monthly compounding simulations, annual step-ups, and inflation protection.</p>
-            <span className="tool-btn-quiet">Explore SWP Longevity →</span>
+            <h3 className="tool-title">SWP Longevity Calculator (Regular Withdrawal Plan)</h3>
+            <p className="tool-desc">Plan regular retirement withdrawals (Systematic Withdrawal Plan) with monthly simulations, annual step-ups, and inflation protection.</p>
+            <span className="tool-btn-quiet">Explore Regular Withdrawals →</span>
           </a>
 
           {/* Retirement Distribution */}
@@ -404,9 +428,9 @@ export default function CalculatorsHub() {
               <span className="tool-icon">💎</span>
               <span className="card-badge badge-quiet">Diagnostic</span>
             </div>
-            <h3 className="tool-title">REAL Financial Statement</h3>
+            <h3 className="tool-title">REAL Financial Statement (Complete Money Snapshot)</h3>
             <p className="tool-desc">Audit real income, living costs, ongoing savings rate, and calculate your true net worth position.</p>
-            <span className="tool-btn-quiet">Explore REAL Statement →</span>
+            <span className="tool-btn-quiet">Explore Financial Statement →</span>
           </a>
         </div>
       </section>

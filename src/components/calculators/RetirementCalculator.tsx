@@ -246,7 +246,14 @@ export default function RetirementCalculator() {
           {/* Action CTAs */}
           <div className="calc-action-block">
             <a 
-              href={`https://wa.me/918087971566?text=Hi%20Santhosh,%20I%20used%20the%20Retirement%20Calculator%20and%20need%20a%20corpus%20of%20₹${result.requiredCorpus}.%20Can%20we%20discuss%20my%20retirement%20plan?`} 
+              href={`https://wa.me/918087971566?text=${encodeURIComponent(
+                `Hi Santhosh, I used the Retirement Calculator on Ant Wealth Creation.\n\n` +
+                `• Current Age: ${currentAge} | Retirement Age: ${retirementAge}\n` +
+                `• Current Monthly Expenses: ₹${currentMonthlyExpenses.toLocaleString('en-IN')}\n` +
+                `• Required Retirement Corpus: ₹${result.requiredCorpus.toLocaleString('en-IN')}\n` +
+                `• Estimated Monthly SIP Needed: ₹${result.requiredMonthlySIP.toLocaleString('en-IN')}/month\n\n` +
+                `Can we connect to discuss this plan?`
+              )}`} 
               target="_blank" 
               rel="noopener noreferrer"
               className="btn-whatsapp-consult"
@@ -262,7 +269,7 @@ export default function RetirementCalculator() {
           <div className="calc-explanation">
             <h4>How this is calculated</h4>
             <p>
-              Your required corpus is computed using inflation-adjusted monthly expenses (Future Value = PV × (1 + i)ⁿ) and the real rate of return in retirement to ensure your wealth lasts throughout life expectancy without running out.
+              We estimate how much your monthly expenses will increase due to inflation by the time you retire, and calculate the total savings corpus needed so you can safely withdraw that income throughout your retirement.
             </p>
             <p className="disclaimer-text">
               *Calculations are educational illustrations based on assumptions entered and are not guaranteed.

@@ -426,7 +426,14 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
           {/* Action CTAs */}
           <div className="calc-action-block">
             <a 
-              href={`https://wa.me/918087971566?text=Hi%20Santhosh,%20I%20want%20to%20plan%20for%20my%20${encodeURIComponent(goalName)}%20(Target:%20₹${result.futureGoalCost}%20in%20${yearsToGoal}%20years).%20Let's%20connect.`} 
+              href={`https://wa.me/918087971566?text=${encodeURIComponent(
+                `Hi Santhosh, I used the Goal Planner on Ant Wealth Creation.\n\n` +
+                `• Goal: ${goalName}\n` +
+                `• Time Horizon: ${yearsToGoal} Years\n` +
+                `• Target Future Cost: ₹${result.futureGoalCost.toLocaleString('en-IN')}\n` +
+                `• Estimated Monthly SIP: ₹${result.requiredMonthlySIP.toLocaleString('en-IN')}/month\n\n` +
+                `Can we connect to discuss this plan?`
+              )}`} 
               target="_blank" 
               rel="noopener noreferrer"
               className="btn-whatsapp-consult"

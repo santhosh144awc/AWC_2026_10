@@ -127,17 +127,17 @@ export default function SWPCalculator() {
     const corpus = formatLakhsCrores(initialCorpus);
     const swp = formatIndianCurrency(monthlySWP);
     const duration = result.corpusDepleted
-      ? `${result.swpDurationYears} Years (${formatYearsAndMonths(result.swpDurationMonths)})`
+      ? `${result.swpDurationYears} Years`
       : '50+ Years (Sustained)';
-    const totalW = formatLakhsCrores(result.totalWithdrawals);
 
     const message = `Hi Santhosh, I used the SWP Calculator on Ant Wealth Creation.
-Starting Corpus: ${corpus} | Current Age: ${currentAge}
-Initial Monthly SWP: ${swp}/mo | Annual Step-Up: ${stepUpRate}% | Expected Return: ${annualReturn}%
-Estimated SWP Longevity: ${duration}
-Total Planned Withdrawals: ${totalW}
 
-I would like to review my retirement cash flow and withdrawal strategy.`;
+• Starting Corpus: ${corpus}
+• Monthly SWP: ${swp}/month (Step-Up: ${stepUpRate}%/yr)
+• Expected Return: ${annualReturn}% p.a.
+• Estimated Longevity: ${duration}
+
+Can we connect to discuss this plan?`;
 
     return `https://wa.me/918087971566?text=${encodeURIComponent(message)}`;
   };
@@ -1092,7 +1092,7 @@ I would like to review my retirement cash flow and withdrawal strategy.`;
                 rel="noopener noreferrer"
                 className="btn-whatsapp-cta"
               >
-                <span>💬 Discuss My SWP Plan on WhatsApp</span>
+                <span>💬 Talk to Santhosh</span>
               </a>
               <a href="/contact" className="btn-contact-secondary">
                 Book a Free Consultation

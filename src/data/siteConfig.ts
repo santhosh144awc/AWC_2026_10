@@ -220,7 +220,7 @@ export const siteConfig = {
       step: 4,
       title: "Protecting Family",
       focus: "Life + health protection",
-      description: "Comprehensive risk coverage and liabilities ring-fencing.",
+      description: "Comprehensive family protection covering loans, living expenses, and goals.",
     },
     {
       step: 5,

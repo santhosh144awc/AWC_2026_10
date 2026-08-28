@@ -602,7 +602,7 @@ export function generateFinancialObservations(
       observations.push({
         id: 'obs-savings-high',
         category: 'savings',
-        title: 'Strong Savings Velocity',
+        title: 'Strong Savings Rate',
         description: `Your savings rate is ${savings.savingsRate}%. You are retaining a healthy portion of your annual income for long-term goals.`,
         type: 'positive',
       });

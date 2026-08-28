@@ -169,20 +169,19 @@ export default function HousePurchasePlannerCalculator() {
 
   // WhatsApp Prepopulated Deep Link
   const generateWhatsAppUrl = () => {
-    const propertyToday = formatLakhsCrores(currentPropertyValue);
     const propertyFuture = formatLakhsCrores(result.futurePropertyValue);
     const downPmt = formatLakhsCrores(result.totalAmountToAccumulate);
     const gap = formatLakhsCrores(result.fundingDeficit);
     const sip = formatIndianCurrency(result.requiredFixedSIP);
 
     const message = `Hi Santhosh, I used the Home Purchase Planner on Ant Wealth Creation.
-Goal: ${homeType || 'Home'} in ${location ? location + ', ' : ''}${yearsToPurchase} years
-Estimated Future Cost: ${propertyFuture} (Today: ${propertyToday})
-Down Payment + Costs Needed: ${downPmt}
-My Remaining Funding Gap: ${gap}
-Required Monthly SIP: ${sip}/month
 
-I would like to discuss a practical investment roadmap to fund my home down payment.`;
+• Goal: ${homeType || 'Home'} in ${yearsToPurchase} Years
+• Future Property Cost: ${propertyFuture}
+• Down Payment & Costs: ${downPmt}
+• Required Monthly SIP: ${sip}/month
+
+Can we connect to discuss this plan?`;
 
     return `https://wa.me/918087971566?text=${encodeURIComponent(message)}`;
   };
@@ -530,7 +529,7 @@ I would like to discuss a practical investment roadmap to fund my home down paym
                   <span>0% (Full Cash)</span>
                   <span>50%</span>
                   <span>80% (Standard)</span>
-                  <span>90% (Max LTV)</span>
+                  <span>90% (Max Bank Loan)</span>
                 </div>
               </div>
               <span className="input-helper">RBI guidelines allow up to 75%–80% for large homes, 90% for affordable housing</span>
@@ -1255,14 +1254,14 @@ I would like to discuss a practical investment roadmap to fund my home down paym
                 rel="noopener noreferrer"
                 className="btn-whatsapp-cta"
               >
-                <span>💬 Discuss My Plan on WhatsApp</span>
+                <span>💬 Talk to Santhosh</span>
               </a>
               <a href="/contact" className="btn-contact-secondary">
                 Book a Free Consultation
               </a>
             </div>
             <p className="cta-disclaimer">
-              100% Voluntary • No forced lead capture • AMFI Registered Mutual Fund Distributor (ARN: 266896)
+              100% Voluntary • No Phone Number or Login Needed • AMFI Registered Mutual Fund Distributor (ARN: 266896)
             </p>
           </div>
 

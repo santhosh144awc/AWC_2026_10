@@ -224,7 +224,12 @@ export default function REALFinancialStatement() {
 
   // WhatsApp formatted share link
   const getWhatsAppMessageUrl = () => {
-    const summaryText = `Hi Santhosh, I completed my REAL Financial Statement on Ant Wealth Creation.\n\n*My Financial Snapshot:*\n• Annual Income: ${formatLakhsCrores(result.income.totalAnnualIncome)}\n• Annual Expenses: ${formatLakhsCrores(result.expenses.totalAnnualExpenses)}\n• Annual Savings: ${formatLakhsCrores(result.savings.annualSavings)} (${result.savings.savingsRate}% Savings Rate)\n• Ongoing Investments: ${formatRupees(result.investments.totalMonthlyInvestments)}/mo\n• Surplus for New Investments: ${formatRupees(result.surplus.monthlySurplus)}/mo\n• Total Assets: ${formatLakhsCrores(result.assets.totalAssets)}\n• Total Liabilities: ${formatLakhsCrores(result.liabilities.totalLiabilities)}\n• *Actual Net Worth:* ${formatLakhsCrores(result.actualNetWorth)}\n\nI would like to discuss turning this snapshot into a disciplined mutual fund investment roadmap.`;
+    const summaryText = `Hi Santhosh, I used the REAL Financial Statement on Ant Wealth Creation.\n\n` +
+      `• Annual Income: ${formatLakhsCrores(result.income.totalAnnualIncome)}\n` +
+      `• Savings Rate: ${result.savings.savingsRate}%\n` +
+      `• Total Assets: ${formatLakhsCrores(result.assets.totalAssets)}\n` +
+      `• Actual Net Worth: ${formatLakhsCrores(result.actualNetWorth)}\n\n` +
+      `Can we connect to discuss this plan?`;
     return `https://wa.me/918087971566?text=${encodeURIComponent(summaryText)}`;
   };
 
@@ -1767,7 +1772,7 @@ export default function REALFinancialStatement() {
             </div>
 
             <div className="notional-note-box">
-              <span><strong>Notional Net Worth</strong> (Total Assets − Total Liabilities): <strong>{formatLakhsCrores(result.notionalNetWorth)}</strong></span>
+              <span><strong>Total Paper Net Worth</strong> (All Assets Minus Loans): <strong>{formatLakhsCrores(result.notionalNetWorth)}</strong></span>
             </div>
           </div>
 
@@ -1952,10 +1957,10 @@ export default function REALFinancialStatement() {
                 className="btn-whatsapp"
               >
                 <span className="wa-icon">💬</span>
-                Talk to Santhosh on WhatsApp
+                Talk to Santhosh
               </a>
               <a href="/contact" className="btn-secondary-link">
-                Book a Free Consultation →
+                Book a Free Consultation
               </a>
             </div>
           </div>

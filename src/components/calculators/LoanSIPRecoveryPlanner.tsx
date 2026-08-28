@@ -131,19 +131,14 @@ export default function LoanSIPRecoveryPlanner() {
 
   // WhatsApp Advisory Bridge generator
   const getWhatsAppHref = () => {
-    const interestDur = plan.customInterestMilestone.formattedDuration;
-    const completeDur = plan.customCompleteLoanMilestone.formattedDuration;
-    const msg = `Hi Santhosh, I was planning my loan on Ant Wealth Loan + SIP Recovery Planner:
-• Loan Type: ${plan.loanDetails.loanType}
-• Loan Amount: ${formatIndianCurrency(plan.loanDetails.loanAmount)} (${plan.loanDetails.annualLoanInterestRate}% for ${plan.loanDetails.loanTenureYears} yrs)
-• Monthly EMI: ${formatIndianCurrency(plan.loanDetails.emi)}/mo
-• Total Interest: ${formatLakhsCrores(plan.loanDetails.totalInterest)}
-• Complete Loan Cost: ${formatLakhsCrores(plan.loanDetails.totalScheduledRepayment)}
-• My Monthly SIP: ${formatIndianCurrency(plan.customSipAmount)}/mo (${plan.customSipPercentageOfEMI.toFixed(1)}% of EMI @ ${plan.sipReturnRate}% p.a.)
-• Potential Interest Recovery: ${interestDur}
-• Potential Complete Cost Recovery: ${completeDur}
+    const msg = `Hi Santhosh, I used the Loan + SIP Recovery Planner on Ant Wealth Creation.
 
-Could you help me structure a tailored mutual fund portfolio to execute this recovery plan?`;
+• Loan Amount: ${formatIndianCurrency(plan.loanDetails.loanAmount)} (${plan.loanDetails.annualLoanInterestRate}% for ${plan.loanDetails.loanTenureYears} Years)
+• Monthly EMI: ${formatIndianCurrency(plan.loanDetails.emi)}/month
+• Monthly SIP: ${formatIndianCurrency(plan.customSipAmount)}/month
+• Potential Interest Recovery: In ${plan.customInterestMilestone.formattedDuration}
+
+Can we connect to discuss this plan?`;
 
     return `https://wa.me/918087971566?text=${encodeURIComponent(msg)}`;
   };
@@ -1350,7 +1345,7 @@ Could you help me structure a tailored mutual fund portfolio to execute this rec
                 </div>
 
                 <div className="formula-block">
-                  <h4>3. Beginning-of-Month SIP Accumulation (Annuity-Due)</h4>
+                  <h4>3. Beginning-of-Month SIP Growth Math</h4>
                   <p>
                     FV = PMT × [((1 + i_SIP)ⁿ - 1) / i_SIP] × (1 + i_SIP)
                   </p>

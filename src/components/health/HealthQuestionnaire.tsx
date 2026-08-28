@@ -198,15 +198,19 @@ export default function HealthQuestionnaire() {
             <p className="cta-box-desc">
               Speak directly with C. Santhosh Sathriyan (AMFI-Registered MFD, ARN: 266896) to turn these insights into an actionable, goal-based mutual fund plan.
             </p>
-
             <div className="cta-buttons-group">
               <a 
-                href="https://wa.me/918087971566?text=Hi%20Santhosh,%20I%20just%20completed%20the%20Financial%20Health%20Check%20on%20Ant%20Wealth%20Creation%20and%20would%20like%20to%20discuss%20my%20plan." 
+                href={`https://wa.me/918087971566?text=${encodeURIComponent(
+                  `Hi Santhosh, I used the Financial Health Check on Ant Wealth Creation.\n\n` +
+                  `• Health Score: ${result.overallScore} / 100 (${result.ratingTitle})\n` +
+                  `• Key Priority: ${result.actionRecommendations[0]?.title || 'Review Plan'}\n\n` +
+                  `Can we connect to discuss this plan?`
+                )}`} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="btn-primary-action"
               >
-                Talk to Santhosh on WhatsApp
+                💬 Talk to Santhosh
               </a>
               <a href="/contact" className="btn-secondary-action">
                 Book a Free Consultation

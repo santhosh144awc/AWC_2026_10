@@ -280,7 +280,14 @@ export default function NetWorthCalculator() {
           {/* Action CTAs */}
           <div className="calc-action-block">
             <a 
-              href={`https://wa.me/918087971566?text=Hi%20Santhosh,%20I%20just%20calculated%20my%20Net%20Worth%20of%20₹${result.netWorth}%20on%20Ant%20Wealth%20Creation%20and%20would%20like%20to%20review%20my%20asset%20allocation.`} 
+              href={`https://wa.me/918087971566?text=${encodeURIComponent(
+                `Hi Santhosh, I used the Net Worth Calculator on Ant Wealth Creation.\n\n` +
+                `• Total Assets: ₹${result.totalAssets.toLocaleString('en-IN')}\n` +
+                `• Total Liabilities: ₹${result.totalLiabilities.toLocaleString('en-IN')}\n` +
+                `• Net Worth: ₹${result.netWorth.toLocaleString('en-IN')}\n` +
+                `• Debt-to-Asset Ratio: ${result.debtToAssetRatio}%\n\n` +
+                `Can we connect to discuss this plan?`
+              )}`} 
               target="_blank" 
               rel="noopener noreferrer"
               className="btn-whatsapp-consult"
@@ -294,9 +301,9 @@ export default function NetWorthCalculator() {
 
           {/* Explanation */}
           <div className="calc-explanation">
-            <h4>Balance Sheet Insights</h4>
+            <h4>How this is calculated</h4>
             <p>
-              Maintaining a debt-to-asset ratio under 30% and having at least 20–40% in liquid growth assets (mutual funds & equities) ensures strong resilience against financial shocks and high long-term compounding velocity.
+              Your net worth is everything you own (savings, mutual funds, property, gold) minus everything you owe (home loans, personal loans, credit cards). Having a healthy share of growth assets helps protect your long-term purchasing power.
             </p>
             <p className="disclaimer-text">
               *Illustrative financial-health benchmark. Actual requirements vary based on individual circumstances.

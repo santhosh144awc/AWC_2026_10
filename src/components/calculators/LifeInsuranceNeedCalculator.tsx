@@ -86,13 +86,13 @@ export default function LifeInsuranceNeedCalculator() {
 
   // WhatsApp Message Generator
   const generateWhatsAppUrl = () => {
-    const text = `Hi Santhosh, I used the Life Insurance Need Calculator on Ant Wealth Creation.
+    const text = `Hi Santhosh, I used the Detailed Life Insurance Need Calculator on Ant Wealth Creation.
 
-• Total Protection Requirement: ${formatLakhsCrores(result.totalRequirement)} (${formatIndianCurrency(result.totalRequirement)})
-• Existing Resources: ${formatLakhsCrores(result.totalExistingResources)} (${formatIndianCurrency(result.totalExistingResources)})
-• Estimated Additional Cover: ${result.isCovered ? '₹0 (Fully Covered)' : `${formatLakhsCrores(result.additionalCoverRequired)} (${formatIndianCurrency(result.additionalCoverRequired)})`}
+• Total Protection Requirement: ${formatIndianCurrency(result.totalRequirement)}
+• Existing Resources Available: ${formatIndianCurrency(result.totalExistingResources)}
+• Estimated Additional Cover Needed: ${result.isCovered ? '₹0 (Fully Covered)' : formatIndianCurrency(result.additionalCoverRequired)}
 
-I would like help reviewing my family's protection plan.`;
+Can we connect to discuss this plan?`;
 
     return `https://wa.me/918087971566?text=${encodeURIComponent(text)}`;
   };
@@ -286,7 +286,7 @@ I would like help reviewing my family's protection plan.`;
           {/* Live Subtotal Bar */}
           <div className="live-subtotal-card">
             <div className="subtotal-info">
-              <span className="subtotal-label">Total Outstanding Loans (Component A)</span>
+              <span className="subtotal-label">Total Outstanding Loans (Loans to Clear)</span>
               <span className="subtotal-helper">Current principal balance to be cleared</span>
             </div>
             <div className="subtotal-val-box">
@@ -424,7 +424,7 @@ I would like help reviewing my family's protection plan.`;
 
           <div className="live-subtotal-card">
             <div className="subtotal-info">
-              <span className="subtotal-label">Total Family Goals (Component B)</span>
+              <span className="subtotal-label">Total Family Goals (Family Milestones)</span>
               <span className="subtotal-helper">Estimated in today's money (Present Value)</span>
             </div>
             <div className="subtotal-val-box">
@@ -694,7 +694,7 @@ I would like help reviewing my family's protection plan.`;
 
           {/* Mathematical Rate Breakdown Card */}
           <div className="rate-breakdown-card">
-            <h3 className="rate-breakdown-title">Compounding Rate Journey (Compound Fisher Relation)</h3>
+            <h3 className="rate-breakdown-title">How Inflation & Taxes Affect Your Returns</h3>
             <div className="rate-journey-track">
               <div className="journey-node">
                 <span className="node-label">Gross Return</span>
@@ -717,10 +717,10 @@ I would like help reviewing my family's protection plan.`;
             <div className="corpus-result-highlight">
               <div className="corpus-icon">🏦</div>
               <div className="corpus-text">
-                <span className="corpus-label">Future Family Living Expense Corpus (Component C)</span>
+                <span className="corpus-label">Future Family Living Expense Corpus (Living Expenses)</span>
                 <span className="corpus-amount">{formatLakhsCrores(result.futureFamilyExpenseCorpus)}</span>
                 <span className="corpus-sub">
-                  Calculated using Annuity Due (type = 1, beginning of period withdrawals) for {assumptions.yearsOfSupport} years.
+                  Calculated assuming living support needed for {assumptions.yearsOfSupport} years.
                 </span>
               </div>
             </div>
@@ -895,7 +895,7 @@ I would like help reviewing my family's protection plan.`;
               <div className="component-card">
                 <div className="card-top">
                   <span className="comp-icon">🏠</span>
-                  <span className="comp-tag">Component A</span>
+                  <span className="comp-tag">Loans to Clear</span>
                 </div>
                 <div className="comp-title">Outstanding Loans</div>
                 <div className="comp-amount">{formatLakhsCrores(result.totalLiabilities)}</div>
@@ -906,7 +906,7 @@ I would like help reviewing my family's protection plan.`;
               <div className="component-card">
                 <div className="card-top">
                   <span className="comp-icon">🎯</span>
-                  <span className="comp-tag">Component B</span>
+                  <span className="comp-tag">Family Milestones</span>
                 </div>
                 <div className="comp-title">Family Goals & Commitments</div>
                 <div className="comp-amount">{formatLakhsCrores(result.totalFamilyGoals)}</div>
@@ -917,19 +917,19 @@ I would like help reviewing my family's protection plan.`;
               <div className="component-card">
                 <div className="card-top">
                   <span className="comp-icon">🛒</span>
-                  <span className="comp-tag">Component C</span>
+                  <span className="comp-tag">Living Expenses</span>
                 </div>
                 <div className="comp-title">Living Expense Corpus</div>
                 <div className="comp-amount">{formatLakhsCrores(result.futureFamilyExpenseCorpus)}</div>
                 <div className="comp-exact">{formatIndianCurrency(result.futureFamilyExpenseCorpus)}</div>
                 <p className="comp-desc">
-                  Annuity Due corpus for {assumptions.yearsOfSupport} years of support @ {result.realReturn.toFixed(2)}% real return.
+                  Living expense corpus for {assumptions.yearsOfSupport} years of support above inflation.
                 </p>
               </div>
             </div>
 
             <div className="total-req-banner">
-              <span className="total-req-label">TOTAL LIFE INSURANCE REQUIREMENT (A + B + C)</span>
+              <span className="total-req-label">TOTAL LIFE INSURANCE REQUIREMENT (Loans + Goals + Living Expenses)</span>
               <span className="total-req-val">{formatLakhsCrores(result.totalRequirement)}</span>
             </div>
           </div>
@@ -1003,12 +1003,12 @@ I would like help reviewing my family's protection plan.`;
                 </div>
 
                 <div className="formula-step-block">
-                  <h4>Step 2: Compound Real Return & Annuity-Due Calculation</h4>
+                  <h4>Step 2: Real Return Above Inflation & Living Expense Math</h4>
                   <ul>
                     <li><strong>Annual Family Expenses:</strong> ₹{result.totalAnnualExpenses.toLocaleString('en-IN')} × (1 - {assumptions.personalExpenseDiscount}%) = <strong>₹{result.annualFamilyExpenses.toLocaleString('en-IN')} / yr</strong></li>
                     <li><strong>Tax-Adjusted Return:</strong> {assumptions.expectedReturn}% × (1 - {assumptions.taxRate}%) = <strong>{result.taxAdjustedReturn.toFixed(2)}%</strong></li>
-                    <li><strong>Fisher Real Return:</strong> (1 + {result.taxAdjustedReturn.toFixed(2)}%) / (1 + {assumptions.expenseInflation}%) - 1 = <strong>{result.realReturn.toFixed(4)}%</strong></li>
-                    <li><strong>Expense Corpus (Annuity Due):</strong> Payments made at the beginning of each year across {assumptions.yearsOfSupport} years = <strong>₹{result.futureFamilyExpenseCorpus.toLocaleString('en-IN')}</strong></li>
+                    <li><strong>Real Return (Above Inflation):</strong> (1 + {result.taxAdjustedReturn.toFixed(2)}%) / (1 + {assumptions.expenseInflation}%) - 1 = <strong>{result.realReturn.toFixed(4)}%</strong></li>
+                    <li><strong>Expense Corpus:</strong> Calculated assuming living expenses are withdrawn across {assumptions.yearsOfSupport} years = <strong>₹{result.futureFamilyExpenseCorpus.toLocaleString('en-IN')}</strong></li>
                   </ul>
                 </div>
 
@@ -1052,7 +1052,7 @@ I would like help reviewing my family's protection plan.`;
               </a>
             </div>
             <p className="cta-disclaimer">
-              100% Voluntary • No high-pressure sales • AMFI Registered Mutual Fund Distributor
+              100% Voluntary • No Phone Number or Login Needed • AMFI Registered Mutual Fund Distributor (ARN: 266896)
             </p>
           </div>
 
