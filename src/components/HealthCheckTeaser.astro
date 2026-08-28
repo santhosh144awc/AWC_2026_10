@@ -7,36 +7,49 @@ import { HealthScoreGauge } from './HealthScoreGauge';
     <div class="health-check-grid">
       <!-- Left Column: Teaser & Action -->
       <div class="health-check-intro">
-        <div class="badge badge-teal mb-3">Free 2-Minute Diagnostic</div>
+        <div class="badge badge-teal mb-3">Self-Assessment</div>
         <h2 class="health-check-heading">
-          How financially healthy are you?
+          Check Your Financial Health
         </h2>
         <p class="health-check-subtext">
-          Take a quick, confidential assessment to evaluate your emergency preparedness, insurance coverage, savings rate, and retirement readiness.
+          Before making bigger financial decisions, understand where you stand today.
         </p>
 
-        <div class="health-check-features">
-          <div class="feature-point">
-            <span class="point-icon">⚡</span>
-            <span>Takes under 2 minutes</span>
-          </div>
-          <div class="feature-point">
-            <span class="point-icon">🔒</span>
-            <span>No Phone Number or Login Needed</span>
-          </div>
-          <div class="feature-point">
-            <span class="point-icon">📊</span>
-            <span>Personalized strengths & gaps report</span>
+        <div class="health-check-areas">
+          <p class="areas-intro">
+            A quick, confidential check helps you evaluate the 6 key pillars of your family's money:
+          </p>
+          <div class="areas-grid">
+            <div class="area-item">
+              <span class="area-icon">💰</span>
+              <span><strong>Savings</strong> & ongoing monthly surplus</span>
+            </div>
+            <div class="area-item">
+              <span class="area-icon">🛡️</span>
+              <span><strong>Emergency Fund</strong> for unexpected events</span>
+            </div>
+            <div class="area-item">
+              <span class="area-icon">☂️</span>
+              <span><strong>Protection</strong> & family insurance cover</span>
+            </div>
+            <div class="area-item">
+              <span class="area-icon">📈</span>
+              <span><strong>Investments</strong> beating inflation</span>
+            </div>
+            <div class="area-item">
+              <span class="area-icon">🎯</span>
+              <span><strong>Goals</strong> on track with timelines</span>
+            </div>
+            <div class="area-item">
+              <span class="area-icon">🌅</span>
+              <span><strong>Retirement</strong> readiness & peace of mind</span>
+            </div>
           </div>
         </div>
 
         <div class="health-check-cta-wrap">
           <a href="/health-check" class="btn btn-teal health-cta-btn">
-            Check My Financial Health
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
+            Check My Financial Health →
           </a>
         </div>
       </div>
@@ -45,7 +58,7 @@ import { HealthScoreGauge } from './HealthScoreGauge';
       <div class="health-score-preview-card">
         <div class="card-header-flex">
           <h3 class="preview-card-title">Your Financial Health Score</h3>
-          <span class="sample-pill">Preview</span>
+          <span class="sample-pill">Sample Report</span>
         </div>
 
         <div class="score-card-body">
@@ -71,14 +84,14 @@ import { HealthScoreGauge } from './HealthScoreGauge';
                 Needs attention
               </div>
               <ul class="insight-list alert-list">
-                <li><span class="bullet-dot">•</span> Life insurance</li>
+                <li><span class="bullet-dot">•</span> Life insurance cover</li>
                 <li><span class="bullet-dot">•</span> Retirement corpus</li>
               </ul>
             </div>
           </div>
         </div>
         <p class="preview-footnote">
-          *Illustrative financial-health benchmark. Actual requirements vary based on individual circumstances.
+          *Takes under 2 minutes. Free, confidential, and requires no phone number or login.
         </p>
       </div>
     </div>
@@ -122,29 +135,44 @@ import { HealthScoreGauge } from './HealthScoreGauge';
     margin-bottom: 1.75rem;
   }
 
-  .health-check-features {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+  .health-check-areas {
     margin-bottom: 2rem;
   }
 
-  .feature-point {
+  .areas-intro {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-primary-navy);
+    margin-bottom: 0.75rem;
+  }
+
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem 1rem;
+  }
+
+  .area-item {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    font-size: 0.95rem;
-    font-weight: 500;
+    gap: 0.5rem;
+    font-size: 0.88rem;
     color: var(--color-slate-text);
   }
 
-  .point-icon {
-    font-size: 1.1rem;
+  .area-icon {
+    font-size: 1rem;
+    line-height: 1;
   }
 
   .health-cta-btn {
-    padding: 0.85rem 2rem;
-    font-size: 1.05rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 1.85rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 10px;
   }
 
   /* Score Preview Card */

@@ -1,19 +1,19 @@
 # Ant Wealth Creation — Project Status & Architecture Guide
 
-**Current Version:** `v2.8.0 (Phase 15A — Final End-User Simplification & Information Architecture Redesign Completed)`  
+**Current Version:** `v2.9.0 (Phase 15B — Homepage Education Layer Restoration Completed)`  
 **Current Date:** August 28, 2026  
 **Repository Branch:** `main` | `AntWealth_2026_08`  
 **Total Pages Compiled:** **31 Static Pages** (`npm run build` output)  
 **Total Unit Tests:** **435+ Automated Unit Tests Across 11 Suites** (`npm test` all passing)  
 **Automated QA Audit:** **100% Passing** (`src/utils/verification_audit.test.mjs`)  
-**Automated Link Audit:** **100% Passing** (`src/utils/check_all_links.mjs` - 138/138 links valid)
+**Automated Link Audit:** **100% Passing** (`src/utils/check_all_links.mjs` - 139/139 links valid)
 
 > **Last Updated:** August 28, 2026  
 > **Project Root:** `c:\WORK\Software\Antigravity\AWC_2026_08_23`  
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** Phase 15A Complete • Final End-User Simplification • Single Canonical Starting Point • Navigation Streamlined (5 items + Start Here) • 4-Section Tools Hierarchy • Action-Specific CTAs • 31/31 Static Routes Building Cleanly
+> **Status:** Phase 15B Complete • Homepage Education Layer Restored • Single Canonical Discovery • Financial Health Self-Assessment • 6-Stage Wellbeing Journey • Popular Tools Showcase • 31/31 Static Routes Building Cleanly
 
 ---
 
@@ -997,6 +997,37 @@ npm run preview
    * `node src/utils/check_all_links.mjs`: All 138 internal links across 61 files audited and 100% valid.
    * `node src/utils/verification_audit.test.mjs`: All 107 source files audited with 0 prohibited jargon.
    * `npm run build`: All 31 static routes compile cleanly in 4.39s.
+
+---
+
+## 9. Phase 15B — Homepage Education Layer Restoration
+
+### Restored Sections & Homepage Architecture:
+1. **Clean 8-Stage Sequential Homepage Structure:**
+   * **1. Hero:** Clear value proposition (*"Make Better Money Decisions. Build a Better Future."*) + `Start Here →` (`/health-check`) & `Explore Tools →` (`/tools`).
+   * **2. Where would you like to start?:** Exactly 4 pathways (*Understand My Finances*, *Plan a Goal*, *Grow My Money*, *Protect My Family*).
+   * **3. Check Your Financial Health (`HealthCheckTeaser.astro`):**
+     - Explains *why* understanding financial health matters before making bigger decisions.
+     - Covers the 6 key pillars: Savings, Emergency Fund, Protection, Investments, Goals, Retirement Readiness.
+     - Includes sample score preview card and 1 clear CTA: `Check My Financial Health →` (`/health-check`).
+   * **4. Your Financial Wellbeing Journey (`FinancialJourney.astro`):**
+     - Visual horizontal progression on desktop, clean vertical flow on mobile.
+     - 6 educational stages: *1. Starting Out*, *2. Building Stability*, *3. Growing Wealth*, *4. Protecting Family*, *5. Achieving Goals*, *6. Financial Freedom*.
+     - Purely educational with zero competing calculator cards or buttons.
+   * **5. Popular Tools (`PopularTools.astro`):**
+     - Curated 4-tool showcase: SIP Calculator, Lumpsum Calculator, Loan vs Investment, Personal Net Worth Calculator.
+     - Action link: `View All Tools →` (`/tools`).
+   * **6. Why Families Choose Ant Wealth Creation (`TrustSection.astro`):**
+     - 5 credibility pillars & regulatory AMFI MFD registration (ARN-266896).
+   * **7. Meet Santhosh & Consultation (`MeetFounder.astro`):**
+     - Personal guidance CTA: `Talk to Santhosh →` & `Book a Free Consultation →`.
+   * **8. Footer (`Footer.astro`).**
+
+2. **Automated QA & Link Verification:**
+   * `npm test`: All 11 unit test suites (435+ unit tests) pass 100%.
+   * `node src/utils/check_all_links.mjs`: All 139 internal links across 62 files audited and 100% valid.
+   * `node src/utils/verification_audit.test.mjs`: All 108 source files audited with 0 prohibited jargon.
+   * `npm run build`: All 31 static routes compile cleanly in 5.33s.
 
 ---
 

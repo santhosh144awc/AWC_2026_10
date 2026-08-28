@@ -1,0 +1,229 @@
+---
+// Popular Tools showcase (4 curated tools)
+const popularTools = [
+  {
+    id: "sip",
+    title: "SIP Calculator",
+    description: "Calculate how disciplined monthly investments grow over time with compounding.",
+    icon: "📈",
+    cta: "Calculate SIP →",
+    href: "/tools?calc=sip"
+  },
+  {
+    id: "lumpsum",
+    title: "Lumpsum Calculator",
+    description: "See how a one-time lump sum investment can compound over your time horizon.",
+    icon: "💰",
+    cta: "Calculate Growth →",
+    href: "/tools?calc=lumpsum"
+  },
+  {
+    id: "loan-vs-invest",
+    title: "Loan vs Investment",
+    description: "Compare prepaying a loan versus investing the surplus in equity mutual funds.",
+    icon: "⚖️",
+    cta: "Compare Options →",
+    href: "/tools?calc=loan-vs-invest"
+  },
+  {
+    id: "net-worth",
+    title: "Personal Net Worth Calculator",
+    description: "Map your assets and liabilities to calculate your net worth in minutes.",
+    icon: "💎",
+    cta: "Calculate Net Worth →",
+    href: "/tools?calc=net-worth"
+  }
+];
+---
+
+<section class="popular-tools-section section-padding">
+  <div class="container">
+    <div class="section-header text-center">
+      <div class="badge-tag">
+        <span class="badge-dot"></span>
+        Interactive Planning
+      </div>
+      <h2 class="section-title">Popular Tools</h2>
+      <p class="section-subtitle">
+        Simple interactive calculators to help you understand your money and make better decisions.
+      </p>
+    </div>
+
+    <!-- 4 Popular Tools Grid -->
+    <div class="tools-showcase-grid">
+      {popularTools.map((tool) => (
+        <div class="tool-showcase-card">
+          <div class="card-icon-wrap">
+            <span class="tool-icon" aria-hidden="true">{tool.icon}</span>
+          </div>
+          <h3 class="tool-title">{tool.title}</h3>
+          <p class="tool-desc">{tool.description}</p>
+          <a href={tool.href} class="btn-tool-action">
+            {tool.cta}
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <!-- View All Link -->
+    <div class="view-all-wrap text-center">
+      <a href="/tools" class="btn-view-all-tools">
+        View All Tools →
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .popular-tools-section {
+    background-color: #F8FAFC;
+    border-top: 1px solid #E2E8F0;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-growth-teal);
+    border-radius: 50%;
+  }
+
+  .section-header {
+    max-width: 680px;
+    margin: 0 auto 3rem;
+  }
+
+  .section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--color-primary-navy);
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.05rem;
+    color: #475569;
+    line-height: 1.5;
+  }
+
+  .tools-showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .tool-showcase-card {
+    background-color: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 15px rgba(0, 24, 42, 0.03);
+    transition: all 0.25s ease;
+  }
+
+  .tool-showcase-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-growth-teal);
+    box-shadow: 0 12px 28px rgba(0, 171, 150, 0.1);
+  }
+
+  .card-icon-wrap {
+    margin-bottom: 1.25rem;
+  }
+
+  .tool-icon {
+    font-size: 2.25rem;
+    line-height: 1;
+  }
+
+  .tool-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-primary-navy);
+    margin-bottom: 0.65rem;
+    line-height: 1.3;
+  }
+
+  .tool-desc {
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.5;
+    margin-bottom: 1.75rem;
+    flex-grow: 1;
+  }
+
+  .btn-tool-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.25rem;
+    background-color: rgba(0, 171, 150, 0.1);
+    color: var(--color-growth-teal);
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    min-height: 44px;
+  }
+
+  .tool-showcase-card:hover .btn-tool-action {
+    background-color: var(--color-growth-teal);
+    color: #FFFFFF;
+  }
+
+  .view-all-wrap {
+    margin-top: 1rem;
+  }
+
+  .btn-view-all-tools {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-growth-teal);
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-view-all-tools:hover {
+    color: #008F7E;
+    background-color: rgba(0, 171, 150, 0.08);
+  }
+
+  @media (max-width: 1024px) {
+    .tools-showcase-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .tools-showcase-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+</style>
