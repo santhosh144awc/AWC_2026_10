@@ -99,6 +99,11 @@ export const siteConfig = {
     { label: "About", href: "/about" },
   ] as NavItem[],
 
+  portfolioLogin: {
+    label: "Portfolio Login",
+    href: "https://antwealth.themfbox.com/",
+  },
+
   primaryCTA: {
     label: "Start Here",
     href: "/health-check",
