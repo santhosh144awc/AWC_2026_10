@@ -14,18 +14,8 @@ export interface GoalPreset {
 
 export const GOAL_PRESETS: GoalPreset[] = [
   {
-    id: 'education',
-    name: 'Child Higher Education',
-    icon: '🎓',
-    defaultCost: 2500000,
-    defaultYears: 12,
-    defaultInflation: 8,
-    defaultReturn: 12,
-    description: 'Ensure college and higher education fees are ready without student debt.'
-  },
-  {
     id: 'home',
-    name: 'Dream Home Down Payment',
+    name: 'Buy a Home',
     icon: '🏡',
     defaultCost: 3500000,
     defaultYears: 7,
@@ -34,8 +24,18 @@ export const GOAL_PRESETS: GoalPreset[] = [
     description: 'Build a comfortable 20-30% down payment cushion for your family home.'
   },
   {
+    id: 'education',
+    name: "Child's Education",
+    icon: '🎓',
+    defaultCost: 2500000,
+    defaultYears: 12,
+    defaultInflation: 8,
+    defaultReturn: 12,
+    description: 'Ensure college and higher education fees are ready without student debt.'
+  },
+  {
     id: 'retirement',
-    name: 'Financial Independence / Early Retirement',
+    name: 'Retirement',
     icon: '🌅',
     defaultCost: 15000000,
     defaultYears: 20,
@@ -44,8 +44,18 @@ export const GOAL_PRESETS: GoalPreset[] = [
     description: 'Create an enduring retirement nest egg that generates perpetual passive income.'
   },
   {
+    id: 'wealth',
+    name: 'Build Long-Term Wealth',
+    icon: '📈',
+    defaultCost: 10000000,
+    defaultYears: 15,
+    defaultInflation: 6,
+    defaultReturn: 13,
+    description: 'Harness 15+ years of equity compounding to build long-term security.'
+  },
+  {
     id: 'wedding',
-    name: 'Child / Self Wedding',
+    name: 'Wedding',
     icon: '💍',
     defaultCost: 2000000,
     defaultYears: 8,
@@ -55,7 +65,7 @@ export const GOAL_PRESETS: GoalPreset[] = [
   },
   {
     id: 'car',
-    name: 'Car / Vehicle Upgrade',
+    name: 'Buy a Car',
     icon: '🚗',
     defaultCost: 1500000,
     defaultYears: 4,
@@ -64,18 +74,8 @@ export const GOAL_PRESETS: GoalPreset[] = [
     description: 'Accumulate capital for your dream vehicle with minimal loan financing.'
   },
   {
-    id: 'wealth',
-    name: 'Long-Term Wealth Creation',
-    icon: '📈',
-    defaultCost: 10000000,
-    defaultYears: 15,
-    defaultInflation: 6,
-    defaultReturn: 13,
-    description: 'Harness 15+ years of equity compounding to build multi-generational security.'
-  },
-  {
     id: 'custom',
-    name: 'Custom Life Milestone',
+    name: 'Something Else',
     icon: '🎯',
     defaultCost: 3000000,
     defaultYears: 10,

@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import ArticleCard from '../../components/learning/ArticleCard.astro';
 import CategoryCard from '../../components/learning/CategoryCard.astro';
+import FinancialJourney from '../../components/FinancialJourney.astro';
 
 const allArticles = await getCollection('articles', ({ data }) => !data.draft);
 
@@ -155,20 +156,23 @@ const categoryCounts = CATEGORIES.map(cat => ({
     </div>
   </section>
 
+  {/* 6-Stage Financial Journey Roadmap */}
+  <FinancialJourney />
+
   {/* Interactive Planning CTA */}
   <section class="learning-action-cta">
     <div class="container">
       <div class="cta-inner-box text-center">
         <h3 class="cta-heading">Ready to apply what you learned?</h3>
         <p class="cta-desc">
-          Test your financial fitness with the 2-Minute Financial Health Check or calculate your milestone requirements with our interactive tools suite.
+          See where your finances stand today with the Financial Health Check or explore our simple financial planning tools.
         </p>
         <div class="cta-buttons-row">
           <a href="/health-check" class="btn-primary-cta">
-            Check My Financial Health
+            Check My Financial Health →
           </a>
           <a href="/tools" class="btn-secondary-cta">
-            Explore Calculators
+            Explore Tools →
           </a>
         </div>
       </div>

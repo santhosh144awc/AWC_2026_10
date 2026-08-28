@@ -24,7 +24,7 @@ export interface ToolRegistryItem {
 
 export const TOOLS_REGISTRY: ToolRegistryItem[] = [
   // ==========================================
-  // TIER 1: START HERE (Simple Public Tools)
+  // SECTION 1: START HERE (Simple Public Tools)
   // ==========================================
   {
     id: 'health-check',
@@ -40,7 +40,7 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     visibility: 'public',
     homepageVisibility: true,
     homepageEntry: 'health',
-    primaryCTA: 'Check My Financial Health',
+    primaryCTA: 'Check My Financial Health →',
     badge: '2-Minute Self-Check',
     toolsPagePriority: 1,
     relatedArticles: ['how-much-emergency-fund-should-you-have', 'what-is-financial-freedom']
@@ -60,7 +60,7 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     visibility: 'public',
     homepageVisibility: true,
     homepageEntry: 'investment',
-    primaryCTA: 'Calculate My SIP',
+    primaryCTA: 'Calculate My SIP →',
     badge: 'Monthly',
     toolsPagePriority: 2,
     relatedArticles: ['what-is-a-mutual-fund', 'what-is-sip-and-how-does-it-work']
@@ -80,7 +80,7 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     visibility: 'public',
     homepageVisibility: true,
     homepageEntry: 'investment',
-    primaryCTA: 'Calculate Lumpsum',
+    primaryCTA: 'Calculate Growth →',
     badge: 'One-Time',
     toolsPagePriority: 3,
     relatedArticles: ['sip-vs-lumpsum-what-is-the-difference', 'what-is-a-mutual-fund']
@@ -100,7 +100,7 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     visibility: 'public',
     homepageVisibility: true,
     homepageEntry: 'goal',
-    primaryCTA: 'Plan My Goal',
+    primaryCTA: 'Plan This Goal →',
     badge: 'Milestones',
     toolsPagePriority: 4,
     relatedArticles: ['what-is-goal-based-financial-planning']
@@ -120,7 +120,7 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     visibility: 'public',
     homepageVisibility: true,
     homepageEntry: 'protection',
-    primaryCTA: 'Check Protection Need',
+    primaryCTA: 'Check My Protection Need →',
     badge: 'Family Protection',
     toolsPagePriority: 5,
     relatedArticles: ['why-life-insurance-is-important-for-a-family']
@@ -139,14 +139,14 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     componentKey: 'NetWorthCalculator',
     visibility: 'public',
     homepageVisibility: true,
-    primaryCTA: 'Calculate Net Worth',
+    primaryCTA: 'Calculate My Net Worth →',
     badge: 'Balance Sheet',
     toolsPagePriority: 6,
     relatedArticles: ['what-is-asset-allocation', 'what-is-financial-freedom']
   },
 
   // ==========================================
-  // TIER 2: PLAN A GOAL (Goal Planning Tools)
+  // SECTION 2: PLAN A GOAL (Goal Planning Tools)
   // ==========================================
   {
     id: 'retirement',
@@ -162,7 +162,7 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     componentKey: 'RetirementCalculator',
     visibility: 'public',
     homepageVisibility: false,
-    primaryCTA: 'Plan Retirement',
+    primaryCTA: 'Plan My Retirement →',
     badge: 'Retirement',
     toolsPagePriority: 7,
     relatedArticles: ['how-to-start-planning-for-retirement']
@@ -180,7 +180,7 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     componentKey: 'HousePurchasePlannerCalculator',
     visibility: 'public',
     homepageVisibility: false,
-    primaryCTA: 'Plan Home Purchase',
+    primaryCTA: 'Plan My Home Purchase →',
     badge: 'Guided Plan',
     toolsPagePriority: 8,
     relatedArticles: ['what-is-goal-based-financial-planning']
@@ -198,7 +198,7 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     componentKey: 'ChildrenFuturePlanner',
     visibility: 'public',
     homepageVisibility: false,
-    primaryCTA: "Plan Child's Goals",
+    primaryCTA: "Plan Child's Future →",
     badge: 'Multi-Milestone',
     toolsPagePriority: 9,
     relatedArticles: ['how-to-plan-for-your-childs-education']
@@ -216,14 +216,14 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     componentKey: 'SIPGrowthPlanner',
     visibility: 'public',
     homepageVisibility: false,
-    primaryCTA: 'Plan SIP Growth',
+    primaryCTA: 'Explore SIP Growth →',
     badge: 'Multi-Lump-Sum',
     toolsPagePriority: 10,
     relatedArticles: ['what-is-sip-and-how-does-it-work']
   },
 
   // ==========================================
-  // TIER 3: COMPARE A DECISION (Decision Tools)
+  // SECTION 3: COMPARE A DECISION (Decision Tools)
   // ==========================================
   {
     id: 'loan-vs-invest',
@@ -239,7 +239,7 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     componentKey: 'LoanVsInvestmentCalculator',
     visibility: 'public',
     homepageVisibility: false,
-    primaryCTA: 'Compare Decision',
+    primaryCTA: 'Compare My Options →',
     badge: 'Trade-off Analysis',
     toolsPagePriority: 11,
     relatedArticles: ['what-is-financial-freedom']
@@ -257,21 +257,17 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     componentKey: 'LoanSIPRecoveryPlanner',
     visibility: 'public',
     homepageVisibility: false,
-    primaryCTA: 'Plan Loan Offset',
+    primaryCTA: 'Plan Loan Recovery →',
     badge: 'Wealth Recovery',
     toolsPagePriority: 12,
     relatedArticles: ['what-is-goal-based-financial-planning']
   },
-
-  // ==========================================
-  // TIER 4: ADVANCED PLANNING (Secondary Tools)
-  // ==========================================
   {
     id: 'home-loan-foreclosure',
     title: 'Home Loan Foreclosure Planner',
     shortTitle: 'Loan Foreclosure',
     description: 'See how a parallel SIP alongside your EMI could help you plan for an earlier home-loan closure.',
-    tier: 'advanced',
+    tier: 'decision',
     category: 'advanced-planning',
     legacyCategory: 'Build Wealth',
     icon: '🏠',
@@ -279,11 +275,15 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     componentKey: 'HomeLoanForeclosurePlanner',
     visibility: 'public',
     homepageVisibility: false,
-    primaryCTA: 'Explore Foreclosure Plan',
-    badge: 'Advanced • Foreclosure',
+    primaryCTA: 'Plan Loan Foreclosure →',
+    badge: 'Foreclosure',
     toolsPagePriority: 13,
     relatedArticles: ['what-is-goal-based-financial-planning']
   },
+
+  // ==========================================
+  // SECTION 4: ADVANCED PLANNING (Secondary Tools)
+  // ==========================================
   {
     id: 'swp',
     title: 'SWP Longevity Calculator (Regular Withdrawal Plan)',
@@ -297,7 +297,7 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     componentKey: 'SWPCalculator',
     visibility: 'public',
     homepageVisibility: false,
-    primaryCTA: 'Explore Regular Withdrawals',
+    primaryCTA: 'Plan Regular Withdrawals →',
     badge: 'Advanced • SWP',
     toolsPagePriority: 14,
     relatedArticles: ['how-to-start-planning-for-retirement']
@@ -315,7 +315,7 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     componentKey: 'RetirementDistributionPlanner',
     visibility: 'public',
     homepageVisibility: false,
-    primaryCTA: 'Explore Three-Bucket Plan',
+    primaryCTA: 'Plan Retirement Income →',
     badge: 'Advanced • Three-Bucket',
     toolsPagePriority: 15,
     relatedArticles: ['how-to-start-planning-for-retirement']
@@ -333,7 +333,7 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     componentKey: 'LifeInsuranceNeedCalculator',
     visibility: 'public',
     homepageVisibility: false,
-    primaryCTA: 'Explore Detailed Audit',
+    primaryCTA: 'Audit Protection Need →',
     badge: 'Advanced • 5-Step Model',
     toolsPagePriority: 16,
     relatedArticles: ['why-life-insurance-is-important-for-a-family']
@@ -351,7 +351,7 @@ export const TOOLS_REGISTRY: ToolRegistryItem[] = [
     componentKey: 'REALFinancialStatement',
     visibility: 'public',
     homepageVisibility: false,
-    primaryCTA: 'Explore Financial Statement',
+    primaryCTA: 'View Financial Statement →',
     badge: 'Advanced • Diagnostic',
     toolsPagePriority: 17,
     relatedArticles: ['what-is-asset-allocation', 'what-is-financial-freedom']

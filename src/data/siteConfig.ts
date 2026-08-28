@@ -93,16 +93,15 @@ export const siteConfig = {
 
   nav: [
     { label: "Home", href: "/" },
-    { label: "Plan Your Money", href: "/plan" },
-    { label: "Calculators", href: "/tools" },
+    { label: "Plan a Goal", href: "/plan" },
+    { label: "Tools", href: "/tools" },
     { label: "Learn", href: "/learn" },
     { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" },
   ] as NavItem[],
 
   primaryCTA: {
-    label: "Start Your Financial Plan",
-    href: "/plan",
+    label: "Start Here",
+    href: "/health-check",
   },
 
   disclaimers: {

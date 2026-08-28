@@ -1,41 +1,37 @@
 ---
-// 4 Primary Pathways for Visitor Discovery
-const pathways = [
+// 4 Clear Starting Cards for Visitor Discovery
+const startingPoints = [
   {
     id: "health",
-    title: "Check My Financial Health",
-    description: "Understand your savings, emergency fund, protection and retirement readiness.",
-    cta: "Check My Financial Health",
+    title: "Understand My Finances",
+    description: "See where you stand today and what you may want to improve.",
+    cta: "Check My Financial Health →",
     href: "/health-check",
-    icon: "🩺",
-    badge: "2-Minute Diagnostic"
+    icon: "🩺"
   },
   {
     id: "goal",
-    title: "Plan My Goal",
-    description: "Work towards a home, child's education, retirement or another important milestone.",
-    cta: "Plan My Goal",
+    title: "Plan a Goal",
+    description: "Plan for a home, education, retirement or another important goal.",
+    cta: "Plan a Goal →",
     href: "/plan",
-    icon: "🎯",
-    badge: "Goal-Based Planning"
+    icon: "🎯"
   },
   {
     id: "investment",
     title: "Grow My Money",
     description: "Explore how SIP and lumpsum investments may grow over time.",
-    cta: "Explore Investment Calculators",
+    cta: "Explore Investments →",
     href: "/tools?calc=sip",
-    icon: "📈",
-    badge: "Wealth Compounding"
+    icon: "📈"
   },
   {
     id: "protection",
     title: "Protect My Family",
-    description: "Get an illustrative view of your family's financial protection gap.",
-    cta: "Check Protection Need",
+    description: "Get an illustrative view of your family's financial protection need.",
+    cta: "Check Protection Need →",
     href: "/tools?calc=insurance",
-    icon: "🛡️",
-    badge: "Risk Protection"
+    icon: "🛡️"
   }
 ];
 ---
@@ -44,80 +40,29 @@ const pathways = [
   <div class="container">
     <!-- Header -->
     <div class="section-header text-center">
-      <div class="badge-tag">
-        <span class="badge-dot"></span>
-        Guided Discovery
-      </div>
-      <h2 class="section-title">Start With What Matters to You</h2>
+      <h2 class="section-title">Where would you like to start?</h2>
       <p class="section-subtitle">
-        Not sure where to begin? Start with your financial health, a goal, or a simple calculation.
+        Choose what matters to you right now.
       </p>
     </div>
 
     <!-- 4 Primary Pathways Grid -->
     <div class="pathway-grid">
-      {pathways.map((path) => (
+      {startingPoints.map((item) => (
         <div class="pathway-card card-base">
           <div class="card-top">
-            <span class="pathway-icon" aria-hidden="true">{path.icon}</span>
-            <span class="pathway-badge">{path.badge}</span>
+            <span class="pathway-icon" aria-hidden="true">{item.icon}</span>
           </div>
-          <h3 class="pathway-title">{path.title}</h3>
-          <p class="pathway-desc">{path.description}</p>
-          <a href={path.href} class="btn-pathway">
-            {path.cta} →
+          <h3 class="pathway-title">{item.title}</h3>
+          <p class="pathway-desc">{item.description}</p>
+          <a href={item.href} class="btn-pathway">
+            {item.cta}
           </a>
         </div>
       ))}
     </div>
-
-    <!-- First-Time User Guidance Banner -->
-    <div class="guidance-banner">
-      <div class="guidance-header">
-        <span class="guidance-tag">💡 New to financial planning?</span>
-        <h3 class="guidance-heading">You don't need to understand every investment option to get started.</h3>
-      </div>
-      <div class="guidance-steps">
-        <div class="guidance-step">
-          <div class="step-num">1</div>
-          <div class="step-text">
-            <strong>Check Health</strong>
-            <span>See where your finances stand today.</span>
-          </div>
-        </div>
-        <div class="guidance-arrow">→</div>
-        <div class="guidance-step">
-          <div class="step-num">2</div>
-          <div class="step-text">
-            <strong>Define Goals</strong>
-            <span>Identify timelines and targets.</span>
-          </div>
-        </div>
-        <div class="guidance-arrow">→</div>
-        <div class="guidance-step">
-          <div class="step-num">3</div>
-          <div class="step-text">
-            <strong>Calculate</strong>
-            <span>Model monthly investments needed.</span>
-          </div>
-        </div>
-        <div class="guidance-arrow">→</div>
-        <div class="guidance-step">
-          <div class="step-num">4</div>
-          <div class="step-text">
-            <strong>Take Action</strong>
-            <span>Start disciplined execution.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- View All Calculators Subtle Link -->
-    <div class="section-footer-link">
-      <p class="footer-subtle-text">
-        Looking for a specific calculation? 
-        <a href="/tools" class="link-view-all">
-          View All Calculators →
+  </div>
+</section>
         </a>
       </p>
     </div>

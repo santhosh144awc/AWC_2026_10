@@ -135,7 +135,7 @@ export default function CalculatorsHub() {
             </div>
             <h3 className="tool-title">Lumpsum Calculator</h3>
             <p className="tool-desc">See how a one-time lump sum investment can compound over your intended time horizon.</p>
-            <span className="tool-btn-link">Calculate Lumpsum →</span>
+            <span className="tool-btn-link">Calculate Growth →</span>
           </button>
 
           {/* 4. Goal Planner */}
@@ -150,7 +150,7 @@ export default function CalculatorsHub() {
             </div>
             <h3 className="tool-title">Goal Planner</h3>
             <p className="tool-desc">Plan for life milestones (education, home down payment, wedding) with inflation-adjusted targets.</p>
-            <span className="tool-btn-link">Plan My Goal →</span>
+            <span className="tool-btn-link">Plan This Goal →</span>
           </button>
 
           {/* 5. Life Insurance Need Calculator */}
@@ -165,7 +165,7 @@ export default function CalculatorsHub() {
             </div>
             <h3 className="tool-title">Life Insurance Need Calculator</h3>
             <p className="tool-desc">Get an illustrative view of family protection needed based on income, debts, and goals.</p>
-            <span className="tool-btn-link">Check Protection Need →</span>
+            <span className="tool-btn-link">Check My Protection Need →</span>
           </button>
 
           {/* 6. Net Worth Calculator */}
@@ -180,7 +180,7 @@ export default function CalculatorsHub() {
             </div>
             <h3 className="tool-title">Personal Net Worth Calculator</h3>
             <p className="tool-desc">Map all your assets and liabilities to calculate your net worth and debt-to-asset balance.</p>
-            <span className="tool-btn-link">Calculate Net Worth →</span>
+            <span className="tool-btn-link">Calculate My Net Worth →</span>
           </button>
         </div>
       </section>
@@ -280,13 +280,13 @@ export default function CalculatorsHub() {
       </div>
 
       {/* ====================================================== */}
-      {/* SECTION 2: PLAN A GOAL (Tier 2 Milestone Planners) */}
+      {/* SECTION 2: PLAN A GOAL */}
       {/* ====================================================== */}
       <section className="hub-section tier-2-section">
         <div className="section-title-wrap">
           <div className="tier-pill tier-pill-secondary">Plan a Goal</div>
-          <h2 className="tier-heading">Plan a Specific Goal</h2>
-          <p className="tier-subtext">Detailed tools when you are ready to map out an important life milestone.</p>
+          <h2 className="tier-heading">Plan a Goal</h2>
+          <p className="tier-subtext">Plan for an important life goal.</p>
         </div>
 
         <div className="tools-grid-secondary">
@@ -298,7 +298,7 @@ export default function CalculatorsHub() {
             </div>
             <h3 className="tool-title">Retirement Planner</h3>
             <p className="tool-desc">Estimate future living expenses, required retirement corpus, and discover your required monthly SIP.</p>
-            <span className="tool-btn-secondary">Plan Retirement →</span>
+            <span className="tool-btn-secondary">Plan My Retirement →</span>
           </a>
 
           {/* Home Purchase Planner */}
@@ -309,7 +309,7 @@ export default function CalculatorsHub() {
             </div>
             <h3 className="tool-title">Home Purchase Planner</h3>
             <p className="tool-desc">Calculate future property cost, down payment targets, registration expenses, and EMI affordability.</p>
-            <span className="tool-btn-secondary">Plan Home Purchase →</span>
+            <span className="tool-btn-secondary">Plan My Home Purchase →</span>
           </a>
 
           {/* Children's Future Planner */}
@@ -320,7 +320,7 @@ export default function CalculatorsHub() {
             </div>
             <h3 className="tool-title">Children's Future Planner</h3>
             <p className="tool-desc">Map your child's higher education milestones and marriage timeline with inflation and step-up SIPs.</p>
-            <span className="tool-btn-secondary">Plan Child's Goals →</span>
+            <span className="tool-btn-secondary">Plan Child's Future →</span>
           </a>
 
           {/* SIP Growth Planner */}
@@ -331,22 +331,22 @@ export default function CalculatorsHub() {
             </div>
             <h3 className="tool-title">SIP Growth Planner</h3>
             <p className="tool-desc">Model your monthly SIP, annual step-ups, and intermittent lump-sum additions over a custom horizon.</p>
-            <span className="tool-btn-secondary">Plan SIP Growth →</span>
+            <span className="tool-btn-secondary">Explore SIP Growth →</span>
           </a>
         </div>
       </section>
 
       {/* ====================================================== */}
-      {/* SECTION 3: COMPARE A DECISION (Tier 3 Trade-Off Tools) */}
+      {/* SECTION 3: COMPARE A DECISION */}
       {/* ====================================================== */}
       <section className="hub-section tier-3-section">
         <div className="section-title-wrap">
-          <div className="tier-pill tier-pill-secondary">Compare Your Choices</div>
-          <h2 className="tier-heading">Compare Financial Decisions</h2>
-          <p className="tier-subtext">Understand the financial trade-offs before making a major loan or investment decision.</p>
+          <div className="tier-pill tier-pill-secondary">Compare a Decision</div>
+          <h2 className="tier-heading">Compare a Decision</h2>
+          <p className="tier-subtext">Compare financial choices before you act.</p>
         </div>
 
-        <div className="tools-grid-secondary">
+        <div className="tools-grid-advanced">
           {/* Loan vs Investment */}
           <button 
             type="button" 
@@ -359,7 +359,7 @@ export default function CalculatorsHub() {
             </div>
             <h3 className="tool-title">Loan vs Investment</h3>
             <p className="tool-desc">Evaluate whether you should prepay your loan or invest surplus funds into diversified equity mutual funds.</p>
-            <span className="tool-btn-secondary">Compare Decision →</span>
+            <span className="tool-btn-secondary">Compare My Options →</span>
           </button>
 
           {/* Loan + SIP Recovery Planner */}
@@ -370,33 +370,33 @@ export default function CalculatorsHub() {
             </div>
             <h3 className="tool-title">Loan + SIP Recovery Planner</h3>
             <p className="tool-desc">See how investing a manageable percentage of your EMI into SIP can potentially offset loan interest or complete cost.</p>
-            <span className="tool-btn-secondary">Plan Loan Offset →</span>
+            <span className="tool-btn-secondary">Plan Loan Recovery →</span>
+          </a>
+
+          {/* Home Loan Foreclosure */}
+          <a href="/tools/home-loan-foreclosure" className="tool-card-secondary">
+            <div className="card-top">
+              <span className="tool-icon">🏠</span>
+              <span className="card-badge badge-slate">Foreclosure</span>
+            </div>
+            <h3 className="tool-title">Home Loan Foreclosure Planner</h3>
+            <p className="tool-desc">Model parallel SIP growth alongside EMI to identify exact month when investment corpus overtakes loan balance.</p>
+            <span className="tool-btn-secondary">Plan Loan Foreclosure →</span>
           </a>
         </div>
       </section>
 
       {/* ====================================================== */}
-      {/* SECTION 4: ADVANCED PLANNING (Tier 4 Secondary Tools) */}
+      {/* SECTION 4: ADVANCED PLANNING */}
       {/* ====================================================== */}
       <section id="advanced" className="hub-section tier-4-section">
         <div className="section-title-wrap">
-          <div className="tier-pill tier-pill-tertiary">Go Deeper</div>
-          <h2 className="tier-heading">Advanced Planning Tools</h2>
-          <p className="tier-subtext">Comprehensive suites for detailed scenario analysis, withdrawal simulations, and deep audits.</p>
+          <div className="tier-pill tier-pill-tertiary">Advanced Planning</div>
+          <h2 className="tier-heading">Advanced Planning</h2>
+          <p className="tier-subtext">For deeper financial analysis and planning.</p>
         </div>
 
-        <div className="tools-grid-advanced">
-          {/* Home Loan Foreclosure */}
-          <a href="/tools/home-loan-foreclosure" className="tool-card-advanced">
-            <div className="card-top">
-              <span className="tool-icon">🏠</span>
-              <span className="card-badge badge-quiet">Foreclosure</span>
-            </div>
-            <h3 className="tool-title">Home Loan Foreclosure Planner</h3>
-            <p className="tool-desc">Model parallel SIP growth alongside EMI to identify exact month when investment corpus overtakes loan balance.</p>
-            <span className="tool-btn-quiet">Explore Foreclosure Plan →</span>
-          </a>
-
+        <div className="tools-grid-secondary">
           {/* SWP Longevity */}
           <a href="/tools/swp" className="tool-card-advanced">
             <div className="card-top">
@@ -405,7 +405,7 @@ export default function CalculatorsHub() {
             </div>
             <h3 className="tool-title">SWP Longevity Calculator (Regular Withdrawal Plan)</h3>
             <p className="tool-desc">Plan regular retirement withdrawals (Systematic Withdrawal Plan) with monthly simulations, annual step-ups, and inflation protection.</p>
-            <span className="tool-btn-quiet">Explore Regular Withdrawals →</span>
+            <span className="tool-btn-quiet">Plan Regular Withdrawals →</span>
           </a>
 
           {/* Retirement Distribution */}
@@ -416,7 +416,7 @@ export default function CalculatorsHub() {
             </div>
             <h3 className="tool-title">Retirement Distribution Planner</h3>
             <p className="tool-desc">Structure your post-retirement nest egg across Liquidity (1-3 yrs), Safety (4-7 yrs), and Growth (8+ yrs) buckets.</p>
-            <span className="tool-btn-quiet">Explore Three-Bucket Plan →</span>
+            <span className="tool-btn-quiet">Plan Retirement Income →</span>
           </a>
 
           {/* Detailed Life Insurance Analysis */}
@@ -427,7 +427,7 @@ export default function CalculatorsHub() {
             </div>
             <h3 className="tool-title">Detailed Life Insurance Analysis</h3>
             <p className="tool-desc">In-depth 5-step protection gap audit factoring liabilities, living expenses, future milestone goals, and assets.</p>
-            <span className="tool-btn-quiet">Explore Detailed Audit →</span>
+            <span className="tool-btn-quiet">Audit Protection Need →</span>
           </a>
 
           {/* REAL Financial Statement */}
@@ -438,7 +438,7 @@ export default function CalculatorsHub() {
             </div>
             <h3 className="tool-title">REAL Financial Statement (Complete Money Snapshot)</h3>
             <p className="tool-desc">Audit real income, living costs, ongoing savings rate, and calculate your true net worth position.</p>
-            <span className="tool-btn-quiet">Explore Financial Statement →</span>
+            <span className="tool-btn-quiet">View Financial Statement →</span>
           </a>
         </div>
       </section>

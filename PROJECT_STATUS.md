@@ -1,18 +1,19 @@
 # Ant Wealth Creation — Project Status & Architecture Guide
 
-**Current Version:** `v2.7.0 (Phase 15 — Live QA Findings Resolution, Plain Language & WhatsApp Standardization Across All 18 Calculators Completed)`  
+**Current Version:** `v2.8.0 (Phase 15A — Final End-User Simplification & Information Architecture Redesign Completed)`  
 **Current Date:** August 28, 2026  
 **Repository Branch:** `main` | `AntWealth_2026_08`  
 **Total Pages Compiled:** **31 Static Pages** (`npm run build` output)  
 **Total Unit Tests:** **435+ Automated Unit Tests Across 11 Suites** (`npm test` all passing)  
-**Automated QA Audit:** **100% Passing** (`src/utils/verification_audit.test.mjs`)
+**Automated QA Audit:** **100% Passing** (`src/utils/verification_audit.test.mjs`)  
+**Automated Link Audit:** **100% Passing** (`src/utils/check_all_links.mjs` - 138/138 links valid)
 
 > **Last Updated:** August 28, 2026  
 > **Project Root:** `c:\WORK\Software\Antigravity\AWC_2026_08_23`  
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** Phase 15 Complete • Jargon Elimination (5th-Grade Reading Level) • Standardized Privacy Badges • Standardized WhatsApp Link Format on All 18 Calculators • 31/31 Static Routes Building Cleanly
+> **Status:** Phase 15A Complete • Final End-User Simplification • Single Canonical Starting Point • Navigation Streamlined (5 items + Start Here) • 4-Section Tools Hierarchy • Action-Specific CTAs • 31/31 Static Routes Building Cleanly
 
 ---
 
@@ -959,18 +960,57 @@ npm run preview
 
 ---
 
-## NEXT SESSION — START HERE
+## 8. Phase 15A — Final End-User Simplification & Information Architecture Redesign
 
+### Key Simplifications & Architecture Changes:
+1. **Header & Navigation Streamlined (5 Essential Destinations):**
+   * Primary Nav: `Home` (`/`), `Plan a Goal` (`/plan`), `Tools` (`/tools`), `Learn` (`/learn`), `About` (`/about`).
+   * Primary Action Button: `Start Here` (`/health-check`).
+   * Removed "Contact" from primary header nav (accessible through footer and consultation CTAs).
+
+2. **Homepage Single-Track Journey (Zero Cognitive Overload):**
+   * **Hero:** Clean headline *"Make Better Money Decisions. Build a Better Future."*, supporting text, `Start Here →` (`/health-check`) and `Explore Tools →` (`/tools`).
+   * **Where Would You Like to Start? (Exactly 4 Cards):**
+     1. *Understand My Finances* (`/health-check`, CTA: `Check My Financial Health →`)
+     2. *Plan a Goal* (`/plan`, CTA: `Plan a Goal →`)
+     3. *Grow My Money* (`/tools?calc=sip`, CTA: `Explore Investments →`)
+     4. *Protect My Family* (`/tools?calc=insurance`, CTA: `Check Protection Need →`)
+   * **Removed Duplication:** Removed redundant goal grids, 4-step "New to financial planning?" banners, and 17-tool catalog from homepage. Moved `<FinancialJourney />` (6-stage roadmap) to `/learn`.
+   * **Trust & Meet Santhosh:** Clean credibility pillars + *"Need help understanding your numbers?"* consultation CTA.
+
+3. **Dedicated Goal Planning Destination (`/plan`):**
+   * Heading: *"What would you like to plan? / Choose a goal to get started."*
+   * 7 goal presets with query parameters: `Buy a Home` (`?goal=home`), `Child's Education` (`?goal=education`), `Retirement` (`?goal=retirement`), `Build Long-Term Wealth` (`?goal=wealth`), `Wedding` (`?goal=wedding`), `Buy a Car` (`?goal=car`), `Something Else` (`?goal=custom`).
+
+4. **Financial Planning Tools 4-Section Hierarchy (`/tools`):**
+   * Title: *"Financial Planning Tools"* | Subtitle: *"Simple tools to understand your money, plan your goals and make better financial decisions."*
+   * **Section 1: Start Here (Everyday Tools & Workspace):** Financial Health Check, SIP Calculator, Lumpsum Calculator, Goal Planner, Life Insurance Need Calculator, Net Worth Calculator.
+   * **Section 2: Plan a Goal (Milestone Planners):** Retirement Planner, Home Purchase Planner, Children's Future Planner, SIP Growth Planner.
+   * **Section 3: Compare a Decision (Trade-Offs):** Loan vs Investment, Loan + SIP Recovery Planner, Home Loan Foreclosure Planner.
+   * **Section 4: Advanced Planning (Deeper Analysis, Visually Secondary):** SWP Longevity Calculator, Retirement Distribution Planner, Detailed Life Insurance Analysis, REAL Financial Statement.
+
+5. **Action-Specific CTAs Across All 17 Tools:**
+   * Replaced generic buttons with clear action CTAs: `Calculate My SIP →`, `Calculate Growth →`, `Plan This Goal →`, `Check My Protection Need →`, `Calculate My Net Worth →`, `Plan My Retirement →`, `Plan My Home Purchase →`, `Plan Child's Future →`, `Explore SIP Growth →`, `Compare My Options →`, `Plan Loan Recovery →`, `Plan Loan Foreclosure →`, `Plan Regular Withdrawals →`, `Plan Retirement Income →`, `Audit Protection Need →`, `View Financial Statement →`.
+
+6. **Comprehensive Automated QA Verification:**
+   * `npm test`: All 11 unit test suites (435+ unit tests) pass 100% (0 failures, 0 NaN, 0 Infinity).
+   * `node src/utils/check_all_links.mjs`: All 138 internal links across 61 files audited and 100% valid.
+   * `node src/utils/verification_audit.test.mjs`: All 107 source files audited with 0 prohibited jargon.
+   * `npm run build`: All 31 static routes compile cleanly in 4.39s.
+
+---
+
+## NEXT SESSION — START HERE
 
 > **ATTENTION NEXT AGENT / DEVELOPER:**  
 > **Before writing any code or modifying any file, YOU MUST READ THIS FILE (`PROJECT_STATUS.md`) ENTIRELY.**
 
 ### Recommended Next Steps for the Next Session:
 
-1. **Production Deployment Setup (Hosting & DNS):**
-   - Connect GitHub repository `https://github.com/santhosh144awc/AntWealth_2026_08` to **Cloudflare Pages**, **Vercel**, or **Netlify**.
+1. **Production Deployment (Hosting & Custom Domain):**
+   - Connect GitHub repository `https://github.com/santhosh144awc/AntWealth_2026_08` to **Vercel** / **Cloudflare Pages**.
    - Build settings: Build command: `npm run build`, Output directory: `dist`.
-   - Configure custom domain `https://antwealth.in` and verify SSL certificates.
+   - Verify custom domain `https://antwealth.in` and SSL certificates.
 2. **Analytics Integration:**
    - When provided by Santhosh, insert the Google Analytics 4 (GA4) measurement tag into `src/layouts/BaseLayout.astro`.
 3. **Calendar Integration (Optional):**
