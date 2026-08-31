@@ -1,6 +1,5 @@
 ---
 import { getCollection } from 'astro:content';
-import ArticleCard from './learning/ArticleCard.astro';
 
 let articles: any[] = [];
 try {
@@ -24,7 +23,7 @@ const displayArticles = hasArticles
 ---
 
 <section class="learning-section section-padding">
-  <div class="container">
+  <div class="learning-container">
     <div class="section-header text-center">
       <h2 class="section-title">Learn About Money</h2>
       <p class="section-subtitle">
@@ -33,18 +32,49 @@ const displayArticles = hasArticles
     </div>
 
     {hasArticles ? (
-      <div class="articles-grid">
-        {displayArticles.map((article) => (
-          <ArticleCard
-            title={article.data.title}
-            description={article.data.description}
-            slug={article.slug}
-            category={article.data.category}
-            readingTime={article.data.readingTime}
-            publishDate={article.data.publishDate}
-            featured={article.data.featured}
-          />
-        ))}
+      <div class="learning-shelf-wrapper">
+        <div class="articles-shelf">
+          {displayArticles.map((article) => {
+            const formattedDate = article.data.publishDate 
+              ? new Date(article.data.publishDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })
+              : 'Aug 2026';
+            const readingTime = article.data.readingTime || '5 min read';
+
+            return (
+              <article class={`article-shelf-card ${article.data.featured ? 'article-featured' : ''}`}>
+                <div class="card-content-top">
+                  <div class="badge-row">
+                    <span class="category-pill" title={article.data.category}>{article.data.category}</span>
+                    <span class="reading-time">{readingTime}</span>
+                  </div>
+                  <h3 class="article-title">
+                    <a href={`/learn/${article.slug}`} class="article-link">
+                      {article.data.title}
+                    </a>
+                  </h3>
+                  <p class="article-desc">
+                    {article.data.description}
+                  </p>
+                </div>
+                
+                <div class="card-footer">
+                  <span class="publish-date">{formattedDate}</span>
+                  <a 
+                    href={`/learn/${article.slug}`} 
+                    class="read-more-link"
+                    aria-label={`Read article: ${article.data.title}`}
+                  >
+                    <span>Read Article</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </a>
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </div>
     ) : (
       <div class="empty-state text-center">
@@ -63,38 +93,194 @@ const displayArticles = hasArticles
 
 <style>
   .learning-section {
-    background-color: var(--color-white);
-    padding: 5rem 1.5rem;
+    background-color: var(--color-white, #FFFFFF);
+    padding: 5rem 0;
+    overflow: hidden;
+  }
+
+  .learning-container {
+    width: 100%;
+    max-width: 1380px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 
   .section-header {
     max-width: 680px;
-    margin: 0 auto 3rem;
+    margin: 0 auto 2.5rem;
   }
 
   .section-title {
     font-size: 2.25rem;
     font-weight: 800;
-    color: var(--color-primary-navy);
+    color: var(--color-primary-navy, #00182A);
     line-height: 1.2;
     margin-bottom: 0.75rem;
   }
 
   .section-subtitle {
     font-size: 1.1rem;
-    color: var(--color-slate-text);
+    color: var(--color-slate-text, #64748B);
     line-height: 1.5;
   }
 
-  .articles-grid {
+  .learning-shelf-wrapper {
+    width: 100%;
+    margin-bottom: 2.5rem;
+  }
+
+  /* Desktop: exactly 6 cards in a single horizontal row */
+  .articles-shelf {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin-bottom: 3.5rem;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.875rem;
+    align-items: stretch;
+  }
+
+  .article-shelf-card {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 1.15rem 0.9rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.25s ease;
+    height: 100%;
+    min-height: 310px;
+  }
+
+  .article-shelf-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-growth-teal, #00AB96);
+    box-shadow: 0 10px 24px rgba(0, 24, 42, 0.08);
+  }
+
+  .article-featured {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    border-color: #CBD5E1;
+  }
+
+  .card-content-top {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .badge-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+    min-height: 22px;
+  }
+
+  .category-pill {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-growth-teal, #00AB96);
+    background-color: rgba(0, 171, 150, 0.08);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 65%;
+  }
+
+  .reading-time {
+    font-size: 0.7rem;
+    color: #64748B;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .article-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 0.5rem;
+    color: var(--color-primary-navy, #00182A);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .article-link {
+    color: var(--color-primary-navy, #00182A);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .article-link:hover,
+  .article-shelf-card:hover .article-link {
+    color: var(--color-growth-teal, #00AB96);
+  }
+
+  .article-desc {
+    font-size: 0.8125rem;
+    color: var(--color-slate-text, #64748B);
+    line-height: 1.45;
+    margin-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.625rem;
+    border-top: 1px solid #F1F5F9;
+    margin-top: auto;
+    gap: 0.25rem;
+  }
+
+  .publish-date {
+    font-size: 0.725rem;
+    color: #94A3B8;
+    white-space: nowrap;
+  }
+
+  .read-more-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 0.775rem;
+    font-weight: 700;
+    color: var(--color-primary-navy, #00182A);
+    text-decoration: none;
+    min-height: 44px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .read-more-link:hover,
+  .article-shelf-card:hover .read-more-link {
+    color: var(--color-growth-teal, #00AB96);
+  }
+
+  .read-more-link svg {
+    transition: transform 0.2s ease;
+  }
+
+  .read-more-link:hover svg,
+  .article-shelf-card:hover .read-more-link svg {
+    transform: translateX(2px);
   }
 
   .explore-all-wrap {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
   }
 
   .explore-all-btn {
@@ -104,40 +290,86 @@ const displayArticles = hasArticles
     padding: 0.85rem 2rem;
     font-size: 1rem;
     font-weight: 700;
-    border-radius: var(--radius-lg);
-    border: 2px solid var(--color-primary-navy);
-    color: var(--color-primary-navy);
+    border-radius: var(--radius-lg, 20px);
+    border: 2px solid var(--color-primary-navy, #00182A);
+    color: var(--color-primary-navy, #00182A);
     background-color: transparent;
-    transition: all var(--transition-normal);
+    transition: all var(--transition-normal, 250ms ease);
+    min-height: 48px;
   }
 
   .explore-all-btn:hover {
-    background-color: var(--color-primary-navy);
-    color: var(--color-white);
+    background-color: var(--color-primary-navy, #00182A);
+    color: var(--color-white, #FFFFFF);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(0, 24, 42, 0.12);
   }
 
-  @media (max-width: 1024px) {
-    .articles-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
+  /* Tablet & Mobile Contained Horizontal Shelf */
+  @media (max-width: 1199px) {
+    .learning-shelf-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 0.5rem 0.25rem 1rem;
+    }
+
+    .learning-shelf-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+
+    .articles-shelf {
+      display: flex;
+      gap: 1rem;
+      width: max-content;
+      margin-bottom: 0;
+    }
+
+    .article-shelf-card {
+      flex: 0 0 270px;
+      max-width: 270px;
+      scroll-snap-align: start;
     }
   }
 
-  @media (max-width: 640px) {
-    .articles-grid {
-      grid-template-columns: 1fr;
-      gap: 1.25rem;
-      margin-bottom: 2.5rem;
+  @media (max-width: 768px) {
+    .learning-section {
+      padding: 3.5rem 0;
     }
 
-    .learning-section {
-      padding: 3.5rem 1rem;
+    .section-header {
+      margin-bottom: 2rem;
     }
 
     .section-title {
       font-size: 1.85rem;
+    }
+
+    .learning-container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .learning-shelf-wrapper {
+      margin-left: -1rem;
+      margin-right: -1rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .article-shelf-card {
+      flex: 0 0 280px;
+      max-width: 280px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .article-shelf-card {
+      flex: 0 0 78vw;
+      max-width: 300px;
+      min-width: 250px;
     }
   }
 </style>

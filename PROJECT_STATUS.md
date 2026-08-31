@@ -1,19 +1,21 @@
 # Ant Wealth Creation — Project Status & Architecture Guide
 
-**Current Version:** `v3.2.0 (Phase 15D — Simplified Insurance Tool Restored in Financial Planning Tools)`  
-**Current Date:** August 28, 2026  
+**Current Version:** `v3.4.0 (Phase 16C — Homepage Financial Wellbeing Journey Interactive Stepper & Dynamic Detail Panel)`  
+**Current Date:** August 31, 2026  
 **Repository Branch:** `main` | `AntWealth_2026_08`  
 **Total Pages Compiled:** **33 Static Pages** (`npm run build` output)  
 **Total Unit Tests:** **435+ Automated Unit Tests Across 11 Suites** (`npm test` all passing)  
 **Automated QA Audit:** **100% Passing** (`src/utils/verification_audit.test.mjs`)  
 **Automated Link Audit:** **100% Passing** (`src/utils/check_all_links.mjs` - 133/133 links valid)
 
-> **Last Updated:** August 28, 2026  
+> **Last Updated:** August 31, 2026  
 > **Project Root:** `c:\WORK\Software\Antigravity\AWC_2026_08_23`  
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** Phase 15D Complete • Simplified Insurance Calculator Restored on `/tools?calc=insurance` • Output Result Panel & Equation Breakdown Active • Standalone 5-Step Detailed Protection Audit at `/tools/life-insurance` Preserved • 33/33 Static Routes Building Cleanly
+> **Status:** Phase 16C Complete • Homepage Financial Wellbeing Journey upgraded to accessible Interactive Stepper with Dynamic Detail Panel • 6 Stages with Contextual Focus Areas & 1-Action CTAs • 0px Horizontal Page Overflow • 93/93 E2E QA Checks Passing • 33/33 Static Routes Building Cleanly
+
+
 
 ---
 
@@ -1083,6 +1085,72 @@ npm run preview
 
 ---
 
+## 13. Phase 16B — Homepage Learn Section Single Horizontal Row Shelf & Responsive QA (Completed)
+
+* **Objective:** Redesign the *Learn About Money* section on the homepage (`src/components/LearningSection.astro`) so that the 6 featured articles are presented as a single horizontal learning shelf on desktop (instead of a 3×2 grid), while preserving contained touch-friendly swipeable shelf behavior on mobile and tablet with 0px horizontal page overflow.
+* **Layout & Visual Architecture:**
+  * **Desktop (≥ 1200px / 1440px / 1920px):** Single horizontal row layout (`grid-template-columns: repeat(6, minmax(0, 1fr))`, `gap: 0.875rem`, `max-width: 1380px`). Cards have equal visual height with flex layout (`height: 100%`, `min-height: 310px`).
+  * **Line Clamping & Compact Card Design:**
+    * Article title: 3-line clamp (`-webkit-line-clamp: 3`) with `font-size: 0.95rem` and bold font weight.
+    * Article description: 3-line clamp (`-webkit-line-clamp: 3`) with `font-size: 0.8125rem` and `#64748B` slate text.
+    * Category pill & reading time: Category badge styled in Growth Teal (`rgba(0, 171, 150, 0.08)`) with `max-width: 65%` truncation safety for long category names, paired with subtle `5 min read` time.
+    * Card footer: Published date and `Read Article →` CTA with meaningful `aria-label` and $\ge 44\text{px}$ touch target.
+  * **Tablet & Mobile Contained Swipeable Shelf (< 1200px):**
+    * Horizontal shelf container (`.learning-shelf-wrapper`) with `overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none`.
+    * Mobile bleed layout with edge padding, displaying 1 card + partial next card (`flex: 0 0 78vw; min-width: 250px; max-width: 300px`) at $< 480\text{px}$.
+    * Contained inside section with strictly **0px horizontal page-level overflow**.
+  * **Dynamic Astro Article Collections Preserved:**
+    * Automatically queries `getCollection('articles', ({ data }) => !data.draft)`, sorts featured first and latest publish date, taking the top 6.
+    * New weekly `.md` articles added to `src/content/articles/` automatically appear on the homepage.
+    * Full article directory remains at `/learn` with `Explore All Guides →` CTA button.
+* **Automated QA & Multi-Viewport Verification:**
+  * Created `scratch/test-learn-section-qa.js` testing 7 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1024×768`, `1440×900`, `1920×1080`).
+  * **60/60 QA checks passed (100%)**:
+    * 0px page overflow verified across all 7 resolutions.
+    * All 6 cards verified in a single horizontal row on desktop.
+    * All 6 cards verified for equal visual height (0px height difference).
+    * Contained swipeable shelf verified on tablet and mobile.
+    * All links (`/learn`, `/learn/[slug]`) and aria-labels verified.
+  * Unit tests: **435+ unit tests passing (100%)** (`npm test`).
+  * Link audit: **133/133 links valid (100%)** (`node src/utils/check_all_links.mjs`).
+  * Production compilation: **33/33 static routes compiling cleanly in 3.75s** (`npm run build`).
+
+---
+
+## 14. Phase 16C — Homepage Financial Wellbeing Journey Interactive Stepper (Completed)
+
+* **Objective:** Upgrade the *Your Financial Wellbeing Journey* section on the homepage (`src/components/FinancialJourney.astro`) from a static timeline into an interactive stepper with a dynamic detail panel answering *"Where am I financially, what should I focus on, and what could I do next?"* for Indian families without feeling like an application dashboard.
+* **Layout & Visual Architecture:**
+  * **Structured Data Model (`src/data/financialJourney.ts`):** Centralized strongly-typed model `FINANCIAL_JOURNEY_STAGES` detailing all 6 stages:
+    1. *Starting Out:* First salary / first investment $\to$ Cash flow, emergency buffer, protection, regular investing $\to$ CTA: `Check My Financial Health →` (`/health-check`).
+    2. *Building Stability:* Emergency fund + insurance $\to$ Emergency buffer, essential insurance, debt control, monthly surplus $\to$ CTA: `Check My Financial Health →` (`/health-check`).
+    3. *Growing Wealth:* SIP + long-term investments $\to$ Regular investing, compounding, horizon matching, asset allocation $\to$ CTA: `Explore Investment Tools →` (`/tools?calc=sip`).
+    4. *Protecting Family:* Life + health protection $\to$ Life insurance needs, health cover, liabilities, goal protection $\to$ CTA: `Check Protection Need →` (`/tools?calc=insurance`).
+    5. *Achieving Goals:* Education + home + major goals $\to$ Goal identification, cost estimation, inflation factoring, investment plan $\to$ CTA: `Plan a Goal →` (`/plan`).
+    6. *Financial Freedom:* Retirement + passive income $\to$ Retirement readiness, future income needs, SWP withdrawal planning, periodic review $\to$ CTA: `Plan for Retirement →` (`/tools?calc=retirement`).
+  * **Desktop Stepper (≥ 1024px):** 6 horizontal stage buttons linked by an underlying gradient connecting line. Active stage highlighted with dark navy circular badge (`#00182A`), Growth Teal ring (`#00AB96`), and teal title text.
+  * **Tablet & Mobile Contained Swipeable Shelf (< 1024px):** Horizontal swipeable stage track with scroll-snap and peek affordance, strictly contained with 0px horizontal page overflow.
+  * **Dynamic Detail Panel:** Clean white surface card (`#FFFFFF`, border `#E2E8F0`, rounded corners `16px`) presenting:
+    - Stage badge (`Stage N of 6`) and subtitle.
+    - Introductory educational text.
+    - `What to focus on` checklist with 4 green checkmark items.
+    - Helpful callout tip box (`💡 Tip: ...`).
+    - Exactly 1 contextual action CTA button with $\ge 48\text{px}$ touch target.
+  * **Accessibility & Performance:**
+    - Full WAI-ARIA tab pattern (`role="tablist"`, `role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-controls`, `aria-labelledby`).
+    - Full keyboard arrow key navigation (ArrowLeft, ArrowRight, Home, End).
+    - Reduced motion compliant (`prefers-reduced-motion: reduce`).
+    - Lightweight vanilla client script without third-party runtime overhead.
+* **Automated QA & Multi-Viewport Verification:**
+  * Created `scratch/test-financial-journey-interactive-qa.js` testing all 6 stage transitions, click interactions, keyboard navigation, CTA routing, and 7 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1024×768`, `1440×900`, `1920×1080`).
+  * **93/93 QA checks passed (100%)** with 0 browser console errors.
+  * Unit tests: **435+ unit tests passing (100%)** (`npm test`).
+  * Link audit: **133/133 links valid (100%)** (`node src/utils/check_all_links.mjs`).
+  * Compliance audit: **113 source files audited — 100% compliant** (`node src/utils/verification_audit.test.mjs`).
+  * Production compilation: **33/33 static routes compiling cleanly in 3.78s** (`npm run build`).
+
+---
+
 ## NEXT SESSION — START HERE
 
 > **ATTENTION NEXT AGENT / DEVELOPER:**  
@@ -1100,3 +1168,5 @@ npm run preview
    - When approved by Santhosh, replace dummy entries in `src/data/testimonials.ts` with real client feedback.
 4. **Calendar Integration (Optional):**
    - If an automated calendar scheduling URL (e.g. Cal.com or Calendly) is provided, insert it into `siteConfig.contact.consultationBookingUrl` in `src/data/siteConfig.ts`.
+
+
