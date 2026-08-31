@@ -1,19 +1,20 @@
 # Ant Wealth Creation — Project Status & Architecture Guide
 
-**Current Version:** `v3.5.0 (Phase 16D — Financial Wellbeing Journey UX Simplification to 2-Column Educational Experience)`  
-**Current Date:** August 31, 2026  
+**Current Version:** `v3.6.0 (Phase 16E — Horizontal 1-6 Financial Wellbeing Journey Stepper & 2-Column Educational Info Panel)`  
+**Current Date:** September 1, 2026  
 **Repository Branch:** `main` | `AntWealth_2026_08`  
 **Total Pages Compiled:** **33 Static Pages** (`npm run build` output)  
 **Total Unit Tests:** **435+ Automated Unit Tests Across 11 Suites** (`npm test` all passing)  
 **Automated QA Audit:** **100% Passing** (`src/utils/verification_audit.test.mjs`)  
 **Automated Link Audit:** **100% Passing** (`src/utils/check_all_links.mjs` - 133/133 links valid)
 
-> **Last Updated:** August 31, 2026  
+> **Last Updated:** September 1, 2026  
 > **Project Root:** `c:\WORK\Software\Antigravity\AWC_2026_08_23`  
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** Phase 16D Complete • Homepage Financial Wellbeing Journey redesigned to calm, 2-column educational experience • Left Stage Navigation + Right Educational Detail Card • Strictly ZERO Action CTAs / Buttons • 0px Horizontal Page Overflow • 80/80 E2E QA Checks Passing • 33/33 Static Routes Building Cleanly
+> **Status:** Phase 16E Complete • Homepage Financial Wellbeing Journey redesigned to Horizontal 1-6 Stepper with connecting line & centered 2-Column Educational Info Card • Strictly ZERO Action CTAs / Buttons • 0px Horizontal Page Overflow • 87/87 E2E QA Checks Passing • 33/33 Static Routes Building Cleanly
+
 
 
 
@@ -1184,6 +1185,40 @@ npm run preview
 
 ---
 
+## 16. Phase 16E — Horizontal 1–6 Financial Wellbeing Journey Stepper & 2-Column Educational Info Panel (Completed)
+
+* **Objective:** Redesign the *Your Financial Wellbeing Journey* section on the homepage (`src/components/FinancialJourney.astro`) into the preferred horizontal 1–6 stepper with connecting track line, paired with a centered 2-column educational information card underneath, with strictly zero CTAs/action buttons.
+* **Layout & Visual Architecture:**
+  * **Primary Horizontal Stepper Track (1 → 6):**
+    - Horizontal arrangement across the container width: `①────────②────────③────────④────────⑤────────⑥`.
+    - Underlying linear-gradient connecting line (`height: 3px`, z-index: 1) positioned behind the numbered stage circles.
+    - Numbered circles (`width: 48px`, `height: 48px`, font-size: `1.125rem`, font-weight: `800`) with stage title and short subtitle underneath.
+    - **Active Stage:** Dark navy badge (`#00182A`), Growth Teal outer ring (`#00AB96`), teal title text, bold weight, elevated scale/shadow.
+    - **Inactive Stage:** Crisp white circle, navy/dark number, slate title, muted subtitle, smooth hover effect (`transform: translateY(-2px)`).
+  * **Two-Column Educational Information Card (Below Stepper):**
+    - Centered card (`max-width: 980px`, background `#FFFFFF`, border `#E2E8F0`, rounded `16px`, subtle shadow).
+    - **Left Column:** Stage pill badge (`Stage N of 6`), large stage title (`Outfit`, `1.75rem`), stage subtitle (`#64748B`), and educational overview paragraph.
+    - **Right Column:** `WHAT TO FOCUS ON` section with 4 checkmark items, subtle divider, and `💡 SIMPLE TAKEAWAY` tip box.
+  * **Strict Zero-CTA / Pure Information Guarantee:**
+    - Zero action buttons or links inside the section. The section functions purely to answer *"Where am I in my financial journey?"* and *"What should I focus on?"*.
+  * **Mobile & Tablet Contained Stepper (< 768px):**
+    - Contained horizontal scroll track with smooth scroll-snap and peek affordance.
+    - Information panel displayed underneath as a single-column educational card.
+    - Strictly 0px horizontal page-level overflow.
+  * **Full Accessibility & Keyboard Navigation:**
+    - Full WAI-ARIA tab semantics (`role="tablist"`, `role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-controls`, `aria-labelledby`).
+    - Supports `ArrowRight`, `ArrowLeft`, `ArrowDown`, `ArrowUp`, `Home`, `End`.
+    - Reduced motion compliant (`prefers-reduced-motion: reduce`).
+* **Automated QA & Multi-Viewport Verification:**
+  * Created `scratch/test-financial-journey-interactive-qa.js` testing all 27 requirements across 7 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1024×768`, `1440×900`, `1920×1080`).
+  * **87/87 QA checks passed (100%)** with 0 browser console errors.
+  * Unit tests: **435+ unit tests passing (100%)** (`npm test`).
+  * Link audit: **133/133 links valid (100%)** (`node src/utils/check_all_links.mjs`).
+  * Compliance audit: **113 source files audited — 100% compliant** (`node src/utils/verification_audit.test.mjs`).
+  * Production compilation: **33/33 static routes compiling cleanly in 7.65s** (`npm run build`).
+
+---
+
 ## NEXT SESSION — START HERE
 
 > **ATTENTION NEXT AGENT / DEVELOPER:**  
@@ -1201,6 +1236,7 @@ npm run preview
    - When approved by Santhosh, replace dummy entries in `src/data/testimonials.ts` with real client feedback.
 4. **Calendar Integration (Optional):**
    - If an automated calendar scheduling URL (e.g. Cal.com or Calendly) is provided, insert it into `siteConfig.contact.consultationBookingUrl` in `src/data/siteConfig.ts`.
+
 
 
 
