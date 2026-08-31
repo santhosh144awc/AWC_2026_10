@@ -6,8 +6,6 @@ export interface FinancialJourneyStage {
   introduction: string;
   focusAreas: string[];
   tip: string;
-  actionLabel: string;
-  actionHref: string;
 }
 
 export const FINANCIAL_JOURNEY_STAGES: FinancialJourneyStage[] = [
@@ -16,95 +14,83 @@ export const FINANCIAL_JOURNEY_STAGES: FinancialJourneyStage[] = [
     step: 1,
     title: "Starting Out",
     shortDescription: "First salary / first investment",
-    introduction: "This is the foundation of your financial journey. Start by understanding your cash flow and building good money habits.",
+    introduction: "Your financial journey begins with understanding your income, expenses and basic financial needs.",
     focusAreas: [
-      "Understand your income and monthly expenses",
-      "Start building an emergency fund",
-      "Get appropriate life and health protection",
-      "Start investing regularly"
+      "Understand your monthly cash flow",
+      "Start building an emergency buffer",
+      "Get essential financial protection",
+      "Begin investing regularly"
     ],
-    tip: "Small, consistent steps today can create a strong financial foundation for tomorrow.",
-    actionLabel: "Check My Financial Health →",
-    actionHref: "/health-check"
+    tip: "Start small, build good money habits and give yourself a strong foundation."
   },
   {
     id: 2,
     step: 2,
     title: "Building Stability",
-    shortDescription: "Emergency fund + insurance",
+    shortDescription: "Emergency fund + financial foundation",
     introduction: "Before focusing heavily on wealth creation, make sure your financial foundation can handle unexpected events.",
     focusAreas: [
-      "Build an emergency fund",
-      "Review essential insurance protection",
+      "Build an adequate emergency fund",
       "Keep high-cost debt under control",
-      "Maintain a healthy monthly surplus"
+      "Maintain a healthy monthly surplus",
+      "Review your essential financial protection"
     ],
-    tip: "Financial stability gives you the confidence to invest for the long term.",
-    actionLabel: "Check My Financial Health →",
-    actionHref: "/health-check"
+    tip: "Financial stability gives you the confidence to plan for the long term."
   },
   {
     id: 3,
     step: 3,
-    title: "Growing Wealth",
-    shortDescription: "SIP + long-term investments",
-    introduction: "Once your foundation is stronger, regular investing can help you work towards long-term wealth creation.",
+    title: "Protecting Family",
+    shortDescription: "Life + health protection",
+    introduction: "Protect the people who depend on you and make sure unexpected events do not derail your family's financial goals.",
     focusAreas: [
-      "Invest regularly",
-      "Understand the power of compounding",
-      "Match investments with your time horizon",
-      "Review your asset allocation over time"
+      "Assess your family's life insurance need",
+      "Maintain appropriate health insurance",
+      "Consider major liabilities and responsibilities",
+      "Protect important future financial goals"
     ],
-    tip: "Consistency and time can matter more than trying to find the perfect investment.",
-    actionLabel: "Explore Investment Tools →",
-    actionHref: "/tools?calc=sip"
+    tip: "Protect your family first so your financial plan can withstand life's uncertainties."
   },
   {
     id: 4,
     step: 4,
-    title: "Protecting Family",
-    shortDescription: "Life + health protection",
-    introduction: "As responsibilities grow, protecting your family from financial shocks becomes increasingly important.",
+    title: "Growing Wealth",
+    shortDescription: "SIP + long-term investments",
+    introduction: "Once your financial foundation is in place, regular long-term investing can help your wealth grow over time.",
     focusAreas: [
-      "Review life insurance needs",
-      "Maintain appropriate health insurance",
-      "Consider outstanding liabilities",
-      "Protect important family goals"
+      "Invest regularly",
+      "Give your investments enough time to compound",
+      "Match investments with your time horizon",
+      "Review your asset allocation periodically"
     ],
-    tip: "Protection is about making sure your family's plans can continue even when life does not go as expected.",
-    actionLabel: "Check Protection Need →",
-    actionHref: "/tools?calc=insurance"
+    tip: "Consistency and time can be more powerful than trying to predict the market."
   },
   {
     id: 5,
     step: 5,
     title: "Achieving Goals",
     shortDescription: "Education + home + major goals",
-    introduction: "Major goals become easier to manage when you know what they may cost, when you need the money, and how much you can set aside today.",
+    introduction: "Your investments should have a purpose. Plan for important goals by understanding their future cost and the time available.",
     focusAreas: [
       "Identify important financial goals",
-      "Estimate future costs",
-      "Consider inflation and time horizon",
-      "Create a realistic investment plan"
+      "Estimate the future cost of each goal",
+      "Consider inflation and the time horizon",
+      "Build an investment plan for each goal"
     ],
-    tip: "A clear goal gives your money a purpose.",
-    actionLabel: "Plan a Goal →",
-    actionHref: "/plan"
+    tip: "Turn your important life goals into clear financial targets."
   },
   {
     id: 6,
     step: 6,
     title: "Financial Freedom",
-    shortDescription: "Retirement + passive income",
+    shortDescription: "Retirement + sustainable income",
     introduction: "Financial freedom is about building enough financial resources to support the lifestyle and responsibilities you want over time.",
     focusAreas: [
       "Build retirement readiness",
       "Estimate future income needs",
       "Plan withdrawals carefully",
-      "Continue reviewing your financial plan"
+      "Review your financial plan as life changes"
     ],
-    tip: "Financial freedom is built gradually through planning, saving, investing and disciplined decisions.",
-    actionLabel: "Plan for Retirement →",
-    actionHref: "/tools?calc=retirement"
+    tip: "Financial freedom is built gradually through planning, saving, investing and disciplined decisions."
   }
 ];

@@ -1,6 +1,6 @@
 # Ant Wealth Creation — Project Status & Architecture Guide
 
-**Current Version:** `v3.6.0 (Phase 16E — Horizontal 1-6 Financial Wellbeing Journey Stepper & 2-Column Educational Info Panel)`  
+**Current Version:** `v3.7.0 (Phase 16D — Financial Wellbeing Journey Financially Correct Sequence & UX Refinement)`  
 **Current Date:** September 1, 2026  
 **Repository Branch:** `main` | `AntWealth_2026_08`  
 **Total Pages Compiled:** **33 Static Pages** (`npm run build` output)  
@@ -13,7 +13,8 @@
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** Phase 16E Complete • Homepage Financial Wellbeing Journey redesigned to Horizontal 1-6 Stepper with connecting line & centered 2-Column Educational Info Card • Strictly ZERO Action CTAs / Buttons • 0px Horizontal Page Overflow • 87/87 E2E QA Checks Passing • 33/33 Static Routes Building Cleanly
+> **Status:** Phase 16D Complete • Homepage Financial Wellbeing Journey updated to canonical, financially correct 6-stage sequence (Stage 3 = Protecting Family, Stage 4 = Growing Wealth, Stage 6 = Retirement + sustainable income) • Non-linear educational takeaway note • 0px Horizontal Page Overflow • 103/103 E2E QA Checks Passing • 33/33 Static Routes Building Cleanly
+
 
 
 
@@ -1219,6 +1220,31 @@ npm run preview
 
 ---
 
+## 17. Phase 16D (Refinement) — Financially Correct Stage Sequence & Educational UX Refinement (Completed)
+
+* **Objective:** Refine the *Your Financial Wellbeing Journey* section on the homepage (`src/components/FinancialJourney.astro` and `src/data/financialJourney.ts`) to reflect the financially logical progression of personal finance (Protection precedes aggressive wealth creation) and incorporate a non-linear journey note.
+* **Financially Correct 6-Stage Progression:**
+  1. **Stage 1 — Starting Out:** First salary / first investment $\to$ Monthly cash flow, emergency buffer, essential financial protection, regular investing $\to$ Takeaway: *"Start small, build good money habits and give yourself a strong foundation."*
+  2. **Stage 2 — Building Stability:** Emergency fund + financial foundation $\to$ Adequate emergency fund, high-cost debt control, monthly surplus, essential protection $\to$ Takeaway: *"Financial stability gives you the confidence to plan for the long term."*
+  3. **Stage 3 — Protecting Family:** Life + health protection $\to$ Life insurance need assessment, health insurance, major liabilities, future goal protection $\to$ Takeaway: *"Protect your family first so your financial plan can withstand life's uncertainties."*
+  4. **Stage 4 — Growing Wealth:** SIP + long-term investments $\to$ Regular investing, compounding time, horizon matching, asset allocation review $\to$ Takeaway: *"Consistency and time can be more powerful than trying to predict the market."*
+  5. **Stage 5 — Achieving Goals:** Education + home + major goals $\to$ Goal identification, future cost estimation, inflation & time horizon, goal investment plans $\to$ Takeaway: *"Turn your important life goals into clear financial targets."*
+  6. **Stage 6 — Financial Freedom:** Retirement + sustainable income (avoiding simplistic "passive income" promises) $\to$ Retirement readiness, future income needs, careful withdrawal planning, periodic review $\to$ Takeaway: *"Financial freedom is built gradually through planning, saving, investing and disciplined decisions."*
+* **Key Visual & Content Enhancements:**
+  * Added subtle secondary educational note: *"Your financial journey isn't always linear. Your priorities can change as life changes."*
+  * Preserved horizontal 1–6 stepper with underlying connecting line and numbered badges.
+  * Preserved two-column educational detail panel with zero action CTAs or calculator buttons.
+  * Maintained smooth, contained horizontal track for mobile & tablet ($< 768\text{px}$) with 0px horizontal page overflow.
+* **Automated QA & Multi-Viewport Verification:**
+  * Updated `scratch/test-financial-journey-interactive-qa.js` asserting sequence order, button titles, subtitles, dynamic card contents, keyboard navigation, and 7 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1024×768`, `1440×900`, `1920×1080`).
+  * **103/103 QA checks passed (100%)** with 0 browser console errors.
+  * Unit tests: **435+ unit tests passing (100%)** (`npm test`).
+  * Link audit: **133/133 links valid (100%)** (`node src/utils/check_all_links.mjs`).
+  * Compliance audit: **113 source files audited — 100% compliant** (`node src/utils/verification_audit.test.mjs`).
+  * Production compilation: **33/33 static routes compiling cleanly in 7.52s** (`npm run build`).
+
+---
+
 ## NEXT SESSION — START HERE
 
 > **ATTENTION NEXT AGENT / DEVELOPER:**  
@@ -1236,6 +1262,7 @@ npm run preview
    - When approved by Santhosh, replace dummy entries in `src/data/testimonials.ts` with real client feedback.
 4. **Calendar Integration (Optional):**
    - If an automated calendar scheduling URL (e.g. Cal.com or Calendly) is provided, insert it into `siteConfig.contact.consultationBookingUrl` in `src/data/siteConfig.ts`.
+
 
 
 
