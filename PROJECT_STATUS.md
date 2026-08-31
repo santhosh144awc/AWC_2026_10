@@ -1,6 +1,6 @@
 # Ant Wealth Creation — Project Status & Architecture Guide
 
-**Current Version:** `v3.4.0 (Phase 16C — Homepage Financial Wellbeing Journey Interactive Stepper & Dynamic Detail Panel)`  
+**Current Version:** `v3.5.0 (Phase 16D — Financial Wellbeing Journey UX Simplification to 2-Column Educational Experience)`  
 **Current Date:** August 31, 2026  
 **Repository Branch:** `main` | `AntWealth_2026_08`  
 **Total Pages Compiled:** **33 Static Pages** (`npm run build` output)  
@@ -13,7 +13,8 @@
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** Phase 16C Complete • Homepage Financial Wellbeing Journey upgraded to accessible Interactive Stepper with Dynamic Detail Panel • 6 Stages with Contextual Focus Areas & 1-Action CTAs • 0px Horizontal Page Overflow • 93/93 E2E QA Checks Passing • 33/33 Static Routes Building Cleanly
+> **Status:** Phase 16D Complete • Homepage Financial Wellbeing Journey redesigned to calm, 2-column educational experience • Left Stage Navigation + Right Educational Detail Card • Strictly ZERO Action CTAs / Buttons • 0px Horizontal Page Overflow • 80/80 E2E QA Checks Passing • 33/33 Static Routes Building Cleanly
+
 
 
 
@@ -1151,6 +1152,38 @@ npm run preview
 
 ---
 
+## 15. Phase 16D — Financial Wellbeing Journey UX Simplification (Completed)
+
+* **Objective:** Redesign the *Your Financial Wellbeing Journey* section on the homepage (`src/components/FinancialJourney.astro`) into a pure educational experience, eliminating workspace/calculator feel and removing all action CTAs.
+* **Layout & Visual Architecture:**
+  * **2-Column Desktop Grid (≥ 1024px):**
+    - **Left Column (Navigation, 360px):** Vertical stack of the 6 selectable stage buttons. Active stage features dark navy badge (`#00182A`), Growth Teal ring (`#00AB96`), teal title text, light teal background (`rgba(0, 171, 150, 0.04)`), and right arrow icon.
+    - **Right Column (Educational Detail Card):** Clean white card (`#FFFFFF`, border `#E2E8F0`, rounded `16px`, soft shadow) displaying:
+      - Small stage badge (`Stage N of 6`) and subtitle.
+      - Short educational introduction paragraph.
+      - `What to focus on` section with 4 green checkmark items.
+      - Educational takeaway tip box (`💡 Simple takeaway: ...`).
+  * **Strict Pure Information Rule (Zero CTAs):**
+    - Removed all action buttons (`Check My Financial Health`, `Explore Investment Tools`, `Plan a Goal`, `Plan for Retirement`, `Book a Consultation`).
+    - The section functions solely to educate families on where they are and what to focus on.
+  * **Tablet & Mobile Contained Swipeable Shelf (< 1024px):**
+    - Horizontal swipeable stage track with scroll-snap and peek affordance.
+    - Educational information panel displayed directly underneath.
+    - Strictly 0px horizontal page overflow.
+  * **Full Accessibility & Keyboard Navigation:**
+    - Full WAI-ARIA tab semantics (`role="tablist"`, `role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-controls`, `aria-labelledby`).
+    - Supports `ArrowDown`, `ArrowUp`, `ArrowRight`, `ArrowLeft`, `Home`, `End`.
+    - Reduced motion compliant (`prefers-reduced-motion: reduce`).
+* **Automated QA & Multi-Viewport Verification:**
+  * Created `scratch/test-financial-journey-simple-qa.js` auditing all 6 stage interactions, zero CTA presence, keyboard navigation, and 7 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1024×768`, `1440×900`, `1920×1080`).
+  * **80/80 QA checks passed (100%)** with 0 browser console errors.
+  * Unit tests: **435+ unit tests passing (100%)** (`npm test`).
+  * Link audit: **133/133 links valid (100%)** (`node src/utils/check_all_links.mjs`).
+  * Compliance audit: **113 source files audited — 100% compliant** (`node src/utils/verification_audit.test.mjs`).
+  * Production compilation: **33/33 static routes compiling cleanly in 4.50s** (`npm run build`).
+
+---
+
 ## NEXT SESSION — START HERE
 
 > **ATTENTION NEXT AGENT / DEVELOPER:**  
@@ -1168,5 +1201,6 @@ npm run preview
    - When approved by Santhosh, replace dummy entries in `src/data/testimonials.ts` with real client feedback.
 4. **Calendar Integration (Optional):**
    - If an automated calendar scheduling URL (e.g. Cal.com or Calendly) is provided, insert it into `siteConfig.contact.consultationBookingUrl` in `src/data/siteConfig.ts`.
+
 
 

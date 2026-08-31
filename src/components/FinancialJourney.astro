@@ -7,15 +7,14 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
     <div class="section-header text-center">
       <h2 class="section-title">Your Financial Wellbeing Journey</h2>
       <p class="section-subtitle">
-        Every family moves through different financial stages. Select a stage to see what matters most at that point in your journey.
+        Every family moves through different financial stages. Select a stage to understand what matters most at that point in your journey.
       </p>
     </div>
 
-    <!-- Stepper Navigation Track -->
-    <div class="journey-stepper-wrapper">
-      <div class="timeline-connecting-line" aria-hidden="true"></div>
-
-      <div class="journey-tabs-track" role="tablist" aria-label="Financial Wellbeing Journey Stages">
+    <!-- Two-Column Interactive Journey Experience -->
+    <div class="journey-experience-layout">
+      <!-- Left Column: Stage Navigation Selector -->
+      <div class="journey-nav-col" role="tablist" aria-label="Financial Wellbeing Journey Stages" aria-orientation="vertical">
         {FINANCIAL_JOURNEY_STAGES.map((stage) => {
           const isFirst = stage.id === 1;
           return (
@@ -23,95 +22,85 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
               type="button"
               role="tab"
               id={`journey-tab-${stage.id}`}
-              class={`stage-tab-btn ${isFirst ? 'active' : ''}`}
+              class={`stage-nav-item ${isFirst ? 'active' : ''}`}
               aria-selected={isFirst ? 'true' : 'false'}
               aria-controls={`journey-panel-${stage.id}`}
               tabindex={isFirst ? 0 : -1}
               data-stage-id={stage.id}
             >
-              <div class="stage-badge-container">
-                <span class="stage-number-badge">
-                  {stage.step}
-                </span>
+              <span class="stage-nav-number">{stage.step}</span>
+              <div class="stage-nav-text">
+                <span class="stage-nav-title">{stage.title}</span>
+                <span class="stage-nav-desc">{stage.shortDescription}</span>
               </div>
-              <div class="stage-label-wrap">
-                <span class="stage-tab-title">{stage.title}</span>
-                <span class="stage-tab-desc">{stage.shortDescription}</span>
-              </div>
+              <span class="stage-nav-arrow" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </span>
             </button>
           );
         })}
       </div>
-    </div>
 
-    <!-- Dynamic Detail Panels -->
-    <div class="journey-panels-container">
-      {FINANCIAL_JOURNEY_STAGES.map((stage) => {
-        const isFirst = stage.id === 1;
-        return (
-          <div
-            id={`journey-panel-${stage.id}`}
-            role="tabpanel"
-            aria-labelledby={`journey-tab-${stage.id}`}
-            class={`journey-detail-panel ${isFirst ? 'active' : ''}`}
-            hidden={!isFirst}
-          >
-            <!-- Panel Header -->
-            <div class="panel-header">
-              <div class="panel-title-group">
-                <span class="panel-stage-badge">Stage {stage.step} of 6</span>
-                <h3 class="panel-title">{stage.title}</h3>
-                <p class="panel-focus">{stage.shortDescription}</p>
+      <!-- Right Column: Educational Information Panel -->
+      <div class="journey-info-col">
+        {FINANCIAL_JOURNEY_STAGES.map((stage) => {
+          const isFirst = stage.id === 1;
+          return (
+            <div
+              id={`journey-panel-${stage.id}`}
+              role="tabpanel"
+              aria-labelledby={`journey-tab-${stage.id}`}
+              class={`journey-info-card ${isFirst ? 'active' : ''}`}
+              hidden={!isFirst}
+            >
+              <!-- Panel Header -->
+              <div class="info-card-header">
+                <span class="info-stage-badge">Stage {stage.step} of 6</span>
+                <h3 class="info-stage-title">{stage.title}</h3>
+                <p class="info-stage-sub">{stage.shortDescription}</p>
+              </div>
+
+              <!-- Educational Introduction -->
+              <p class="info-intro-text">{stage.introduction}</p>
+
+              <!-- Focus Areas Checklist -->
+              <div class="info-focus-section">
+                <h4 class="info-focus-heading">What to focus on</h4>
+                <ul class="info-focus-list" role="list">
+                  {stage.focusAreas.map((area) => (
+                    <li class="info-focus-item">
+                      <span class="info-check-icon" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
+                      <span class="info-focus-label">{area}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <!-- Simple Takeaway / Tip -->
+              <div class="info-takeaway-box">
+                <span class="takeaway-icon" aria-hidden="true">💡</span>
+                <p class="takeaway-text">
+                  <strong>Simple takeaway:</strong> {stage.tip}
+                </p>
               </div>
             </div>
-
-            <!-- Introduction -->
-            <p class="panel-intro">{stage.introduction}</p>
-
-            <!-- Focus Areas Checklist -->
-            <div class="focus-areas-block">
-              <h4 class="focus-heading">What to focus on</h4>
-              <ul class="focus-list" role="list">
-                {stage.focusAreas.map((area) => (
-                  <li class="focus-item">
-                    <span class="check-icon" aria-hidden="true">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </span>
-                    <span class="focus-text">{area}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <!-- Tip Callout -->
-            <div class="panel-tip-box">
-              <span class="tip-icon" aria-hidden="true">💡</span>
-              <p class="tip-text">
-                <strong>Tip:</strong> {stage.tip}
-              </p>
-            </div>
-
-            <!-- Contextual Single CTA -->
-            {stage.actionLabel && stage.actionHref && (
-              <div class="panel-action-wrap">
-                <a href={stage.actionHref} class="btn-journey-action">
-                  <span>{stage.actionLabel}</span>
-                </a>
-              </div>
-            )}
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   </div>
 </section>
 
 <script>
   function initFinancialJourneyStepper() {
-    const tabButtons = document.querySelectorAll<HTMLButtonElement>('.journey-tabs-track .stage-tab-btn');
-    const panels = document.querySelectorAll<HTMLElement>('.journey-detail-panel');
+    const tabButtons = document.querySelectorAll<HTMLButtonElement>('.journey-nav-col .stage-nav-item');
+    const panels = document.querySelectorAll<HTMLElement>('.journey-info-card');
 
     if (!tabButtons.length || !panels.length) return;
 
@@ -129,10 +118,7 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
         const isActive = id === stageId;
         if (isActive) {
           panel.hidden = false;
-          // small RAF delay to trigger CSS transition smoothly
-          requestAnimationFrame(() => {
-            panel.classList.add('active');
-          });
+          panel.classList.add('active');
         } else {
           panel.classList.remove('active');
           panel.hidden = true;
@@ -140,21 +126,19 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
       });
     }
 
-    // Click event on tabs
     tabButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
         const stageId = Number(btn.getAttribute('data-stage-id'));
         activateStage(stageId);
       });
 
-      // Keyboard navigation (Arrow keys, Home, End)
       btn.addEventListener('keydown', (e) => {
         const currentIndex = Array.from(tabButtons).indexOf(btn);
         let targetIndex = -1;
 
-        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
           targetIndex = (currentIndex + 1) % tabButtons.length;
-        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
           targetIndex = (currentIndex - 1 + tabButtons.length) % tabButtons.length;
         } else if (e.key === 'Home') {
           targetIndex = 0;
@@ -173,7 +157,6 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
     });
   }
 
-  // Run on initial load and handle Astro page transitions
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initFinancialJourneyStepper);
   } else {
@@ -187,12 +170,13 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
     background-color: #F8FAFC;
     border-top: 1px solid #E2E8F0;
     border-bottom: 1px solid #E2E8F0;
-    padding: 5rem 0;
+    padding: 4.5rem 0;
+    overflow: hidden;
   }
 
   .section-header {
-    max-width: 680px;
-    margin: 0 auto 3rem;
+    max-width: 720px;
+    margin: 0 auto 2.75rem;
   }
 
   .section-title {
@@ -204,360 +188,340 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
   }
 
   .section-subtitle {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: var(--color-slate-text, #334155);
     line-height: 1.5;
   }
 
-  /* Stepper Container & Track */
-  .journey-stepper-wrapper {
-    position: relative;
-    margin-bottom: 2.5rem;
-  }
-
-  .timeline-connecting-line {
-    position: absolute;
-    top: 26px;
-    left: 8%;
-    right: 8%;
-    height: 3px;
-    background: linear-gradient(90deg, #CBD5E1 0%, #00AB96 50%, #CBD5E1 100%);
-    z-index: 1;
-    opacity: 0.6;
-  }
-
-  .journey-tabs-track {
+  /* Two-Column Desktop Layout */
+  .journey-experience-layout {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 1rem;
-    position: relative;
-    z-index: 2;
+    grid-template-columns: 360px 1fr;
+    gap: 2rem;
+    align-items: stretch;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
   }
 
-  .stage-tab-btn {
+  /* Left Navigation Column */
+  .journey-nav-col {
     display: flex;
     flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .stage-nav-item {
+    display: flex;
     align-items: center;
-    text-align: center;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem 0.25rem;
+    gap: 0.875rem;
+    width: 100%;
+    text-align: left;
+    padding: 0.9rem 1.15rem;
+    background: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
     border-radius: 12px;
     transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
     outline: none;
   }
 
-  .stage-tab-btn:focus-visible {
+  .stage-nav-item:focus-visible {
     outline: 2px solid var(--color-growth-teal, #00AB96);
-    outline-offset: 4px;
+    outline-offset: 2px;
   }
 
-  .stage-badge-container {
-    position: relative;
-    margin-bottom: 0.75rem;
+  .stage-nav-item:hover {
+    border-color: #CBD5E1;
+    background: #FFFFFF;
+    transform: translateX(3px);
+    box-shadow: 0 4px 12px rgba(0, 24, 42, 0.04);
   }
 
-  .stage-number-badge {
-    width: 52px;
-    height: 52px;
+  .stage-nav-number {
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background-color: #FFFFFF;
-    color: var(--color-primary-navy, #00182A);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 0.95rem;
     font-weight: 800;
     font-family: var(--font-heading, 'Outfit', sans-serif);
-    box-shadow: 0 2px 8px rgba(0, 24, 42, 0.08);
-    border: 3px solid #E2E8F0;
-    transition: all 0.25s ease;
+    flex-shrink: 0;
+    background: #F1F5F9;
+    color: var(--color-primary-navy, #00182A);
+    border: 2px solid #E2E8F0;
+    transition: all 0.2s ease;
   }
 
-  .stage-tab-btn:hover .stage-number-badge {
-    border-color: var(--color-growth-teal, #00AB96);
-    color: var(--color-growth-teal, #00AB96);
-    transform: translateY(-2px);
-  }
-
-  /* Active Stepper Tab */
-  .stage-tab-btn.active .stage-number-badge {
-    background-color: var(--color-primary-navy, #00182A);
-    color: #FFFFFF;
-    border-color: var(--color-growth-teal, #00AB96);
-    box-shadow: 0 0 0 4px rgba(0, 171, 150, 0.2), 0 8px 16px rgba(0, 24, 42, 0.15);
-    transform: scale(1.08);
-  }
-
-  .stage-label-wrap {
+  .stage-nav-text {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 0.2rem;
+    gap: 0.15rem;
+    flex-grow: 1;
+    min-width: 0;
   }
 
-  .stage-tab-title {
+  .stage-nav-title {
     font-family: var(--font-heading, 'Outfit', sans-serif);
-    font-size: 0.975rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: var(--color-primary-navy, #00182A);
     line-height: 1.25;
     transition: color 0.2s ease;
   }
 
-  .stage-tab-btn.active .stage-tab-title {
+  .stage-nav-desc {
+    font-size: 0.775rem;
+    color: var(--color-slate-muted, #64748B);
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .stage-nav-arrow {
+    color: #94A3B8;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    opacity: 0.4;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Active Stage Nav Item */
+  .stage-nav-item.active {
+    border-color: var(--color-growth-teal, #00AB96);
+    background: rgba(0, 171, 150, 0.04);
+    box-shadow: 0 4px 16px rgba(0, 171, 150, 0.1);
+  }
+
+  .stage-nav-item.active .stage-nav-number {
+    background: var(--color-primary-navy, #00182A);
+    color: #FFFFFF;
+    border-color: var(--color-growth-teal, #00AB96);
+    box-shadow: 0 0 0 3px rgba(0, 171, 150, 0.2);
+  }
+
+  .stage-nav-item.active .stage-nav-title {
     color: var(--color-growth-teal, #00AB96);
   }
 
-  .stage-tab-desc {
-    font-size: 0.775rem;
-    font-weight: 500;
-    color: var(--color-slate-muted, #64748B);
-    line-height: 1.35;
-    max-width: 150px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  .stage-nav-item.active .stage-nav-arrow {
+    color: var(--color-growth-teal, #00AB96);
+    transform: translateX(2px);
+    opacity: 1;
   }
 
-  /* Detail Panel Container */
-  .journey-panels-container {
-    max-width: 860px;
-    margin: 0 auto;
+  /* Right Information Column */
+  .journey-info-col {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-width: 0;
   }
 
-  .journey-detail-panel {
-    background-color: #FFFFFF;
+  .journey-info-card {
+    display: none;
+    background: #FFFFFF;
     border: 1px solid #E2E8F0;
     border-radius: 16px;
-    padding: 2.25rem 2.5rem;
-    box-shadow: 0 10px 30px -5px rgba(0, 24, 42, 0.06), 0 4px 12px -2px rgba(0, 24, 42, 0.03);
+    padding: 2rem 2.25rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 24, 42, 0.05), 0 4px 10px -2px rgba(0, 24, 42, 0.02);
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
     opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 0.22s ease, transform 0.22s ease;
+    transform: translateY(4px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
   }
 
-  .journey-detail-panel.active {
+  .journey-info-card.active {
+    display: flex;
     opacity: 1;
     transform: translateY(0);
   }
 
-  .panel-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 1.25rem;
-    padding-bottom: 1.25rem;
+  .journey-info-card[hidden] {
+    display: none !important;
+  }
+
+  .info-card-header {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
     border-bottom: 1px solid #F1F5F9;
   }
 
-  .panel-title-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-  }
-
-  .panel-stage-badge {
-    align-self: flex-start;
+  .info-stage-badge {
     font-size: 0.75rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--color-growth-teal, #00AB96);
-    background-color: rgba(0, 171, 150, 0.08);
+    background: rgba(0, 171, 150, 0.08);
     padding: 0.25rem 0.65rem;
     border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 0.5rem;
   }
 
-  .panel-title {
-    font-size: 1.65rem;
+  .info-stage-title {
+    font-size: 1.6rem;
     font-weight: 800;
     color: var(--color-primary-navy, #00182A);
     line-height: 1.2;
+    margin-bottom: 0.25rem;
   }
 
-  .panel-focus {
-    font-size: 0.95rem;
+  .info-stage-sub {
+    font-size: 0.925rem;
     font-weight: 600;
     color: var(--color-slate-muted, #64748B);
   }
 
-  .panel-intro {
-    font-size: 1.05rem;
+  .info-intro-text {
+    font-size: 0.975rem;
     color: var(--color-slate-text, #334155);
     line-height: 1.6;
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.25rem;
   }
 
-  /* Focus Areas Checklist */
-  .focus-areas-block {
-    background-color: #F8FAFC;
+  /* What to Focus On */
+  .info-focus-section {
+    background: #F8FAFC;
     border: 1px solid #E2E8F0;
     border-radius: 12px;
-    padding: 1.5rem 1.75rem;
-    margin-bottom: 1.5rem;
+    padding: 1.15rem 1.35rem;
+    margin-bottom: 1.25rem;
   }
 
-  .focus-heading {
-    font-size: 1rem;
+  .info-focus-heading {
+    font-size: 0.825rem;
     font-weight: 800;
     color: var(--color-primary-navy, #00182A);
-    margin-bottom: 1rem;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.75rem;
   }
 
-  .focus-list {
+  .info-focus-list {
     list-style: none;
     padding: 0;
     margin: 0;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.85rem 1.5rem;
+    gap: 0.65rem 1rem;
   }
 
-  .focus-item {
+  .info-focus-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .info-check-icon {
+    color: var(--color-growth-teal, #00AB96);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .info-focus-label {
+    font-size: 0.875rem;
+    color: var(--color-primary-navy, #00182A);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  /* Simple Takeaway Box */
+  .info-takeaway-box {
     display: flex;
     align-items: flex-start;
     gap: 0.65rem;
-  }
-
-  .check-icon {
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-growth-teal, #00AB96);
-    margin-top: 2px;
-  }
-
-  .focus-text {
-    font-size: 0.925rem;
-    color: var(--color-primary-navy, #00182A);
-    font-weight: 600;
-    line-height: 1.45;
-  }
-
-  /* Tip Callout */
-  .panel-tip-box {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
     background: rgba(0, 171, 150, 0.06);
     border-left: 3px solid var(--color-growth-teal, #00AB96);
     border-radius: 0 8px 8px 0;
-    padding: 1rem 1.25rem;
-    margin-bottom: 2rem;
+    padding: 0.85rem 1.15rem;
+    margin-top: auto;
   }
 
-  .tip-icon {
-    font-size: 1.15rem;
+  .takeaway-icon {
+    font-size: 1.1rem;
     line-height: 1;
     flex-shrink: 0;
   }
 
-  .tip-text {
-    font-size: 0.925rem;
+  .takeaway-text {
+    font-size: 0.875rem;
     color: var(--color-slate-text, #334155);
     line-height: 1.5;
     margin: 0;
   }
 
-  .tip-text strong {
+  .takeaway-text strong {
     color: var(--color-primary-navy, #00182A);
-  }
-
-  /* Action CTA */
-  .panel-action-wrap {
-    display: flex;
-    justify-content: flex-start;
-  }
-
-  .btn-journey-action {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.85rem 2rem;
-    font-size: 1rem;
-    font-weight: 700;
-    border-radius: var(--radius-lg, 20px);
-    background-color: var(--color-primary-navy, #00182A);
-    color: #FFFFFF;
-    text-decoration: none;
-    transition: all 0.25s ease;
-    min-height: 48px;
-    box-shadow: 0 4px 12px rgba(0, 24, 42, 0.12);
-  }
-
-  .btn-journey-action:hover {
-    background-color: var(--color-growth-teal, #00AB96);
-    color: #FFFFFF;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 171, 150, 0.25);
   }
 
   /* Reduced Motion */
   @media (prefers-reduced-motion: reduce) {
-    .stage-number-badge,
-    .journey-detail-panel,
-    .btn-journey-action {
+    .stage-nav-item,
+    .stage-nav-number,
+    .journey-info-card {
       transition: none !important;
       transform: none !important;
     }
   }
 
-  /* Responsive Styling */
-  @media (max-width: 1024px) {
-    .focus-list {
+  /* Tablet & Mobile Responsive */
+  @media (max-width: 1023px) {
+    .journey-experience-layout {
       grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .journey-nav-col {
+      flex-direction: row;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      margin-left: -1rem;
+      margin-right: -1rem;
+      padding: 0.25rem 1rem 0.75rem 1rem;
       gap: 0.75rem;
     }
 
-    .journey-stepper-wrapper {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      padding: 0.5rem 0.25rem 1rem;
-      margin-left: -1rem;
-      margin-right: -1rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
-
-    .journey-stepper-wrapper::-webkit-scrollbar {
+    .journey-nav-col::-webkit-scrollbar {
       display: none;
     }
 
-    .timeline-connecting-line {
-      display: none;
-    }
-
-    .journey-tabs-track {
-      display: flex;
-      gap: 0.875rem;
-      width: max-content;
-    }
-
-    .stage-tab-btn {
-      flex: 0 0 170px;
-      max-width: 170px;
+    .stage-nav-item {
+      flex: 0 0 190px;
+      max-width: 190px;
       scroll-snap-align: start;
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      padding: 1rem 0.75rem;
-      border-radius: 14px;
-      box-shadow: 0 2px 6px rgba(0, 24, 42, 0.04);
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.6rem;
+      padding: 1rem 0.85rem;
     }
 
-    .stage-tab-btn.active {
-      border-color: var(--color-growth-teal, #00AB96);
-      box-shadow: 0 4px 14px rgba(0, 171, 150, 0.12);
+    .stage-nav-arrow {
+      display: none;
+    }
+
+    .stage-nav-desc {
+      white-space: normal;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .info-focus-list {
+      grid-template-columns: 1fr;
+      gap: 0.65rem;
     }
   }
 
@@ -574,26 +538,17 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
       font-size: 1.85rem;
     }
 
-    .journey-detail-panel {
+    .journey-info-card {
       padding: 1.5rem 1.25rem;
       border-radius: 14px;
     }
 
-    .panel-title {
-      font-size: 1.4rem;
+    .info-stage-title {
+      font-size: 1.35rem;
     }
 
-    .focus-areas-block {
-      padding: 1.25rem 1rem;
-    }
-
-    .panel-action-wrap {
-      width: 100%;
-    }
-
-    .btn-journey-action {
-      width: 100%;
-      justify-content: center;
+    .info-focus-section {
+      padding: 1rem 1.15rem;
     }
   }
 </style>
