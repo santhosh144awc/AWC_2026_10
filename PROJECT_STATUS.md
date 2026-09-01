@@ -1,6 +1,6 @@
 # Ant Wealth Creation — Project Status & Architecture Guide
 
-**Current Version:** `v3.8.0 (Phase 16E — Financial Wellbeing Journey Hidden Detail Panel & Smooth Reveal Interaction Refinement)`  
+**Current Version:** `v3.9.0 (Phase 16F — Financial Wellbeing Journey Hover Preview, Click-to-Pin & Silky Smooth Exit Refinement)`  
 **Current Date:** September 1, 2026  
 **Repository Branch:** `main` | `AntWealth_2026_08`  
 **Total Pages Compiled:** **33 Static Pages** (`npm run build` output)  
@@ -13,7 +13,7 @@
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** Phase 16E Complete • Financial Wellbeing Journey updated to Hidden Detail Panel by Default • Timeline-Only clean initial state (0px blank space) • Smooth CSS Grid 0fr → 1fr animated disclosure reveal • Toggle-close on re-clicking active stage • Zero layout jump on stage switching • WAI-ARIA & full keyboard navigation • 0px Horizontal Page Overflow across 7 viewports • 69/69 E2E Interaction QA Checks Passing • 33/33 Static Routes Building Cleanly
+> **Status:** Phase 16F Complete • Financial Wellbeing Journey enhanced with Hover-to-Preview + Click-to-Pin • 150ms graceful exit buffer • 400ms silky cubic-bezier fade & slide hide transition • Seamless reading inside disclosure panel • Tap-to-toggle on mobile & touchscreens • 0px Horizontal Page Overflow across 7 viewports • 62/62 E2E Interaction QA Checks Passing • 33/33 Static Routes Building Cleanly
 
 
 
@@ -1220,37 +1220,34 @@ npm run preview
 
 ---
 
-## 18. Phase 16E — Financial Wellbeing Journey Hidden Detail Panel & Smooth Reveal (Completed)
+## 18. Phase 16F — Financial Wellbeing Journey Hover Preview, Click-to-Pin & Smooth Hide (Completed)
 
-* **Objective:** Refine the *Your Financial Wellbeing Journey* section on the homepage (`src/components/FinancialJourney.astro`) so that the information panel is completely hidden by default (leaving only the 6-stage horizontal timeline with zero empty reserved space), smoothly reveals on stage selection, smoothly switches content without closing/reopening, and toggles closed on re-clicking the active stage.
+* **Objective:** Upgrade the *Your Financial Wellbeing Journey* section on the homepage (`src/components/FinancialJourney.astro`) to support intuitive mouse hover preview (revealing the stage information immediately on hover and smoothly hiding on mouse leave), click-to-pin locking (keeping the stage open when clicked so users can comfortably read or move mouse away), a 150ms graceful cursor exit buffer, and a silky 400ms cubic-bezier hide transition without abrupt cutoffs.
 * **Key Visual & Interaction Enhancements:**
-  1. **Initial State (Timeline-Only Hero):**
-     - No stage selected by default.
-     - Section collapses naturally to the height of the timeline and non-linear journey note.
-     - Disclosure container has `grid-template-rows: 0fr`, `opacity: 0`, and strictly `0px` computed height with zero empty gap.
-  2. **Smooth Reveal Animation:**
-     - On stage selection (e.g. clicking Stage 3), the disclosure wrapper smoothly expands (`grid-template-rows: 0fr → 1fr`, `opacity: 0 → 1`, `margin-top: 2rem`) with cubic-bezier timing (`300ms`).
-     - Card content animates with subtle elevation (`opacity: 0 → 1`, `transform: translateY(-8px) → translateY(0)`).
-  3. **Seamless Stage Switching (No Layout Jumps):**
-     - When switching between stages (e.g. Stage 2 $\to$ Stage 5), the panel remains open in place and replaces the card content smoothly without closing or bouncing.
-  4. **Toggle-Close on Re-Clicking Active Stage:**
-     - Clicking the currently active stage button smoothly closes the panel (`grid-template-rows: 1fr → 0fr`), resets button states to inactive (`aria-selected="false"`), and returns to the clean timeline-only state.
-  5. **Strict Zero-CTA / Pure Information Guarantee:**
-     - Detail card remains 100% pure educational content (Stage Title, Subtitle, Overview, 4 Focus Checklist items, Simple Takeaway box) with zero competing action buttons or calculator links.
+  1. **Hover to Preview:**
+     - Moving the mouse over any stage circle (1–6) instantly and smoothly expands the disclosure panel underneath.
+     - Hovering from one circle to another smoothly crossfades the detail content without closing/reopening.
+  2. **150ms Graceful Exit Buffer:**
+     - Moving the cursor off a circle initiates a 150ms grace period. If the user moves downward into the detail card to read the checklist or takeaway, the panel stays open seamlessly.
+  3. **Click to Pin / Lock Open:**
+     - Clicking any stage number locks/pins that stage open (`is-pinned`), so moving the mouse away anywhere on the page leaves the panel open.
+     - Clicking the pinned stage again unpins and smoothly closes it.
+  4. **Silky 400ms Cubic-Bezier Hide Transition:**
+     - Solved the abrupt cut-out issue by eliminating instant `display: none` removal during exit animations.
+     - The disclosure wrapper smoothly collapses with fluid cubic-bezier easing (`cubic-bezier(0.25, 1, 0.5, 1)` ~400ms) with gentle upward slide (`translateY(0) → translateY(-8px)`) and opacity fade-out before cleaning up layout state.
+  5. **Mobile & Touchscreen Friendly:**
+     - Smartphones and tablets use tap-to-pin / tap-again-to-unpin, preserving optimal usability with zero hover glitches.
   6. **Accessibility & Keyboard Navigation:**
      - Preserved WAI-ARIA tab semantics (`role="tablist"`, `role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-expanded`, `aria-controls`, `aria-labelledby`, `aria-hidden`).
-     - Full keyboard navigation: `ArrowRight` / `ArrowDown` (next stage), `ArrowLeft` / `ArrowUp` (prev stage), `Home` (Stage 1), `End` (Stage 6), `Enter` / `Space` (toggles open/closed).
+     - Full keyboard navigation: `ArrowRight` / `ArrowDown` (next stage), `ArrowLeft` / `ArrowUp` (prev stage), `Home` (Stage 1), `End` (Stage 6), `Enter` / `Space` (toggles pinned state).
      - Reduced motion compliant (`prefers-reduced-motion: reduce`).
-  7. **Mobile & Tablet Contained Stepper (< 768px):**
-     - Swipeable horizontal track with peek affordance and scroll-snap.
-     - Single-column responsive card underneath with zero horizontal page overflow.
 * **Automated QA & Multi-Viewport Verification:**
-  * Created `scratch/test-financial-journey-interaction-qa.js` testing initial hidden state, stage selection, smooth reveal, re-click toggle close, keyboard navigation, zero-CTA audit, and 7 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1024×768`, `1440×900`, `1920×1080`).
-  * **69/69 QA checks passed (100%)** with 0 browser console errors.
+  * Created `scratch/test-financial-journey-interaction-qa.js` testing initial hidden state, hover preview, mouse-leave exit buffer, click-to-pin, unpin toggle close, keyboard navigation, zero-CTA audit, and 7 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1024×768`, `1440×900`, `1920×1080`).
+  * **62/62 QA checks passed (100%)** with 0 browser console errors.
   * Unit tests: **435+ unit tests passing (100%)** across 11 test suites (`npm test`).
   * Link audit: **133/133 links valid (100%)** (`node src/utils/check_all_links.mjs`).
   * Compliance audit: **113 source files audited — 100% compliant** (`node src/utils/verification_audit.test.mjs`).
-  * Production compilation: **33/33 static routes compiling cleanly in 4.56s** (`npm run build`).
+  * Production compilation: **33/33 static routes compiling cleanly in 8.23s** (`npm run build`).
 
 ---
 

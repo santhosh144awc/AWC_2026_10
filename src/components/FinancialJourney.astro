@@ -7,7 +7,7 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
     <div class="section-header text-center">
       <h2 class="section-title">Your Financial Wellbeing Journey</h2>
       <p class="section-subtitle">
-        Every family moves through different financial stages. Select a stage to understand what matters most at that point in your journey.
+        Every family moves through different financial stages. Select or hover over a stage to understand what matters most at that point in your journey.
       </p>
     </div>
 
@@ -107,34 +107,39 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
 
     if (!tabButtons.length || !panels.length || !disclosureWrapper) return;
 
-    let activeStageId: number | null = null;
-    let closeTimeout: number | undefined;
+    let pinnedStageId: number | null = null;
+    let hoveredStageId: number | null = null;
+    let currentVisibleStageId: number | null = null;
+    let exitTimer: number | undefined;
+    let closeCleanupTimer: number | undefined;
 
-    function openStage(stageId: number) {
-      if (closeTimeout) {
-        clearTimeout(closeTimeout);
-        closeTimeout = undefined;
+    function renderStage(stageId: number) {
+      if (closeCleanupTimer) {
+        clearTimeout(closeCleanupTimer);
+        closeCleanupTimer = undefined;
       }
 
-      activeStageId = stageId;
+      currentVisibleStageId = stageId;
 
-      // Update button states
+      // Update button visual & accessibility states
       tabButtons.forEach((btn) => {
         const id = Number(btn.getAttribute('data-stage-id'));
         const isActive = id === stageId;
+        const isPinned = id === pinnedStageId;
         btn.classList.toggle('active', isActive);
+        btn.classList.toggle('is-pinned', isPinned);
         btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
         btn.setAttribute('aria-expanded', isActive ? 'true' : 'false');
         btn.tabIndex = isActive ? 0 : -1;
       });
 
-      // Update panel states
+      // Update panels with smooth transitions
       panels.forEach((panel) => {
         const id = Number(panel.id.replace('journey-panel-', ''));
-        const isActive = id === stageId;
-        if (isActive) {
+        const isTarget = id === stageId;
+        if (isTarget) {
           panel.hidden = false;
-          // Trigger reflow for smooth opacity/transform transition
+          // Force layout reflow before adding active class for silky transition
           void panel.offsetWidth;
           panel.classList.add('active');
         } else {
@@ -143,53 +148,100 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
         }
       });
 
-      // Open disclosure wrapper
+      // Open disclosure wrapper with smooth cubic-bezier transition
       disclosureWrapper.classList.add('is-open');
       disclosureWrapper.setAttribute('aria-hidden', 'false');
     }
 
-    function closeStage() {
-      activeStageId = null;
+    function hidePanel() {
+      currentVisibleStageId = null;
 
       // Reset button states
       tabButtons.forEach((btn, idx) => {
         btn.classList.remove('active');
+        btn.classList.remove('is-pinned');
         btn.setAttribute('aria-selected', 'false');
         btn.setAttribute('aria-expanded', 'false');
         btn.tabIndex = idx === 0 ? 0 : -1;
       });
 
-      // Start panel fade out
-      panels.forEach((panel) => {
-        panel.classList.remove('active');
-      });
-
-      // Close disclosure wrapper
+      // Smoothly close disclosure wrapper (fade + upward slide + height shrink)
       disclosureWrapper.classList.remove('is-open');
       disclosureWrapper.setAttribute('aria-hidden', 'true');
 
-      // Set hidden after transition completes
-      closeTimeout = window.setTimeout(() => {
-        if (activeStageId === null) {
+      // Allow the 400ms transition to play out fully before setting hidden
+      closeCleanupTimer = window.setTimeout(() => {
+        if (currentVisibleStageId === null) {
           panels.forEach((panel) => {
+            panel.classList.remove('active');
             panel.hidden = true;
           });
         }
-      }, 300);
+      }, 400);
     }
 
-    function toggleStage(stageId: number) {
-      if (activeStageId === stageId) {
-        closeStage();
+    function updateDisplay() {
+      const targetStageId = hoveredStageId ?? pinnedStageId;
+      if (targetStageId !== null) {
+        renderStage(targetStageId);
       } else {
-        openStage(stageId);
+        hidePanel();
       }
     }
 
+    function clearExitTimer() {
+      if (exitTimer) {
+        clearTimeout(exitTimer);
+        exitTimer = undefined;
+      }
+    }
+
+    function scheduleExit() {
+      clearExitTimer();
+      // 150ms graceful exit buffer so moving between circles or down to panel is seamless
+      exitTimer = window.setTimeout(() => {
+        hoveredStageId = null;
+        updateDisplay();
+      }, 150);
+    }
+
+    // Attach hover & click listeners to stage buttons
     tabButtons.forEach((btn) => {
+      const stageId = Number(btn.getAttribute('data-stage-id'));
+
+      btn.addEventListener('mouseenter', () => {
+        clearExitTimer();
+        hoveredStageId = stageId;
+        updateDisplay();
+      });
+
+      btn.addEventListener('mouseleave', () => {
+        scheduleExit();
+      });
+
+      btn.addEventListener('focus', () => {
+        clearExitTimer();
+        hoveredStageId = stageId;
+        updateDisplay();
+      });
+
+      btn.addEventListener('blur', () => {
+        scheduleExit();
+      });
+
       btn.addEventListener('click', () => {
-        const stageId = Number(btn.getAttribute('data-stage-id'));
-        toggleStage(stageId);
+        clearExitTimer();
+        if (pinnedStageId === stageId) {
+          // Toggle off (unpin and close)
+          pinnedStageId = null;
+          hoveredStageId = null;
+          hidePanel();
+        } else {
+          // Pin this stage
+          pinnedStageId = stageId;
+          hoveredStageId = stageId;
+          renderStage(stageId);
+        }
       });
 
       btn.addEventListener('keydown', (e) => {
@@ -210,10 +262,21 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
           e.preventDefault();
           const targetBtn = tabButtons[targetIndex];
           targetBtn.focus();
-          const stageId = Number(targetBtn.getAttribute('data-stage-id'));
-          openStage(stageId);
+          const newStageId = Number(targetBtn.getAttribute('data-stage-id'));
+          pinnedStageId = newStageId;
+          hoveredStageId = newStageId;
+          renderStage(newStageId);
         }
       });
+    });
+
+    // Keep panel open when user's mouse moves inside the disclosure container
+    disclosureWrapper.addEventListener('mouseenter', () => {
+      clearExitTimer();
+    });
+
+    disclosureWrapper.addEventListener('mouseleave', () => {
+      scheduleExit();
     });
   }
 
@@ -291,7 +354,7 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
     align-items: center;
     text-align: center;
     outline: none;
-    transition: transform 0.2s ease;
+    transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   .journey-step-btn:focus-visible .step-circle {
@@ -310,7 +373,7 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
     justify-content: center;
     margin-bottom: 0.85rem;
     box-shadow: 0 4px 10px rgba(0, 24, 42, 0.04);
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   .step-number {
@@ -346,7 +409,7 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
   .journey-step-btn:hover:not(.active) .step-circle {
     border-color: var(--color-growth-teal, #00AB96);
     transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(0, 171, 150, 0.15);
+    box-shadow: 0 6px 14px rgba(0, 171, 150, 0.18);
   }
 
   .journey-step-btn:hover:not(.active) .step-title {
@@ -380,19 +443,26 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
     font-style: italic;
   }
 
-  /* 2. Smooth Disclosure Wrapper & Educational Information Panel Below Stepper */
+  /* 2. Silky Smooth Disclosure Wrapper & Educational Information Panel */
   .journey-disclosure-wrapper {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 300ms cubic-bezier(0.16, 1, 0.3, 1), margin-top 300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 250ms ease;
-    margin-top: 0;
     opacity: 0;
+    transform: translateY(-8px);
+    transition: 
+      grid-template-rows 400ms cubic-bezier(0.25, 1, 0.5, 1),
+      margin-top 400ms cubic-bezier(0.25, 1, 0.5, 1),
+      opacity 350ms cubic-bezier(0.25, 1, 0.5, 1),
+      transform 350ms cubic-bezier(0.25, 1, 0.5, 1);
+    margin-top: 0;
+    will-change: grid-template-rows, opacity, transform;
   }
 
   .journey-disclosure-wrapper.is-open {
     grid-template-rows: 1fr;
     margin-top: 2rem;
     opacity: 1;
+    transform: translateY(0);
   }
 
   .journey-disclosure-inner {
@@ -417,8 +487,10 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
     gap: 2.5rem;
     align-items: start;
     opacity: 0;
-    transform: translateY(-8px);
-    transition: opacity 250ms ease-out, transform 250ms ease-out;
+    transform: translateY(-6px);
+    transition: 
+      opacity 280ms cubic-bezier(0.25, 1, 0.5, 1),
+      transform 280ms cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   .journey-info-card.active {
