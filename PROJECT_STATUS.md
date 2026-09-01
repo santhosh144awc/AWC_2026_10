@@ -1,6 +1,6 @@
 # Ant Wealth Creation — Project Status & Architecture Guide
 
-**Current Version:** `v3.9.0 (Phase 16F — Financial Wellbeing Journey Hover Preview, Click-to-Pin & Silky Smooth Exit Refinement)`  
+**Current Version:** `v3.10.0 (Phase 16G — Homepage Learn Section 4-Card Spacious Showcase & Readability Polish)`  
 **Current Date:** September 1, 2026  
 **Repository Branch:** `main` | `AntWealth_2026_08`  
 **Total Pages Compiled:** **33 Static Pages** (`npm run build` output)  
@@ -13,7 +13,7 @@
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** Phase 16F Complete • Financial Wellbeing Journey enhanced with Hover-to-Preview + Click-to-Pin • 150ms graceful exit buffer • 400ms silky cubic-bezier fade & slide hide transition • Seamless reading inside disclosure panel • Tap-to-toggle on mobile & touchscreens • 0px Horizontal Page Overflow across 7 viewports • 62/62 E2E Interaction QA Checks Passing • 33/33 Static Routes Building Cleanly
+> **Status:** Phase 16G Complete • Homepage Learn Section updated from 6 cramped cards to 4 spacious, highly readable cards • Full category badge visibility (no truncated pills) • Comfortable 285px+ card widths on desktop • 2x2 grid on tablet • 0px Horizontal Page Overflow across 7 viewports • 60/60 Learn QA checks & 435+ unit tests passing • 33/33 Static Routes Building Cleanly
 
 
 
@@ -1223,6 +1223,25 @@ npm run preview
 ## 18. Phase 16F — Financial Wellbeing Journey Hover Preview, Click-to-Pin & Smooth Hide (Completed)
 
 * **Objective:** Upgrade the *Your Financial Wellbeing Journey* section on the homepage (`src/components/FinancialJourney.astro`) to support intuitive mouse hover preview (revealing the stage information immediately on hover and smoothly hiding on mouse leave), click-to-pin locking (keeping the stage open when clicked so users can comfortably read or move mouse away), a 150ms graceful cursor exit buffer, and a silky 400ms cubic-bezier hide transition without abrupt cutoffs.
+
+---
+
+## 19. Phase 16G — Homepage Learn Section 4-Card Spacious Showcase (Completed)
+
+* **Objective:** Refine the *Learn About Money* section on the homepage (`src/components/LearningSection.astro`) by replacing the cramped 6-card row with a curated 4-card showcase, giving each card generous reading width, eliminating harsh category badge truncation (e.g. `PERSONAL FINANCE`, `GOAL PLANNING`), providing comfortable typography, and optimizing responsive layouts across all devices.
+* **Layout & Visual Architecture:**
+  * **Curated Top 4 Articles (`displayArticles = articles.slice(0, 4)`):** Queries featured articles first, then sorted by most recent publication date descending. Full library remains accessible at `/learn` via `Explore All Guides →`.
+  * **Desktop (≥ 1100px):** 4 spacious columns in a single row (`grid-template-columns: repeat(4, minmax(0, 1fr))`, `gap: 1.25rem`, container max-width `1240px`). Each card has `285px+` width with generous `1.5rem 1.35rem` padding.
+  * **Category Badges & Typography:** Full category badge text displayed clearly (`font-size: 0.725rem`, `font-weight: 700`, `letter-spacing: 0.04em`, `padding: 0.25rem 0.55rem`) with zero ellipses or clipping. Article titles styled with bold `1.075rem` font and descriptions with comfortable `1.5` line height.
+  * **Tablet (641px to 1099px):** Responsive 2x2 grid (`grid-template-columns: repeat(2, minmax(0, 1fr))`) giving `350px–480px` width per card for exceptional tablet readability.
+  * **Mobile (< 640px):** Contained swipeable shelf (`flex: 0 0 82vw; max-width: 320px`) with scroll-snap and peek affordance, strictly preserving **0px horizontal page overflow**.
+* **Automated QA & Multi-Viewport Verification:**
+  * Updated `scratch/test-learn-section-qa.js` testing 4-card layout, desktop row alignment, tablet 2x2 grid, mobile swipe shelf, and 7 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1024×768`, `1440×900`, `1920×1080`).
+  * **60/60 QA checks passed (100%)** with 0 browser console errors.
+  * Unit tests: **435+ unit tests passing (100%)** across 11 test suites (`npm test`).
+  * Link audit: **133/133 links valid (100%)** (`node src/utils/check_all_links.mjs`).
+  * Compliance audit: **113 source files audited — 100% compliant** (`node src/utils/verification_audit.test.mjs`).
+  * Production compilation: **33/33 static routes compiling cleanly in 7.48s** (`npm run build`).
 * **Key Visual & Interaction Enhancements:**
   1. **Hover to Preview:**
      - Moving the mouse over any stage circle (1–6) instantly and smoothly expands the disclosure panel underneath.
