@@ -1,6 +1,6 @@
 # Ant Wealth Creation — Project Status & Architecture Guide
 
-**Current Version:** `v3.7.0 (Phase 16D — Financial Wellbeing Journey Financially Correct Sequence & UX Refinement)`  
+**Current Version:** `v3.8.0 (Phase 16E — Financial Wellbeing Journey Hidden Detail Panel & Smooth Reveal Interaction Refinement)`  
 **Current Date:** September 1, 2026  
 **Repository Branch:** `main` | `AntWealth_2026_08`  
 **Total Pages Compiled:** **33 Static Pages** (`npm run build` output)  
@@ -13,7 +13,7 @@
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** Phase 16D Complete • Homepage Financial Wellbeing Journey updated to canonical, financially correct 6-stage sequence (Stage 3 = Protecting Family, Stage 4 = Growing Wealth, Stage 6 = Retirement + sustainable income) • Non-linear educational takeaway note • 0px Horizontal Page Overflow • 103/103 E2E QA Checks Passing • 33/33 Static Routes Building Cleanly
+> **Status:** Phase 16E Complete • Financial Wellbeing Journey updated to Hidden Detail Panel by Default • Timeline-Only clean initial state (0px blank space) • Smooth CSS Grid 0fr → 1fr animated disclosure reveal • Toggle-close on re-clicking active stage • Zero layout jump on stage switching • WAI-ARIA & full keyboard navigation • 0px Horizontal Page Overflow across 7 viewports • 69/69 E2E Interaction QA Checks Passing • 33/33 Static Routes Building Cleanly
 
 
 
@@ -1220,28 +1220,37 @@ npm run preview
 
 ---
 
-## 17. Phase 16D (Refinement) — Financially Correct Stage Sequence & Educational UX Refinement (Completed)
+## 18. Phase 16E — Financial Wellbeing Journey Hidden Detail Panel & Smooth Reveal (Completed)
 
-* **Objective:** Refine the *Your Financial Wellbeing Journey* section on the homepage (`src/components/FinancialJourney.astro` and `src/data/financialJourney.ts`) to reflect the financially logical progression of personal finance (Protection precedes aggressive wealth creation) and incorporate a non-linear journey note.
-* **Financially Correct 6-Stage Progression:**
-  1. **Stage 1 — Starting Out:** First salary / first investment $\to$ Monthly cash flow, emergency buffer, essential financial protection, regular investing $\to$ Takeaway: *"Start small, build good money habits and give yourself a strong foundation."*
-  2. **Stage 2 — Building Stability:** Emergency fund + financial foundation $\to$ Adequate emergency fund, high-cost debt control, monthly surplus, essential protection $\to$ Takeaway: *"Financial stability gives you the confidence to plan for the long term."*
-  3. **Stage 3 — Protecting Family:** Life + health protection $\to$ Life insurance need assessment, health insurance, major liabilities, future goal protection $\to$ Takeaway: *"Protect your family first so your financial plan can withstand life's uncertainties."*
-  4. **Stage 4 — Growing Wealth:** SIP + long-term investments $\to$ Regular investing, compounding time, horizon matching, asset allocation review $\to$ Takeaway: *"Consistency and time can be more powerful than trying to predict the market."*
-  5. **Stage 5 — Achieving Goals:** Education + home + major goals $\to$ Goal identification, future cost estimation, inflation & time horizon, goal investment plans $\to$ Takeaway: *"Turn your important life goals into clear financial targets."*
-  6. **Stage 6 — Financial Freedom:** Retirement + sustainable income (avoiding simplistic "passive income" promises) $\to$ Retirement readiness, future income needs, careful withdrawal planning, periodic review $\to$ Takeaway: *"Financial freedom is built gradually through planning, saving, investing and disciplined decisions."*
-* **Key Visual & Content Enhancements:**
-  * Added subtle secondary educational note: *"Your financial journey isn't always linear. Your priorities can change as life changes."*
-  * Preserved horizontal 1–6 stepper with underlying connecting line and numbered badges.
-  * Preserved two-column educational detail panel with zero action CTAs or calculator buttons.
-  * Maintained smooth, contained horizontal track for mobile & tablet ($< 768\text{px}$) with 0px horizontal page overflow.
+* **Objective:** Refine the *Your Financial Wellbeing Journey* section on the homepage (`src/components/FinancialJourney.astro`) so that the information panel is completely hidden by default (leaving only the 6-stage horizontal timeline with zero empty reserved space), smoothly reveals on stage selection, smoothly switches content without closing/reopening, and toggles closed on re-clicking the active stage.
+* **Key Visual & Interaction Enhancements:**
+  1. **Initial State (Timeline-Only Hero):**
+     - No stage selected by default.
+     - Section collapses naturally to the height of the timeline and non-linear journey note.
+     - Disclosure container has `grid-template-rows: 0fr`, `opacity: 0`, and strictly `0px` computed height with zero empty gap.
+  2. **Smooth Reveal Animation:**
+     - On stage selection (e.g. clicking Stage 3), the disclosure wrapper smoothly expands (`grid-template-rows: 0fr → 1fr`, `opacity: 0 → 1`, `margin-top: 2rem`) with cubic-bezier timing (`300ms`).
+     - Card content animates with subtle elevation (`opacity: 0 → 1`, `transform: translateY(-8px) → translateY(0)`).
+  3. **Seamless Stage Switching (No Layout Jumps):**
+     - When switching between stages (e.g. Stage 2 $\to$ Stage 5), the panel remains open in place and replaces the card content smoothly without closing or bouncing.
+  4. **Toggle-Close on Re-Clicking Active Stage:**
+     - Clicking the currently active stage button smoothly closes the panel (`grid-template-rows: 1fr → 0fr`), resets button states to inactive (`aria-selected="false"`), and returns to the clean timeline-only state.
+  5. **Strict Zero-CTA / Pure Information Guarantee:**
+     - Detail card remains 100% pure educational content (Stage Title, Subtitle, Overview, 4 Focus Checklist items, Simple Takeaway box) with zero competing action buttons or calculator links.
+  6. **Accessibility & Keyboard Navigation:**
+     - Preserved WAI-ARIA tab semantics (`role="tablist"`, `role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-expanded`, `aria-controls`, `aria-labelledby`, `aria-hidden`).
+     - Full keyboard navigation: `ArrowRight` / `ArrowDown` (next stage), `ArrowLeft` / `ArrowUp` (prev stage), `Home` (Stage 1), `End` (Stage 6), `Enter` / `Space` (toggles open/closed).
+     - Reduced motion compliant (`prefers-reduced-motion: reduce`).
+  7. **Mobile & Tablet Contained Stepper (< 768px):**
+     - Swipeable horizontal track with peek affordance and scroll-snap.
+     - Single-column responsive card underneath with zero horizontal page overflow.
 * **Automated QA & Multi-Viewport Verification:**
-  * Updated `scratch/test-financial-journey-interactive-qa.js` asserting sequence order, button titles, subtitles, dynamic card contents, keyboard navigation, and 7 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1024×768`, `1440×900`, `1920×1080`).
-  * **103/103 QA checks passed (100%)** with 0 browser console errors.
-  * Unit tests: **435+ unit tests passing (100%)** (`npm test`).
+  * Created `scratch/test-financial-journey-interaction-qa.js` testing initial hidden state, stage selection, smooth reveal, re-click toggle close, keyboard navigation, zero-CTA audit, and 7 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1024×768`, `1440×900`, `1920×1080`).
+  * **69/69 QA checks passed (100%)** with 0 browser console errors.
+  * Unit tests: **435+ unit tests passing (100%)** across 11 test suites (`npm test`).
   * Link audit: **133/133 links valid (100%)** (`node src/utils/check_all_links.mjs`).
   * Compliance audit: **113 source files audited — 100% compliant** (`node src/utils/verification_audit.test.mjs`).
-  * Production compilation: **33/33 static routes compiling cleanly in 7.52s** (`npm run build`).
+  * Production compilation: **33/33 static routes compiling cleanly in 4.56s** (`npm run build`).
 
 ---
 

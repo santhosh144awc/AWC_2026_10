@@ -15,17 +15,17 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
     <div class="journey-track-wrapper">
       <div class="journey-stepper-track" role="tablist" aria-label="Financial Wellbeing Journey Stages">
         <div class="journey-connecting-line" aria-hidden="true"></div>
-        {FINANCIAL_JOURNEY_STAGES.map((stage) => {
-          const isFirst = stage.id === 1;
+        {FINANCIAL_JOURNEY_STAGES.map((stage, idx) => {
           return (
             <button
               type="button"
               role="tab"
               id={`journey-tab-${stage.id}`}
-              class={`journey-step-btn ${isFirst ? 'active' : ''}`}
-              aria-selected={isFirst ? 'true' : 'false'}
+              class="journey-step-btn"
+              aria-selected="false"
+              aria-expanded="false"
               aria-controls={`journey-panel-${stage.id}`}
-              tabindex={isFirst ? 0 : -1}
+              tabindex={idx === 0 ? 0 : -1}
               data-stage-id={stage.id}
             >
               <span class="step-circle">
@@ -46,52 +46,55 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
       Your financial journey isn't always linear. Your priorities can change as life changes.
     </p>
 
-    <!-- 2. Two-Column Educational Information Panel Below Stepper -->
-    <div class="journey-panel-container">
-      {FINANCIAL_JOURNEY_STAGES.map((stage) => {
-        const isFirst = stage.id === 1;
-        return (
-          <div
-            id={`journey-panel-${stage.id}`}
-            role="tabpanel"
-            aria-labelledby={`journey-tab-${stage.id}`}
-            class={`journey-info-card ${isFirst ? 'active' : ''}`}
-            hidden={!isFirst}
-          >
-            <!-- Left Side of Card: Stage Title & Educational Overview -->
-            <div class="card-left-col">
-              <span class="panel-stage-badge">Stage {stage.step} of 6</span>
-              <h3 class="panel-stage-title">{stage.title}</h3>
-              <p class="panel-stage-sub">{stage.shortDescription}</p>
-              <p class="panel-intro-text">{stage.introduction}</p>
-            </div>
+    <!-- 2. Smooth Disclosure Wrapper & Educational Information Panel Below Stepper -->
+    <div class="journey-disclosure-wrapper" id="journey-disclosure-wrapper" aria-hidden="true">
+      <div class="journey-disclosure-inner">
+        <div class="journey-panel-container">
+          {FINANCIAL_JOURNEY_STAGES.map((stage) => {
+            return (
+              <div
+                id={`journey-panel-${stage.id}`}
+                role="tabpanel"
+                aria-labelledby={`journey-tab-${stage.id}`}
+                class="journey-info-card"
+                hidden
+              >
+                <!-- Left Side of Card: Stage Title & Educational Overview -->
+                <div class="card-left-col">
+                  <span class="panel-stage-badge">Stage {stage.step} of 6</span>
+                  <h3 class="panel-stage-title">{stage.title}</h3>
+                  <p class="panel-stage-sub">{stage.shortDescription}</p>
+                  <p class="panel-intro-text">{stage.introduction}</p>
+                </div>
 
-            <!-- Right Side of Card: What to Focus On & Simple Takeaway -->
-            <div class="card-right-col">
-              <div class="panel-focus-box">
-                <h4 class="focus-heading">What to focus on</h4>
-                <ul class="focus-checklist" role="list">
-                  {stage.focusAreas.map((area) => (
-                    <li class="focus-item">
-                      <span class="check-icon" aria-hidden="true">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                      </span>
-                      <span class="focus-text">{area}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                <!-- Right Side of Card: What to Focus On & Simple Takeaway -->
+                <div class="card-right-col">
+                  <div class="panel-focus-box">
+                    <h4 class="focus-heading">What to focus on</h4>
+                    <ul class="focus-checklist" role="list">
+                      {stage.focusAreas.map((area) => (
+                        <li class="focus-item">
+                          <span class="check-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                              <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                          </span>
+                          <span class="focus-text">{area}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-              <div class="panel-takeaway-box">
-                <span class="takeaway-badge">💡 Simple takeaway</span>
-                <p class="takeaway-text">{stage.tip}</p>
+                  <div class="panel-takeaway-box">
+                    <span class="takeaway-badge">💡 Simple takeaway</span>
+                    <p class="takeaway-text">{stage.tip}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        );
-      })}
+            );
+          })}
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -100,35 +103,93 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
   function initFinancialJourneyStepper() {
     const tabButtons = document.querySelectorAll<HTMLButtonElement>('.journey-stepper-track .journey-step-btn');
     const panels = document.querySelectorAll<HTMLElement>('.journey-info-card');
+    const disclosureWrapper = document.getElementById('journey-disclosure-wrapper');
 
-    if (!tabButtons.length || !panels.length) return;
+    if (!tabButtons.length || !panels.length || !disclosureWrapper) return;
 
-    function activateStage(stageId: number) {
+    let activeStageId: number | null = null;
+    let closeTimeout: number | undefined;
+
+    function openStage(stageId: number) {
+      if (closeTimeout) {
+        clearTimeout(closeTimeout);
+        closeTimeout = undefined;
+      }
+
+      activeStageId = stageId;
+
+      // Update button states
       tabButtons.forEach((btn) => {
         const id = Number(btn.getAttribute('data-stage-id'));
         const isActive = id === stageId;
         btn.classList.toggle('active', isActive);
         btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        btn.setAttribute('aria-expanded', isActive ? 'true' : 'false');
         btn.tabIndex = isActive ? 0 : -1;
       });
 
+      // Update panel states
       panels.forEach((panel) => {
         const id = Number(panel.id.replace('journey-panel-', ''));
         const isActive = id === stageId;
         if (isActive) {
           panel.hidden = false;
+          // Trigger reflow for smooth opacity/transform transition
+          void panel.offsetWidth;
           panel.classList.add('active');
         } else {
           panel.classList.remove('active');
           panel.hidden = true;
         }
       });
+
+      // Open disclosure wrapper
+      disclosureWrapper.classList.add('is-open');
+      disclosureWrapper.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeStage() {
+      activeStageId = null;
+
+      // Reset button states
+      tabButtons.forEach((btn, idx) => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.tabIndex = idx === 0 ? 0 : -1;
+      });
+
+      // Start panel fade out
+      panels.forEach((panel) => {
+        panel.classList.remove('active');
+      });
+
+      // Close disclosure wrapper
+      disclosureWrapper.classList.remove('is-open');
+      disclosureWrapper.setAttribute('aria-hidden', 'true');
+
+      // Set hidden after transition completes
+      closeTimeout = window.setTimeout(() => {
+        if (activeStageId === null) {
+          panels.forEach((panel) => {
+            panel.hidden = true;
+          });
+        }
+      }, 300);
+    }
+
+    function toggleStage(stageId: number) {
+      if (activeStageId === stageId) {
+        closeStage();
+      } else {
+        openStage(stageId);
+      }
     }
 
     tabButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
         const stageId = Number(btn.getAttribute('data-stage-id'));
-        activateStage(stageId);
+        toggleStage(stageId);
       });
 
       btn.addEventListener('keydown', (e) => {
@@ -150,7 +211,7 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
           const targetBtn = tabButtons[targetIndex];
           targetBtn.focus();
           const stageId = Number(targetBtn.getAttribute('data-stage-id'));
-          activateStage(stageId);
+          openStage(stageId);
         }
       });
     });
@@ -314,15 +375,35 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
     font-size: 0.925rem;
     color: var(--color-slate-muted, #64748B);
     line-height: 1.5;
-    margin: 0 auto 2.25rem;
+    margin: 0 auto;
     max-width: 680px;
     font-style: italic;
   }
 
-  /* 2. Educational Information Panel Below Stepper */
+  /* 2. Smooth Disclosure Wrapper & Educational Information Panel Below Stepper */
+  .journey-disclosure-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 300ms cubic-bezier(0.16, 1, 0.3, 1), margin-top 300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 250ms ease;
+    margin-top: 0;
+    opacity: 0;
+  }
+
+  .journey-disclosure-wrapper.is-open {
+    grid-template-rows: 1fr;
+    margin-top: 2rem;
+    opacity: 1;
+  }
+
+  .journey-disclosure-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+
   .journey-panel-container {
     max-width: 980px;
     margin: 0 auto;
+    padding: 6px 4px;
   }
 
   .journey-info-card {
@@ -336,8 +417,8 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
     gap: 2.5rem;
     align-items: start;
     opacity: 0;
-    transform: translateY(4px);
-    transition: opacity 0.25s ease, transform 0.25s ease;
+    transform: translateY(-8px);
+    transition: opacity 250ms ease-out, transform 250ms ease-out;
   }
 
   .journey-info-card.active {
@@ -477,6 +558,7 @@ import { FINANCIAL_JOURNEY_STAGES } from '../data/financialJourney';
   @media (prefers-reduced-motion: reduce) {
     .journey-step-btn,
     .step-circle,
+    .journey-disclosure-wrapper,
     .journey-info-card {
       transition: none !important;
       transform: none !important;
