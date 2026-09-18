@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  HEALTH_CHECK_QUESTIONS, 
+  HEALTH_PILLARS, 
   calculateFinancialHealth, 
+  getPillarStatusColor,
   type HealthCheckAnswers, 
-  type HealthCheckResult 
+  type HealthCheckResult,
+  type HealthPillar
 } from '../../utils/calculations/financialHealth';
 
 export default function HealthQuestionnaire() {
@@ -13,16 +15,16 @@ export default function HealthQuestionnaire() {
   const [result, setResult] = useState<HealthCheckResult | null>(null);
   const [animatedScore, setAnimatedScore] = useState(0);
 
-  const totalSteps = HEALTH_CHECK_QUESTIONS.length;
-  const currentQuestion = HEALTH_CHECK_QUESTIONS[currentStep];
+  const totalSteps = HEALTH_PILLARS.length;
+  const currentPillar = HEALTH_PILLARS[currentStep];
   const isLastStep = currentStep === totalSteps - 1;
-  const currentAnswer = answers[currentQuestion?.id];
+  const currentAnswer = answers[currentPillar?.id];
   const progressPercent = Math.round(((currentStep + 1) / totalSteps) * 100);
 
   const handleSelectOption = (optionId: string) => {
     setAnswers(prev => ({
       ...prev,
-      [currentQuestion.id]: optionId
+      [currentPillar.id]: optionId
     }));
   };
 
@@ -32,7 +34,7 @@ export default function HealthQuestionnaire() {
     if (isLastStep) {
       const allAnswers = {
         ...answers,
-        [currentQuestion.id]: currentAnswer
+        [currentPillar.id]: currentAnswer
       };
       const finalResult = calculateFinancialHealth(allAnswers);
       setResult(finalResult);
@@ -57,15 +59,34 @@ export default function HealthQuestionnaire() {
     setIsCompleted(false);
     setResult(null);
     setAnimatedScore(0);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
-  // Score counter animation on result reveal
+  // Keyboard navigation for options (Space or Enter to select)
+  const handleKeyDown = (e: React.KeyboardEvent, optionId: string) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleSelectOption(optionId);
+    }
+  };
+
+  // Animated score counter on result reveal
   useEffect(() => {
     if (isCompleted && result) {
+      // Check prefers-reduced-motion
+      const prefersReducedMotion = typeof window !== 'undefined' && 
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (prefersReducedMotion) {
+        setAnimatedScore(result.overallScore);
+        return;
+      }
+
       let start = 0;
       const target = result.overallScore;
-      const duration = 1200;
+      const duration = 1000; // 1s smooth counter
       const increment = target / (duration / 16);
 
       const timer = setInterval(() => {
@@ -82,225 +103,344 @@ export default function HealthQuestionnaire() {
     }
   }, [isCompleted, result]);
 
-  const scoreColor = 
-    (result?.overallScore ?? 0) >= 80 ? '#00AB96' : 
-    (result?.overallScore ?? 0) >= 60 ? '#2563EB' : 
-    (result?.overallScore ?? 0) >= 40 ? '#F59E0B' : '#EF4444';
+  // Construct helpful topics for WhatsApp message
+  const getWhatsAppTopics = (res: HealthCheckResult): string => {
+    const focusPillars = [
+      ...res.priorityAreas.map(p => p.title),
+      ...res.areasToStrengthen.map(p => p.title)
+    ];
 
-  // Render either Result State or Questionnaire State wrapped in common styles
+    if (focusPillars.length === 0) {
+      return 'maintaining my financial roadmap and asset allocation';
+    }
+    if (focusPillars.length === 1) {
+      return focusPillars[0];
+    }
+    return `${focusPillars[0]} and ${focusPillars[1]}`;
+  };
+
   return (
     <div className="health-check-component">
       {isCompleted && result ? (
+        /* =========================================================
+           V4.0 RESULT SCREEN: YOUR FINANCIAL HEALTH SNAPSHOT
+           Ordered Sections:
+           1. Overall Score & Band Badge
+           2. Short Explanation
+           3. Your Key Strengths (score >= 80)
+           4. Areas to Strengthen (50 <= score < 80)
+           5. Priority Areas (score < 50, if applicable)
+           6. Your Next 3 Steps (Max 3, structured)
+           7. Important Context / Limitation / Disclosure
+           8. Optional Ant Wealth Creation CTA & WhatsApp Link
+           ========================================================= */
         <div className="health-result-wrapper">
-          {/* Score Banner */}
-          <div className="result-hero-card">
-            <div className="result-score-circle" style={{ borderColor: scoreColor }}>
-              <span className="score-number" style={{ color: scoreColor }}>{animatedScore}</span>
-              <span className="score-max">/ 100</span>
+          {/* Section 1 & 2: Overall Score & Short Explanation */}
+          <div className="result-snapshot-card">
+            <div className="snapshot-header">
+              <span className="snapshot-tag">Self-Assessment Diagnostic</span>
+              <h2 className="snapshot-title">Your Financial Health Snapshot</h2>
+              <p className="snapshot-disclaimer-lead">
+                This quick check is a starting point, not a complete financial plan.
+              </p>
             </div>
 
-            <div className="result-summary-text">
-              <span className="result-badge" style={{ backgroundColor: `${scoreColor}18`, color: scoreColor }}>
-                {result.ratingTitle}
-              </span>
-              <h2 className="result-main-title">Your Financial Health Diagnostic</h2>
-              <p className="result-desc">{result.ratingDescription}</p>
+            <div className="snapshot-hero-row">
+              <div 
+                className="score-circle-display"
+                style={{ borderColor: result.band.badgeColor }}
+                aria-label={`Your Financial Health Score is ${result.overallScore} out of 100, classified as ${result.band.title}`}
+              >
+                <span className="score-number-value" style={{ color: result.band.badgeColor }}>
+                  {animatedScore}
+                </span>
+                <span className="score-denominator">/ 100</span>
+              </div>
+
+              <div className="score-narrative">
+                <div 
+                  className="status-band-badge"
+                  style={{ 
+                    backgroundColor: `${result.band.badgeColor}15`, 
+                    color: result.band.badgeColor,
+                    borderColor: `${result.band.badgeColor}30`
+                  }}
+                >
+                  <span className="badge-bullet">•</span>
+                  <span>{result.band.title}</span>
+                </div>
+                <p className="band-short-explanation">
+                  {result.band.shortExplanation}
+                </p>
+              </div>
+            </div>
+
+            {/* Granular Pillar Score Status Track */}
+            <div className="pillars-status-overview">
+              <h3 className="sub-section-title">Pillar Evaluation Summary</h3>
+              <div className="pillars-status-grid">
+                {result.pillarScores.map((p) => (
+                  <div key={p.pillar} className="pillar-mini-card">
+                    <div className="pillar-mini-header">
+                      <span className="pillar-mini-name">{p.shortTitle}</span>
+                      <span 
+                        className={`pillar-badge badge-${p.status}`}
+                        style={{
+                          color: p.statusColor,
+                          backgroundColor: `${p.statusColor}12`,
+                          borderColor: `${p.statusColor}25`
+                        }}
+                      >
+                        <span className="badge-icon">{p.icon}</span>
+                        <span>{p.statusLabel}</span>
+                      </span>
+                    </div>
+                    <div className="pillar-bar-bg" aria-hidden="true">
+                      <div 
+                        className="pillar-bar-fill" 
+                        style={{ width: `${p.score}%`, backgroundColor: p.statusColor }}
+                      />
+                    </div>
+                    <div className="pillar-mini-footer">
+                      <span className="pillar-mini-score">{p.score}/100</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Category Breakdown Grid */}
-          <div className="result-section">
-            <h3 className="section-title">Category Breakdown</h3>
-            <p className="section-subtitle">A granular view of your financial foundation across the 7 vital pillars.</p>
+          {/* Section 3: Your Key Strengths (score >= 80) */}
+          {result.strengths.length > 0 && (
+            <div className="result-section strengths-section">
+              <div className="section-header-row">
+                <div className="section-icon-badge icon-strong">✓</div>
+                <div>
+                  <h3 className="section-heading">Your Key Strengths</h3>
+                  <p className="section-subtext">Core foundational areas where your habits and resilience are well-established.</p>
+                </div>
+              </div>
 
-            <div className="category-grid">
-              {result.categoryScores.map((cat) => (
-                <div key={cat.category} className="category-card">
-                  <div className="category-header">
-                    <span className="category-name">{cat.title}</span>
-                    <span 
-                      className="category-status" 
-                      style={{ backgroundColor: `${cat.statusColor}15`, color: cat.statusColor }}
-                    >
-                      {cat.status}
-                    </span>
+              <div className="insights-grid">
+                {result.strengths.map((s) => (
+                  <div key={s.pillar} className="insight-item-card card-strong">
+                    <div className="insight-card-header">
+                      <span className="insight-pillar-name">{s.title}</span>
+                      <span className="insight-pill pill-strong">Strong</span>
+                    </div>
+                    <p className="insight-card-text">{s.text}</p>
                   </div>
-                  <div className="category-bar-bg">
-                    <div 
-                      className="category-bar-fill" 
-                      style={{ width: `${cat.score}%`, backgroundColor: cat.statusColor }}
-                    />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Section 4: Areas to Strengthen (50 <= score < 80) */}
+          {result.areasToStrengthen.length > 0 && (
+            <div className="result-section strengthen-section">
+              <div className="section-header-row">
+                <div className="section-icon-badge icon-building">↗</div>
+                <div>
+                  <h3 className="section-heading">Areas to Strengthen</h3>
+                  <p className="section-subtext">Areas with a good start that would benefit from clearer planning or optimization.</p>
+                </div>
+              </div>
+
+              <div className="insights-grid">
+                {result.areasToStrengthen.map((a) => (
+                  <div key={a.pillar} className="insight-item-card card-building">
+                    <div className="insight-card-header">
+                      <span className="insight-pillar-name">{a.title}</span>
+                      <span className="insight-pill pill-building">Building</span>
+                    </div>
+                    <p className="insight-card-text">{a.text}</p>
                   </div>
-                  <div className="category-footer">
-                    <span className="category-score-text">{cat.score} / 100</span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Section 5: Priority Areas (score < 50) */}
+          {result.priorityAreas.length > 0 && (
+            <div className="result-section priority-section">
+              <div className="section-header-row">
+                <div className="section-icon-badge icon-attention">!</div>
+                <div>
+                  <h3 className="section-heading">Priority Areas</h3>
+                  <p className="section-subtext">Foundational vulnerabilities that deserve prioritized focus to protect family stability.</p>
+                </div>
+              </div>
+
+              <div className="insights-grid">
+                {result.priorityAreas.map((p) => (
+                  <div key={p.pillar} className="insight-item-card card-attention">
+                    <div className="insight-card-header">
+                      <span className="insight-pillar-name">{p.title}</span>
+                      <span className="insight-pill pill-attention">Needs Attention</span>
+                    </div>
+                    <p className="insight-card-text">{p.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Section 6: Your Next 3 Steps (Max 3, Dependency-Aware) */}
+          <div className="result-section next-steps-section">
+            <div className="section-header-row">
+              <div className="section-icon-badge icon-steps">⚡</div>
+              <div>
+                <h3 className="section-heading">Your Next 3 Steps</h3>
+                <p className="section-subtext">
+                  Practical, dependency-aware actions sequenced to strengthen foundation first, followed by planning and compounding.
+                </p>
+              </div>
+            </div>
+
+            <div className="recommendations-stack">
+              {result.recommendations.map((rec, index) => (
+                <div key={rec.pillar + index} className="recommendation-card">
+                  <div className="step-priority-badge" aria-label={`Step ${index + 1}`}>
+                    {index + 1}
+                  </div>
+                  <div className="recommendation-content">
+                    <div className="recommendation-header">
+                      <h4 className="rec-title">{rec.title}</h4>
+                      <span className="rec-pillar-tag">{rec.pillar}</span>
+                    </div>
+                    <p className="rec-action-text">{rec.action}</p>
+                    <p className="rec-desc-subtext">{rec.description}</p>
+                    {rec.route && (
+                      <div className="rec-tool-link-wrapper">
+                        <a href={rec.route} className="btn-rec-tool">
+                          {rec.routeLabel || 'Explore Tool →'}
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Strengths & Attention Areas */}
-          <div className="insights-two-col">
-            <div className="insight-card strengths-card">
-              <div className="insight-header">
-                <span className="insight-icon strength-icon">✓</span>
-                <h4>Your Key Strengths</h4>
-              </div>
-              <ul className="insight-list">
-                {result.strengths.length > 0 ? (
-                  result.strengths.map((str, idx) => (
-                    <li key={idx} className="strength-item">
-                      <span className="bullet-check">✓</span>
-                      <span>{str}</span>
-                    </li>
-                  ))
-                ) : (
-                  <li className="neutral-item">Establishing basic emergency and savings habits will unlock rapid improvements.</li>
-                )}
-              </ul>
-            </div>
-
-            <div className="insight-card attention-card">
-              <div className="insight-header">
-                <span className="insight-icon attention-icon">!</span>
-                <h4>Areas Needing Attention</h4>
-              </div>
-              <ul className="insight-list">
-                {result.needsAttention.length > 0 ? (
-                  result.needsAttention.map((att, idx) => (
-                    <li key={idx} className="attention-item">
-                      <span className="bullet-dot">•</span>
-                      <span>{att}</span>
-                    </li>
-                  ))
-                ) : (
-                  <li className="strength-item">
-                    <span className="bullet-check">✓</span>
-                    <span>Excellent all-round balance across all 7 financial dimensions.</span>
-                  </li>
-                )}
-              </ul>
-            </div>
-          </div>
-
-          {/* Actionable Next Steps */}
-          <div className="result-section">
-            <h3 className="section-title">Recommended Next Steps</h3>
-            <p className="section-subtitle">Goal-oriented, educational actions to enhance your compounding and risk resilience.</p>
-
-            <div className="next-steps-list">
-              {result.nextSteps.map((step, idx) => (
-                <div key={idx} className="step-action-item">
-                  <div className="step-number-badge">{idx + 1}</div>
-                  <p className="step-action-text">{step}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Optional Action CTAs */}
-          <div className="result-cta-box">
-            <h3 className="cta-box-title">Ready to structure your personalised roadmap?</h3>
-            <p className="cta-box-desc">
-              Speak directly with C. Santhosh Sathriyan (AMFI-Registered MFD, ARN: 266896) to turn these insights into an actionable, goal-based mutual fund plan.
+          {/* Section 7: Important Context / Limitation / Disclosure */}
+          <div className="result-section limitation-section">
+            <h4 className="disclosure-heading">Important Context & Scope</h4>
+            <p className="disclosure-text">
+              This is an educational self-assessment designed to give you a quick view of areas of financial strength and areas that may need attention. It is not a complete financial plan or a personalised investment recommendation. Insurance, retirement, investment and other financial needs require additional information to assess properly.
             </p>
-            <div className="cta-buttons-group">
+            <p className="compliance-text">
+              <strong>Statutory Disclosure:</strong> Ant Wealth Creation is an AMFI-Registered Mutual Fund Distributor (ARN: 266896). Mutual fund investments are subject to market risks; read all scheme-related documents carefully.
+            </p>
+          </div>
+
+          {/* Section 8: Optional Ant Wealth Creation CTA & WhatsApp Bridge */}
+          <div className="cta-box-card">
+            <h3 className="cta-heading">Want to discuss your results?</h3>
+            <p className="cta-subtext">
+              Ant Wealth Creation can help you understand the areas identified in this check and explore your options. You can connect with C. Santhosh Sathriyan (QPFP Certified, AMFI-Registered MFD, ARN: 266896).
+            </p>
+
+            <div className="cta-actions-group">
               <a 
                 href={`https://wa.me/918087971566?text=${encodeURIComponent(
-                  `Hi Santhosh, I used the Financial Health Check on Ant Wealth Creation.\n\n` +
-                  `• Health Score: ${result.overallScore} / 100 (${result.ratingTitle})\n` +
-                  `• Key Priority: ${result.nextSteps?.[0] || result.needsAttention?.[0] || 'Review Plan'}\n\n` +
+                  `Hi Santhosh, I completed the Ant Wealth Creation Financial Health Check.\n\n` +
+                  `• Score: ${result.overallScore}/100 (${result.band.title})\n` +
+                  `• Areas to discuss: ${getWhatsAppTopics(result)}\n\n` +
                   `Can we connect to discuss this plan?`
-                )}`} 
+                )}`}
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="btn-primary-action"
+                className="btn-action-primary"
               >
                 💬 Talk to Santhosh
               </a>
-              <a href="/contact" className="btn-secondary-action">
+
+              <a href="/contact" className="btn-action-secondary">
                 Book a Free Consultation
-              </a>
-              <a href="/tools" className="btn-tertiary-action">
-                Explore Calculators
               </a>
             </div>
 
-            <div className="retake-container">
-              <button onClick={handleRetake} className="btn-retake">
+            <div className="retake-link-wrapper">
+              <button 
+                type="button"
+                onClick={handleRetake} 
+                className="btn-action-retake"
+              >
                 ↺ Retake Health Check
               </button>
             </div>
           </div>
-
-          {/* Regulatory Disclaimer */}
-          <div className="result-disclaimer">
-            <p>
-              <strong>Illustrative Benchmark Notice:</strong> Category scores and recommendations reflect illustrative financial-health benchmarks. Actual requirements vary based on individual circumstances, family structure, and personal goals. Ant Wealth Creation is an AMFI-Registered Mutual Fund Distributor (ARN: 266896). This assessment is an educational self-diagnostic and does not constitute formal SEBI RIA investment advice or promise guaranteed returns. Mutual fund investments are subject to market risks; read all scheme-related documents carefully.
-            </p>
-          </div>
         </div>
       ) : (
+        /* =========================================================
+           V4.0 QUESTIONNAIRE WORKSPACE
+           One clear question at a time, clear progress indicator,
+           selectable answer cards with sublabels, large touch targets.
+           ========================================================= */
         <div className="questionnaire-card">
-          {/* Step Header & Progress */}
+          {/* Progress Header */}
           <div className="questionnaire-header">
-            <div className="progress-meta">
-              <span className="step-category-tag">{currentQuestion?.categoryTitle}</span>
-              <span className="step-counter-text">Step {currentStep + 1} of {totalSteps}</span>
+            <div className="progress-meta-row">
+              <span className="pillar-badge-tag">{currentPillar?.shortTitle}</span>
+              <span className="step-counter-text" aria-live="polite">
+                Step {currentStep + 1} of {totalSteps}
+              </span>
             </div>
 
-            <div className="progress-track">
+            <div className="progress-track-wrapper" aria-hidden="true">
               <div 
-                className="progress-fill" 
-                style={{ width: `${progressPercent}%` }} 
-                role="progressbar"
-                aria-valuenow={progressPercent}
-                aria-valuemin={0}
-                aria-valuemax={100}
+                className="progress-bar-fill" 
+                style={{ width: `${progressPercent}%` }}
               />
             </div>
           </div>
 
-          {/* Question Block */}
-          <div className="question-content">
-            <h2 className="question-heading">{currentQuestion?.question}</h2>
-            <p className="question-hint">{currentQuestion?.description}</p>
+          {/* Question & Helper Text */}
+          <div className="question-body">
+            <h2 className="question-title-text">{currentPillar?.question}</h2>
+            <p className="question-helper-text">{currentPillar?.helperText}</p>
 
-            {/* Options List */}
-            <div className="options-container" role="radiogroup" aria-label={currentQuestion?.question}>
-              {currentQuestion?.options.map((option) => {
-                const isSelected = currentAnswer === option.id;
+            {/* 4 Accessible Option Cards */}
+            <div 
+              className="options-grid" 
+              role="radiogroup" 
+              aria-label={currentPillar?.question}
+            >
+              {currentPillar?.options.map((opt, idx) => {
+                const isSelected = currentAnswer === opt.id;
                 return (
-                  <button
-                    key={option.id}
-                    type="button"
+                  <div
+                    key={opt.id}
                     role="radio"
                     aria-checked={isSelected}
-                    onClick={() => handleSelectOption(option.id)}
-                    className={`option-card ${isSelected ? 'option-selected' : ''}`}
+                    tabIndex={0}
+                    onClick={() => handleSelectOption(opt.id)}
+                    onKeyDown={(e) => handleKeyDown(e, opt.id)}
+                    className={`option-tile option-card ${isSelected ? 'is-selected' : ''}`}
                   >
-                    <div className="option-indicator">
-                      <div className={`radio-dot ${isSelected ? 'dot-active' : ''}`} />
+                    <div className="option-radio-indicator">
+                      <div className={`radio-dot ${isSelected ? 'radio-checked' : ''}`} />
                     </div>
-                    <div className="option-text-group">
-                      <div className="option-label">{option.label}</div>
-                      {option.sublabel && (
-                        <div className="option-sublabel">{option.sublabel}</div>
+                    <div className="option-label-wrapper">
+                      <div className="option-text-main">{opt.label}</div>
+                      {opt.sublabel && (
+                        <div className="option-text-sub">{opt.sublabel}</div>
                       )}
                     </div>
-                  </button>
+                  </div>
                 );
               })}
             </div>
           </div>
 
           {/* Navigation Controls */}
-          <div className="questionnaire-footer">
+          <div className="questionnaire-nav-footer">
             <button
               type="button"
               onClick={handleBack}
               disabled={currentStep === 0}
-              className={`nav-back-btn ${currentStep === 0 ? 'btn-disabled' : ''}`}
+              className={`btn-nav-back nav-back-btn ${currentStep === 0 ? 'is-disabled' : ''}`}
             >
               ← Back
             </button>
@@ -309,7 +449,7 @@ export default function HealthQuestionnaire() {
               type="button"
               onClick={handleNext}
               disabled={!currentAnswer}
-              className={`nav-next-btn ${!currentAnswer ? 'btn-disabled' : ''}`}
+              className={`btn-nav-next nav-next-btn ${!currentAnswer ? 'is-disabled' : ''}`}
             >
               {isLastStep ? 'Calculate My Score →' : 'Next Question →'}
             </button>
@@ -317,14 +457,16 @@ export default function HealthQuestionnaire() {
         </div>
       )}
 
+      {/* Embedded Component Styles adhering to AWC Design Tokens */}
       <style>{`
+        /* Questionnaire Card Styles */
         .questionnaire-card {
           background-color: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          border: 1.5px solid #E2E8F0;
           border-radius: 16px;
           padding: 2.5rem;
           box-shadow: 0 4px 20px rgba(0, 24, 42, 0.04);
-          max-width: 780px;
+          max-width: 820px;
           margin: 0 auto;
         }
 
@@ -332,15 +474,15 @@ export default function HealthQuestionnaire() {
           margin-bottom: 2rem;
         }
 
-        .progress-meta {
+        .progress-meta-row {
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin-bottom: 0.75rem;
         }
 
-        .step-category-tag {
-          font-size: 0.85rem;
+        .pillar-badge-tag {
+          font-size: 0.8rem;
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.05em;
@@ -356,7 +498,7 @@ export default function HealthQuestionnaire() {
           color: #64748B;
         }
 
-        .progress-track {
+        .progress-track-wrapper {
           width: 100%;
           height: 8px;
           background-color: #F1F5F9;
@@ -364,37 +506,37 @@ export default function HealthQuestionnaire() {
           overflow: hidden;
         }
 
-        .progress-fill {
+        .progress-bar-fill {
           height: 100%;
-          background: linear-gradient(90deg, #00AB96, #00182A);
+          background: linear-gradient(90deg, #00AB96 0%, #00182A 100%);
           border-radius: 9999px;
           transition: width 0.3s ease;
         }
 
-        .question-heading {
+        .question-title-text {
           font-family: 'Outfit', sans-serif;
-          font-size: 1.5rem;
+          font-size: 1.55rem;
           font-weight: 700;
           color: #00182A;
           line-height: 1.35;
           margin-bottom: 0.5rem;
         }
 
-        .question-hint {
+        .question-helper-text {
           font-size: 0.95rem;
           color: #64748B;
-          line-height: 1.5;
+          line-height: 1.55;
           margin-bottom: 2rem;
         }
 
-        .options-container {
+        .options-grid {
           display: flex;
           flex-direction: column;
           gap: 0.875rem;
           margin-bottom: 2.5rem;
         }
 
-        .option-card {
+        .option-tile {
           display: flex;
           align-items: flex-start;
           gap: 1rem;
@@ -403,24 +545,29 @@ export default function HealthQuestionnaire() {
           border: 1.5px solid #E2E8F0;
           border-radius: 12px;
           cursor: pointer;
-          text-align: left;
-          width: 100%;
           transition: all 0.2s ease;
+          user-select: none;
+          min-height: 52px;
         }
 
-        .option-card:hover {
+        .option-tile:hover {
           border-color: #00AB96;
           background-color: #F8FAFC;
           transform: translateY(-1px);
         }
 
-        .option-card.option-selected {
+        .option-tile:focus-visible {
+          outline: 2px solid #00AB96;
+          outline-offset: 2px;
+        }
+
+        .option-tile.is-selected {
           border-color: #00AB96;
           background-color: rgba(0, 171, 150, 0.05);
           box-shadow: 0 0 0 1px #00AB96;
         }
 
-        .option-indicator {
+        .option-radio-indicator {
           margin-top: 2px;
           flex-shrink: 0;
         }
@@ -436,12 +583,12 @@ export default function HealthQuestionnaire() {
           transition: all 0.2s ease;
         }
 
-        .radio-dot.dot-active {
+        .radio-dot.radio-checked {
           border-color: #00AB96;
           background-color: #00AB96;
         }
 
-        .radio-dot.dot-active::after {
+        .radio-dot.radio-checked::after {
           content: '';
           width: 8px;
           height: 8px;
@@ -449,25 +596,25 @@ export default function HealthQuestionnaire() {
           border-radius: 50%;
         }
 
-        .option-text-group {
+        .option-label-wrapper {
           flex: 1;
         }
 
-        .option-label {
+        .option-text-main {
           font-size: 1rem;
           font-weight: 600;
           color: #00182A;
-          line-height: 1.4;
-          margin-bottom: 0.2rem;
+          line-height: 1.45;
         }
 
-        .option-sublabel {
+        .option-text-sub {
           font-size: 0.85rem;
           color: #64748B;
+          margin-top: 0.25rem;
           line-height: 1.4;
         }
 
-        .questionnaire-footer {
+        .questionnaire-nav-footer {
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -475,24 +622,24 @@ export default function HealthQuestionnaire() {
           border-top: 1px solid #F1F5F9;
         }
 
-        .nav-back-btn {
+        .btn-nav-back {
           background: transparent;
           border: none;
           color: #64748B;
           font-size: 0.95rem;
           font-weight: 600;
           cursor: pointer;
-          padding: 0.6rem 1rem;
+          padding: 0.65rem 1.25rem;
           border-radius: 8px;
           transition: all 0.2s ease;
         }
 
-        .nav-back-btn:hover:not(.btn-disabled) {
+        .btn-nav-back:hover:not(.is-disabled) {
           color: #00182A;
           background-color: #F1F5F9;
         }
 
-        .nav-next-btn {
+        .btn-nav-next {
           background-color: #00182A;
           color: #FFFFFF;
           border: none;
@@ -505,42 +652,80 @@ export default function HealthQuestionnaire() {
           box-shadow: 0 4px 12px rgba(0, 24, 42, 0.15);
         }
 
-        .nav-next-btn:hover:not(.btn-disabled) {
+        .btn-nav-next:hover:not(.is-disabled) {
           background-color: #002845;
           transform: translateY(-2px);
         }
 
-        .btn-disabled {
-          opacity: 0.4;
+        .is-disabled {
+          opacity: 0.35;
           cursor: not-allowed;
           box-shadow: none;
         }
 
-        /* Result View Styles */
+        /* Results Snapshot Container */
         .health-result-wrapper {
           max-width: 880px;
           margin: 0 auto;
           display: flex;
           flex-direction: column;
-          gap: 2.5rem;
+          gap: 2rem;
         }
 
-        .result-hero-card {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
+        .result-snapshot-card {
+          background: linear-gradient(135deg, #00182A 0%, #002642 100%);
           border-radius: 20px;
           padding: 2.5rem;
           color: #FFFFFF;
-          display: flex;
-          align-items: center;
-          gap: 2.5rem;
           box-shadow: 0 10px 30px rgba(0, 24, 42, 0.15);
         }
 
-        .result-score-circle {
+        .snapshot-header {
+          margin-bottom: 1.75rem;
+        }
+
+        .snapshot-tag {
+          display: inline-block;
+          font-size: 0.75rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+          color: #00AB96;
+          background-color: rgba(0, 171, 150, 0.15);
+          padding: 0.25rem 0.65rem;
+          border-radius: 9999px;
+          margin-bottom: 0.5rem;
+        }
+
+        .snapshot-title {
+          font-family: 'Outfit', sans-serif;
+          font-size: 2rem;
+          font-weight: 800;
+          color: #FFFFFF;
+          line-height: 1.2;
+          margin-bottom: 0.35rem;
+        }
+
+        .snapshot-disclaimer-lead {
+          font-size: 0.95rem;
+          color: #94A3B8;
+          margin: 0;
+        }
+
+        .snapshot-hero-row {
+          display: flex;
+          align-items: center;
+          gap: 2.25rem;
+          padding-bottom: 2rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          margin-bottom: 2rem;
+        }
+
+        .score-circle-display {
           width: 140px;
           height: 140px;
           border-radius: 50%;
-          background-color: rgba(255, 255, 255, 0.08);
+          background-color: rgba(255, 255, 255, 0.05);
           border: 4px solid #00AB96;
           display: flex;
           flex-direction: column;
@@ -549,274 +734,405 @@ export default function HealthQuestionnaire() {
           flex-shrink: 0;
         }
 
-        .score-number {
+        .score-number-value {
           font-family: 'Outfit', sans-serif;
-          font-size: 3.2rem;
+          font-size: 3.3rem;
           font-weight: 800;
           line-height: 1;
         }
 
-        .score-max {
+        .score-denominator {
           font-size: 0.85rem;
           color: #94A3B8;
           font-weight: 600;
           margin-top: 2px;
         }
 
-        .result-summary-text {
+        .score-narrative {
           flex: 1;
         }
 
-        .result-badge {
-          display: inline-block;
-          font-size: 0.85rem;
+        .status-band-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          font-size: 0.9rem;
           font-weight: 700;
-          padding: 0.3rem 0.85rem;
+          padding: 0.35rem 0.85rem;
           border-radius: 9999px;
+          border: 1px solid;
           margin-bottom: 0.75rem;
         }
 
-        .result-main-title {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.85rem;
-          font-weight: 700;
-          color: #FFFFFF;
-          margin-bottom: 0.5rem;
-          line-height: 1.2;
+        .badge-bullet {
+          font-size: 1.1rem;
+          line-height: 1;
         }
 
-        .result-desc {
-          font-size: 1rem;
-          color: #CBD5E1;
+        .band-short-explanation {
+          font-size: 1.05rem;
+          color: #E2E8F0;
           line-height: 1.6;
+          margin: 0;
         }
 
-        .result-section {
-          background-color: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 2rem;
-        }
-
-        .section-title {
+        .sub-section-title {
           font-family: 'Outfit', sans-serif;
-          font-size: 1.35rem;
+          font-size: 1.1rem;
           font-weight: 700;
-          color: #00182A;
-          margin-bottom: 0.35rem;
+          color: #CBD5E1;
+          margin-bottom: 1rem;
         }
 
-        .section-subtitle {
-          font-size: 0.95rem;
-          color: #64748B;
-          margin-bottom: 1.5rem;
-        }
-
-        .category-grid {
+        .pillars-status-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-          gap: 1.25rem;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 0.875rem;
         }
 
-        .category-card {
-          background-color: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          border-radius: 12px;
-          padding: 1.25rem;
+        .pillar-mini-card {
+          background-color: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 10px;
+          padding: 0.85rem 1rem;
         }
 
-        .category-header {
+        .pillar-mini-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 0.85rem;
+          margin-bottom: 0.6rem;
         }
 
-        .category-name {
-          font-size: 0.95rem;
+        .pillar-mini-name {
+          font-size: 0.85rem;
           font-weight: 600;
-          color: #00182A;
+          color: #F8FAFC;
         }
 
-        .category-status {
-          font-size: 0.75rem;
+        .pillar-badge {
+          font-size: 0.725rem;
           font-weight: 700;
-          padding: 0.2rem 0.6rem;
+          padding: 0.15rem 0.5rem;
           border-radius: 9999px;
+          border: 1px solid;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
         }
 
-        .category-bar-bg {
-          height: 6px;
-          background-color: #E2E8F0;
+        .pillar-bar-bg {
+          height: 5px;
+          background-color: rgba(255, 255, 255, 0.1);
           border-radius: 9999px;
           overflow: hidden;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.4rem;
         }
 
-        .category-bar-fill {
+        .pillar-bar-fill {
           height: 100%;
           border-radius: 9999px;
           transition: width 0.6s ease;
         }
 
-        .category-footer {
+        .pillar-mini-footer {
           display: flex;
           justify-content: flex-end;
         }
 
-        .category-score-text {
-          font-size: 0.8rem;
+        .pillar-mini-score {
+          font-size: 0.75rem;
+          color: #94A3B8;
           font-weight: 600;
-          color: #64748B;
         }
 
-        .insights-two-col {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1.5rem;
-        }
-
-        .insight-card {
+        /* Generic Result Section */
+        .result-section {
           background-color: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          border: 1.5px solid #E2E8F0;
           border-radius: 16px;
-          padding: 1.75rem;
+          padding: 2rem 2.25rem;
         }
 
-        .strengths-card {
-          border-left: 4px solid #00AB96;
+        .section-header-row {
+          display: flex;
+          align-items: flex-start;
+          gap: 1rem;
+          margin-bottom: 1.5rem;
         }
 
-        .attention-card {
-          border-left: 4px solid #F59E0B;
-        }
-
-        .insight-header {
+        .section-icon-badge {
+          width: 36px;
+          height: 36px;
+          border-radius: 10px;
           display: flex;
           align-items: center;
-          gap: 0.6rem;
-          margin-bottom: 1.25rem;
-        }
-
-        .insight-icon {
-          width: 24px;
-          height: 24px;
-          border-radius: 50%;
-          display: inline-flex;
-          align-items: center;
           justify-content: center;
-          font-size: 0.85rem;
           font-weight: 800;
+          font-size: 1.1rem;
+          flex-shrink: 0;
         }
 
-        .strength-icon {
-          background-color: rgba(0, 171, 150, 0.15);
+        .icon-strong {
+          background-color: rgba(0, 171, 150, 0.12);
           color: #00AB96;
         }
 
-        .attention-icon {
-          background-color: rgba(245, 158, 11, 0.15);
-          color: #F59E0B;
+        .icon-building {
+          background-color: rgba(37, 99, 235, 0.12);
+          color: #2563EB;
         }
 
-        .insight-header h4 {
+        .icon-attention {
+          background-color: rgba(225, 29, 72, 0.12);
+          color: #E11D48;
+        }
+
+        .icon-steps {
+          background-color: rgba(0, 24, 42, 0.08);
+          color: #00182A;
+        }
+
+        .section-heading {
           font-family: 'Outfit', sans-serif;
-          font-size: 1.15rem;
+          font-size: 1.35rem;
+          font-weight: 700;
+          color: #00182A;
+          margin-bottom: 0.25rem;
+        }
+
+        .section-subtext {
+          font-size: 0.95rem;
+          color: #64748B;
+          margin: 0;
+          line-height: 1.5;
+        }
+
+        .insights-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1rem;
+        }
+
+        .insight-item-card {
+          border-radius: 12px;
+          padding: 1.25rem;
+          border: 1px solid #E2E8F0;
+          background-color: #F8FAFC;
+        }
+
+        .card-strong {
+          border-left: 4px solid #00AB96;
+        }
+
+        .card-building {
+          border-left: 4px solid #2563EB;
+        }
+
+        .card-attention {
+          border-left: 4px solid #E11D48;
+        }
+
+        .insight-card-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.5rem;
+        }
+
+        .insight-pillar-name {
+          font-size: 0.95rem;
           font-weight: 700;
           color: #00182A;
         }
 
-        .insight-list {
-          list-style: none;
-          display: flex;
-          flex-direction: column;
-          gap: 0.85rem;
+        .insight-pill {
+          font-size: 0.725rem;
+          font-weight: 700;
+          padding: 0.15rem 0.55rem;
+          border-radius: 9999px;
         }
 
-        .strength-item, .attention-item, .neutral-item {
-          display: flex;
-          align-items: flex-start;
-          gap: 0.6rem;
-          font-size: 0.95rem;
-          line-height: 1.5;
-          color: #334155;
-        }
-
-        .bullet-check {
+        .pill-strong {
+          background-color: rgba(0, 171, 150, 0.12);
           color: #00AB96;
-          font-weight: 800;
-          font-size: 0.95rem;
         }
 
-        .bullet-dot {
-          color: #F59E0B;
-          font-weight: 800;
-          font-size: 1.2rem;
-          line-height: 1;
+        .pill-building {
+          background-color: rgba(37, 99, 235, 0.12);
+          color: #2563EB;
         }
 
-        .next-steps-list {
+        .pill-attention {
+          background-color: rgba(225, 29, 72, 0.12);
+          color: #E11D48;
+        }
+
+        .insight-card-text {
+          font-size: 0.9rem;
+          color: #334155;
+          line-height: 1.55;
+          margin: 0;
+        }
+
+        /* Next 3 Steps Stack */
+        .recommendations-stack {
           display: flex;
           flex-direction: column;
           gap: 1rem;
         }
 
-        .step-action-item {
+        .recommendation-card {
           display: flex;
           align-items: flex-start;
-          gap: 1rem;
-          padding: 1rem 1.25rem;
+          gap: 1.25rem;
+          padding: 1.35rem 1.5rem;
           background-color: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          border-radius: 12px;
+          border: 1.5px solid #E2E8F0;
+          border-radius: 14px;
+          transition: all 0.2s ease;
         }
 
-        .step-number-badge {
-          width: 28px;
-          height: 28px;
+        .recommendation-card:hover {
+          border-color: #00AB96;
+          background-color: #FFFFFF;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+        }
+
+        .step-priority-badge {
+          width: 34px;
+          height: 34px;
           border-radius: 50%;
           background-color: #00182A;
           color: #FFFFFF;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 0.85rem;
+          font-family: 'Outfit', sans-serif;
+          font-size: 1rem;
           font-weight: 700;
           flex-shrink: 0;
         }
 
-        .step-action-text {
+        .recommendation-content {
+          flex: 1;
+        }
+
+        .recommendation-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.4rem;
+        }
+
+        .rec-title {
+          font-family: 'Outfit', sans-serif;
+          font-size: 1.15rem;
+          font-weight: 700;
+          color: #00182A;
+          margin: 0;
+        }
+
+        .rec-pillar-tag {
+          font-size: 0.725rem;
+          text-transform: uppercase;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          color: #64748B;
+          background-color: #E2E8F0;
+          padding: 0.15rem 0.5rem;
+          border-radius: 6px;
+        }
+
+        .rec-action-text {
           font-size: 0.95rem;
           color: #1E293B;
+          font-weight: 600;
+          line-height: 1.55;
+          margin-bottom: 0.35rem;
+        }
+
+        .rec-desc-subtext {
+          font-size: 0.85rem;
+          color: #64748B;
           line-height: 1.5;
-          font-weight: 500;
+          margin: 0 0 0.85rem 0;
         }
 
-        .result-cta-box {
-          background: linear-gradient(135deg, #F8FAFC 0%, #EDF2F7 100%);
-          border: 1.5px solid #CBD5E1;
-          border-radius: 16px;
-          padding: 2.25rem;
-          text-align: center;
+        .rec-tool-link-wrapper {
+          margin-top: 0.5rem;
         }
 
-        .cta-box-title {
+        .btn-rec-tool {
+          display: inline-flex;
+          align-items: center;
+          font-size: 0.85rem;
+          font-weight: 700;
+          color: #00AB96;
+          text-decoration: none;
+          transition: all 0.2s ease;
+        }
+
+        .btn-rec-tool:hover {
+          color: #007d6e;
+          transform: translateX(3px);
+        }
+
+        /* Scope & Disclosure */
+        .limitation-section {
+          background-color: #F8FAFC;
+          border-left: 4px solid #64748B;
+          padding: 1.5rem 1.75rem;
+        }
+
+        .disclosure-heading {
           font-family: 'Outfit', sans-serif;
-          font-size: 1.45rem;
+          font-size: 1rem;
           font-weight: 700;
           color: #00182A;
           margin-bottom: 0.5rem;
         }
 
-        .cta-box-desc {
+        .disclosure-text {
+          font-size: 0.875rem;
+          color: #475569;
+          line-height: 1.6;
+          margin-bottom: 0.75rem;
+        }
+
+        .compliance-text {
+          font-size: 0.8rem;
+          color: #64748B;
+          line-height: 1.5;
+          margin: 0;
+        }
+
+        /* Optional Consultation CTA Box */
+        .cta-box-card {
+          background: linear-gradient(135deg, #F8FAFC 0%, #EDF2F7 100%);
+          border: 1.5px solid #CBD5E1;
+          border-radius: 16px;
+          padding: 2.5rem;
+          text-align: center;
+        }
+
+        .cta-heading {
+          font-family: 'Outfit', sans-serif;
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #00182A;
+          margin-bottom: 0.5rem;
+        }
+
+        .cta-subtext {
           font-size: 1rem;
           color: #475569;
-          max-width: 620px;
+          max-width: 640px;
           margin: 0 auto 1.75rem auto;
           line-height: 1.6;
         }
 
-        .cta-buttons-group {
+        .cta-actions-group {
           display: flex;
           justify-content: center;
           align-items: center;
@@ -825,56 +1141,45 @@ export default function HealthQuestionnaire() {
           margin-bottom: 1.5rem;
         }
 
-        .btn-primary-action {
+        .btn-action-primary {
           background-color: #00AB96;
           color: #FFFFFF;
           font-size: 0.95rem;
           font-weight: 600;
-          padding: 0.85rem 1.6rem;
+          padding: 0.85rem 1.75rem;
           border-radius: 10px;
           text-decoration: none;
           transition: all 0.2s ease;
           box-shadow: 0 4px 12px rgba(0, 171, 150, 0.2);
         }
 
-        .btn-primary-action:hover {
+        .btn-action-primary:hover {
           background-color: #008f7d;
           transform: translateY(-2px);
         }
 
-        .btn-secondary-action {
+        .btn-action-secondary {
           background-color: #00182A;
           color: #FFFFFF;
           font-size: 0.95rem;
           font-weight: 600;
-          padding: 0.85rem 1.6rem;
+          padding: 0.85rem 1.75rem;
           border-radius: 10px;
           text-decoration: none;
           transition: all 0.2s ease;
         }
 
-        .btn-secondary-action:hover {
+        .btn-action-secondary:hover {
           background-color: #002845;
           transform: translateY(-2px);
         }
 
-        .btn-tertiary-action {
-          background-color: #FFFFFF;
-          color: #00182A;
-          border: 1.5px solid #CBD5E1;
-          font-size: 0.95rem;
-          font-weight: 600;
-          padding: 0.85rem 1.5rem;
-          border-radius: 10px;
-          text-decoration: none;
-          transition: all 0.2s ease;
+        .retake-link-wrapper {
+          display: flex;
+          justify-content: center;
         }
 
-        .btn-tertiary-action:hover {
-          background-color: #F1F5F9;
-        }
-
-        .btn-retake {
+        .btn-action-retake {
           background: transparent;
           border: none;
           color: #64748B;
@@ -885,79 +1190,78 @@ export default function HealthQuestionnaire() {
           transition: color 0.2s ease;
         }
 
-        .btn-retake:hover {
+        .btn-action-retake:hover {
           color: #00182A;
           text-decoration: underline;
         }
 
-        .result-disclaimer {
-          padding: 1.25rem 1.5rem;
-          background-color: #F8FAFC;
-          border-radius: 12px;
-          border-left: 3px solid #94A3B8;
-        }
-
-        .result-disclaimer p {
-          font-size: 0.825rem;
-          color: #64748B;
-          line-height: 1.6;
-        }
-
+        /* Responsive Breakpoints */
         @media (max-width: 768px) {
           .questionnaire-card {
             padding: 1.5rem;
           }
 
-          .question-heading {
-            font-size: 1.25rem;
+          .question-title-text {
+            font-size: 1.3rem;
           }
 
-          .result-hero-card {
+          .result-snapshot-card {
+            padding: 1.75rem 1.5rem;
+          }
+
+          .snapshot-title {
+            font-size: 1.6rem;
+          }
+
+          .snapshot-hero-row {
             flex-direction: column;
             text-align: center;
-            padding: 2rem 1.5rem;
+            gap: 1.5rem;
           }
 
-          .insights-two-col {
-            grid-template-columns: 1fr;
+          .result-section {
+            padding: 1.5rem;
           }
 
-          .cta-buttons-group {
+          .recommendation-card {
+            flex-direction: column;
+            gap: 0.75rem;
+          }
+
+          .cta-box-card {
+            padding: 1.75rem 1.25rem;
+          }
+
+          .cta-actions-group {
             flex-direction: column;
             width: 100%;
           }
 
-          .btn-primary-action, .btn-secondary-action, .btn-tertiary-action {
+          .btn-action-primary,
+          .btn-action-secondary {
             width: 100%;
             text-align: center;
           }
         }
 
-        @media (max-width: 540px) {
+        @media (max-width: 480px) {
           .questionnaire-card {
-            padding: 1.25rem 0.875rem;
-            border-radius: 12px;
-          }
-
-          .result-hero-card {
-            padding: 1.5rem 1rem;
+            padding: 1.25rem 1rem;
             border-radius: 14px;
           }
 
-          .result-section {
-            padding: 1.25rem 0.875rem;
-            border-radius: 12px;
+          .option-tile {
+            padding: 1rem;
           }
 
-          .step-actions-row.split {
-            flex-direction: column-reverse;
-            gap: 0.75rem;
+          .questionnaire-nav-footer {
+            padding-top: 1.25rem;
           }
 
-          .btn-next-step,
-          .btn-back-step {
-            width: 100%;
-            text-align: center;
+          .btn-nav-next,
+          .btn-nav-back {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.9rem;
           }
         }
       `}</style>

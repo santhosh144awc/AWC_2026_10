@@ -1,288 +1,574 @@
+/**
+ * Ant Wealth Creation — Financial Health Check Calculation Engine v4.0
+ * 
+ * An educational, product-neutral, 7-pillar self-assessment framework.
+ * Evaluates personal financial wellness across:
+ * 1. Cash Flow & Saving (15%)
+ * 2. Emergency Reserve (15%)
+ * 3. Debt Management (15%)
+ * 4. Protection (15%)
+ * 5. Investing (15%)
+ * 6. Goal Planning (10%)
+ * 7. Retirement (15%)
+ * 
+ * Total Weight = 100%
+ */
+
+export type HealthPillar =
+  | 'cashFlow'
+  | 'emergencyFund'
+  | 'debt'
+  | 'protection'
+  | 'investments'
+  | 'goals'
+  | 'retirement';
+
+export type PillarStatus = 'strong' | 'building' | 'attention';
+
 export interface HealthCheckOption {
   id: string;
   label: string;
   sublabel?: string;
-  score: number; // 0 to 100 for this category
+  score: number; // 20 to 100
 }
 
-export interface HealthCheckQuestion {
-  id: string;
-  category: HealthCategory;
-  categoryTitle: string;
+export interface HealthPillarConfig {
+  id: HealthPillar;
+  title: string;
+  shortTitle: string;
   question: string;
-  description: string;
+  helperText: string;
+  weight: number;
   options: HealthCheckOption[];
 }
 
-export type HealthCategory = 
-  | 'cashFlow'
-  | 'emergencyFund'
-  | 'investments'
-  | 'protection'
-  | 'debt'
-  | 'retirement'
-  | 'goals';
-
-export interface CategoryScoreResult {
-  category: HealthCategory;
+export interface PillarScoreResult {
+  pillar: HealthPillar;
   title: string;
-  score: number; // 0 to 100
-  status: 'Strong' | 'Good' | 'Needs Attention';
+  shortTitle: string;
+  score: number; // 20 to 100
+  status: PillarStatus;
+  statusLabel: string;
   statusColor: string;
   icon: string;
 }
 
+export interface HealthRecommendation {
+  pillar: HealthPillar;
+  priority: number;
+  title: string;
+  description: string;
+  action: string;
+  route?: string;
+  routeLabel?: string;
+}
+
+export interface PillarInsight {
+  pillar: HealthPillar;
+  title: string;
+  score: number;
+  text: string;
+}
+
+export interface HealthScoreBand {
+  min: number;
+  max: number;
+  title: string;
+  badgeColor: string;
+  shortExplanation: string;
+}
+
 export interface HealthCheckAnswers {
-  [questionId: string]: string; // questionId -> optionId
+  [pillar: string]: string; // pillarId -> optionId
 }
 
 export interface HealthCheckResult {
   overallScore: number; // 0 to 100
+  band: HealthScoreBand;
   ratingTitle: string;
   ratingDescription: string;
-  categoryScores: CategoryScoreResult[];
-  strengths: string[];
-  needsAttention: string[];
-  nextSteps: string[];
+  pillarScores: PillarScoreResult[];
+  categoryScores: PillarScoreResult[]; // backward compatibility alias
+  strengths: PillarInsight[];
+  areasToStrengthen: PillarInsight[];
+  priorityAreas: PillarInsight[];
+  recommendations: HealthRecommendation[];
+  nextSteps: string[]; // backward compatibility string array
 }
 
-export const HEALTH_CHECK_QUESTIONS: HealthCheckQuestion[] = [
+// 7 Pillars Configuration v4.0
+export const HEALTH_PILLARS: HealthPillarConfig[] = [
   {
     id: 'cashFlow',
-    category: 'cashFlow',
-    categoryTitle: 'Cash Flow & Income',
-    question: 'What percentage of your monthly income do you typically save or invest?',
-    description: 'A healthy savings rate is the primary foundation for long-term compounding.',
+    title: 'Cash Flow & Saving',
+    shortTitle: 'Cash Flow',
+    question: 'After your regular household expenses, how consistently do you have money left to save or invest?',
+    helperText: 'Your ideal saving level depends on your income, responsibilities and financial goals. The important first step is having a sustainable surplus.',
+    weight: 0.15,
     options: [
-      { id: 'cf_1', label: 'Less than 10%', sublabel: 'Struggling to save regularly after monthly expenses', score: 20 },
-      { id: 'cf_2', label: '10% to 20%', sublabel: 'Consistent habit, with room to optimize cash flow', score: 55 },
-      { id: 'cf_3', label: '20% to 40%', sublabel: 'Healthy, disciplined monthly allocation', score: 85 },
-      { id: 'cf_4', label: 'More than 40%', sublabel: 'Excellent saving rate towards financial freedom', score: 100 }
+      { id: 'cf_1', label: 'Little or nothing is left most months.', score: 20 },
+      { id: 'cf_2', label: 'Usually less than 10% of my income is left.', score: 45 },
+      { id: 'cf_3', label: 'Usually around 10–20% is left.', score: 80 },
+      { id: 'cf_4', label: 'More than 20% is consistently left.', score: 100 }
     ]
   },
   {
     id: 'emergencyFund',
-    category: 'emergencyFund',
-    categoryTitle: 'Emergency Cushion',
-    question: 'How many months of essential living expenses could your emergency fund cover?',
-    description: 'Liquid funds in savings accounts or liquid mutual funds kept strictly for unexpected events.',
+    title: 'Emergency Reserve',
+    shortTitle: 'Emergency Reserve',
+    question: 'If your income stopped unexpectedly, how long could your readily available emergency savings cover essential expenses?',
+    helperText: 'The right emergency reserve depends on income stability, dependants, health needs, debt and household responsibilities.',
+    weight: 0.15,
     options: [
-      { id: 'ef_1', label: 'Less than 1 month', sublabel: 'High vulnerability to sudden medical or job shocks', score: 15 },
-      { id: 'ef_2', label: '1 to 3 months', sublabel: 'Basic buffer, but needs expansion for safety', score: 50 },
-      { id: 'ef_3', label: '3 to 6 months', sublabel: 'Standard recommended safety cushion for working professionals', score: 85 },
-      { id: 'ef_4', label: '6 months or more', sublabel: 'Rock-solid emergency security', score: 100 }
-    ]
-  },
-  {
-    id: 'investments',
-    category: 'investments',
-    categoryTitle: 'Wealth & Investments',
-    question: 'How are your long-term savings currently invested?',
-    description: 'Beating inflation requires a disciplined, diversified asset allocation strategy.',
-    options: [
-      { id: 'inv_1', label: 'Only in Savings Account or Traditional Bank FDs', sublabel: 'Safe, but returns may struggle against real inflation and tax', score: 30 },
-      { id: 'inv_2', label: 'Irregular or occasional investments without a fixed plan', sublabel: 'Some exposure, but lacks compounding consistency', score: 55 },
-      { id: 'inv_3', label: 'Monthly SIPs in Mutual Funds + Diversified Assets', sublabel: 'Disciplined compounding aligned with personal goals', score: 90 },
-      { id: 'inv_4', label: 'Structured asset allocation (Equity, Debt, Gold, Liquid)', sublabel: 'Comprehensive, balanced portfolio strategy', score: 100 }
-    ]
-  },
-  {
-    id: 'protection',
-    category: 'protection',
-    categoryTitle: 'Insurance & Protection',
-    question: 'What is your family’s life and health insurance coverage status?',
-    description: 'Protection prevents unforeseen medical emergencies or life events from draining your wealth.',
-    options: [
-      { id: 'pr_1', label: 'No insurance / only basic employer health cover', sublabel: 'Vulnerable if you switch jobs or face major health issues', score: 15 },
-      { id: 'pr_2', label: 'Only traditional endowment / money-back insurance policies', sublabel: 'High premiums with inadequate sum assured', score: 45 },
-      { id: 'pr_3', label: 'Personal Health Insurance + Basic Term Cover', sublabel: 'Good start; ensure sum assured equals 10-15x annual income', score: 80 },
-      { id: 'pr_4', label: 'Adequate Pure Term Insurance (15-20x income) + Separate Family Health Cover', sublabel: 'Comprehensive, optimal protection strategy', score: 100 }
+      { id: 'ef_1', label: 'Less than 1 month', score: 20 },
+      { id: 'ef_2', label: '1–3 months', score: 50 },
+      { id: 'ef_3', label: '3–6 months', score: 85 },
+      { id: 'ef_4', label: 'More than 6 months', score: 100 }
     ]
   },
   {
     id: 'debt',
-    category: 'debt',
-    categoryTitle: 'Debt Management',
-    question: 'How much of your monthly income goes towards EMIs and loan repayments?',
-    description: 'Includes home loans, car loans, personal loans, and credit card outstanding balances.',
+    title: 'Debt Management',
+    shortTitle: 'Debt Management',
+    question: 'How comfortable are your current loan and debt repayments?',
+    helperText: 'Debt health depends on both the size and cost of your debt. High-cost revolving debt deserves attention even when the EMI appears manageable.',
+    weight: 0.15,
     options: [
-      { id: 'db_1', label: 'More than 50% / High-interest credit card debt', sublabel: 'Heavy debt burden constraining wealth creation', score: 20 },
-      { id: 'db_2', label: '35% to 50% of monthly income', sublabel: 'Moderate-high EMI commitment; needs careful monitoring', score: 55 },
-      { id: 'db_3', label: '15% to 35% of monthly income (mainly home loan)', sublabel: 'Healthy, manageable debt ratio', score: 85 },
-      { id: 'db_4', label: 'Zero debt / Less than 15% on manageable home loan', sublabel: 'Low debt stress, high cash flow flexibility', score: 100 }
+      { id: 'db_1', label: 'High-cost debt or repayments regularly put pressure on my budget.', score: 20 },
+      { id: 'db_2', label: 'I have significant EMIs, but they are currently manageable.', score: 50 },
+      { id: 'db_3', label: 'My repayments are manageable and I have no high-cost revolving debt.', score: 85 },
+      { id: 'db_4', label: 'I have very little manageable debt and strong repayment flexibility.', score: 100 }
     ]
   },
   {
-    id: 'retirement',
-    category: 'retirement',
-    categoryTitle: 'Retirement Readiness',
-    question: 'How clearly have you planned and invested for your retirement corpus?',
-    description: 'Retirement is the only milestone where you cannot take an education or bank loan.',
+    id: 'protection',
+    title: 'Protection',
+    shortTitle: 'Protection',
+    question: 'How well is your family protected against major health costs and loss of income?',
+    helperText: 'Protection needs vary with dependants, income, liabilities, existing assets and other family responsibilities. A simple income multiple cannot determine the right cover for everyone.',
+    weight: 0.15,
     options: [
-      { id: 'rt_1', label: 'Haven’t started planning or calculating my required corpus', sublabel: 'Relying solely on EPF or informal savings', score: 20 },
-      { id: 'rt_2', label: 'Investing occasionally, but have not calculated inflation-adjusted needs', sublabel: 'Unclear if the corpus will sustain lifelong lifestyle', score: 50 },
-      { id: 'rt_3', label: 'Dedicated monthly SIPs with an estimated target corpus', sublabel: 'Clear roadmap underway with regular review', score: 85 },
-      { id: 'rt_4', label: 'Calculated inflation-adjusted corpus with automated SIPs & asset rebalancing', sublabel: 'High clarity and structured retirement path', score: 100 }
+      { id: 'pr_1', label: 'I mainly depend on employer cover or have little personal protection.', score: 20 },
+      { id: 'pr_2', label: 'I have some protection, but I am unsure whether it is enough.', score: 50 },
+      { id: 'pr_3', label: 'I have personal health protection and life protection where my family depends on my income.', score: 80 },
+      { id: 'pr_4', label: "I have reviewed my health and life protection against my family's needs, liabilities and important goals.", score: 100 }
+    ]
+  },
+  {
+    id: 'investments',
+    title: 'Investing',
+    shortTitle: 'Investing',
+    question: 'How well do your savings and investments match your goals, time horizons and risk level?',
+    helperText: 'Good investing is not about choosing one particular product. It is about matching money to your goals, time horizon, liquidity needs and ability to handle risk.',
+    weight: 0.15,
+    options: [
+      { id: 'inv_1', label: 'Most of my money is saved without a clear long-term plan.', score: 30 },
+      { id: 'inv_2', label: 'I invest or save irregularly, but it is not clearly linked to my goals.', score: 55 },
+      { id: 'inv_3', label: 'I invest regularly and broadly match my investments to my goals and time horizons.', score: 85 },
+      { id: 'inv_4', label: 'I have a diversified approach that is reviewed as my goals, time horizons or circumstances change.', score: 100 }
     ]
   },
   {
     id: 'goals',
-    category: 'goals',
-    categoryTitle: 'Goal Clarity',
-    question: 'Do you have specific time horizons and designated investments for your life goals?',
-    description: 'Examples: Children’s higher education, home purchase, travel, or regular income.',
+    title: 'Goal Planning',
+    shortTitle: 'Goal Planning',
+    question: 'How clearly have you identified your important financial goals and what they may require?',
+    helperText: 'Clear goals help you decide how much to save, when you need the money and how much investment risk may be appropriate.',
+    weight: 0.10,
     options: [
-      { id: 'gl_1', label: 'No specific timeline or dedicated investments for milestones', sublabel: 'Goals are general wishes rather than structured plans', score: 25 },
-      { id: 'gl_2', label: 'Goals identified, but investing in one common pool', sublabel: 'Risk of withdrawing from long-term funds for short-term needs', score: 60 },
-      { id: 'gl_3', label: 'Key milestones mapped with separate SIPs and timelines', sublabel: 'Clear separation between short, medium, and long-term goals', score: 90 },
-      { id: 'gl_4', label: 'Fully mapped financial roadmap with timelines & reviewed annually', sublabel: 'Crystal clear milestone execution', score: 100 }
+      { id: 'gl_1', label: 'My important goals are mostly informal or unplanned.', score: 25 },
+      { id: 'gl_2', label: 'I know my major goals and have approximate timelines.', score: 55 },
+      { id: 'gl_3', label: 'I have estimated costs, timelines and a savings or investment approach for my important goals.', score: 85 },
+      { id: 'gl_4', label: 'I regularly review my goal progress and adjust my plan when circumstances change.', score: 100 }
+    ]
+  },
+  {
+    id: 'retirement',
+    title: 'Retirement',
+    shortTitle: 'Retirement',
+    question: 'How clearly have you planned for the income and expenses you may need after you stop working?',
+    helperText: 'Retirement planning should consider future living costs, inflation, expected income, longevity and the time available to build resources.',
+    weight: 0.15,
+    options: [
+      { id: 'rt_1', label: 'I have not estimated what I may need for retirement.', score: 20 },
+      { id: 'rt_2', label: 'I save for retirement, but I have not estimated my future needs clearly.', score: 50 },
+      { id: 'rt_3', label: 'I have estimated my future needs and regularly save towards them.', score: 85 },
+      { id: 'rt_4', label: 'My retirement plan considers inflation, future income needs and is reviewed as circumstances change.', score: 100 }
     ]
   }
 ];
 
-const CATEGORY_WEIGHTS: Record<HealthCategory, number> = {
-  cashFlow: 0.15,
-  emergencyFund: 0.15,
-  investments: 0.15,
-  protection: 0.15,
-  debt: 0.15,
-  retirement: 0.15,
-  goals: 0.10
+// Compatibility alias for existing imports
+export const HEALTH_CHECK_QUESTIONS = HEALTH_PILLARS.map(p => ({
+  id: p.id,
+  category: p.id,
+  categoryTitle: p.title,
+  question: p.question,
+  description: p.helperText,
+  options: p.options
+}));
+
+// Pillar Status Helper
+export function getPillarStatus(score: number): PillarStatus {
+  if (score >= 80) return 'strong';
+  if (score >= 50) return 'building';
+  return 'attention';
+}
+
+export function getPillarStatusLabel(status: PillarStatus): string {
+  switch (status) {
+    case 'strong':
+      return 'Strong';
+    case 'building':
+      return 'Building';
+    case 'attention':
+      return 'Needs Attention';
+  }
+}
+
+export function getPillarStatusColor(status: PillarStatus): string {
+  switch (status) {
+    case 'strong':
+      return '#00AB96'; // Growth Teal
+    case 'building':
+      return '#2563EB'; // Royal Blue (accessible contrast)
+    case 'attention':
+      return '#E11D48'; // Rose / Coral Red
+  }
+}
+
+export function getPillarStatusIcon(status: PillarStatus): string {
+  switch (status) {
+    case 'strong':
+      return '✓';
+    case 'building':
+      return '↗';
+    case 'attention':
+      return '•';
+  }
+}
+
+// Overall Score Bands
+export const SCORE_BANDS: HealthScoreBand[] = [
+  {
+    min: 80,
+    max: 100,
+    title: 'Strong Foundation',
+    badgeColor: '#00AB96',
+    shortExplanation: 'Your answers show a strong financial foundation across core areas, with disciplined habits supporting your long-term plans.'
+  },
+  {
+    min: 65,
+    max: 79,
+    title: 'Generally Healthy',
+    badgeColor: '#2563EB',
+    shortExplanation: 'Your answers show a reasonable financial foundation, with a few areas that could be strengthened.'
+  },
+  {
+    min: 50,
+    max: 64,
+    title: 'Needs Strengthening',
+    badgeColor: '#D97706',
+    shortExplanation: 'You have initiated several positive financial steps, but key areas would benefit from clearer planning and resilience.'
+  },
+  {
+    min: 0,
+    max: 49,
+    title: 'Priority Areas Identified',
+    badgeColor: '#E11D48',
+    shortExplanation: 'Your current setup has important vulnerabilities. Addressing key foundational areas first will significantly improve your financial stability.'
+  }
+];
+
+export function getOverallScoreBand(score: number): HealthScoreBand {
+  const rounded = Math.round(score);
+  for (const band of SCORE_BANDS) {
+    if (rounded >= band.min && rounded <= band.max) {
+      return band;
+    }
+  }
+  return SCORE_BANDS[SCORE_BANDS.length - 1];
+}
+
+// Educational Strengths Insights
+const STRENGTH_TEXTS: Record<HealthPillar, string> = {
+  cashFlow: 'Consistent monthly surplus supporting your financial goals and long-term security.',
+  emergencyFund: 'Good emergency reserve covering 3 or more months of essential living expenses.',
+  debt: 'Manageable debt with no high-cost revolving borrowing constraining cash flow.',
+  protection: 'Personal health and life protection aligned with family responsibilities and dependants.',
+  investments: 'Disciplined investment approach matched to time horizons and risk tolerance.',
+  goals: 'Clear milestone timelines and estimated costs guiding your planning and resource allocation.',
+  retirement: 'Proactive retirement strategy factoring in future living costs and inflation.'
 };
 
+// Areas to Strengthen Insights (50 <= score < 80)
+const STRENGTHEN_TEXTS: Record<HealthPillar, string> = {
+  cashFlow: 'Your monthly surplus is modest; tracking discretionary spending can help build a more consistent saving buffer.',
+  emergencyFund: 'Your emergency savings cover 1–3 months; expanding this buffer will enhance resilience against unexpected shocks.',
+  debt: 'Your loan repayments are currently manageable, but reviewing repayment structures can free up cash flow.',
+  protection: "You have some coverage, but reviewing health and term protection against your family's liabilities can prevent gaps.",
+  investments: 'Your investing approach may benefit from clearer links to goals and time horizons.',
+  goals: 'You have identified major goals, but estimating future costs and timelines will improve clarity.',
+  retirement: 'Your retirement planning could benefit from a clearer estimate of future needs.'
+};
+
+// Priority Areas Insights (score < 50)
+const PRIORITY_TEXTS: Record<HealthPillar, string> = {
+  cashFlow: 'Little or no surplus is left most months, which limits your ability to absorb sudden expenses or build savings.',
+  emergencyFund: 'Your current emergency savings may provide limited protection against an unexpected income interruption.',
+  debt: 'High-cost debt or repayments regularly put pressure on your monthly budget.',
+  protection: 'Limited personal health or life protection leaves your family vulnerable to medical or income emergencies.',
+  investments: 'Savings are mostly unlinked to a long-term plan, which may affect real wealth preservation against inflation.',
+  goals: 'Goals remain informal or unplanned, which creates risk of withdrawing from long-term funds for short-term needs.',
+  retirement: 'Retirement needs remain unestimated, leaving future living costs and income security unaddressed.'
+};
+
+// Centralized Action Recommendations
+const PILLAR_RECOMMENDATIONS: Record<HealthPillar, { title: string; description: string; action: string; route?: string; routeLabel?: string }> = {
+  debt: {
+    title: 'Review & Optimize Debt',
+    description: 'High-cost or repayment-heavy debt constrains cash flow and compromises long-term growth.',
+    action: 'Review your outstanding loans and identify any high-cost or repayment-heavy debt that should be addressed first.',
+    route: '/tools/loan-sip-recovery',
+    routeLabel: 'Explore Loan & Repayment Tools'
+  },
+  emergencyFund: {
+    title: 'Build Emergency Reserve',
+    description: 'A dedicated liquid cushion protects long-term assets from sudden life shocks.',
+    action: 'Estimate your essential monthly expenses and build an emergency reserve that reflects your income stability and family responsibilities.',
+    route: '/health-check/real-statement',
+    routeLabel: 'Map Cash Flow & Reserves'
+  },
+  protection: {
+    title: 'Evaluate Protection Needs',
+    description: 'Adequate life and health protection safeguards your family against major income loss or medical costs.',
+    action: 'Review your personal health and life protection against dependants, liabilities, income and important family responsibilities.',
+    route: '/tools/life-insurance',
+    routeLabel: 'Explore Protection Analysis Tool'
+  },
+  cashFlow: {
+    title: 'Track Income & Cash Flow',
+    description: 'A consistent monthly surplus is the primary foundation for all compounding and goal progress.',
+    action: 'Track your income and essential expenses for one month and identify a realistic amount you can consistently save or invest.',
+    route: '/health-check/real-statement',
+    routeLabel: 'Create REAL Financial Statement'
+  },
+  goals: {
+    title: 'Define Important Goals',
+    description: 'Explicit milestone timelines and costs prevent premature liquidation of investments.',
+    action: 'List your three most important financial goals, their target dates and approximate future costs.',
+    route: '/plan',
+    routeLabel: 'Explore Goal Planner'
+  },
+  retirement: {
+    title: 'Estimate Retirement Needs',
+    description: 'Factoring in inflation and longevity early allows compounding to do the heavy lifting.',
+    action: 'Estimate your future retirement spending and income needs, then check whether your current savings plan is keeping pace.',
+    route: '/tools/retirement',
+    routeLabel: 'Explore Retirement Planner'
+  },
+  investments: {
+    title: 'Align Investments to Horizons',
+    description: 'Structuring assets by time horizon and risk tolerance protects purchasing power against inflation.',
+    action: 'Review whether your investments match your goals, time horizons, liquidity needs and risk level.',
+    route: '/tools',
+    routeLabel: 'Explore Planning Calculators'
+  }
+};
+
+// Proactive Maintenance Recommendations (when fewer than 3 gaps exist)
+const MAINTENANCE_RECOMMENDATIONS: HealthRecommendation[] = [
+  {
+    pillar: 'investments',
+    priority: 98,
+    title: 'Annual Asset Allocation Review',
+    description: 'Periodically rebalancing your portfolio maintains risk alignment as life milestones approach.',
+    action: 'Review your asset allocation annually to ensure it matches your changing life milestones, liquidity needs and risk level.',
+    route: '/tools',
+    routeLabel: 'Explore Investment Tools'
+  },
+  {
+    pillar: 'goals',
+    priority: 99,
+    title: 'Periodic Health Checkup',
+    description: 'Regular reviews ensure your financial roadmap adapts to changing family circumstances.',
+    action: 'Revisit this financial health assessment annually or whenever major life events, responsibilities or income change.',
+    route: '/health-check',
+    routeLabel: 'Retake Health Check'
+  }
+];
+
+export function getStrengths(pillarScores: PillarScoreResult[]): PillarInsight[] {
+  return pillarScores
+    .filter(p => p.score >= 80)
+    .map(p => ({
+      pillar: p.pillar,
+      title: p.title,
+      score: p.score,
+      text: STRENGTH_TEXTS[p.pillar]
+    }));
+}
+
+export function getAreasToStrengthen(pillarScores: PillarScoreResult[]): PillarInsight[] {
+  return pillarScores
+    .filter(p => p.score >= 50 && p.score < 80)
+    .map(p => ({
+      pillar: p.pillar,
+      title: p.title,
+      score: p.score,
+      text: STRENGTHEN_TEXTS[p.pillar]
+    }));
+}
+
+export function getPriorityAreas(pillarScores: PillarScoreResult[]): PillarInsight[] {
+  return pillarScores
+    .filter(p => p.score < 50)
+    .map(p => ({
+      pillar: p.pillar,
+      title: p.title,
+      score: p.score,
+      text: PRIORITY_TEXTS[p.pillar]
+    }));
+}
+
+/**
+ * Dependency-Aware Recommendation Engine v4.0
+ * 
+ * Order of Dependencies:
+ * FOUNDATION (Debt < 50, Emergency < 50)
+ * -> PROTECTION (Protection < 50)
+ * -> CASH FLOW (Cash Flow < 80)
+ * -> RESILIENCE & MODERATE DEBT (Debt 50-79, Emergency 50-79, Protection 50-79)
+ * -> PLANNING (Goals < 80)
+ * -> RETIREMENT (Retirement < 80)
+ * -> LONG-TERM GROWTH (Investing < 80)
+ * 
+ * Maximum recommendations returned: 3.
+ */
+export function getRecommendedNextSteps(pillarScores: PillarScoreResult[]): HealthRecommendation[] {
+  const scoreMap = new Map<HealthPillar, number>();
+  for (const p of pillarScores) {
+    scoreMap.set(p.pillar, p.score);
+  }
+
+  // Priority queue items
+  type Candidate = { pillar: HealthPillar; rank: number };
+  const candidates: Candidate[] = [];
+
+  const debtScore = scoreMap.get('debt') ?? 100;
+  const efScore = scoreMap.get('emergencyFund') ?? 100;
+  const protScore = scoreMap.get('protection') ?? 100;
+  const cfScore = scoreMap.get('cashFlow') ?? 100;
+  const goalsScore = scoreMap.get('goals') ?? 100;
+  const retScore = scoreMap.get('retirement') ?? 100;
+  const invScore = scoreMap.get('investments') ?? 100;
+
+  // Severe Foundation Gaps (Score < 50)
+  if (debtScore < 50) candidates.push({ pillar: 'debt', rank: 10 });
+  if (efScore < 50) candidates.push({ pillar: 'emergencyFund', rank: 20 });
+  if (protScore < 50) candidates.push({ pillar: 'protection', rank: 30 });
+  if (cfScore < 50) candidates.push({ pillar: 'cashFlow', rank: 40 });
+
+  // Moderate Cash Flow / Debt / Safety Gaps (50 <= Score < 80)
+  if (cfScore >= 50 && cfScore < 80) candidates.push({ pillar: 'cashFlow', rank: 50 });
+  if (debtScore >= 50 && debtScore < 80) candidates.push({ pillar: 'debt', rank: 60 });
+  if (efScore >= 50 && efScore < 80) candidates.push({ pillar: 'emergencyFund', rank: 70 });
+  if (protScore >= 50 && protScore < 80) candidates.push({ pillar: 'protection', rank: 80 });
+
+  // Planning & Growth Gaps (Score < 80)
+  if (goalsScore < 80) candidates.push({ pillar: 'goals', rank: 90 });
+  if (retScore < 80) candidates.push({ pillar: 'retirement', rank: 100 });
+  if (invScore < 80) candidates.push({ pillar: 'investments', rank: 110 });
+
+  // Sort candidates by dependency rank
+  candidates.sort((a, b) => a.rank - b.rank);
+
+  const selectedRecommendations: HealthRecommendation[] = [];
+  const seenPillars = new Set<HealthPillar>();
+
+  for (const c of candidates) {
+    if (selectedRecommendations.length >= 3) break;
+    if (!seenPillars.has(c.pillar)) {
+      seenPillars.add(c.pillar);
+      const rec = PILLAR_RECOMMENDATIONS[c.pillar];
+      selectedRecommendations.push({
+        pillar: c.pillar,
+        priority: selectedRecommendations.length + 1,
+        title: rec.title,
+        description: rec.description,
+        action: rec.action,
+        route: rec.route,
+        routeLabel: rec.routeLabel
+      });
+    }
+  }
+
+  // If fewer than 3 gaps, add maintenance steps
+  if (selectedRecommendations.length < 3) {
+    for (const m of MAINTENANCE_RECOMMENDATIONS) {
+      if (selectedRecommendations.length >= 3) break;
+      if (!seenPillars.has(m.pillar)) {
+        seenPillars.add(m.pillar);
+        selectedRecommendations.push({
+          ...m,
+          priority: selectedRecommendations.length + 1
+        });
+      }
+    }
+  }
+
+  return selectedRecommendations.slice(0, 3);
+}
+
+/**
+ * Pure Calculation Engine v4.0
+ * 
+ * Computes overall weighted health score and generates structured result payload.
+ */
 export function calculateFinancialHealth(answers: HealthCheckAnswers): HealthCheckResult {
   let weightedScoreSum = 0;
-  const categoryScores: CategoryScoreResult[] = [];
-  const strengths: string[] = [];
-  const needsAttention: string[] = [];
-  const nextSteps: string[] = [];
+  const pillarScores: PillarScoreResult[] = [];
 
-  for (const question of HEALTH_CHECK_QUESTIONS) {
-    const selectedOptionId = answers[question.id];
-    const selectedOption = question.options.find(o => o.id === selectedOptionId) || question.options[0];
+  for (const config of HEALTH_PILLARS) {
+    const selectedOptionId = answers[config.id];
+    const selectedOption = config.options.find(o => o.id === selectedOptionId) || config.options[0];
     const score = selectedOption.score;
-    const weight = CATEGORY_WEIGHTS[question.category];
+    const weight = config.weight;
 
     weightedScoreSum += score * weight;
 
-    let status: 'Strong' | 'Good' | 'Needs Attention' = 'Needs Attention';
-    let statusColor = '#EF4444';
-    let icon = '•';
-
-    if (score >= 75) {
-      status = 'Strong';
-      statusColor = '#00AB96';
-      icon = '✓';
-    } else if (score >= 50) {
-      status = 'Good';
-      statusColor = '#F59E0B';
-      icon = '•';
-    }
-
-    categoryScores.push({
-      category: question.category,
-      title: question.categoryTitle,
+    const status = getPillarStatus(score);
+    pillarScores.push({
+      pillar: config.id,
+      title: config.title,
+      shortTitle: config.shortTitle,
       score,
       status,
-      statusColor,
-      icon
+      statusLabel: getPillarStatusLabel(status),
+      statusColor: getPillarStatusColor(status),
+      icon: getPillarStatusIcon(status)
     });
-
-    if (question.category === 'cashFlow') {
-      if (score >= 75) {
-        strengths.push('Healthy monthly savings rate supporting wealth accumulation.');
-      } else {
-        needsAttention.push('Monthly savings rate is below the recommended 20-30% benchmark.');
-        nextSteps.push('Conduct a 30-day cash flow audit to identify non-essential leaks and automate monthly savings.');
-      }
-    }
-
-    if (question.category === 'emergencyFund') {
-      if (score >= 75) {
-        strengths.push('Solid emergency cushion protecting against sudden financial shocks.');
-      } else {
-        needsAttention.push('Emergency fund is insufficient (under 3-6 months of essential living expenses).');
-        nextSteps.push('Prioritize building a 3-6 month liquid emergency fund before aggressively expanding risky assets.');
-      }
-    }
-
-    if (question.category === 'investments') {
-      if (score >= 75) {
-        strengths.push('Disciplined mutual fund & asset allocation habit driving compounding.');
-      } else {
-        needsAttention.push('Savings are heavily concentrated in low-yield or un-structured instruments.');
-        nextSteps.push('Start a disciplined monthly SIP in diversified equity & hybrid mutual funds to beat long-term inflation.');
-      }
-    }
-
-    if (question.category === 'protection') {
-      if (score >= 75) {
-        strengths.push('Adequate life and health protection safeguarding your family’s future.');
-      } else {
-        needsAttention.push('Life or health insurance coverage needs urgent review to prevent portfolio depletion.');
-        nextSteps.push('Secure an adequate pure term life insurance plan (15-20x annual income) and standalone family health cover.');
-      }
-    }
-
-    if (question.category === 'debt') {
-      if (score >= 75) {
-        strengths.push('Manageable debt levels providing high monthly cash flow flexibility.');
-      } else {
-        needsAttention.push('EMI and debt obligations exceed the comfortable 35-40% income threshold.');
-        nextSteps.push('Create a structured debt-reduction plan to pay off high-cost liabilities and lower monthly EMI stress.');
-      }
-    }
-
-    if (question.category === 'retirement') {
-      if (score >= 75) {
-        strengths.push('Proactive, inflation-adjusted retirement roadmap with regular investing.');
-      } else {
-        needsAttention.push('Retirement corpus requirements and withdrawal timelines remain uncalculated.');
-        nextSteps.push('Use the Retirement Calculator to calculate your inflation-adjusted corpus and calibrate your monthly SIP.');
-      }
-    }
-
-    if (question.category === 'goals') {
-      if (score >= 75) {
-        strengths.push('Well-mapped life milestones with dedicated investment buckets.');
-      } else {
-        needsAttention.push('Life goals lack separated investment buckets and clear time horizons.');
-        nextSteps.push('Tag specific mutual fund SIPs to distinct life milestones (child education, home purchase, wealth creation).');
-      }
-    }
   }
 
-  const overallScore = Math.round(weightedScoreSum);
+  const overallScore = Math.min(100, Math.max(0, Math.round(weightedScoreSum)));
+  const band = getOverallScoreBand(overallScore);
 
-  let ratingTitle = 'Healthy Financial Path';
-  let ratingDescription = 'You have established several key financial habits, with clear opportunities to strengthen risk protection and compounding.';
-
-  if (overallScore >= 85) {
-    ratingTitle = 'Excellent Financial Foundation';
-    ratingDescription = 'Your finances demonstrate strong discipline, prudent risk management, and consistent goal-oriented planning.';
-  } else if (overallScore >= 70) {
-    ratingTitle = 'Healthy Financial Path';
-    ratingDescription = 'You are on a solid trajectory with strong core habits. Addressing a few identified gaps will accelerate your financial independence.';
-  } else if (overallScore >= 50) {
-    ratingTitle = 'Moderate Stability — Action Needed';
-    ratingDescription = 'You have initiated good financial steps, but key vulnerabilities in emergency backup, insurance, or long-term growth require attention.';
-  } else {
-    ratingTitle = 'Vulnerable — Immediate Review Recommended';
-    ratingDescription = 'Your current financial setup has significant exposure to unexpected shocks. Restructuring cash flow, protection, and emergency reserves should be your top priority.';
-  }
-
-  if (nextSteps.length === 0) {
-    nextSteps.push('Review your asset allocation annually to ensure it matches your changing life milestones.');
-    nextSteps.push('Schedule an annual portfolio checkup to rebalance between equity and debt assets.');
-  }
+  const strengths = getStrengths(pillarScores);
+  const areasToStrengthen = getAreasToStrengthen(pillarScores);
+  const priorityAreas = getPriorityAreas(pillarScores);
+  const recommendations = getRecommendedNextSteps(pillarScores);
 
   return {
     overallScore,
-    ratingTitle,
-    ratingDescription,
-    categoryScores,
+    band,
+    ratingTitle: band.title,
+    ratingDescription: band.shortExplanation,
+    pillarScores,
+    categoryScores: pillarScores, // alias
     strengths,
-    needsAttention,
-    nextSteps: nextSteps.slice(0, 4)
+    areasToStrengthen,
+    priorityAreas,
+    recommendations,
+    nextSteps: recommendations.map(r => r.action) // alias
   };
 }
