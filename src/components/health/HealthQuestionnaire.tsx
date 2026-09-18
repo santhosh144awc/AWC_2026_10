@@ -30,10 +30,16 @@ export default function HealthQuestionnaire() {
     if (!currentAnswer) return;
 
     if (isLastStep) {
-      const finalResult = calculateFinancialHealth(answers);
+      const allAnswers = {
+        ...answers,
+        [currentQuestion.id]: currentAnswer
+      };
+      const finalResult = calculateFinancialHealth(allAnswers);
       setResult(finalResult);
       setIsCompleted(true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     } else {
       setCurrentStep(prev => prev + 1);
     }
@@ -203,7 +209,7 @@ export default function HealthQuestionnaire() {
                 href={`https://wa.me/918087971566?text=${encodeURIComponent(
                   `Hi Santhosh, I used the Financial Health Check on Ant Wealth Creation.\n\n` +
                   `• Health Score: ${result.overallScore} / 100 (${result.ratingTitle})\n` +
-                  `• Key Priority: ${result.actionRecommendations[0]?.title || 'Review Plan'}\n\n` +
+                  `• Key Priority: ${result.nextSteps?.[0] || result.needsAttention?.[0] || 'Review Plan'}\n\n` +
                   `Can we connect to discuss this plan?`
                 )}`} 
                 target="_blank" 

@@ -1,19 +1,19 @@
 # Ant Wealth Creation — Project Status & Architecture Guide
 
-**Current Version:** `v3.10.0 (Phase 16G — Homepage Learn Section 4-Card Spacious Showcase & Readability Polish)`  
-**Current Date:** September 1, 2026  
+**Current Version:** `v3.11.0 (Phase 16H — Financial Health Check Results Transition Bug Fix & Suite Expansion)`  
+**Current Date:** September 18, 2026  
 **Repository Branch:** `main` | `AntWealth_2026_08`  
 **Total Pages Compiled:** **33 Static Pages** (`npm run build` output)  
-**Total Unit Tests:** **435+ Automated Unit Tests Across 11 Suites** (`npm test` all passing)  
+**Total Unit Tests:** **490+ Automated Unit Tests Across 12 Suites** (`npm test` all passing)  
 **Automated QA Audit:** **100% Passing** (`src/utils/verification_audit.test.mjs`)  
 **Automated Link Audit:** **100% Passing** (`src/utils/check_all_links.mjs` - 133/133 links valid)
 
-> **Last Updated:** September 1, 2026  
+> **Last Updated:** September 18, 2026  
 > **Project Root:** `c:\WORK\Software\Antigravity\AWC_2026_08_23`  
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** Phase 16G Complete • Homepage Learn Section updated from 6 cramped cards to 4 spacious, highly readable cards • Full category badge visibility (no truncated pills) • Comfortable 285px+ card widths on desktop • 2x2 grid on tablet • 0px Horizontal Page Overflow across 7 viewports • 60/60 Learn QA checks & 435+ unit tests passing • 33/33 Static Routes Building Cleanly
+> **Status:** Phase 16H Complete • Fixed "Calculate My Score →" transition bug where invalid property access (`result.actionRecommendations[0]`) caused React island runtime crash on Step 7 completion • Restored full Financial Health Score diagnostic screen with animated score counter, category breakdown, strengths, areas needing attention, and retake flow • Added dedicated calculation unit test suite `financialHealth.test.ts` (55 tests) and full multi-viewport E2E regression suite `test-health-check-results-qa.js` (148/148 checks passed) • 0px Horizontal Page Overflow across 6 viewports • 12/12 test suites passing (490+ unit tests) • 33/33 Static Routes Building Cleanly
 
 
 
@@ -1267,6 +1267,36 @@ npm run preview
   * Link audit: **133/133 links valid (100%)** (`node src/utils/check_all_links.mjs`).
   * Compliance audit: **113 source files audited — 100% compliant** (`node src/utils/verification_audit.test.mjs`).
   * Production compilation: **33/33 static routes compiling cleanly in 8.23s** (`npm run build`).
+
+---
+
+## 20. Phase 16H — Financial Health Check "Calculate My Score" Transition Bug Fix (Completed)
+
+* **Objective:** Fix production QA bug on `/health-check` where clicking "Calculate My Score →" on Step 7 of 7 failed to display the Financial Health Score / Results diagnostic screen.
+* **Root Cause Analysis:**
+  * In `src/components/health/HealthQuestionnaire.tsx` on line 206 (WhatsApp message URL generator in results CTA), the code evaluated `result.actionRecommendations[0]?.title`.
+  * The calculation result interface `HealthCheckResult` (in `src/utils/calculations/financialHealth.ts`) provides `nextSteps: string[]` and `needsAttention: string[]`, but has no `actionRecommendations` property (evaluating to `undefined`).
+  * Evaluating `[0]` on `undefined` threw an uncaught runtime `TypeError: Cannot read properties of undefined (reading '0')` during React component rendering immediately upon setting `isCompleted = true` and `result`.
+  * This uncaught error caused the React 19 island to unmount/crash, preventing the results view (`.health-result-wrapper`) from rendering on screen.
+* **Exact Fix Implemented:**
+  1. Updated `src/components/health/HealthQuestionnaire.tsx`:
+     - Replaced `result.actionRecommendations[0]?.title` with safe optional fallback `result.nextSteps?.[0] || result.needsAttention?.[0] || 'Review Plan'`.
+     - In `handleNext()`, ensured `allAnswers` explicitly merges `[currentQuestion.id]: currentAnswer` to guarantee the final question is included regardless of React event batching.
+     - Added safe guard `typeof window !== 'undefined'` for `window.scrollTo`.
+  2. Added dedicated pure calculation unit test suite:
+     - Created `src/utils/calculations/financialHealth.test.ts` covering question structure, worst-case scores (Scenario A), best-case scores (Scenario B), mixed realistic profile (Scenario C), and boundary fallback safety (55 passed, 0 failed).
+     - Integrated `financialHealth.test.ts` into `package.json`'s `npm test` runner. Total test suites increased to 12 (490+ unit tests).
+  3. Created end-to-end regression test suite:
+     - Created `scratch/test-health-check-results-qa.js` using headless Chrome via Puppeteer.
+     - Tests all 7 question transitions, button enabled states, "Calculate My Score →" click transition, score counter animation, finite numeric score, zero "undefined" / "NaN" / "Infinity", category breakdown cards, strengths & attention cards, WhatsApp message formatting, and retake functionality back to Step 1.
+     - Audited 3 answer scenarios (Scenario A: first option all, Scenario B: last option all, Scenario C: mixed answers) and 6 viewports (`375×812`, `390×844`, `412×915`, `768×1024`, `1024×768`, `1440×900`).
+     - **148/148 QA checks passed (100%)** with strictly 0 browser console errors and 0px horizontal page overflow.
+* **Verification & Audit Results:**
+  * `npm test`: **12/12 test suites passing (490+ unit tests, 100%)**.
+  * `scratch/test-health-check-results-qa.js`: **148/148 checks passing (100%)**.
+  * `node src/utils/check_all_links.mjs`: **133/133 internal links valid (100%)**.
+  * `node src/utils/verification_audit.test.mjs`: **114 source files audited — 100% compliant**.
+  * `npm run build`: **33/33 static routes compiling cleanly in 8.40s**.
 
 ---
 
