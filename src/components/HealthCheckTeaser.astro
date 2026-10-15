@@ -17,16 +17,20 @@ import { HealthScoreGauge } from './HealthScoreGauge';
 
         <div class="health-check-areas">
           <p class="areas-intro">
-            A quick, confidential check helps you evaluate the 6 key pillars of your family's money:
+            A quick, confidential check helps you evaluate the 7 key pillars of your family's money:
           </p>
           <div class="areas-grid">
             <div class="area-item">
               <span class="area-icon">💰</span>
-              <span><strong>Savings</strong> & ongoing monthly surplus</span>
+              <span><strong>Cash Flow</strong> & ongoing monthly surplus</span>
             </div>
             <div class="area-item">
               <span class="area-icon">🛡️</span>
-              <span><strong>Emergency Fund</strong> for unexpected events</span>
+              <span><strong>Emergency Reserve</strong> for unexpected events</span>
+            </div>
+            <div class="area-item">
+              <span class="area-icon">💳</span>
+              <span><strong>Debt Management</strong> & loan comfort</span>
             </div>
             <div class="area-item">
               <span class="area-icon">☂️</span>
@@ -34,11 +38,11 @@ import { HealthScoreGauge } from './HealthScoreGauge';
             </div>
             <div class="area-item">
               <span class="area-icon">📈</span>
-              <span><strong>Investments</strong> beating inflation</span>
+              <span><strong>Investing</strong> aligned with future goals</span>
             </div>
             <div class="area-item">
               <span class="area-icon">🎯</span>
-              <span><strong>Goals</strong> on track with timelines</span>
+              <span><strong>Goal Planning</strong> with clear timelines</span>
             </div>
             <div class="area-item">
               <span class="area-icon">🌅</span>
@@ -253,7 +257,7 @@ import { HealthScoreGauge } from './HealthScoreGauge';
   }
 
   .text-warning {
-    color: #D97706;
+    color: var(--color-amber-text);
   }
 
   .insight-list {
@@ -278,7 +282,7 @@ import { HealthScoreGauge } from './HealthScoreGauge';
   }
 
   .bullet-dot {
-    color: #D97706;
+    color: var(--color-amber-text);
     font-weight: 700;
     font-size: 1.2rem;
     line-height: 1;
@@ -312,6 +316,13 @@ import { HealthScoreGauge } from './HealthScoreGauge';
 
     .insight-group-title {
       justify-content: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .areas-grid {
+      grid-template-columns: 1fr;
+      gap: 0.65rem;
     }
   }
 </style>

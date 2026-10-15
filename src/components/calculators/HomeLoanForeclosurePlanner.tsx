@@ -790,9 +790,10 @@ Can we connect to discuss this plan?`;
                   viewBox={`0 0 ${chartWidth} ${chartHeight}`}
                   className="growth-svg"
                   preserveAspectRatio="xMidYMid meet"
-                  aria-label="Interactive Home Loan vs SIP Corpus Crossover Chart"
+                  role="region"
+                  aria-label="Interactive Home Loan vs SIP Corpus Crossover Chart. Use Tab to inspect annual loan and SIP milestones, or review the projection table below."
                 >
-                  <defs>
+                  <defs aria-hidden="true">
                     <linearGradient id="sipAreaGradient" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor="#00AB96" stopOpacity="0.30" />
                       <stop offset="100%" stopColor="#00AB96" stopOpacity="0.02" />
@@ -803,7 +804,7 @@ Can we connect to discuss this plan?`;
                   {[0.25, 0.5, 0.75, 1].map((pct, idx) => {
                     const yPos = padding.top + graphHeight * (1 - pct);
                     return (
-                      <g key={idx}>
+                      <g key={idx} aria-hidden="true">
                         <line
                           x1={padding.left}
                           y1={yPos}
@@ -828,6 +829,7 @@ Can we connect to discuss this plan?`;
 
                   {/* Baseline X-axis */}
                   <line
+                    aria-hidden="true"
                     x1={padding.left}
                     y1={padding.top + graphHeight}
                     x2={padding.left + graphWidth}
@@ -837,10 +839,11 @@ Can we connect to discuss this plan?`;
                   />
 
                   {/* Shaded Area for SIP Growth */}
-                  <path d={chartData.sipAreaD} fill="url(#sipAreaGradient)" />
+                  <path aria-hidden="true" d={chartData.sipAreaD} fill="url(#sipAreaGradient)" />
 
                   {/* Outstanding Loan Principal Curve (Amber/Coral) */}
                   <path
+                    aria-hidden="true"
                     d={chartData.loanPathD}
                     fill="none"
                     stroke="#F59E0B"
@@ -850,6 +853,7 @@ Can we connect to discuss this plan?`;
 
                   {/* Projected SIP Corpus Curve (Growth Teal) */}
                   <path
+                    aria-hidden="true"
                     d={chartData.sipPathD}
                     fill="none"
                     stroke="#00AB96"
@@ -861,6 +865,7 @@ Can we connect to discuss this plan?`;
                   {chartData.crossoverX !== null && chartData.crossoverY !== null && (
                     <g className="crossover-marker-group">
                       <line
+                        aria-hidden="true"
                         x1={chartData.crossoverX}
                         y1={padding.top}
                         x2={chartData.crossoverX}
@@ -872,12 +877,32 @@ Can we connect to discuss this plan?`;
                       <circle
                         cx={chartData.crossoverX}
                         cy={chartData.crossoverY}
-                        r="6"
+                        r="6.5"
                         fill="#00182A"
                         stroke="#00AB96"
                         strokeWidth="3"
+                        tabIndex={0}
+                        role="button"
+                        className="chart-crossover-dot"
+                        aria-label={`Milestone: Potential Loan Coverage Point at ${chartData.crossoverLabel}. Projected SIP corpus reaches parity with remaining home loan debt.`}
+                        onFocus={() => {
+                          const crossoverIdx = chartData.points.findIndex((p) => p.isCrossover);
+                          if (crossoverIdx >= 0) setActiveChartPoint(crossoverIdx);
+                        }}
+                        onClick={() => {
+                          const crossoverIdx = chartData.points.findIndex((p) => p.isCrossover);
+                          if (crossoverIdx >= 0) setActiveChartPoint(crossoverIdx);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            const crossoverIdx = chartData.points.findIndex((p) => p.isCrossover);
+                            if (crossoverIdx >= 0) setActiveChartPoint(crossoverIdx);
+                          }
+                        }}
                       />
                       <rect
+                        aria-hidden="true"
                         x={Math.max(padding.left, chartData.crossoverX - 75)}
                         y={Math.max(padding.top, chartData.crossoverY - 32)}
                         width="150"
@@ -886,6 +911,7 @@ Can we connect to discuss this plan?`;
                         fill="#00182A"
                       />
                       <text
+                        aria-hidden="true"
                         x={Math.max(padding.left + 75, chartData.crossoverX)}
                         y={Math.max(padding.top + 16, chartData.crossoverY - 16)}
                         textAnchor="middle"
@@ -910,7 +936,19 @@ Can we connect to discuss this plan?`;
                           fill="#FFFFFF"
                           stroke="#F59E0B"
                           strokeWidth={isHovered ? 3 : 2}
-                          className="chart-node"
+                          tabIndex={0}
+                          role="button"
+                          className="chart-node chart-point-dot dot-loan"
+                          aria-label={`Year ${pt.yearNumber} (${pt.calendarYear}) Loan Principal: ${formatIndianCurrency(pt.loanPrincipal)}.`}
+                          aria-pressed={isHovered}
+                          onFocus={() => setActiveChartPoint(idx)}
+                          onClick={() => setActiveChartPoint(idx)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              setActiveChartPoint(idx);
+                            }
+                          }}
                           onMouseEnter={() => setActiveChartPoint(idx)}
                           onTouchStart={() => setActiveChartPoint(idx)}
                         />
@@ -921,7 +959,19 @@ Can we connect to discuss this plan?`;
                           fill="#FFFFFF"
                           stroke="#00AB96"
                           strokeWidth={isHovered ? 3 : 2}
-                          className="chart-node"
+                          tabIndex={0}
+                          role="button"
+                          className="chart-node chart-point-dot dot-sip"
+                          aria-label={`Year ${pt.yearNumber} (${pt.calendarYear}) Projected SIP Corpus: ${formatIndianCurrency(pt.sipCorpus)}${pt.isCrossover ? ' (Potential Coverage Point)' : ''}.`}
+                          aria-pressed={isHovered}
+                          onFocus={() => setActiveChartPoint(idx)}
+                          onClick={() => setActiveChartPoint(idx)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              setActiveChartPoint(idx);
+                            }
+                          }}
                           onMouseEnter={() => setActiveChartPoint(idx)}
                           onTouchStart={() => setActiveChartPoint(idx)}
                         />
@@ -929,6 +979,7 @@ Can we connect to discuss this plan?`;
                         {/* X-axis Year Label */}
                         {(pt.yearNumber === 0 || pt.yearNumber % 5 === 0 || pt.yearNumber === result.loanTenureYears) && (
                           <text
+                            aria-hidden="true"
                             x={pt.x}
                             y={padding.top + graphHeight + 18}
                             textAnchor="middle"
@@ -1178,380 +1229,20 @@ Can we connect to discuss this plan?`;
         </div>
       )}
 
-      {/* Styled JSX CSS */}
+      {/* Component-Specific Styles (Shared styles imported via calculators.css) */}
       <style>{`
         .foreclosure-planner-wrapper {
           width: 100%;
           max-width: 1040px;
           margin: 0 auto;
-          font-family: 'Inter', sans-serif;
-          color: #00182A;
+          font-family: var(--font-body, 'Inter', sans-serif);
+          color: var(--color-primary-navy, #00182A);
         }
 
-        /* Top Action Bar */
-        .calc-top-action-bar {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 12px;
-          padding: 0.75rem 1.25rem;
-          margin-bottom: 1.5rem;
-          gap: 1rem;
-          flex-wrap: wrap;
+        /* 4-Item Stepper Grid Override */
+        .foreclosure-planner-wrapper .stepper-list {
+          grid-template-columns: repeat(4, 1fr);
         }
-
-        .action-tagline {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-size: 0.85rem;
-          font-weight: 600;
-          color: #475569;
-        }
-
-        .live-pulse {
-          width: 8px;
-          height: 8px;
-          background-color: #00AB96;
-          border-radius: 50%;
-          box-shadow: 0 0 0 3px rgba(0, 171, 150, 0.2);
-        }
-
-        .action-btn-group {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          flex-wrap: wrap;
-        }
-
-        .btn-sample-preset {
-          background: #F1F5F9;
-          border: 1px solid #CBD5E1;
-          color: #00182A;
-          font-size: 0.8rem;
-          font-weight: 700;
-          padding: 0.4rem 0.85rem;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-sample-preset:hover {
-          background: #E2E8F0;
-          border-color: #00AB96;
-          color: #00AB96;
-        }
-
-        .btn-reset-preset {
-          background: transparent;
-          border: 1px solid #E2E8F0;
-          color: #64748B;
-          font-size: 0.8rem;
-          font-weight: 600;
-          padding: 0.4rem 0.75rem;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-reset-preset:hover {
-          background: #FEE2E2;
-          border-color: #EF4444;
-          color: #DC2626;
-        }
-
-        /* Stepper Navigation */
-        .stepper-nav {
-          margin-bottom: 2rem;
-        }
-
-        .stepper-list {
-          display: flex;
-          justify-content: space-between;
-          list-style: none;
-          padding: 0;
-          margin: 0;
-          gap: 0.5rem;
-        }
-
-        .stepper-item {
-          flex: 1;
-        }
-
-        .stepper-btn {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          gap: 0.6rem;
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 10px;
-          padding: 0.75rem 1rem;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          text-align: left;
-        }
-
-        .stepper-btn.active {
-          border-color: #00182A;
-          background: #00182A;
-          color: #FFFFFF;
-          box-shadow: 0 4px 12px rgba(0, 24, 42, 0.15);
-        }
-
-        .stepper-btn.completed {
-          border-color: #00AB96;
-          background: #F0FDF4;
-          color: #00182A;
-        }
-
-        .results-stepper-btn.active {
-          background: #00AB96 !important;
-          border-color: #00AB96 !important;
-        }
-
-        .step-num {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 24px;
-          height: 24px;
-          border-radius: 50%;
-          background: #F1F5F9;
-          color: #00182A;
-          font-size: 0.75rem;
-          font-weight: 800;
-          flex-shrink: 0;
-        }
-
-        .stepper-btn.active .step-num {
-          background: #00AB96;
-          color: #FFFFFF;
-        }
-
-        .stepper-btn.completed .step-num {
-          background: #00AB96;
-          color: #FFFFFF;
-        }
-
-        .step-label {
-          display: flex;
-          align-items: center;
-          gap: 0.4rem;
-          font-size: 0.85rem;
-          font-weight: 700;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .step-icon-sm {
-          font-size: 0.95rem;
-        }
-
-        /* Step Card */
-        .step-card {
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 2.25rem;
-          margin-bottom: 2rem;
-          box-shadow: 0 4px 20px rgba(0, 24, 42, 0.04);
-        }
-
-        .step-header {
-          margin-bottom: 1.75rem;
-        }
-
-        .step-badge {
-          display: inline-block;
-          font-size: 0.75rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-          color: #00AB96;
-          background: #E6F7F5;
-          padding: 0.2rem 0.65rem;
-          border-radius: 4px;
-          margin-bottom: 0.5rem;
-        }
-
-        .step-heading {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.5rem;
-          font-weight: 800;
-          color: #00182A;
-          margin: 0 0 0.4rem 0;
-        }
-
-        .step-description {
-          font-size: 0.95rem;
-          color: #64748B;
-          margin: 0;
-          line-height: 1.5;
-        }
-
-        /* Form Controls */
-        .inputs-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1.5rem;
-        }
-
-        .mt-2 {
-          margin-top: 1.5rem;
-        }
-
-        .input-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.4rem;
-        }
-
-        .input-label {
-          font-size: 0.875rem;
-          font-weight: 700;
-          color: #1E293B;
-        }
-
-        .currency-input-wrapper {
-          display: flex;
-          align-items: center;
-          background: #F8FAFC;
-          border: 1.5px solid #CBD5E1;
-          border-radius: 8px;
-          padding: 0.4rem 0.75rem;
-          transition: border-color 0.2s;
-        }
-
-        .currency-input-wrapper:focus-within {
-          border-color: #00AB96;
-          background: #FFFFFF;
-        }
-
-        .currency-symbol {
-          color: #64748B;
-          font-weight: 700;
-          font-size: 1rem;
-          margin-right: 0.25rem;
-        }
-
-        .currency-field {
-          width: 100%;
-          border: none;
-          background: transparent;
-          font-size: 1rem;
-          font-weight: 700;
-          color: #00182A;
-          outline: none;
-        }
-
-        .unit-tag {
-          font-size: 0.8rem;
-          font-weight: 700;
-          color: #00AB96;
-          background: #E6F7F5;
-          padding: 0.15rem 0.5rem;
-          border-radius: 4px;
-          white-space: nowrap;
-          margin-left: 0.5rem;
-        }
-
-        .input-helper {
-          font-size: 0.75rem;
-          color: #64748B;
-          line-height: 1.4;
-        }
-
-        .slider-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.35rem;
-        }
-
-        .slider-value-display {
-          display: flex;
-          justify-content: space-between;
-          font-size: 0.95rem;
-          font-weight: 800;
-          color: #00182A;
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          border-radius: 6px;
-          padding: 0.35rem 0.75rem;
-        }
-
-        .range-slider {
-          width: 100%;
-          height: 6px;
-          background: #E2E8F0;
-          border-radius: 999px;
-          outline: none;
-          -webkit-appearance: none;
-          accent-color: #00AB96;
-          cursor: pointer;
-          margin: 0.5rem 0 0.25rem;
-        }
-
-        .slider-ticks {
-          display: flex;
-          justify-content: space-between;
-          font-size: 0.7rem;
-          color: #94A3B8;
-          font-weight: 600;
-        }
-
-        /* Live Preview Row Box */
-        .live-preview-box {
-          background: #F8FAFC;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 12px;
-          padding: 1.25rem 1.5rem;
-          margin-top: 1.75rem;
-        }
-
-        .preview-row {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 1rem;
-        }
-
-        .preview-item {
-          display: flex;
-          flex-direction: column;
-          gap: 0.2rem;
-          flex: 1;
-        }
-
-        .p-divider {
-          width: 1px;
-          height: 36px;
-          background: #E2E8F0;
-        }
-
-        .p-lbl {
-          font-size: 0.75rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: #64748B;
-        }
-
-        .p-val {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.25rem;
-          font-weight: 800;
-        }
-
-        .text-navy { color: #00182A; }
-        .text-teal { color: #00AB96; }
-        .text-gold { color: #D97706; }
-        .text-amber { color: #F59E0B; }
-        .font-bold { font-weight: 700; }
-        .font-semibold { font-weight: 600; }
 
         /* Strategy Cards Grid */
         .strategy-selection-grid {
@@ -1562,23 +1253,28 @@ Can we connect to discuss this plan?`;
         }
 
         .strategy-card {
-          background: #FFFFFF;
-          border: 2px solid #E2E8F0;
-          border-radius: 14px;
+          background: var(--color-white, #FFFFFF);
+          border: 2px solid var(--color-border, #E2E8F0);
+          border-radius: var(--radius-md, 14px);
           padding: 1.5rem;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all var(--transition-fast, 0.2s ease);
           display: flex;
           flex-direction: column;
         }
 
         .strategy-card:hover {
-          border-color: #CBD5E1;
+          border-color: var(--color-border-subtle, #CBD5E1);
           box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
         }
 
+        .strategy-card:focus-visible {
+          outline: 2px solid var(--color-primary-navy, #00182A);
+          outline-offset: 2px;
+        }
+
         .strategy-card-active {
-          border-color: #00AB96 !important;
+          border-color: var(--color-growth-teal, #00AB96) !important;
           background: #F0FDF4;
           box-shadow: 0 8px 24px -4px rgba(0, 171, 150, 0.15);
         }
@@ -1592,7 +1288,7 @@ Can we connect to discuss this plan?`;
 
         .strat-radio-circle {
           font-size: 1.25rem;
-          color: #00AB96;
+          color: var(--color-growth-teal, #00AB96);
         }
 
         .strat-tag {
@@ -1600,31 +1296,31 @@ Can we connect to discuss this plan?`;
           font-weight: 800;
           text-transform: uppercase;
           letter-spacing: 0.06em;
-          background: #00182A;
-          color: #FFFFFF;
+          background: var(--color-primary-navy, #00182A);
+          color: var(--color-white, #FFFFFF);
           padding: 0.2rem 0.5rem;
           border-radius: 4px;
         }
 
         .strat-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.2rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
           margin: 0 0 0.4rem 0;
         }
 
         .strat-desc {
           font-size: 0.85rem;
-          color: #475569;
+          color: var(--color-slate-text, #475569);
           line-height: 1.45;
           margin: 0 0 1.25rem 0;
         }
 
         .strat-inner-form {
           margin-top: auto;
-          background: #FFFFFF;
-          border: 1px solid #CBD5E1;
+          background: var(--color-white, #FFFFFF);
+          border: 1px solid var(--color-border-subtle, #CBD5E1);
           border-radius: 10px;
           padding: 1.25rem;
           display: flex;
@@ -1636,8 +1332,8 @@ Can we connect to discuss this plan?`;
           display: flex;
           justify-content: space-between;
           align-items: center;
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background: var(--color-bg-light, #F8FAFC);
+          border: 1px solid var(--color-border, #E2E8F0);
           border-radius: 6px;
           padding: 0.5rem 0.75rem;
           margin-top: 0.25rem;
@@ -1646,18 +1342,18 @@ Can we connect to discuss this plan?`;
         .preview-lbl {
           font-size: 0.8rem;
           font-weight: 700;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
         }
 
         .preview-val {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.05rem;
           font-weight: 800;
         }
 
         .info-card-box {
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background: var(--color-bg-light, #F8FAFC);
+          border: 1px solid var(--color-border, #E2E8F0);
           border-radius: 12px;
           padding: 1.25rem;
           display: flex;
@@ -1668,13 +1364,13 @@ Can we connect to discuss this plan?`;
         .info-card-heading {
           font-size: 0.9rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
           margin: 0;
         }
 
         .info-card-text {
           font-size: 0.825rem;
-          color: #475569;
+          color: var(--color-slate-text, #475569);
           line-height: 1.5;
           margin: 0;
         }
@@ -1689,8 +1385,8 @@ Can we connect to discuss this plan?`;
         .rate-pill {
           font-size: 0.75rem;
           font-weight: 800;
-          color: #00AB96;
-          background: #E6F7F5;
+          color: var(--color-growth-teal, #00AB96);
+          background: var(--color-growth-teal-light, #E6F7F5);
           padding: 0.25rem 0.6rem;
           border-radius: 4px;
           width: fit-content;
@@ -1698,194 +1394,14 @@ Can we connect to discuss this plan?`;
 
         .rate-pill-sub {
           font-size: 0.7rem;
-          color: #94A3B8;
-        }
-
-        /* Step Actions */
-        .step-actions {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-top: 2rem;
-          padding-top: 1.5rem;
-          border-top: 1px solid #E2E8F0;
-        }
-
-        .btn-continue {
-          background: #00182A;
-          color: #FFFFFF;
-          font-size: 0.95rem;
-          font-weight: 700;
-          padding: 0.85rem 1.75rem;
-          border-radius: 10px;
-          border: none;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-continue:hover {
-          background: #002B49;
-          transform: translateY(-1px);
-        }
-
-        .btn-back {
-          background: transparent;
-          color: #64748B;
-          font-size: 0.9rem;
-          font-weight: 700;
-          padding: 0.75rem 1.25rem;
-          border-radius: 8px;
-          border: 1px solid #CBD5E1;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-back:hover {
-          background: #F1F5F9;
-          color: #00182A;
-        }
-
-        .btn-view-results {
-          background: #00AB96;
-          color: #FFFFFF;
-          font-size: 1rem;
-          font-weight: 800;
-          padding: 0.9rem 2rem;
-          border-radius: 10px;
-          border: none;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          box-shadow: 0 4px 14px rgba(0, 171, 150, 0.25);
-        }
-
-        .btn-view-results:hover {
-          background: #008f7d;
-          transform: translateY(-1px);
-        }
-
-        /* RESULTS DASHBOARD */
-        .results-container {
-          display: flex;
-          flex-direction: column;
-          gap: 2rem;
-        }
-
-        .results-hero-card {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
-          border-radius: 20px;
-          padding: 2.5rem 2rem;
-          text-align: center;
-          color: #FFFFFF;
-          box-shadow: 0 16px 36px -10px rgba(0, 24, 42, 0.25);
-        }
-
-        .hero-eyebrow {
-          font-size: 0.8rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          color: #00AB96;
-          margin-bottom: 0.5rem;
-        }
-
-        .hero-heading {
-          font-family: 'Outfit', sans-serif;
-          font-size: 2rem;
-          font-weight: 800;
-          color: #FFFFFF;
-          margin: 0 0 1.5rem 0;
-          line-height: 1.25;
-        }
-
-        .primary-result-box {
-          background: #FFFFFF;
-          border-radius: 14px;
-          padding: 1.5rem 2rem;
-          max-width: 580px;
-          margin: 0 auto 1.5rem auto;
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-        }
-
-        .result-tag {
-          font-size: 0.75rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-          color: #00AB96;
-          display: block;
-          margin-bottom: 0.25rem;
-        }
-
-        .result-main-number {
-          font-family: 'Outfit', sans-serif;
-          font-size: 2.75rem;
-          font-weight: 800;
-          color: #00182A;
-          line-height: 1.1;
-          margin-bottom: 0.35rem;
-        }
-
-        .result-exact-number {
-          font-size: 0.9rem;
-          font-weight: 600;
-          color: #475569;
-        }
-
-        .hero-disclaimer-note {
-          font-size: 0.95rem;
-          color: #CBD5E1;
-          max-width: 720px;
-          margin: 0 auto;
-          line-height: 1.5;
-        }
-
-        /* 4 Metrics Grid */
-        .metrics-four-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 1rem;
-        }
-
-        .metric-card {
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 12px;
-          padding: 1.25rem;
-          display: flex;
-          flex-direction: column;
-          gap: 0.25rem;
-        }
-
-        .metric-card.highlight-metric {
-          border-color: #00AB96;
-          background: #F0FDF4;
-        }
-
-        .m-card-lbl {
-          font-size: 0.75rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: #64748B;
-        }
-
-        .m-card-val {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.4rem;
-          font-weight: 800;
-        }
-
-        .m-card-sub {
-          font-size: 0.75rem;
-          color: #64748B;
-          margin-top: auto;
+          color: var(--color-border, #94A3B8);
         }
 
         /* SVG Chart Card */
         .chart-card {
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 16px;
+          background: var(--color-white, #FFFFFF);
+          border: 1.5px solid var(--color-border, #E2E8F0);
+          border-radius: var(--radius-lg, 16px);
           padding: 1.75rem;
           box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
         }
@@ -1900,16 +1416,16 @@ Can we connect to discuss this plan?`;
         }
 
         .section-subtitle {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.25rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
           margin: 0 0 0.25rem 0;
         }
 
         .chart-subtitle-note {
           font-size: 0.8rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
         }
 
         .chart-legend {
@@ -1924,7 +1440,7 @@ Can we connect to discuss this plan?`;
           gap: 0.4rem;
           font-size: 0.8rem;
           font-weight: 700;
-          color: #475569;
+          color: var(--color-slate-text, #475569);
         }
 
         .legend-dot {
@@ -1934,7 +1450,7 @@ Can we connect to discuss this plan?`;
         }
 
         .dot-loan { background-color: #F59E0B; }
-        .dot-sip { background-color: #00AB96; }
+        .dot-sip { background-color: var(--color-growth-teal, #00AB96); }
 
         .svg-chart-container {
           position: relative;
@@ -1947,17 +1463,31 @@ Can we connect to discuss this plan?`;
           overflow: visible;
         }
 
-        .chart-node {
+        .chart-node,
+        .chart-crossover-dot {
           cursor: pointer;
-          transition: r 0.2s ease;
+          outline: none;
+          transition: r var(--transition-fast, 0.2s ease), stroke-width var(--transition-fast, 0.2s ease);
+        }
+
+        .chart-node:hover,
+        .chart-crossover-dot:hover {
+          filter: drop-shadow(0 2px 4px rgba(0, 24, 42, 0.25));
+        }
+
+        .chart-node:focus-visible,
+        .chart-crossover-dot:focus-visible {
+          outline: 2px solid var(--color-primary-navy, #00182A) !important;
+          outline-offset: 3px !important;
+          filter: drop-shadow(0 0 0 3px rgba(0, 24, 42, 0.25));
         }
 
         .chart-tooltip-box {
           position: absolute;
           top: 10px;
           right: 20px;
-          background: #00182A;
-          color: #FFFFFF;
+          background: var(--color-primary-navy, #00182A);
+          color: var(--color-white, #FFFFFF);
           border-radius: 8px;
           padding: 0.75rem 1rem;
           box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
@@ -1981,8 +1511,8 @@ Can we connect to discuss this plan?`;
         .tt-crossover-tag {
           font-size: 0.65rem;
           font-weight: 800;
-          background: #00AB96;
-          color: #FFFFFF;
+          background: var(--color-growth-teal, #00AB96);
+          color: var(--color-white, #FFFFFF);
           padding: 0.1rem 0.4rem;
           border-radius: 4px;
         }
@@ -2000,13 +1530,13 @@ Can we connect to discuss this plan?`;
         }
 
         .tt-lbl { color: #CBD5E1; }
-        .tt-val { font-family: 'Outfit', sans-serif; font-weight: 700; color: #FFFFFF; }
+        .tt-val { font-family: var(--font-heading, 'Outfit', sans-serif); font-weight: 700; color: var(--color-white, #FFFFFF); }
 
         /* Journey Track */
         .journey-track-card {
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 16px;
+          background: var(--color-white, #FFFFFF);
+          border: 1.5px solid var(--color-border, #E2E8F0);
+          border-radius: var(--radius-lg, 16px);
           padding: 1.75rem;
         }
 
@@ -2019,8 +1549,8 @@ Can we connect to discuss this plan?`;
         }
 
         .journey-step-box {
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background: var(--color-bg-light, #F8FAFC);
+          border: 1px solid var(--color-border, #E2E8F0);
           border-radius: 10px;
           padding: 1rem;
           display: flex;
@@ -2030,8 +1560,8 @@ Can we connect to discuss this plan?`;
         }
 
         .highlight-step-box {
-          border-color: #00AB96;
-          background: #E6F7F5;
+          border-color: var(--color-growth-teal, #00AB96);
+          background: var(--color-growth-teal-light, #E6F7F5);
         }
 
         .j-icon {
@@ -2043,32 +1573,32 @@ Can we connect to discuss this plan?`;
           font-size: 0.75rem;
           font-weight: 800;
           text-transform: uppercase;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
         }
 
         .j-step-val {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.05rem;
           font-weight: 800;
         }
 
         .j-step-desc {
           font-size: 0.7rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           line-height: 1.35;
         }
 
         .journey-flow-arrow {
           font-size: 1.25rem;
           font-weight: 800;
-          color: #00AB96;
+          color: var(--color-growth-teal, #00AB96);
         }
 
         /* Table Card */
         .table-card {
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 16px;
+          background: var(--color-white, #FFFFFF);
+          border: 1.5px solid var(--color-border, #E2E8F0);
+          border-radius: var(--radius-lg, 16px);
           padding: 1.75rem;
         }
 
@@ -2082,21 +1612,26 @@ Can we connect to discuss this plan?`;
         }
 
         .btn-toggle-table {
-          background: #F1F5F9;
-          border: 1px solid #CBD5E1;
-          color: #00182A;
+          background: var(--color-bg-subtle, #F1F5F9);
+          border: 1px solid var(--color-border-subtle, #CBD5E1);
+          color: var(--color-primary-navy, #00182A);
           font-size: 0.8rem;
           font-weight: 700;
           padding: 0.5rem 1rem;
-          border-radius: 8px;
+          border-radius: var(--radius-sm, 8px);
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all var(--transition-fast, 0.2s ease);
         }
 
         .btn-toggle-table:hover {
-          background: #E2E8F0;
-          border-color: #00AB96;
-          color: #00AB96;
+          background: var(--color-border, #E2E8F0);
+          border-color: var(--color-growth-teal, #00AB96);
+          color: var(--color-growth-teal, #00AB96);
+        }
+
+        .btn-toggle-table:focus-visible {
+          outline: 2px solid var(--color-primary-navy, #00182A);
+          outline-offset: 2px;
         }
 
         .table-responsive-wrapper {
@@ -2110,12 +1645,12 @@ Can we connect to discuss this plan?`;
         }
 
         .projection-table th {
-          background: #F8FAFC;
-          color: #475569;
+          background: var(--color-bg-light, #F8FAFC);
+          color: var(--color-slate-text, #475569);
           font-weight: 700;
           text-align: right;
           padding: 0.75rem 0.85rem;
-          border-bottom: 1.5px solid #E2E8F0;
+          border-bottom: 1.5px solid var(--color-border, #E2E8F0);
           white-space: nowrap;
         }
 
@@ -2126,7 +1661,7 @@ Can we connect to discuss this plan?`;
 
         .projection-table td {
           padding: 0.75rem 0.85rem;
-          border-bottom: 1px solid #F1F5F9;
+          border-bottom: 1px solid var(--color-border-subtle, #F1F5F9);
           text-align: right;
           white-space: nowrap;
         }
@@ -2143,8 +1678,8 @@ Can we connect to discuss this plan?`;
         .row-badge {
           font-size: 0.65rem;
           font-weight: 800;
-          background: #00AB96;
-          color: #FFFFFF;
+          background: var(--color-growth-teal, #00AB96);
+          color: var(--color-white, #FFFFFF);
           padding: 0.1rem 0.4rem;
           border-radius: 4px;
           margin-left: 0.4rem;
@@ -2155,9 +1690,9 @@ Can we connect to discuss this plan?`;
         .edu-disclaimer-card {
           display: flex;
           gap: 1rem;
-          background: #F8FAFC;
-          border: 1.5px solid #CBD5E1;
-          border-left: 4px solid #00AB96;
+          background: var(--color-bg-light, #F8FAFC);
+          border: 1.5px solid var(--color-border-subtle, #CBD5E1);
+          border-left: 4px solid var(--color-growth-teal, #00AB96);
           border-radius: 12px;
           padding: 1.25rem 1.5rem;
         }
@@ -2170,93 +1705,40 @@ Can we connect to discuss this plan?`;
         .disclaimer-heading {
           font-size: 0.95rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
           margin: 0 0 0.35rem 0;
         }
 
         .disclaimer-text {
           font-size: 0.825rem;
-          color: #475569;
+          color: var(--color-slate-text, #475569);
           line-height: 1.55;
           margin: 0;
         }
 
-        /* Accordion */
-        .accordion-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 12px;
-          overflow: hidden;
-        }
-
-        .accordion-toggle-btn {
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          background: #FFFFFF;
-          border: none;
-          padding: 1rem 1.25rem;
-          font-size: 0.9rem;
-          font-weight: 700;
-          color: #00182A;
-          cursor: pointer;
-          text-align: left;
-        }
-
-        .accordion-toggle-btn:hover {
-          background: #F8FAFC;
-        }
-
-        .accordion-content {
-          padding: 1.25rem;
-          background: #F8FAFC;
-          border-top: 1px solid #E2E8F0;
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-
-        .calc-formula-block h5 {
-          font-size: 0.85rem;
-          font-weight: 800;
-          color: #00182A;
-          margin: 0 0 0.25rem 0;
-        }
-
-        .calc-formula-block p {
-          font-size: 0.8rem;
-          color: #475569;
-          line-height: 1.5;
-          margin: 0;
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 6px;
-          padding: 0.5rem 0.75rem;
-        }
-
-        /* CTA Card */
+        /* CTA Card Custom Layout */
         .results-cta-card {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
+          background: linear-gradient(135deg, var(--color-primary-navy, #00182A) 0%, #002B49 100%);
           border-radius: 16px;
           padding: 2rem;
           display: flex;
           justify-content: space-between;
           align-items: center;
           gap: 2rem;
-          color: #FFFFFF;
+          color: var(--color-white, #FFFFFF);
           box-shadow: 0 12px 30px rgba(0, 24, 42, 0.2);
         }
 
         .cta-content {
           max-width: 520px;
+          text-align: left;
         }
 
         .cta-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.35rem;
           font-weight: 800;
-          color: #FFFFFF;
+          color: var(--color-white, #FFFFFF);
           margin: 0 0 0.35rem 0;
         }
 
@@ -2276,38 +1758,48 @@ Can we connect to discuss this plan?`;
 
         .btn-whatsapp-action {
           display: inline-block;
-          background: #00AB96;
-          color: #FFFFFF;
+          background: var(--color-growth-teal, #00AB96);
+          color: var(--color-white, #FFFFFF);
           font-size: 0.9rem;
           font-weight: 700;
           padding: 0.75rem 1.5rem;
-          border-radius: 8px;
+          border-radius: var(--radius-sm, 8px);
           text-decoration: none;
           text-align: center;
-          transition: all 0.2s ease;
+          transition: all var(--transition-fast, 0.2s ease);
         }
 
         .btn-whatsapp-action:hover {
-          background: #008f7d;
+          background: var(--color-growth-teal-hover, #008f7d);
           transform: translateY(-1px);
+        }
+
+        .btn-whatsapp-action:focus-visible {
+          outline: 2px solid var(--color-white);
+          outline-offset: 2px;
         }
 
         .btn-secondary-action {
           display: inline-block;
           background: rgba(255, 255, 255, 0.1);
           border: 1px solid rgba(255, 255, 255, 0.2);
-          color: #FFFFFF;
+          color: var(--color-white, #FFFFFF);
           font-size: 0.85rem;
           font-weight: 600;
           padding: 0.6rem 1.25rem;
-          border-radius: 8px;
+          border-radius: var(--radius-sm, 8px);
           text-decoration: none;
           text-align: center;
-          transition: all 0.2s ease;
+          transition: all var(--transition-fast, 0.2s ease);
         }
 
         .btn-secondary-action:hover {
           background: rgba(255, 255, 255, 0.18);
+        }
+
+        .btn-secondary-action:focus-visible {
+          outline: 2px solid var(--color-white);
+          outline-offset: 2px;
         }
 
         .results-back-row {
@@ -2315,11 +1807,8 @@ Can we connect to discuss this plan?`;
           justify-content: flex-start;
         }
 
-        /* Mobile Responsiveness */
+        /* Mobile Responsiveness for component-specific cards */
         @media (max-width: 1024px) {
-          .metrics-four-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
           .journey-flow-row {
             grid-template-columns: 1fr;
             gap: 1rem;
@@ -2330,25 +1819,11 @@ Can we connect to discuss this plan?`;
         }
 
         @media (max-width: 768px) {
-          .stepper-list {
-            flex-wrap: wrap;
-          }
-          .stepper-item {
-            flex: 1 1 45%;
-          }
-          .inputs-grid {
-            grid-template-columns: 1fr;
+          .foreclosure-planner-wrapper .stepper-list {
+            grid-template-columns: repeat(2, 1fr);
           }
           .strategy-selection-grid {
             grid-template-columns: 1fr;
-          }
-          .preview-row {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.75rem;
-          }
-          .p-divider {
-            display: none;
           }
           .results-cta-card {
             flex-direction: column;
@@ -2364,20 +1839,8 @@ Can we connect to discuss this plan?`;
         }
 
         @media (max-width: 480px) {
-          .step-card {
-            padding: 1.25rem 1rem;
-          }
-          .hero-heading {
-            font-size: 1.4rem;
-          }
-          .result-main-number {
-            font-size: 2rem;
-          }
-          .metrics-four-grid {
+          .foreclosure-planner-wrapper .stepper-list {
             grid-template-columns: 1fr;
-          }
-          .stepper-item {
-            flex: 1 1 100%;
           }
         }
       `}</style>

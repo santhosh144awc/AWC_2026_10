@@ -226,7 +226,7 @@ Can we connect to discuss this plan?`;
               </li>
             );
           })}
-          <li className="stepper-item">
+          <li className="stepper-item results-stepper-item">
             <button
               type="button"
               onClick={() => setCurrentStep('results')}
@@ -808,6 +808,8 @@ Can we connect to discuss this plan?`;
                 viewBox={`0 0 ${chartWidth} ${chartHeight}`}
                 className="growth-svg"
                 preserveAspectRatio="xMidYMid meet"
+                role="region"
+                aria-label="SIP Corpus Growth Trajectory interactive chart. Use Tab to inspect points, or review the projection table below."
               >
                 <defs>
                   <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
@@ -820,7 +822,7 @@ Can we connect to discuss this plan?`;
                 {[0.25, 0.5, 0.75, 1].map((pct, idx) => {
                   const yPos = padding.top + graphHeight * (1 - pct);
                   return (
-                    <g key={idx}>
+                    <g key={idx} aria-hidden="true">
                       <line
                         x1={padding.left}
                         y1={yPos}
@@ -845,42 +847,56 @@ Can we connect to discuss this plan?`;
                 {/* Area and Line */}
                 {svgPathData && (
                   <>
-                    <path d={svgPathData.area} fill="url(#areaGradient)" />
+                    <path d={svgPathData.area} fill="url(#areaGradient)" aria-hidden="true" />
                     <path
                       d={svgPathData.line}
                       fill="none"
                       stroke="#00AB96"
                       strokeWidth="3.5"
                       strokeLinecap="round"
+                      aria-hidden="true"
                     />
                   </>
                 )}
 
                 {/* Points and Lump Sum Markers */}
                 {chartPoints.map((pt) => {
-                  const isHovered = activeChartPoint === pt.year;
+                  const isSelected = activeChartPoint === pt.year;
                   const hasLump = pt.lumpSumInvestment > 0;
+                  const accessibleLabel = `Year ${pt.year}: Estimated corpus ${formatLakhsCrores(pt.closingCorpus)} (${formatIndianCurrency(pt.closingCorpus)})${hasLump ? `, includes ${formatIndianCurrency(pt.lumpSumInvestment)} lump sum` : ''}`;
                   return (
-                    <g key={pt.year}>
+                    <g key={pt.year} className="chart-point-group">
                       {hasLump && (
                         <circle
                           cx={pt.x}
                           cy={pt.y}
                           r="8"
-                          fill="#D97706"
+                          fill="var(--color-amber-graphic)"
                           opacity="0.3"
+                          aria-hidden="true"
                         />
                       )}
                       <circle
                         cx={pt.x}
                         cy={pt.y}
-                        r={hasLump ? '5' : isHovered ? '6' : '3.5'}
-                        fill={hasLump ? '#D97706' : '#00182A'}
+                        r={hasLump ? (isSelected ? '7' : '5') : (isSelected ? '6.5' : '4')}
+                        fill={hasLump ? 'var(--color-amber-graphic)' : 'var(--color-primary-navy)'}
                         stroke="#FFFFFF"
-                        strokeWidth="2"
-                        style={{ cursor: 'pointer' }}
+                        strokeWidth={isSelected ? '2.5' : '2'}
+                        tabIndex={0}
+                        role="button"
+                        aria-label={accessibleLabel}
+                        aria-pressed={isSelected}
+                        className={`chart-point-dot ${isSelected ? 'active-point' : ''}`}
                         onMouseEnter={() => setActiveChartPoint(pt.year)}
                         onClick={() => setActiveChartPoint(pt.year)}
+                        onFocus={() => setActiveChartPoint(pt.year)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setActiveChartPoint(pt.year);
+                          }
+                        }}
                       />
                     </g>
                   );
@@ -898,6 +914,7 @@ Can we connect to discuss this plan?`;
                       fontSize="11"
                       fill="#64748B"
                       fontWeight="600"
+                      aria-hidden="true"
                     >
                       Yr {pt.year}
                     </text>
@@ -909,7 +926,7 @@ Can we connect to discuss this plan?`;
                 const pt = chartPoints.find((p) => p.year === activeChartPoint);
                 if (!pt) return null;
                 return (
-                  <div className="chart-tooltip-box">
+                  <div className="chart-tooltip-box" role="status" aria-live="polite">
                     <div className="tooltip-yr">Year {pt.year} Summary</div>
                     <div className="tooltip-row">
                       <span>Monthly SIP:</span>
@@ -1135,349 +1152,33 @@ Can we connect to discuss this plan?`;
         </div>
       )}
 
-      {/* Styled JSX (Vanilla CSS) */}
+      {/* Component-Specific Styles (Shared primitives imported via calculators.css) */}
       <style>{`
         .sip-planner-wrapper {
           width: 100%;
           max-width: 960px;
           margin: 0 auto;
-          font-family: 'Inter', sans-serif;
-          color: #00182A;
+          font-family: var(--font-body);
+          color: var(--color-primary-navy);
         }
 
-        .calc-top-action-bar {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 12px;
-          padding: 0.75rem 1.25rem;
-          margin-bottom: 1.5rem;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-        }
-
-        .action-tagline {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-size: 0.85rem;
-          font-weight: 600;
-          color: #00AB96;
-        }
-
-        .live-pulse {
-          width: 8px;
-          height: 8px;
-          background-color: #00AB96;
-          border-radius: 50%;
-          box-shadow: 0 0 0 rgba(0, 171, 150, 0.4);
-          animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-          0% { box-shadow: 0 0 0 0 rgba(0, 171, 150, 0.4); }
-          70% { box-shadow: 0 0 0 8px rgba(0, 171, 150, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(0, 171, 150, 0); }
-        }
-
-        .action-btn-group {
-          display: flex;
-          gap: 0.5rem;
-        }
-
-        .btn-sample-preset, .btn-reset-preset {
-          background: #F8FAFC;
-          border: 1px solid #CBD5E1;
-          padding: 0.4rem 0.75rem;
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: #334155;
-          border-radius: 6px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-sample-preset:hover {
-          background: #00AB96;
-          color: #FFFFFF;
-          border-color: #00AB96;
-        }
-
-        .btn-reset-preset:hover {
-          background: #F1F5F9;
-          color: #0F172A;
-        }
-
-        /* Stepper Navigation */
-        .stepper-nav {
-          margin-bottom: 2rem;
-        }
-
-        .stepper-list {
-          display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          gap: 0.5rem;
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-
-        .stepper-btn {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.35rem;
-          padding: 0.75rem 0.5rem;
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 10px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .stepper-btn.active {
-          background: #00182A;
-          border-color: #00182A;
-          color: #FFFFFF;
-          box-shadow: 0 4px 12px rgba(0, 24, 42, 0.15);
-        }
-
-        .stepper-btn.active .step-num {
-          background: #00AB96;
-          color: #FFFFFF;
-        }
-
+        /* Results Stepper Button Modifier (Step 5) */
         .stepper-btn.results-stepper-btn.active {
-          background: #00AB96;
-          border-color: #00AB96;
-          color: #FFFFFF;
+          background: var(--color-growth-teal);
+          border-color: var(--color-growth-teal);
+          color: var(--color-white);
           box-shadow: 0 4px 14px rgba(0, 171, 150, 0.3);
         }
 
         .stepper-btn.results-stepper-btn.active .step-num {
-          background: #FFFFFF;
-          color: #00AB96;
+          background: var(--color-white);
+          color: var(--color-growth-teal);
         }
 
-        .stepper-btn.completed {
-          border-color: #00AB96;
-        }
-
-        .stepper-btn.completed .step-num {
-          background: #E6F7F5;
-          color: #00AB96;
-        }
-
-        .step-num {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 22px;
-          height: 22px;
-          border-radius: 50%;
-          background: #F1F5F9;
-          font-size: 0.75rem;
-          font-weight: 700;
-          color: #64748B;
-        }
-
-        .step-label {
-          font-size: 0.8rem;
-          font-weight: 600;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .step-icon-sm {
-          margin-right: 0.2rem;
-        }
-
-        /* Step Card */
-        .step-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 2.25rem;
-          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);
-          animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(6px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .step-badge {
-          display: inline-block;
-          font-size: 0.75rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          background: #E6F7F5;
-          color: #00AB96;
-          padding: 0.25rem 0.6rem;
-          border-radius: 6px;
-          margin-bottom: 0.75rem;
-        }
-
-        .step-heading {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.6rem;
-          font-weight: 700;
-          color: #00182A;
-          margin: 0 0 0.5rem 0;
-        }
-
-        .step-description {
-          font-size: 0.95rem;
-          color: #475569;
-          line-height: 1.5;
-          margin: 0 0 1.75rem 0;
-        }
-
-        /* Inputs Grid */
-        .inputs-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1.25rem;
-          margin-bottom: 1.75rem;
-        }
-
-        .input-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.35rem;
-        }
-
-        .input-label {
-          font-size: 0.875rem;
-          font-weight: 600;
-          color: #1E293B;
-        }
-
-        .currency-input-wrapper {
-          position: relative;
-          display: flex;
-          align-items: center;
-        }
-
-        .currency-symbol {
-          position: absolute;
-          left: 12px;
-          font-weight: 600;
-          color: #64748B;
-          font-size: 1rem;
-          pointer-events: none;
-        }
-
-        .unit-tag {
-          position: absolute;
-          right: 12px;
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: #64748B;
-        }
-
-        .currency-field {
-          width: 100%;
-          padding: 0.75rem 0.75rem 0.75rem 2rem;
-          font-size: 1.05rem;
-          font-weight: 600;
-          color: #00182A;
-          background: #F8FAFC;
-          border: 1.5px solid #CBD5E1;
-          border-radius: 8px;
-          transition: all 0.2s ease;
-        }
-
-        .currency-field:focus {
-          outline: none;
-          background: #FFFFFF;
-          border-color: #00AB96;
-          box-shadow: 0 0 0 3px rgba(0, 171, 150, 0.15);
-        }
-
-        .input-helper {
-          font-size: 0.75rem;
-          color: #64748B;
-          font-weight: 500;
-        }
-
-        /* Sliders */
-        .slider-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.35rem;
-        }
-
-        .slider-value-display {
-          display: flex;
-          justify-content: space-between;
-          font-size: 0.9rem;
-          font-weight: 700;
-          color: #00AB96;
-        }
-
-        .range-slider {
-          width: 100%;
-          accent-color: #00AB96;
-          cursor: pointer;
-        }
-
-        .slider-ticks {
-          display: flex;
-          justify-content: space-between;
-          font-size: 0.7rem;
-          color: #94A3B8;
-        }
-
-        /* Live Preview Box */
-        .live-preview-box {
-          background: #F8FAFC;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 12px;
-          padding: 1.25rem 1.5rem;
-          margin-bottom: 1.75rem;
-        }
-
-        .preview-row {
-          display: flex;
-          align-items: center;
-          justify-content: space-around;
-        }
-
-        .preview-item {
-          display: flex;
-          flex-direction: column;
-          text-align: center;
-        }
-
-        .p-divider {
-          width: 1px;
-          height: 40px;
-          background: #CBD5E1;
-        }
-
-        .p-lbl {
-          font-size: 0.75rem;
-          font-weight: 600;
-          color: #64748B;
-          margin-bottom: 0.25rem;
-        }
-
-        .p-val {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.35rem;
-          font-weight: 800;
-        }
-
-        /* Progression Preview Card */
+        /* Progression Preview Card (Step 2) */
         .progression-preview-card {
-          background: #F8FAFC;
-          border: 1.5px solid #E2E8F0;
+          background: var(--color-bg-light);
+          border: 1.5px solid var(--color-border);
           border-radius: 12px;
           padding: 1.25rem 1.5rem;
           margin-bottom: 1.75rem;
@@ -1486,7 +1187,7 @@ Can we connect to discuss this plan?`;
         .progression-title {
           font-size: 0.85rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 0.85rem 0;
           text-transform: uppercase;
           letter-spacing: 0.04em;
@@ -1501,8 +1202,8 @@ Can we connect to discuss this plan?`;
         }
 
         .prog-step {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background: var(--color-white);
+          border: 1px solid var(--color-border);
           border-radius: 8px;
           padding: 0.75rem 0.85rem;
           text-align: center;
@@ -1511,43 +1212,43 @@ Can we connect to discuss this plan?`;
         }
 
         .prog-step.highlight-step {
-          border-color: #00AB96;
-          background: #E6F7F5;
+          border-color: var(--color-growth-teal);
+          background: var(--color-growth-teal-light);
         }
 
         .prog-yr {
           display: block;
           font-size: 0.7rem;
           font-weight: 700;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin-bottom: 0.2rem;
         }
 
         .prog-val {
           display: block;
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.05rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
         }
 
         .prog-sub {
           display: block;
           font-size: 0.65rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin-top: 0.15rem;
         }
 
         .prog-arrow {
           font-size: 1.1rem;
           font-weight: 700;
-          color: #94A3B8;
+          color: var(--color-border-subtle, #94A3B8);
         }
 
-        /* Timeline Visual Card */
+        /* Timeline Visual Card (Step 3) */
         .timeline-visual-card {
-          background: #F8FAFC;
-          border: 1.5px solid #E2E8F0;
+          background: var(--color-bg-light);
+          border: 1.5px solid var(--color-border);
           border-radius: 12px;
           padding: 1.25rem 1.5rem;
           margin-bottom: 1.75rem;
@@ -1556,7 +1257,7 @@ Can we connect to discuss this plan?`;
         .timeline-title {
           font-size: 0.85rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 0.85rem 0;
           text-transform: uppercase;
           letter-spacing: 0.04em;
@@ -1569,42 +1270,42 @@ Can we connect to discuss this plan?`;
         }
 
         .timeline-phase {
-          background: #FFFFFF;
-          border: 1px solid #CBD5E1;
+          background: var(--color-white);
+          border: 1px solid var(--color-border);
           border-radius: 10px;
           padding: 1rem;
           display: flex;
           flex-direction: column;
         }
 
-        .active-phase { border-left: 4px solid #00AB96; }
+        .active-phase { border-left: 4px solid var(--color-growth-teal); }
         .post-phase { border-left: 4px solid #3B82F6; }
-        .ready-phase { border-left: 4px solid #F59E0B; }
+        .ready-phase { border-left: 4px solid var(--color-amber-graphic, #F59E0B); }
 
         .phase-lbl {
           font-size: 0.75rem;
           font-weight: 700;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin-bottom: 0.25rem;
         }
 
         .phase-dur {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.15rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
         }
 
         .phase-desc {
           font-size: 0.75rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin-top: 0.25rem;
         }
 
-        /* Step 4 Lump Sum Styles */
+        /* Step 4 Lump Sum Schedule Builder */
         .lump-form-card {
-          background: #F8FAFC;
-          border: 1.5px solid #E2E8F0;
+          background: var(--color-bg-light);
+          border: 1.5px solid var(--color-border);
           border-radius: 12px;
           padding: 1.25rem 1.5rem;
           margin-bottom: 1.75rem;
@@ -1613,7 +1314,7 @@ Can we connect to discuss this plan?`;
         .lump-form-heading {
           font-size: 0.9rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 0.85rem 0;
         }
 
@@ -1634,28 +1335,28 @@ Can we connect to discuss this plan?`;
           padding: 0.75rem;
           font-size: 0.95rem;
           font-weight: 600;
-          color: #00182A;
-          background: #FFFFFF;
-          border: 1.5px solid #CBD5E1;
+          color: var(--color-primary-navy);
+          background: var(--color-white);
+          border: 1.5px solid var(--color-border);
           border-radius: 8px;
           cursor: pointer;
         }
 
         .btn-add-lump {
-          background: #00AB96;
-          color: #FFFFFF;
+          background: var(--color-growth-teal);
+          color: var(--color-white);
           border: none;
           padding: 0.8rem 1.25rem;
           font-size: 0.9rem;
           font-weight: 700;
           border-radius: 8px;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all var(--transition-fast);
           white-space: nowrap;
         }
 
         .btn-add-lump:hover {
-          background: #008f7d;
+          background: var(--color-growth-teal-hover);
         }
 
         .active-lumps-container {
@@ -1665,16 +1366,16 @@ Can we connect to discuss this plan?`;
         .active-lumps-heading {
           font-size: 0.9rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 0.85rem 0;
         }
 
         .empty-lump-state {
-          background: #F1F5F9;
+          background: var(--color-bg-subtle);
           border-radius: 8px;
           padding: 1rem;
           font-size: 0.85rem;
-          color: #475569;
+          color: var(--color-slate-text);
           text-align: center;
         }
 
@@ -1685,8 +1386,8 @@ Can we connect to discuss this plan?`;
         }
 
         .lump-item-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background: var(--color-white);
+          border: 1px solid var(--color-border);
           border-radius: 10px;
           padding: 1rem;
           display: flex;
@@ -1699,22 +1400,22 @@ Can we connect to discuss this plan?`;
           font-size: 0.7rem;
           font-weight: 800;
           background: #FEF3C7;
-          color: #D97706;
+          color: var(--color-amber-text, #D97706);
           padding: 0.2rem 0.5rem;
           border-radius: 4px;
           width: fit-content;
         }
 
         .lump-amount-val {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.35rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
         }
 
         .lump-exact-sub {
           font-size: 0.75rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin-bottom: 0.5rem;
         }
 
@@ -1728,147 +1429,26 @@ Can we connect to discuss this plan?`;
           border-radius: 6px;
           cursor: pointer;
           align-self: flex-start;
-          transition: background 0.2s;
+          transition: background var(--transition-fast);
         }
 
         .btn-delete-lump:hover {
           background: #FCA5A5;
         }
 
-        /* Results Styles */
-        .results-container {
-          display: flex;
-          flex-direction: column;
-          gap: 1.75rem;
-          animation: fadeIn 0.35s ease-out;
-        }
-
-        .results-hero-card {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 20px;
-          padding: 2.75rem 2rem 2.25rem;
-          color: #FFFFFF;
-          text-align: center;
-          box-shadow: 0 20px 40px -15px rgba(0, 24, 42, 0.35);
-        }
-
-        .hero-eyebrow {
-          font-size: 0.85rem;
-          font-weight: 800;
-          letter-spacing: 0.08em;
-          color: #00AB96;
-          margin-bottom: 0.6rem;
-          text-transform: uppercase;
-        }
-
-        .hero-heading {
-          font-family: 'Outfit', sans-serif;
-          font-size: 2.1rem;
-          font-weight: 800;
-          color: #FFFFFF !important;
-          margin: 0 0 1.75rem 0;
-          line-height: 1.25;
-        }
-
-        .primary-result-box {
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 2rem 1.5rem;
-          max-width: 520px;
-          margin: 0 auto 1.5rem auto;
-          box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.18);
-          text-align: center;
-        }
-
-        .result-tag {
-          display: block;
-          font-size: 0.825rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-          color: #00AB96;
-          margin-bottom: 0.35rem;
-        }
-
-        .result-main-number {
-          font-family: 'Outfit', sans-serif;
-          font-size: 3.25rem;
-          font-weight: 900;
-          color: #00182A;
-          margin: 0.25rem 0 0.5rem 0;
-          line-height: 1.1;
-        }
-
-        .result-exact-number {
-          font-size: 0.95rem;
-          color: #64748B;
-          font-weight: 600;
-        }
-
-        .hero-disclaimer-note {
-          font-size: 0.9rem;
-          color: #CBD5E1;
-          max-width: 640px;
-          margin: 0 auto;
-          line-height: 1.55;
-        }
-
-        /* Metrics Four Grid */
-        .metrics-four-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 1rem;
-        }
-
-        .metric-card {
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 14px;
-          padding: 1.25rem;
-          display: flex;
-          flex-direction: column;
-          text-align: center;
-        }
-
-        .metric-card.highlight-metric {
-          border-color: #00AB96;
-          background: #E6F7F5;
-        }
-
-        .m-card-lbl {
-          font-size: 0.75rem;
-          font-weight: 700;
-          color: #64748B;
-          margin-bottom: 0.25rem;
-        }
-
-        .m-card-val {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.45rem;
-          font-weight: 800;
-        }
-
-        .m-card-sub {
-          font-size: 0.7rem;
-          color: #64748B;
-          margin-top: 0.15rem;
-        }
-
-        /* Stacked Bar Card */
+        /* Stacked Bar Visualization Card */
         .stacked-bar-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background: var(--color-white);
+          border: 1px solid var(--color-border);
           border-radius: 16px;
           padding: 1.75rem;
         }
 
         .section-subtitle {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.25rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 1.25rem 0;
         }
 
@@ -1885,14 +1465,14 @@ Can we connect to discuss this plan?`;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #FFFFFF;
+          color: var(--color-white);
           font-size: 0.825rem;
           font-weight: 800;
           transition: width 0.3s ease;
         }
 
-        .invested-segment { background: #00182A; }
-        .growth-segment { background: #00AB96; }
+        .invested-segment { background: var(--color-primary-navy); }
+        .growth-segment { background: var(--color-growth-teal); }
 
         .stacked-legend-row {
           display: flex;
@@ -1915,16 +1495,16 @@ Can we connect to discuss this plan?`;
           flex-shrink: 0;
         }
 
-        .invested-dot { background: #00182A; }
-        .growth-dot { background: #00AB96; }
+        .invested-dot { background: var(--color-primary-navy); }
+        .growth-dot { background: var(--color-growth-teal); }
 
-        .legend-name { color: #64748B; }
-        .legend-val { color: #00182A; }
+        .legend-name { color: var(--color-slate-muted); }
+        .legend-val { color: var(--color-primary-navy); }
 
-        /* SVG Chart Card */
+        /* SVG Chart Card & Tooltip */
         .chart-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background: var(--color-white);
+          border: 1px solid var(--color-border);
           border-radius: 16px;
           padding: 1.75rem;
           position: relative;
@@ -1939,7 +1519,7 @@ Can we connect to discuss this plan?`;
 
         .chart-subtitle-note {
           font-size: 0.75rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
         }
 
         .svg-chart-container {
@@ -1947,19 +1527,17 @@ Can we connect to discuss this plan?`;
           width: 100%;
         }
 
-        .growth-svg {
-          width: 100%;
-          height: auto;
-          display: block;
+        .chart-point-group {
+          cursor: pointer;
         }
 
         .chart-tooltip-box {
           position: absolute;
           top: 15px;
           right: 20px;
-          background: #00182A;
-          color: #FFFFFF;
-          border-radius: 8px;
+          background: var(--color-primary-navy);
+          color: var(--color-white);
+          border-radius: var(--radius-sm);
           padding: 0.75rem 1rem;
           font-size: 0.8rem;
           box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
@@ -1968,7 +1546,7 @@ Can we connect to discuss this plan?`;
 
         .tooltip-yr {
           font-weight: 700;
-          color: #00AB96;
+          color: var(--color-growth-teal);
           margin-bottom: 0.35rem;
           border-bottom: 1px solid rgba(255, 255, 255, 0.15);
           padding-bottom: 0.25rem;
@@ -1983,8 +1561,8 @@ Can we connect to discuss this plan?`;
 
         /* Step-Up Table Card */
         .stepup-table-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background: var(--color-white);
+          border: 1px solid var(--color-border);
           border-radius: 16px;
           padding: 1.75rem;
         }
@@ -1997,19 +1575,19 @@ Can we connect to discuss this plan?`;
         }
 
         .btn-toggle-projection {
-          background: #F1F5F9;
-          color: #0F172A;
-          border: 1px solid #CBD5E1;
+          background: var(--color-bg-subtle);
+          color: var(--color-slate-heading);
+          border: 1px solid var(--color-border);
           padding: 0.4rem 0.85rem;
           font-size: 0.8rem;
           font-weight: 600;
           border-radius: 6px;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: all var(--transition-fast);
         }
 
         .btn-toggle-projection:hover {
-          background: #E2E8F0;
+          background: var(--color-border);
         }
 
         .table-responsive-wrapper {
@@ -2024,16 +1602,16 @@ Can we connect to discuss this plan?`;
         }
 
         .projection-table th {
-          background: #F8FAFC;
-          color: #64748B;
+          background: var(--color-bg-light);
+          color: var(--color-slate-muted);
           font-weight: 700;
           padding: 0.75rem 1rem;
-          border-bottom: 2px solid #E2E8F0;
+          border-bottom: 2px solid var(--color-border);
         }
 
         .projection-table td {
           padding: 0.75rem 1rem;
-          border-bottom: 1px solid #F1F5F9;
+          border-bottom: 1px solid var(--color-bg-subtle);
           color: #334155;
         }
 
@@ -2044,17 +1622,17 @@ Can we connect to discuss this plan?`;
         .tag-post {
           font-size: 0.65rem;
           font-weight: 700;
-          background: #E2E8F0;
-          color: #475569;
+          background: var(--color-border);
+          color: var(--color-slate-text);
           padding: 0.15rem 0.4rem;
           border-radius: 4px;
           margin-left: 0.4rem;
         }
 
-        /* Flow Story Card */
+        /* Wealth Progression Flow Story Card */
         .flow-story-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background: var(--color-white);
+          border: 1px solid var(--color-border);
           border-radius: 16px;
           padding: 1.75rem;
         }
@@ -2068,8 +1646,8 @@ Can we connect to discuss this plan?`;
         }
 
         .flow-step {
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background: var(--color-bg-light);
+          border: 1px solid var(--color-border);
           border-radius: 10px;
           padding: 0.85rem 0.65rem;
           text-align: center;
@@ -2078,277 +1656,46 @@ Can we connect to discuss this plan?`;
         }
 
         .flow-step.highlight-flow-step {
-          background: #E6F7F5;
-          border-color: #00AB96;
+          background: var(--color-growth-teal-light);
+          border-color: var(--color-growth-teal);
         }
 
         .flow-step.result-flow-step {
           background: #FEF3C7;
-          border-color: #D97706;
+          border-color: var(--color-amber-graphic, #D97706);
         }
 
         .flow-step-lbl {
           display: block;
           font-size: 0.7rem;
           font-weight: 600;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin-bottom: 0.25rem;
         }
 
         .flow-step-val {
           display: block;
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.1rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
         }
 
         .flow-step-sub {
           display: block;
           font-size: 0.65rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin-top: 0.15rem;
         }
 
         .flow-arrow {
           font-size: 1.1rem;
           font-weight: 700;
-          color: #94A3B8;
+          color: var(--color-border-subtle, #94A3B8);
         }
 
-        /* Key Insight Card */
-        .key-insight-card {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
-          border-radius: 14px;
-          padding: 1.25rem 1.5rem;
-          color: #FFFFFF;
-        }
-
-        .insight-icon {
-          font-size: 1.75rem;
-          flex-shrink: 0;
-        }
-
-        .insight-title {
-          display: block;
-          font-size: 0.75rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: #00AB96;
-          margin-bottom: 0.25rem;
-        }
-
-        .insight-text {
-          font-size: 0.9rem;
-          color: #E2E8F0;
-          line-height: 1.5;
-          margin: 0;
-        }
-
-        /* Accordion Cards */
-        .accordion-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 14px;
-          overflow: hidden;
-        }
-
-        .accordion-toggle-btn {
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1.25rem 1.5rem;
-          background: transparent;
-          border: none;
-          cursor: pointer;
-          font-size: 1rem;
-          color: #00182A;
-          transition: background 0.2s;
-        }
-
-        .accordion-toggle-btn:hover {
-          background: #F8FAFC;
-        }
-
-        .toggle-left {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-
-        .accordion-content {
-          padding: 0 1.5rem 1.5rem;
-          border-top: 1px solid #F1F5F9;
-        }
-
-        .formula-step-block {
-          margin-top: 1.25rem;
-        }
-
-        .formula-step-block h4 {
-          font-size: 0.9rem;
-          font-weight: 700;
-          color: #00182A;
-          margin: 0 0 0.35rem 0;
-        }
-
-        .formula-step-block p {
-          font-size: 0.85rem;
-          color: #475569;
-          line-height: 1.6;
-          margin: 0;
-        }
-
-        .formula-step-block code {
-          display: inline-block;
-          background: #F1F5F9;
-          padding: 0.2rem 0.5rem;
-          border-radius: 4px;
-          color: #0F172A;
-          font-weight: 600;
-          font-size: 0.8rem;
-          margin-top: 0.25rem;
-        }
-
-        /* Consultation CTA Card */
-        .results-cta-card {
-          background: linear-gradient(135deg, #00182A 0%, #00365D 100%);
-          border-radius: 16px;
-          padding: 2.25rem;
-          color: #FFFFFF;
-          text-align: center;
-        }
-
-        .cta-heading {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.5rem;
-          font-weight: 700;
-          margin: 0 0 0.5rem 0;
-        }
-
-        .cta-sub {
-          font-size: 0.95rem;
-          color: #CBD5E1;
-          max-width: 600px;
-          margin: 0 auto 1.5rem auto;
-          line-height: 1.5;
-        }
-
-        .cta-btn-row {
-          display: flex;
-          justify-content: center;
-          gap: 1rem;
-          margin-bottom: 1rem;
-        }
-
-        .btn-whatsapp-cta {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          background: #25D366;
-          color: #FFFFFF;
-          text-decoration: none;
-          font-size: 1rem;
-          font-weight: 700;
-          padding: 0.875rem 1.75rem;
-          border-radius: 8px;
-          box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
-          transition: all 0.2s ease;
-        }
-
-        .btn-whatsapp-cta:hover {
-          background: #20BA5A;
-          transform: translateY(-2px);
-        }
-
-        .btn-contact-secondary {
-          display: inline-flex;
-          align-items: center;
-          background: transparent;
-          color: #FFFFFF;
-          border: 1.5px solid rgba(255, 255, 255, 0.3);
-          text-decoration: none;
-          font-size: 0.95rem;
-          font-weight: 600;
-          padding: 0.875rem 1.5rem;
-          border-radius: 8px;
-          transition: all 0.2s ease;
-        }
-
-        .btn-contact-secondary:hover {
-          background: rgba(255, 255, 255, 0.1);
-          border-color: #FFFFFF;
-        }
-
-        .cta-disclaimer {
-          font-size: 0.75rem;
-          color: #94A3B8;
-          margin: 0;
-        }
-
-        /* Buttons */
-        .step-actions {
-          display: flex;
-          justify-content: space-between;
-          gap: 1rem;
-          margin-top: 1.5rem;
-        }
-
-        .btn-continue, .btn-view-results, .btn-edit-plan {
-          background: #00AB96;
-          color: #FFFFFF;
-          border: none;
-          padding: 0.875rem 1.75rem;
-          font-size: 1rem;
-          font-weight: 700;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-continue:hover, .btn-view-results:hover, .btn-edit-plan:hover {
-          background: #008f7d;
-          transform: translateY(-1px);
-        }
-
-        .btn-back {
-          background: #F1F5F9;
-          color: #334155;
-          border: 1px solid #CBD5E1;
-          padding: 0.875rem 1.5rem;
-          font-size: 0.95rem;
-          font-weight: 600;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-back:hover {
-          background: #E2E8F0;
-        }
-
-        /* Color Utility Classes */
-        .text-teal { color: #00AB96; }
-        .text-gold { color: #D97706; }
-        .text-navy { color: #00182A; }
-        .font-bold { font-weight: 700; }
-
-        /* Responsive Breakpoints */
+        /* Responsive Overrides */
         @media (max-width: 860px) {
-          .stepper-list {
-            grid-template-columns: repeat(3, 1fr);
-          }
-          .inputs-grid {
-            grid-template-columns: 1fr;
-          }
-          .metrics-four-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
           .lump-form-row {
             grid-template-columns: 1fr;
           }
@@ -2369,54 +1716,15 @@ Can we connect to discuss this plan?`;
         }
 
         @media (max-width: 640px) {
-          .step-card {
-            padding: 1.5rem 1rem;
+          .results-stepper-item {
+            grid-column: span 2;
           }
-          .stepper-list {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          .calc-top-action-bar {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 0.75rem;
-          }
-          .action-btn-group {
-            justify-content: flex-end;
-          }
-          .results-hero-card {
-            padding: 1.75rem 1rem 1.5rem;
-            border-radius: 16px;
-          }
-          .hero-heading {
-            font-size: 1.5rem !important;
-            margin-bottom: 1.25rem;
-          }
-          .primary-result-box {
-            padding: 1.5rem 1rem;
-            border-radius: 12px;
-          }
-          .result-main-number {
-            font-size: 2.35rem;
-          }
-          .metrics-four-grid {
-            grid-template-columns: 1fr;
-          }
-          .cta-btn-row {
-            flex-direction: column;
-          }
-          .step-actions {
-            flex-direction: column-reverse;
-          }
-          .btn-continue, .btn-view-results, .btn-edit-plan, .btn-back {
-            width: 100%;
-            text-align: center;
-          }
-          .preview-row {
-            flex-direction: column;
-            gap: 0.75rem;
-          }
-          .p-divider {
-            display: none;
+          .results-stepper-item .stepper-btn {
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
           }
         }
       `}</style>

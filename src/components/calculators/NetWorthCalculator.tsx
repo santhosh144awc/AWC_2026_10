@@ -51,6 +51,8 @@ export default function NetWorthCalculator() {
     setOtherLiabilities(0);
   };
 
+  const baseId = useId();
+
   return (
     <div className="calc-container">
       <div className="networth-grid">
@@ -69,91 +71,103 @@ export default function NetWorthCalculator() {
             
             <div className="two-col-inputs">
               <div className="form-group-compact">
-                <label className="field-label-compact">Bank Savings & FDs</label>
+                <label htmlFor={`${baseId}-bankSavings`} className="field-label-compact">Bank Savings & FDs</label>
                 <div className="input-currency-wrapper">
                   <span className="currency-prefix">₹</span>
                   <input
+                    id={`${baseId}-bankSavings`}
                     type="number"
                     min="0"
                     step="10000"
                     value={bankSavings}
                     onChange={(e) => setBankSavings(Number(e.target.value))}
                     className="number-input"
+                    aria-label="Bank Savings & Fixed Deposits asset"
                   />
                 </div>
               </div>
 
               <div className="form-group-compact">
-                <label className="field-label-compact">Mutual Funds</label>
+                <label htmlFor={`${baseId}-mutualFunds`} className="field-label-compact">Mutual Funds</label>
                 <div className="input-currency-wrapper">
                   <span className="currency-prefix">₹</span>
                   <input
+                    id={`${baseId}-mutualFunds`}
                     type="number"
                     min="0"
                     step="10000"
                     value={mutualFunds}
                     onChange={(e) => setMutualFunds(Number(e.target.value))}
                     className="number-input"
+                    aria-label="Mutual Funds asset"
                   />
                 </div>
               </div>
 
               <div className="form-group-compact">
-                <label className="field-label-compact">Direct Stocks & Shares</label>
+                <label htmlFor={`${baseId}-stocks`} className="field-label-compact">Direct Stocks & Shares</label>
                 <div className="input-currency-wrapper">
                   <span className="currency-prefix">₹</span>
                   <input
+                    id={`${baseId}-stocks`}
                     type="number"
                     min="0"
                     step="10000"
                     value={stocks}
                     onChange={(e) => setStocks(Number(e.target.value))}
                     className="number-input"
+                    aria-label="Direct Stocks & Shares asset"
                   />
                 </div>
               </div>
 
               <div className="form-group-compact">
-                <label className="field-label-compact">EPF / PPF / NPS</label>
+                <label htmlFor={`${baseId}-epfPpf`} className="field-label-compact">EPF / PPF / NPS</label>
                 <div className="input-currency-wrapper">
                   <span className="currency-prefix">₹</span>
                   <input
+                    id={`${baseId}-epfPpf`}
                     type="number"
                     min="0"
                     step="10000"
                     value={epfPpf}
                     onChange={(e) => setEpfPpf(Number(e.target.value))}
                     className="number-input"
+                    aria-label="EPF, PPF, and NPS retirement savings asset"
                   />
                 </div>
               </div>
 
               <div className="form-group-compact">
-                <label className="field-label-compact">Gold & SGBs</label>
+                <label htmlFor={`${baseId}-gold`} className="field-label-compact">Gold & SGBs</label>
                 <div className="input-currency-wrapper">
                   <span className="currency-prefix">₹</span>
                   <input
+                    id={`${baseId}-gold`}
                     type="number"
                     min="0"
                     step="10000"
                     value={gold}
                     onChange={(e) => setGold(Number(e.target.value))}
                     className="number-input"
+                    aria-label="Gold and Sovereign Gold Bonds asset"
                   />
                 </div>
               </div>
 
               <div className="form-group-compact">
-                <label className="field-label-compact">Real Estate / Land</label>
+                <label htmlFor={`${baseId}-realEstate`} className="field-label-compact">Real Estate / Land</label>
                 <div className="input-currency-wrapper">
                   <span className="currency-prefix">₹</span>
                   <input
+                    id={`${baseId}-realEstate`}
                     type="number"
                     min="0"
                     step="50000"
                     value={realEstate}
                     onChange={(e) => setRealEstate(Number(e.target.value))}
                     className="number-input"
+                    aria-label="Real Estate and Land asset"
                   />
                 </div>
               </div>
@@ -166,61 +180,69 @@ export default function NetWorthCalculator() {
 
             <div className="two-col-inputs">
               <div className="form-group-compact">
-                <label className="field-label-compact">Home Loan</label>
+                <label htmlFor={`${baseId}-homeLoan`} className="field-label-compact">Home Loan</label>
                 <div className="input-currency-wrapper">
                   <span className="currency-prefix">₹</span>
                   <input
+                    id={`${baseId}-homeLoan`}
                     type="number"
                     min="0"
                     step="25000"
                     value={homeLoan}
                     onChange={(e) => setHomeLoan(Number(e.target.value))}
                     className="number-input"
+                    aria-label="Home Loan liability"
                   />
                 </div>
               </div>
 
               <div className="form-group-compact">
-                <label className="field-label-compact">Car / Vehicle Loan</label>
+                <label htmlFor={`${baseId}-carLoan`} className="field-label-compact">Car / Vehicle Loan</label>
                 <div className="input-currency-wrapper">
                   <span className="currency-prefix">₹</span>
                   <input
+                    id={`${baseId}-carLoan`}
                     type="number"
                     min="0"
                     step="10000"
                     value={carLoan}
                     onChange={(e) => setCarLoan(Number(e.target.value))}
                     className="number-input"
+                    aria-label="Car or Vehicle Loan liability"
                   />
                 </div>
               </div>
 
               <div className="form-group-compact">
-                <label className="field-label-compact">Personal / Other Loans</label>
+                <label htmlFor={`${baseId}-personalLoan`} className="field-label-compact">Personal / Other Loans</label>
                 <div className="input-currency-wrapper">
                   <span className="currency-prefix">₹</span>
                   <input
+                    id={`${baseId}-personalLoan`}
                     type="number"
                     min="0"
                     step="10000"
                     value={personalLoan}
                     onChange={(e) => setPersonalLoan(Number(e.target.value))}
                     className="number-input"
+                    aria-label="Personal and Other Loans liability"
                   />
                 </div>
               </div>
 
               <div className="form-group-compact">
-                <label className="field-label-compact">Credit Card Dues</label>
+                <label htmlFor={`${baseId}-creditCardDebt`} className="field-label-compact">Credit Card Dues</label>
                 <div className="input-currency-wrapper">
                   <span className="currency-prefix">₹</span>
                   <input
+                    id={`${baseId}-creditCardDebt`}
                     type="number"
                     min="0"
                     step="5000"
                     value={creditCardDebt}
                     onChange={(e) => setCreditCardDebt(Number(e.target.value))}
                     className="number-input"
+                    aria-label="Credit Card Dues liability"
                   />
                 </div>
               </div>
@@ -313,57 +335,11 @@ export default function NetWorthCalculator() {
       </div>
 
       <style>{`
-        .calc-container {
-          background-color: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 2.25rem;
-          box-shadow: 0 4px 20px rgba(0, 24, 42, 0.04);
-        }
-
-        .networth-grid {
-          display: grid;
-          grid-template-columns: 1fr 1.05fr;
-          gap: 2.5rem;
-          align-items: start;
-        }
-
-        .panel-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 1.5rem;
-          padding-bottom: 0.75rem;
-          border-bottom: 1px solid #F1F5F9;
-        }
-
-        .panel-title {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #00182A;
-        }
-
-        .reset-btn {
-          background: transparent;
-          border: none;
-          color: #64748B;
-          font-size: 0.85rem;
-          font-weight: 600;
-          cursor: pointer;
-          padding: 0.2rem 0.5rem;
-          border-radius: 4px;
-        }
-
-        .reset-btn:hover {
-          color: #00182A;
-          background-color: #F1F5F9;
-        }
-
+        /* Component-Specific: Inventory Input Sections */
         .inventory-section {
-          background-color: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          border-radius: 12px;
+          background-color: var(--color-bg-light);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
           padding: 1.25rem;
         }
 
@@ -375,14 +351,8 @@ export default function NetWorthCalculator() {
           margin-bottom: 1rem;
         }
 
-        .title-teal { color: #00AB96; }
-        .title-navy { color: #00182A; }
-
-        .two-col-inputs {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 0.75rem 1rem;
-        }
+        .title-teal { color: var(--color-growth-teal); }
+        .title-navy { color: var(--color-primary-navy); }
 
         .form-group-compact {
           margin-bottom: 0.75rem;
@@ -391,118 +361,19 @@ export default function NetWorthCalculator() {
         .field-label-compact {
           font-size: 0.8rem;
           font-weight: 600;
-          color: #334155;
+          color: var(--color-slate-text);
           margin-bottom: 0.25rem;
           display: block;
-        }
-
-        .input-currency-wrapper {
-          display: flex;
-          align-items: center;
-          background-color: #FFFFFF;
-          border: 1.5px solid #CBD5E1;
-          border-radius: 8px;
-          padding: 0.25rem 0.5rem;
-          font-weight: 600;
-          color: #00182A;
-        }
-
-        .currency-prefix {
-          color: #64748B;
-          font-size: 0.85rem;
-          margin-right: 2px;
-        }
-
-        .number-input {
-          width: 100%;
-          border: none;
-          background: transparent;
-          font-size: 0.95rem;
-          font-weight: 700;
-          color: #00182A;
-          text-align: right;
-          outline: none;
         }
 
         .mt-4 {
           margin-top: 1.25rem;
         }
 
-        /* Results */
-        .calc-result-panel {
-          background-color: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          border-radius: 14px;
-          padding: 2rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-        }
-
-        .result-hero-box {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
-          border-radius: 12px;
-          padding: 1.75rem;
-          color: #FFFFFF;
-          text-align: center;
-        }
-
-        .result-tag {
-          font-size: 0.8rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: #00AB96;
-          display: block;
-          margin-bottom: 0.4rem;
-        }
-
-        .maturity-number {
-          font-family: 'Outfit', sans-serif;
-          font-size: 2.3rem;
-          font-weight: 800;
-          color: #FFFFFF;
-          line-height: 1.1;
-          margin-bottom: 0.5rem;
-        }
-
-        .result-note {
-          font-size: 0.85rem;
-          color: #CBD5E1;
-          line-height: 1.4;
-        }
-
-        .result-metrics-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1rem;
-        }
-
-        .metric-box {
-          background-color: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 10px;
-          padding: 1rem 1.25rem;
-        }
-
-        .metric-title {
-          font-size: 0.8rem;
-          color: #64748B;
-          font-weight: 600;
-          display: block;
-          margin-bottom: 0.2rem;
-        }
-
-        .metric-value {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.15rem;
-          font-weight: 700;
-          color: #00182A;
-        }
-
+        /* Component-Specific: Asset Composition Card & Stacked Bar */
         .asset-composition-card {
-          background-color: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background-color: var(--color-white);
+          border: 1px solid var(--color-border);
           border-radius: 10px;
           padding: 1.25rem;
         }
@@ -510,14 +381,14 @@ export default function NetWorthCalculator() {
         .asset-comp-title {
           font-size: 0.85rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           display: block;
           margin-bottom: 0.75rem;
         }
 
         .comp-bar-container {
           height: 12px;
-          background-color: #E2E8F0;
+          background-color: var(--color-border);
           border-radius: 9999px;
           display: flex;
           overflow: hidden;
@@ -529,12 +400,12 @@ export default function NetWorthCalculator() {
           transition: width 0.3s ease;
         }
 
-        .seg-mf { background-color: #00AB96; }
+        .seg-mf { background-color: var(--color-growth-teal); }
         .seg-stocks { background-color: #2563EB; }
-        .seg-re { background-color: #00182A; }
-        .seg-gold { background-color: #F59E0B; }
+        .seg-re { background-color: var(--color-primary-navy); }
+        .seg-gold { background-color: var(--color-warm-gold); }
         .seg-epf { background-color: #8B5CF6; }
-        .seg-bank { background-color: #94A3B8; }
+        .seg-bank { background-color: var(--color-slate-light); }
 
         .comp-legend-grid {
           display: grid;
@@ -548,7 +419,7 @@ export default function NetWorthCalculator() {
           gap: 0.35rem;
           font-size: 0.75rem;
           font-weight: 600;
-          color: #475569;
+          color: var(--color-slate-text);
         }
 
         .legend-dot {
@@ -558,133 +429,9 @@ export default function NetWorthCalculator() {
           display: inline-block;
         }
 
-        .calc-action-block {
-          display: flex;
-          flex-direction: column;
-          gap: 0.75rem;
-        }
-
-        .btn-whatsapp-consult {
-          display: block;
-          text-align: center;
-          background-color: #00AB96;
-          color: #FFFFFF;
-          font-size: 0.95rem;
-          font-weight: 600;
-          padding: 0.85rem 1.25rem;
-          border-radius: 10px;
-          text-decoration: none;
-          transition: all 0.2s ease;
-        }
-
-        .btn-whatsapp-consult:hover {
-          background-color: #008f7d;
-          transform: translateY(-1px);
-        }
-
-        .btn-book-consult {
-          display: block;
-          text-align: center;
-          background-color: #FFFFFF;
-          border: 1.5px solid #00182A;
-          color: #00182A;
-          font-size: 0.95rem;
-          font-weight: 600;
-          padding: 0.85rem 1.25rem;
-          border-radius: 10px;
-          text-decoration: none;
-          transition: all 0.2s ease;
-        }
-
-        .btn-book-consult:hover {
-          background-color: #F1F5F9;
-        }
-
-        .calc-explanation {
-          padding-top: 1rem;
-          border-top: 1px solid #E2E8F0;
-        }
-
-        .calc-explanation h4 {
-          font-size: 0.9rem;
-          font-weight: 700;
-          color: #00182A;
-          margin-bottom: 0.35rem;
-        }
-
-        .calc-explanation p {
-          font-size: 0.8rem;
-          color: #64748B;
-          line-height: 1.5;
-          margin-bottom: 0.5rem;
-        }
-
-        .disclaimer-text {
-          font-size: 0.75rem !important;
-          color: #94A3B8 !important;
-          font-style: italic;
-        }
-
-        @media (max-width: 900px) {
-          .networth-grid {
-            grid-template-columns: 1fr;
-          }
-          .calc-container {
-            padding: 1.5rem;
-          }
-        }
-
         @media (max-width: 540px) {
-          .calc-container {
-            padding: 1.25rem 0.875rem;
-            border-radius: 12px;
-          }
-
-          .panel-header {
-            margin-bottom: 1.25rem;
-            gap: 0.5rem;
-          }
-
-          .panel-title {
-            font-size: 1.15rem;
-          }
-
-          .asset-liability-row {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 0.35rem;
-          }
-
-          .item-label {
-            font-size: 0.875rem;
-          }
-
-          .input-currency-wrapper {
-            width: 100%;
-            justify-content: space-between;
-            padding: 0.4rem 0.75rem;
-          }
-
-          .number-input {
-            width: 100%;
-            flex: 1;
-            font-size: 1rem;
-          }
-
-          .networth-hero-box {
-            padding: 1.25rem 1rem;
-          }
-
-          .networth-number {
-            font-size: 1.85rem;
-          }
-
-          .networth-words {
-            font-size: 1rem;
-          }
-
-          .summary-card {
-            padding: 0.75rem 0.85rem;
+          .comp-legend-grid {
+            grid-template-columns: repeat(2, 1fr);
           }
         }
       `}</style>

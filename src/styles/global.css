@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import './calculators.css';
 
 :root {
   /* Brand Colors from Approved Blueprint */
@@ -27,6 +28,20 @@
   --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-danger: #EF4444;
+  --color-amber-bg: #FFFBEB; /* Amber-50 light background for caution/disclaimer boxes */
+  --color-amber-border: #FCD34D; /* Amber-300 border for caution boxes */
+  --color-amber-text: #B45309; /* Accessible amber for normal text on white / light bg (WCAG AA 5.02:1) */
+  --color-amber-graphic: #D97706; /* Amber for chart markers, badges, and graphical elements (3.0:1) */
+
+  /* Legacy Token Aliases (Maintained for Backward Compatibility) */
+  --color-bg-white: var(--color-white);
+  --color-text-muted: var(--color-slate-muted);
+  --color-text-light: var(--color-white);
+  --color-text-secondary: var(--color-slate-text);
+  --color-accent-gold: var(--color-warm-gold);
+  --color-border-light: var(--color-border-subtle);
+  --color-slate-body: var(--color-slate-text);
+  --font-family-display: var(--font-heading);
 
   /* Typography */
   --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -54,6 +69,12 @@
   --transition-fast: 150ms ease;
   --transition-normal: 250ms ease;
   --transition-slow: 350ms ease;
+
+  /* Focus Tokens (WCAG 1.4.11 & 2.4.13 Compliant) */
+  --focus-ring-color: var(--color-primary-navy);
+  --focus-ring-color-dark: var(--color-growth-teal);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
 }
 
 *, *::before, *::after {
@@ -104,6 +125,130 @@ button {
   cursor: pointer;
   border: none;
   background: none;
+}
+
+/* ==========================================================================
+   Accessibility Foundations (WCAG 2.1 / 2.2 Level AA/AAA)
+   ========================================================================== */
+
+/* Skip to Main Content Link (WCAG 2.4.1 Bypass Blocks) */
+.skip-link {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  z-index: 1000;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: auto;
+  height: auto;
+  padding: 0.75rem 1.25rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  background-color: var(--color-primary-navy);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: 2px solid var(--color-growth-teal);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 8px 24px rgba(0, 24, 42, 0.4);
+  outline: 2px solid var(--color-white);
+  outline-offset: 2px;
+  z-index: 1001;
+}
+
+/* Global Interactive Focus Rings (WCAG 1.4.11 & 2.4.13) */
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+a:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+button:focus-visible,
+.btn:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: 2px;
+}
+
+/* Specific button focus states ensuring >= 3:1 contrast against adjacent background */
+.btn-primary:focus-visible {
+  outline: 2px solid var(--color-primary-navy);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px var(--color-white);
+}
+
+.btn-teal:focus-visible {
+  outline: 2px solid var(--color-primary-navy);
+  outline-offset: 2px;
+}
+
+.btn-outline:focus-visible {
+  outline: 2px solid var(--color-primary-navy);
+  outline-offset: 2px;
+}
+
+.btn-outline-white:focus-visible {
+  outline: 2px solid var(--color-growth-teal);
+  outline-offset: 2px;
+}
+
+.btn-white:focus-visible {
+  outline: 2px solid var(--color-primary-navy);
+  outline-offset: 2px;
+}
+
+/* Form inputs & controls */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-primary-navy);
+  outline-offset: 1px;
+}
+
+input[type="range"]:focus-visible {
+  outline: 2px solid var(--color-primary-navy);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* Dark Containers & Footer Links (6.16:1 Contrast on Navy Background) */
+.site-footer a:focus-visible,
+.site-footer button:focus-visible,
+.results-hero-card a:focus-visible,
+.results-hero-card button:focus-visible {
+  outline: 2px solid var(--focus-ring-color-dark);
+  outline-offset: 2px;
+}
+
+/* Respect Reduced Motion Preferences (WCAG 2.2.2 & 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Layout Utilities */

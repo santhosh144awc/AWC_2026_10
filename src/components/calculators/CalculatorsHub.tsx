@@ -38,9 +38,54 @@ function getTabFromUrl(): CalculatorTab {
   return 'sip';
 }
 
+export interface WorkspaceTab {
+  id: CalculatorTab;
+  label: string;
+  title: string;
+}
+
+export const WORKSPACE_TABS: WorkspaceTab[] = [
+  { id: 'sip', label: 'SIP', title: 'SIP Calculator' },
+  { id: 'lumpsum', label: 'Lumpsum', title: 'Lumpsum Calculator' },
+  { id: 'goal', label: 'Goal', title: 'Milestone Goal Planner' },
+  { id: 'retirement', label: 'Retirement', title: 'Retirement Calculator' },
+  { id: 'loan-vs-invest', label: 'Loan vs Invest', title: 'Loan vs Investment Calculator' },
+  { id: 'insurance', label: 'Insurance', title: 'Life Insurance Calculator' },
+  { id: 'net-worth', label: 'Net Worth', title: 'Net Worth Calculator' },
+];
+
 export default function CalculatorsHub() {
   const [activeTab, setActiveTab] = useState<CalculatorTab>('sip');
   const stageRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const handleTabKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
+    let nextIndex = -1;
+
+    switch (e.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+        nextIndex = (index + 1) % WORKSPACE_TABS.length;
+        break;
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        nextIndex = (index - 1 + WORKSPACE_TABS.length) % WORKSPACE_TABS.length;
+        break;
+      case 'Home':
+        nextIndex = 0;
+        break;
+      case 'End':
+        nextIndex = WORKSPACE_TABS.length - 1;
+        break;
+      default:
+        return;
+    }
+
+    e.preventDefault();
+    const targetTab = WORKSPACE_TABS[nextIndex];
+    handleSelectEmbeddedTab(targetTab.id);
+    tabRefs.current[nextIndex]?.focus();
+  };
 
   useEffect(() => {
     const currentTab = getTabFromUrl();
@@ -191,84 +236,41 @@ export default function CalculatorsHub() {
           <div className="workspace-title-row">
             <span className="workspace-tag">Interactive Workspace</span>
             <span className="active-tab-title">
-              {activeTab === 'sip' && 'SIP Calculator'}
-              {activeTab === 'lumpsum' && 'Lumpsum Calculator'}
-              {activeTab === 'retirement' && 'Retirement Calculator'}
-              {activeTab === 'goal' && 'Milestone Goal Planner'}
-              {activeTab === 'loan-vs-invest' && 'Loan vs Investment Calculator'}
-              {activeTab === 'insurance' && 'Life Insurance Calculator'}
-              {activeTab === 'net-worth' && 'Net Worth Calculator'}
+              {WORKSPACE_TABS.find(t => t.id === activeTab)?.title || 'Calculator Workspace'}
             </span>
           </div>
           
           <div className="workspace-tabs-bar" role="tablist" aria-label="Calculator Workspace Selector">
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeTab === 'sip'}
-              onClick={() => handleSelectEmbeddedTab('sip')}
-              className={`ws-tab-btn ${activeTab === 'sip' ? 'active' : ''}`}
-            >
-              SIP
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeTab === 'lumpsum'}
-              onClick={() => handleSelectEmbeddedTab('lumpsum')}
-              className={`ws-tab-btn ${activeTab === 'lumpsum' ? 'active' : ''}`}
-            >
-              Lumpsum
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeTab === 'goal'}
-              onClick={() => handleSelectEmbeddedTab('goal')}
-              className={`ws-tab-btn ${activeTab === 'goal' ? 'active' : ''}`}
-            >
-              Goal
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeTab === 'retirement'}
-              onClick={() => handleSelectEmbeddedTab('retirement')}
-              className={`ws-tab-btn ${activeTab === 'retirement' ? 'active' : ''}`}
-            >
-              Retirement
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeTab === 'loan-vs-invest'}
-              onClick={() => handleSelectEmbeddedTab('loan-vs-invest')}
-              className={`ws-tab-btn ${activeTab === 'loan-vs-invest' ? 'active' : ''}`}
-            >
-              Loan vs Invest
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeTab === 'insurance'}
-              onClick={() => handleSelectEmbeddedTab('insurance')}
-              className={`ws-tab-btn ${activeTab === 'insurance' ? 'active' : ''}`}
-            >
-              Insurance
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeTab === 'net-worth'}
-              onClick={() => handleSelectEmbeddedTab('net-worth')}
-              className={`ws-tab-btn ${activeTab === 'net-worth' ? 'active' : ''}`}
-            >
-              Net Worth
-            </button>
+            {WORKSPACE_TABS.map((tab, index) => {
+              const isSelected = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  ref={(el) => { tabRefs.current[index] = el; }}
+                  type="button"
+                  role="tab"
+                  id={`workspace-tab-${tab.id}`}
+                  aria-controls={`workspace-panel-${tab.id}`}
+                  aria-selected={isSelected}
+                  tabIndex={isSelected ? 0 : -1}
+                  onClick={() => handleSelectEmbeddedTab(tab.id)}
+                  onKeyDown={(e) => handleTabKeyDown(e, index)}
+                  className={`ws-tab-btn ${isSelected ? 'active' : ''}`}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        <div className="workspace-content-pane">
+        <div
+          role="tabpanel"
+          id={`workspace-panel-${activeTab}`}
+          aria-labelledby={`workspace-tab-${activeTab}`}
+          tabIndex={0}
+          className="workspace-content-pane"
+        >
           {activeTab === 'sip' && <SIPCalculator />}
           {activeTab === 'lumpsum' && <LumpsumCalculator />}
           {activeTab === 'retirement' && <RetirementCalculator />}
@@ -442,338 +444,6 @@ export default function CalculatorsHub() {
           </a>
         </div>
       </section>
-
-      <style>{`
-        .hub-container {
-          width: 100%;
-          max-width: 1200px;
-          margin: 0 auto;
-        }
-
-        .hub-section {
-          margin-bottom: 4rem;
-        }
-
-        .section-title-wrap {
-          margin-bottom: 2rem;
-          text-align: left;
-        }
-
-        .tier-pill {
-          display: inline-block;
-          font-size: 0.75rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-          padding: 0.25rem 0.75rem;
-          border-radius: 9999px;
-          margin-bottom: 0.6rem;
-        }
-
-        .tier-pill-primary {
-          background-color: #CCFBF1;
-          color: #0F766E;
-        }
-
-        .tier-pill-secondary {
-          background-color: #F1F5F9;
-          color: #475569;
-        }
-
-        .tier-pill-tertiary {
-          background-color: #E2E8F0;
-          color: #334155;
-        }
-
-        .tier-heading {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.85rem;
-          font-weight: 800;
-          color: #00182A;
-          margin: 0 0 0.4rem 0;
-          line-height: 1.25;
-        }
-
-        .tier-subtext {
-          font-size: 1rem;
-          color: #475569;
-          margin: 0;
-          line-height: 1.5;
-        }
-
-        /* Tier 1 Grid */
-        .tools-grid-tier1 {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1.5rem;
-        }
-
-        @media (max-width: 1024px) {
-          .tools-grid-tier1 {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-        @media (max-width: 640px) {
-          .tools-grid-tier1 {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        .tool-card-tier1 {
-          background-color: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 1.75rem 1.5rem;
-          display: flex;
-          flex-direction: column;
-          text-decoration: none;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          box-shadow: 0 4px 15px rgba(0, 24, 42, 0.03);
-          font-family: inherit;
-        }
-
-        .tool-card-tier1:hover {
-          transform: translateY(-4px);
-          border-color: #00AB96;
-          box-shadow: 0 10px 24px rgba(0, 171, 150, 0.12);
-        }
-
-        .active-tier1-card {
-          border-color: #00AB96;
-          background-color: #F0FDF4;
-        }
-
-        .card-top {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 1rem;
-        }
-
-        .tool-icon {
-          font-size: 2rem;
-          line-height: 1;
-        }
-
-        .card-badge {
-          font-size: 0.72rem;
-          font-weight: 700;
-          padding: 0.2rem 0.55rem;
-          border-radius: 6px;
-        }
-
-        .badge-teal {
-          background-color: #CCFBF1;
-          color: #0F766E;
-        }
-
-        .badge-slate {
-          background-color: #F1F5F9;
-          color: #475569;
-        }
-
-        .badge-quiet {
-          background-color: #F8FAFC;
-          color: #64748B;
-          border: 1px solid #E2E8F0;
-        }
-
-        .tool-title {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.18rem;
-          font-weight: 700;
-          color: #00182A;
-          margin: 0 0 0.5rem 0;
-          line-height: 1.3;
-        }
-
-        .tool-desc {
-          font-size: 0.88rem;
-          color: #475569;
-          line-height: 1.45;
-          margin: 0 0 1.5rem 0;
-          flex-grow: 1;
-        }
-
-        .tool-btn-link {
-          font-size: 0.88rem;
-          font-weight: 700;
-          color: #00AB96;
-          display: inline-flex;
-          align-items: center;
-          transition: color 0.2s ease;
-        }
-
-        .tool-card-tier1:hover .tool-btn-link {
-          color: #008F7E;
-          text-decoration: underline;
-        }
-
-        /* Workspace Stage */
-        .active-workspace-wrapper {
-          background: #FFFFFF;
-          border: 2px solid #00AB96;
-          border-radius: 20px;
-          padding: 2rem;
-          margin-bottom: 4.5rem;
-          box-shadow: 0 14px 34px rgba(0, 171, 150, 0.08);
-          scroll-margin-top: 100px;
-        }
-
-        .workspace-header {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          margin-bottom: 2rem;
-          padding-bottom: 1.25rem;
-          border-bottom: 1px solid #E2E8F0;
-        }
-
-        .workspace-tag {
-          font-size: 0.8rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: #0F766E;
-        }
-
-        .workspace-tabs-bar {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.5rem;
-        }
-
-        .ws-tab-btn {
-          padding: 0.6rem 1rem;
-          border-radius: 10px;
-          font-family: 'Outfit', sans-serif;
-          font-size: 0.88rem;
-          font-weight: 700;
-          background-color: #F8FAFC;
-          color: #475569;
-          border: 1px solid #E2E8F0;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          min-height: 40px;
-        }
-
-        .ws-tab-btn:hover {
-          background-color: #F1F5F9;
-          color: #00182A;
-        }
-
-        .ws-tab-btn.active {
-          background-color: #00182A;
-          color: #FFFFFF;
-          border-color: #00182A;
-        }
-
-        /* Tier 2 & 3 Secondary Grids */
-        .tools-grid-secondary {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1.5rem;
-        }
-
-        @media (max-width: 768px) {
-          .tools-grid-secondary {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        .tool-card-secondary {
-          background-color: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 1.75rem 1.5rem;
-          display: flex;
-          flex-direction: column;
-          text-decoration: none;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          box-shadow: 0 4px 12px rgba(0, 24, 42, 0.02);
-          font-family: inherit;
-        }
-
-        .tool-card-secondary:hover {
-          transform: translateY(-3px);
-          border-color: #94A3B8;
-          box-shadow: 0 8px 20px rgba(0, 24, 42, 0.06);
-        }
-
-        .tool-btn-secondary {
-          font-size: 0.88rem;
-          font-weight: 700;
-          color: #00182A;
-          display: inline-flex;
-          align-items: center;
-        }
-
-        .tool-card-secondary:hover .tool-btn-secondary {
-          color: #00AB96;
-          text-decoration: underline;
-        }
-
-        /* Tier 4 Advanced Grid */
-        .tier-4-section {
-          background-color: #F8FAFC;
-          border: 1.5px dashed #CBD5E1;
-          border-radius: 20px;
-          padding: 2.5rem 2rem;
-        }
-
-        .tools-grid-advanced {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1.25rem;
-        }
-
-        @media (max-width: 1024px) {
-          .tools-grid-advanced {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-        @media (max-width: 640px) {
-          .tools-grid-advanced {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        .tool-card-advanced {
-          background-color: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 12px;
-          padding: 1.5rem 1.25rem;
-          display: flex;
-          flex-direction: column;
-          text-decoration: none;
-          transition: all 0.2s ease;
-        }
-
-        .tool-card-advanced:hover {
-          border-color: #00AB96;
-          box-shadow: 0 6px 16px rgba(0, 24, 42, 0.04);
-        }
-
-        .tool-btn-quiet {
-          font-size: 0.82rem;
-          font-weight: 700;
-          color: #64748B;
-          display: inline-flex;
-          align-items: center;
-        }
-
-        .tool-card-advanced:hover .tool-btn-quiet {
-          color: #00AB96;
-        }
-
-        .text-left {
-          text-align: left;
-        }
-      `}</style>
     </div>
   );
 }

@@ -94,23 +94,27 @@ export const ConsultationBooking: React.FC = () => {
             </div>
 
             <div className="type-options-grid">
-              {CONSULTATION_TYPES.map((t) => (
-                <button
-                  type="button"
-                  key={t.id}
-                  onClick={() => setConsultType(t.title)}
-                  className={`type-option-card ${consultType === t.title ? 'selected' : ''}`}
-                >
-                  <span className="type-icon">{t.icon}</span>
-                  <div className="type-info">
-                    <h4 className="type-title">{t.title}</h4>
-                    <p className="type-desc">{t.desc}</p>
-                  </div>
-                  <div className="selection-radio">
-                    <div className="radio-circle"></div>
-                  </div>
-                </button>
-              ))}
+              {CONSULTATION_TYPES.map((t) => {
+                const isSelected = consultType === t.title;
+                return (
+                  <button
+                    type="button"
+                    key={t.id}
+                    onClick={() => setConsultType(t.title)}
+                    aria-pressed={isSelected}
+                    className={`type-option-card ${isSelected ? 'selected' : ''}`}
+                  >
+                    <span className="type-icon">{t.icon}</span>
+                    <div className="type-info">
+                      <h4 className="type-title">{t.title}</h4>
+                      <p className="type-desc">{t.desc}</p>
+                    </div>
+                    <div className="selection-radio">
+                      <div className="radio-circle"></div>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
 
             <div className="step-action-row">
@@ -137,33 +141,41 @@ export const ConsultationBooking: React.FC = () => {
             <div className="dates-selection-block">
               <label className="input-group-label">1. Preferred Day</label>
               <div className="dates-grid">
-                {DATE_OPTIONS.map((d) => (
-                  <button
-                    type="button"
-                    key={d.label}
-                    onClick={() => setSelectedDate(d.label)}
-                    className={`date-pill-btn ${selectedDate === d.label ? 'selected' : ''}`}
-                  >
-                    <span className="date-title">{d.label}</span>
-                    <span className="date-sub">{d.desc}</span>
-                  </button>
-                ))}
+                {DATE_OPTIONS.map((d) => {
+                  const isSelected = selectedDate === d.label;
+                  return (
+                    <button
+                      type="button"
+                      key={d.label}
+                      onClick={() => setSelectedDate(d.label)}
+                      aria-pressed={isSelected}
+                      className={`date-pill-btn ${isSelected ? 'selected' : ''}`}
+                    >
+                      <span className="date-title">{d.label}</span>
+                      <span className="date-sub">{d.desc}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
             <div className="slots-selection-block">
               <label className="input-group-label">2. Preferred Time Window</label>
               <div className="slots-grid">
-                {TIME_SLOTS.map((s) => (
-                  <button
-                    type="button"
-                    key={s}
-                    onClick={() => setSelectedSlot(s)}
-                    className={`slot-pill-btn ${selectedSlot === s ? 'selected' : ''}`}
-                  >
-                    {s}
-                  </button>
-                ))}
+                {TIME_SLOTS.map((s) => {
+                  const isSelected = selectedSlot === s;
+                  return (
+                    <button
+                      type="button"
+                      key={s}
+                      onClick={() => setSelectedSlot(s)}
+                      aria-pressed={isSelected}
+                      className={`slot-pill-btn ${isSelected ? 'selected' : ''}`}
+                    >
+                      {s}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 

@@ -253,7 +253,7 @@ Can we connect to discuss this plan?`;
               </li>
             );
           })}
-          <li className="stepper-item">
+          <li className="stepper-item results-stepper-item">
             <button
               type="button"
               onClick={() => setCurrentStep('results')}
@@ -786,6 +786,8 @@ Can we connect to discuss this plan?`;
                 viewBox={`0 0 ${chartWidth} ${chartHeight}`}
                 className="growth-svg"
                 preserveAspectRatio="xMidYMid meet"
+                role="region"
+                aria-label="SWP Corpus Depletion Trajectory interactive chart. Use Tab to inspect points, or review the projection table below."
               >
                 <defs>
                   <linearGradient id="swpAreaGradient" x1="0" y1="0" x2="0" y2="1">
@@ -798,7 +800,7 @@ Can we connect to discuss this plan?`;
                 {[0.25, 0.5, 0.75, 1].map((pct, idx) => {
                   const yPos = padding.top + graphHeight * (1 - pct);
                   return (
-                    <g key={idx}>
+                    <g key={idx} aria-hidden="true">
                       <line
                         x1={padding.left}
                         y1={yPos}
@@ -823,25 +825,29 @@ Can we connect to discuss this plan?`;
                 {/* Area and Line */}
                 {svgPathData && (
                   <>
-                    <path d={svgPathData.area} fill="url(#swpAreaGradient)" />
+                    <path d={svgPathData.area} fill="url(#swpAreaGradient)" aria-hidden="true" />
                     <path
                       d={svgPathData.line}
                       fill="none"
                       stroke="#00AB96"
                       strokeWidth="3.5"
                       strokeLinecap="round"
+                      aria-hidden="true"
                     />
                   </>
                 )}
 
                 {/* Points and Markers */}
                 {chartPoints.points.map((pt) => {
-                  const isHovered = activeChartPoint === pt.yearNumber;
+                  const isSelected = activeChartPoint === pt.yearNumber;
                   const isDepletion = pt.corpus === 0 && pt.yearNumber > 0;
                   const hasLump = pt.lumpSum > 0;
+                  const accessibleLabel = pt.yearNumber === 0
+                    ? `Starting Corpus at Age ${pt.age}: ${formatIndianCurrency(pt.corpus)}`
+                    : `Year ${pt.yearNumber} (Age ${pt.age}): Ending corpus ${formatIndianCurrency(pt.corpus)}, Monthly SWP ${formatIndianCurrency(pt.monthlySWP)}${hasLump ? `, includes ${formatIndianCurrency(pt.lumpSum)} lump withdrawal` : ''}${isDepletion ? ' (Corpus Depleted)' : ''}`;
 
                   return (
-                    <g key={pt.yearNumber}>
+                    <g key={pt.yearNumber} className="chart-point-group">
                       {isDepletion && (
                         <circle
                           cx={pt.x}
@@ -849,18 +855,30 @@ Can we connect to discuss this plan?`;
                           r="9"
                           fill="#DC2626"
                           opacity="0.3"
+                          aria-hidden="true"
                         />
                       )}
                       <circle
                         cx={pt.x}
                         cy={pt.y}
-                        r={isDepletion ? '6' : hasLump ? '5' : isHovered ? '6' : '3.5'}
+                        r={isDepletion ? (isSelected ? '7.5' : '6') : hasLump ? (isSelected ? '6.5' : '5') : isSelected ? '6' : '3.5'}
                         fill={isDepletion ? '#DC2626' : hasLump ? '#D97706' : '#00182A'}
                         stroke="#FFFFFF"
-                        strokeWidth="2"
-                        style={{ cursor: 'pointer' }}
+                        strokeWidth={isSelected ? '2.5' : '2'}
+                        tabIndex={0}
+                        role="button"
+                        aria-label={accessibleLabel}
+                        aria-pressed={isSelected}
+                        className={`chart-point-dot ${isSelected ? 'active-point' : ''} ${isDepletion ? 'depletion-point' : ''}`}
                         onMouseEnter={() => setActiveChartPoint(pt.yearNumber)}
                         onClick={() => setActiveChartPoint(pt.yearNumber)}
+                        onFocus={() => setActiveChartPoint(pt.yearNumber)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setActiveChartPoint(pt.yearNumber);
+                          }
+                        }}
                       />
                     </g>
                   );
@@ -878,6 +896,7 @@ Can we connect to discuss this plan?`;
                       fontSize="11"
                       fill="#64748B"
                       fontWeight="600"
+                      aria-hidden="true"
                     >
                       {pt.yearNumber === 0 ? 'Start' : `Yr ${pt.yearNumber}`}
                     </text>
@@ -1131,336 +1150,8 @@ Can we connect to discuss this plan?`;
           margin: 0 auto;
           font-family: 'Inter', sans-serif;
           color: #00182A;
-        }
 
-        .calc-top-action-bar {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 12px;
-          padding: 0.75rem 1.25rem;
-          margin-bottom: 1.5rem;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-        }
-
-        .action-tagline {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-size: 0.85rem;
-          font-weight: 600;
-          color: #00AB96;
-        }
-
-        .live-pulse {
-          width: 8px;
-          height: 8px;
-          background-color: #00AB96;
-          border-radius: 50%;
-          box-shadow: 0 0 0 rgba(0, 171, 150, 0.4);
-          animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-          0% { box-shadow: 0 0 0 0 rgba(0, 171, 150, 0.4); }
-          70% { box-shadow: 0 0 0 8px rgba(0, 171, 150, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(0, 171, 150, 0); }
-        }
-
-        .action-btn-group {
-          display: flex;
-          gap: 0.5rem;
-        }
-
-        .btn-sample-preset, .btn-reset-preset {
-          background: #F8FAFC;
-          border: 1px solid #CBD5E1;
-          padding: 0.4rem 0.75rem;
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: #334155;
-          border-radius: 6px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-sample-preset:hover {
-          background: #00AB96;
-          color: #FFFFFF;
-          border-color: #00AB96;
-        }
-
-        .btn-reset-preset:hover {
-          background: #F1F5F9;
-          color: #0F172A;
-        }
-
-        /* Stepper Navigation */
-        .stepper-nav {
-          margin-bottom: 2rem;
-        }
-
-        .stepper-list {
-          display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          gap: 0.5rem;
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-
-        .stepper-btn {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.35rem;
-          padding: 0.75rem 0.5rem;
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 10px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .stepper-btn.active {
-          background: #00182A;
-          border-color: #00182A;
-          color: #FFFFFF;
-          box-shadow: 0 4px 12px rgba(0, 24, 42, 0.15);
-        }
-
-        .stepper-btn.active .step-num {
-          background: #00AB96;
-          color: #FFFFFF;
-        }
-
-        .stepper-btn.results-stepper-btn.active {
-          background: #00AB96;
-          border-color: #00AB96;
-          color: #FFFFFF;
-          box-shadow: 0 4px 14px rgba(0, 171, 150, 0.3);
-        }
-
-        .stepper-btn.results-stepper-btn.active .step-num {
-          background: #FFFFFF;
-          color: #00AB96;
-        }
-
-        .stepper-btn.completed {
-          border-color: #00AB96;
-        }
-
-        .stepper-btn.completed .step-num {
-          background: #E6F7F5;
-          color: #00AB96;
-        }
-
-        .step-num {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 22px;
-          height: 22px;
-          border-radius: 50%;
-          background: #F1F5F9;
-          font-size: 0.75rem;
-          font-weight: 700;
-          color: #64748B;
-        }
-
-        .step-label {
-          font-size: 0.8rem;
-          font-weight: 600;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .step-icon-sm {
-          margin-right: 0.2rem;
-        }
-
-        /* Step Card */
-        .step-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 2.25rem;
-          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);
-          animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(6px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .step-badge {
-          display: inline-block;
-          font-size: 0.75rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          background: #E6F7F5;
-          color: #00AB96;
-          padding: 0.25rem 0.6rem;
-          border-radius: 6px;
-          margin-bottom: 0.75rem;
-        }
-
-        .step-heading {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.6rem;
-          font-weight: 700;
-          color: #00182A;
-          margin: 0 0 0.5rem 0;
-        }
-
-        .step-description {
-          font-size: 0.95rem;
-          color: #475569;
-          line-height: 1.5;
-          margin: 0 0 1.75rem 0;
-        }
-
-        /* Inputs Grid */
-        .inputs-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1.25rem;
-          margin-bottom: 1.75rem;
-        }
-
-        .input-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.35rem;
-        }
-
-        .input-label {
-          font-size: 0.875rem;
-          font-weight: 600;
-          color: #1E293B;
-        }
-
-        .currency-input-wrapper {
-          position: relative;
-          display: flex;
-          align-items: center;
-        }
-
-        .currency-symbol {
-          position: absolute;
-          left: 12px;
-          font-weight: 600;
-          color: #64748B;
-          font-size: 1rem;
-          pointer-events: none;
-        }
-
-        .unit-tag {
-          position: absolute;
-          right: 12px;
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: #64748B;
-        }
-
-        .currency-field {
-          width: 100%;
-          padding: 0.75rem 0.75rem 0.75rem 2rem;
-          font-size: 1.05rem;
-          font-weight: 600;
-          color: #00182A;
-          background: #F8FAFC;
-          border: 1.5px solid #CBD5E1;
-          border-radius: 8px;
-          transition: all 0.2s ease;
-        }
-
-        .currency-field:focus {
-          outline: none;
-          background: #FFFFFF;
-          border-color: #00AB96;
-          box-shadow: 0 0 0 3px rgba(0, 171, 150, 0.15);
-        }
-
-        .input-helper {
-          font-size: 0.75rem;
-          color: #64748B;
-          font-weight: 500;
-        }
-
-        /* Sliders */
-        .slider-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.35rem;
-        }
-
-        .slider-value-display {
-          display: flex;
-          justify-content: space-between;
-          font-size: 0.9rem;
-          font-weight: 700;
-          color: #00AB96;
-        }
-
-        .range-slider {
-          width: 100%;
-          accent-color: #00AB96;
-          cursor: pointer;
-        }
-
-        .slider-ticks {
-          display: flex;
-          justify-content: space-between;
-          font-size: 0.7rem;
-          color: #94A3B8;
-        }
-
-        /* Live Preview Box */
-        .live-preview-box {
-          background: #F8FAFC;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 12px;
-          padding: 1.25rem 1.5rem;
-          margin-bottom: 1.75rem;
-        }
-
-        .preview-row {
-          display: flex;
-          align-items: center;
-          justify-content: space-around;
-        }
-
-        .preview-item {
-          display: flex;
-          flex-direction: column;
-          text-align: center;
-        }
-
-        .p-divider {
-          width: 1px;
-          height: 40px;
-          background: #CBD5E1;
-        }
-
-        .p-lbl {
-          font-size: 0.75rem;
-          font-weight: 600;
-          color: #64748B;
-          margin-bottom: 0.25rem;
-        }
-
-        .p-val {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.35rem;
-          font-weight: 800;
-        }
+        /* Shared calculator primitives (action bar, stepper, step card, inputs, sliders, preview) imported from calculators.css */
 
         /* Progression Preview Card */
         .progression-preview-card {
@@ -1666,126 +1357,7 @@ Can we connect to discuss this plan?`;
           background: #FCA5A5;
         }
 
-        /* Results Styles */
-        .results-container {
-          display: flex;
-          flex-direction: column;
-          gap: 1.75rem;
-          animation: fadeIn 0.35s ease-out;
-        }
-
-        .results-hero-card {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 20px;
-          padding: 2.75rem 2rem 2.25rem;
-          color: #FFFFFF;
-          text-align: center;
-          box-shadow: 0 20px 40px -15px rgba(0, 24, 42, 0.35);
-        }
-
-        .hero-eyebrow {
-          font-size: 0.85rem;
-          font-weight: 800;
-          letter-spacing: 0.08em;
-          color: #00AB96;
-          margin-bottom: 0.6rem;
-          text-transform: uppercase;
-        }
-
-        .hero-heading {
-          font-family: 'Outfit', sans-serif;
-          font-size: 2.1rem;
-          font-weight: 800;
-          color: #FFFFFF !important;
-          margin: 0 0 1.75rem 0;
-          line-height: 1.25;
-        }
-
-        .primary-result-box {
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 2rem 1.5rem;
-          max-width: 520px;
-          margin: 0 auto 1.5rem auto;
-          box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.18);
-          text-align: center;
-        }
-
-        .result-tag {
-          display: block;
-          font-size: 0.825rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-          color: #00AB96;
-          margin-bottom: 0.35rem;
-        }
-
-        .result-main-number {
-          font-family: 'Outfit', sans-serif;
-          font-size: 3.25rem;
-          font-weight: 900;
-          color: #00182A;
-          margin: 0.25rem 0 0.5rem 0;
-          line-height: 1.1;
-        }
-
-        .result-exact-number {
-          font-size: 0.95rem;
-          color: #64748B;
-          font-weight: 600;
-        }
-
-        .hero-disclaimer-note {
-          font-size: 0.9rem;
-          color: #CBD5E1;
-          max-width: 640px;
-          margin: 0 auto;
-          line-height: 1.55;
-        }
-
-        /* Metrics Four Grid */
-        .metrics-four-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 1rem;
-        }
-
-        .metric-card {
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 14px;
-          padding: 1.25rem;
-          display: flex;
-          flex-direction: column;
-          text-align: center;
-        }
-
-        .metric-card.highlight-metric {
-          border-color: #00AB96;
-          background: #E6F7F5;
-        }
-
-        .m-card-lbl {
-          font-size: 0.75rem;
-          font-weight: 700;
-          color: #64748B;
-          margin-bottom: 0.25rem;
-        }
-
-        .m-card-val {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.45rem;
-          font-weight: 800;
-        }
-
-        .m-card-sub {
-          font-size: 0.7rem;
-          color: #64748B;
-          margin-top: 0.15rem;
-        }
+        /* Results hero and metrics grid styles imported from calculators.css */
 
         /* SVG Chart Card */
         .chart-card {
@@ -1817,6 +1389,32 @@ Can we connect to discuss this plan?`;
           width: 100%;
           height: auto;
           display: block;
+          overflow: visible;
+        }
+
+        .chart-point-dot {
+          cursor: pointer;
+          outline: none;
+          transition: r 0.2s ease, stroke 0.2s ease, stroke-width 0.2s ease, filter 0.2s ease;
+        }
+
+        .chart-point-dot:hover {
+          stroke: var(--color-growth-teal);
+          stroke-width: 3px;
+        }
+
+        .chart-point-dot.active-point {
+          stroke: var(--color-growth-teal);
+          stroke-width: 3.5px;
+          filter: drop-shadow(0 2px 6px rgba(0, 171, 150, 0.45));
+        }
+
+        .chart-point-dot:focus-visible {
+          outline: 2px solid var(--color-primary-navy) !important;
+          outline-offset: 3px !important;
+          stroke: var(--color-primary-navy);
+          stroke-width: 3.5px;
+          filter: drop-shadow(0 0 6px rgba(0, 24, 42, 0.6));
         }
 
         .chart-tooltip-box {
@@ -1980,240 +1578,10 @@ Can we connect to discuss this plan?`;
           color: #94A3B8;
         }
 
-        /* Key Insight Card */
-        .key-insight-card {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
-          border-radius: 14px;
-          padding: 1.25rem 1.5rem;
-          color: #FFFFFF;
-        }
+        /* Shared insight card, accordion, consultation CTA, step actions, and utilities imported from calculators.css */
 
-        .insight-icon {
-          font-size: 1.75rem;
-          flex-shrink: 0;
-        }
-
-        .insight-title {
-          display: block;
-          font-size: 0.75rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: #00AB96;
-          margin-bottom: 0.25rem;
-        }
-
-        .insight-text {
-          font-size: 0.9rem;
-          color: #E2E8F0;
-          line-height: 1.5;
-          margin: 0;
-        }
-
-        /* Accordion Cards */
-        .accordion-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 14px;
-          overflow: hidden;
-        }
-
-        .accordion-toggle-btn {
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1.25rem 1.5rem;
-          background: transparent;
-          border: none;
-          cursor: pointer;
-          font-size: 1rem;
-          color: #00182A;
-          transition: background 0.2s;
-        }
-
-        .accordion-toggle-btn:hover {
-          background: #F8FAFC;
-        }
-
-        .toggle-left {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-
-        .accordion-content {
-          padding: 0 1.5rem 1.5rem;
-          border-top: 1px solid #F1F5F9;
-        }
-
-        .formula-step-block {
-          margin-top: 1.25rem;
-        }
-
-        .formula-step-block h4 {
-          font-size: 0.9rem;
-          font-weight: 700;
-          color: #00182A;
-          margin: 0 0 0.35rem 0;
-        }
-
-        .formula-step-block p {
-          font-size: 0.85rem;
-          color: #475569;
-          line-height: 1.6;
-          margin: 0;
-        }
-
-        .formula-step-block code {
-          display: inline-block;
-          background: #F1F5F9;
-          padding: 0.2rem 0.5rem;
-          border-radius: 4px;
-          color: #0F172A;
-          font-weight: 600;
-          font-size: 0.8rem;
-          margin-top: 0.25rem;
-        }
-
-        /* Consultation CTA Card */
-        .results-cta-card {
-          background: linear-gradient(135deg, #00182A 0%, #00365D 100%);
-          border-radius: 16px;
-          padding: 2.25rem;
-          color: #FFFFFF;
-          text-align: center;
-        }
-
-        .cta-heading {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.5rem;
-          font-weight: 700;
-          margin: 0 0 0.5rem 0;
-        }
-
-        .cta-sub {
-          font-size: 0.95rem;
-          color: #CBD5E1;
-          max-width: 600px;
-          margin: 0 auto 1.5rem auto;
-          line-height: 1.5;
-        }
-
-        .cta-btn-row {
-          display: flex;
-          justify-content: center;
-          gap: 1rem;
-          margin-bottom: 1rem;
-        }
-
-        .btn-whatsapp-cta {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          background: #25D366;
-          color: #FFFFFF;
-          text-decoration: none;
-          font-size: 1rem;
-          font-weight: 700;
-          padding: 0.875rem 1.75rem;
-          border-radius: 8px;
-          box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
-          transition: all 0.2s ease;
-        }
-
-        .btn-whatsapp-cta:hover {
-          background: #20BA5A;
-          transform: translateY(-2px);
-        }
-
-        .btn-contact-secondary {
-          display: inline-flex;
-          align-items: center;
-          background: transparent;
-          color: #FFFFFF;
-          border: 1.5px solid rgba(255, 255, 255, 0.3);
-          text-decoration: none;
-          font-size: 0.95rem;
-          font-weight: 600;
-          padding: 0.875rem 1.5rem;
-          border-radius: 8px;
-          transition: all 0.2s ease;
-        }
-
-        .btn-contact-secondary:hover {
-          background: rgba(255, 255, 255, 0.1);
-          border-color: #FFFFFF;
-        }
-
-        .cta-disclaimer {
-          font-size: 0.75rem;
-          color: #94A3B8;
-          margin: 0;
-        }
-
-        /* Buttons */
-        .step-actions {
-          display: flex;
-          justify-content: space-between;
-          gap: 1rem;
-          margin-top: 1.5rem;
-        }
-
-        .btn-continue, .btn-view-results, .btn-edit-plan {
-          background: #00AB96;
-          color: #FFFFFF;
-          border: none;
-          padding: 0.875rem 1.75rem;
-          font-size: 1rem;
-          font-weight: 700;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-continue:hover, .btn-view-results:hover, .btn-edit-plan:hover {
-          background: #008f7d;
-          transform: translateY(-1px);
-        }
-
-        .btn-back {
-          background: #F1F5F9;
-          color: #334155;
-          border: 1px solid #CBD5E1;
-          padding: 0.875rem 1.5rem;
-          font-size: 0.95rem;
-          font-weight: 600;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-back:hover {
-          background: #E2E8F0;
-        }
-
-        /* Color Utility Classes */
-        .text-teal { color: #00AB96; }
-        .text-gold { color: #D97706; }
-        .text-navy { color: #00182A; }
-        .text-danger { color: #DC2626; }
-        .font-bold { font-weight: 700; }
-
-        /* Responsive Breakpoints */
+        /* Responsive Breakpoints (SWP-Specific) */
         @media (max-width: 860px) {
-          .stepper-list {
-            grid-template-columns: repeat(3, 1fr);
-          }
-          .inputs-grid {
-            grid-template-columns: 1fr;
-          }
-          .metrics-four-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
           .lump-form-row {
             grid-template-columns: 1fr;
           }
@@ -2222,58 +1590,6 @@ Can we connect to discuss this plan?`;
             align-items: stretch;
           }
           .flow-arrow {
-            display: none;
-          }
-        }
-
-        @media (max-width: 640px) {
-          .step-card {
-            padding: 1.5rem 1rem;
-          }
-          .stepper-list {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          .calc-top-action-bar {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 0.75rem;
-          }
-          .action-btn-group {
-            justify-content: flex-end;
-          }
-          .results-hero-card {
-            padding: 1.75rem 1rem 1.5rem;
-            border-radius: 16px;
-          }
-          .hero-heading {
-            font-size: 1.5rem !important;
-            margin-bottom: 1.25rem;
-          }
-          .primary-result-box {
-            padding: 1.5rem 1rem;
-            border-radius: 12px;
-          }
-          .result-main-number {
-            font-size: 2.35rem;
-          }
-          .metrics-four-grid {
-            grid-template-columns: 1fr;
-          }
-          .cta-btn-row {
-            flex-direction: column;
-          }
-          .step-actions {
-            flex-direction: column-reverse;
-          }
-          .btn-continue, .btn-view-results, .btn-edit-plan, .btn-back {
-            width: 100%;
-            text-align: center;
-          }
-          .preview-row {
-            flex-direction: column;
-            gap: 0.75rem;
-          }
-          .p-divider {
             display: none;
           }
         }

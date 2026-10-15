@@ -1,19 +1,20 @@
 # Ant Wealth Creation — Project Status & Architecture Guide
 
-**Current Version:** `v4.0.0 (Phase 17 — Financial Health Check v4.0 Methodology & UX Implementation)`  
-**Current Date:** September 18, 2026  
-**Repository Branch:** `main` | `AntWealth_2026_08`  
-**Total Pages Compiled:** **33 Static Pages** (`npm run build` output)  
-**Total Unit Tests:** **565+ Automated Unit Tests Across 12 Suites** (`npm test` all passing)  
-**Automated QA Audit:** **100% Passing** (`src/utils/verification_audit.test.mjs`)  
+**Current Version:** `v4.1.0 (Phase 18 & 19 — Global Accessibility Foundations, Calculators Design System & Accessible SVG Charts)`
+**Current Date:** October 15, 2026
+**Repository Branch:** `main` | `AntWealth_2026_08`
+**Total Pages Compiled:** **33 Static Pages** (`npm run build` output)
+**Total Unit Tests:** **565+ Automated Unit Tests Across 12 Suites** (`npm test` all passing)
+**Automated QA Audit:** **100% Passing** (`src/utils/verification_audit.test.mjs`)
 **Automated Link Audit:** **100% Passing** (`src/utils/check_all_links.mjs` - 132/132 links valid)
+**Automated Chart Accessibility Suite:** **100% Passing** (`scratch/test-accessible-svg-charts-qa.mjs`)
 
-> **Last Updated:** September 18, 2026  
+> **Last Updated:** October 15, 2026
 > **Project Root:** `c:\WORK\Software\Antigravity\AWC_2026_08_23`  
 > **Repository:** [https://github.com/santhosh144awc/AntWealth_2026_08](https://github.com/santhosh144awc/AntWealth_2026_08)  
 > **Live Deployment:** [https://antwealth.vercel.app](https://antwealth.vercel.app)  
 > **Target Production Domain:** [https://antwealth.in](https://antwealth.in)  
-> **Status:** Phase 17 Complete • Financial Health Check v4.0 Complete Methodology and UX Implemented • Product-neutral 7-pillar architecture (Cash Flow 15%, Emergency Reserve 15%, Debt Management 15%, Protection 15%, Investing 15%, Goal Planning 10%, Retirement 15% = 100%) • Removed product bias and arbitrary multipliers • Replaced v3.x results view with 8-section "Your Financial Health Snapshot" • Dependency-aware recommendation engine prioritizing Foundation → Protection → Cash Flow → Planning → Long-Term Growth (capped at max 3 steps) • 130 unit tests in `financialHealth.test.ts` (100% pass) • 145 E2E checks in `test-health-check-results-qa.js` (100% pass) • 33/33 static pages building cleanly in 6.04s.
+> **Status:** Phase 18 & 19 Complete • Global Accessibility Foundations implemented (Skip-to-main-content landmark, standard `:focus-visible` styling, high-contrast outline tokens) • Created shared calculator design system `src/styles/calculators.css` and successfully migrated pilot calculators (`SWPCalculator.tsx`, `RetirementAccumulationPlanner.tsx`) • Complete keyboard accessibility for interactive SVG charts across `SWPCalculator.tsx`, `LoanSIPRecoveryPlanner.tsx`, and `HomeLoanForeclosurePlanner.tsx` • Parent SVG `role="region"` semantics, interactive milestone buttons with Enter/Space activation, 17.5:1 high-contrast Deep Navy focus rings (WCAG 2.1 SC 1.4.11 compliant), and zero keyboard traps • 33/33 static pages building cleanly in 4.27s • All test suites and link audits passing 100%.
 
 
 
@@ -146,6 +147,9 @@ AWC_2026_08_23/
     │   ├── terms.astro                       # Terms of Service
     │   ├── 404.astro                         # Custom 404 Error Page
     │   └── sitemap.xml.ts                    # Dynamic XML Sitemap (31 routes)
+    ├── styles/
+    │   ├── global.css                        # Global CSS variables, skip-to-content, typography, focus rings
+    │   └── calculators.css                   # Unified calculator design system & WCAG 2.1 AA accessible SVG chart focus rings
     └── utils/
         └── calculations/
             ├── loanSipRecoveryPlanner.ts     # Loan + SIP Recovery Planner Engine & Types
@@ -1359,35 +1363,316 @@ npm run preview
 
 ---
 
-## NEXT SESSION — START HERE
+## 22. Phase 18 — Global Accessibility Foundations & Calculator Design System Migration (Completed — October 15, 2026)
 
-> **ATTENTION NEXT AGENT / DEVELOPER:**  
+* **Objective:** Establish global accessibility foundations across site layout and navigation, and create a centralized, tokenized calculator stylesheet to eliminate duplicate CSS across the 18 financial calculators.
+* **Specialist Playbooks Loaded:** `kemiljk/semantic-html-first`, `arla6ka/token-mapping`.
+* **Changes Implemented:**
+  1. **Global Skip-to-Content Link:**
+     - Added `<a href="#main-content" class="skip-to-content">Skip to main content</a>` in `src/layouts/BaseLayout.astro`.
+     - Visually hidden off-screen until focused; shifts smoothly into view with high-contrast Deep Navy (`#00182A`) background and Growth Teal (`#2DD4BF`) border when tabbed to.
+     - Target destination `#main-content` landmark confirmed across all 33 static pages.
+  2. **Global Keyboard Focus System:**
+     - Established standard `:focus-visible` styling in `src/styles/global.css` with 2px solid Deep Navy outline and 2px offset, replacing ad-hoc `outline: none` declarations.
+     - Refined interactive link, button, and input focus rings to guarantee minimum 3:1+ contrast against light backgrounds.
+  3. **Shared Calculator Design System (`src/styles/calculators.css`):**
+     - Consolidated over 550 lines of repeated styling into 9 modular sections:
+       1. Base layout & calc action bars
+       2. Stepper navigation & wizard lists
+       3. Step cards & headings
+       4. Form inputs, currency fields, sliders & tick spacing
+       5. Results hero cards & metric grids
+       6. Projection & amortization schedules
+       7. Educational disclaimer boxes & journey tracks
+       8. WhatsApp & advisory consultation bridge CTA cards
+       8B. Accessible SVG charts & focus rings
+  4. **Controlled Pilot Migration:**
+     - Migrated `src/components/calculators/SWPCalculator.tsx` and `src/components/calculators/RetirementAccumulationPlanner.tsx` to consume `src/styles/calculators.css`.
+     - Preserved all component-specific features (three-bucket allocation visual, SWP lump-sum list) while deduplicating hundreds of lines of CSS.
+     - Strictly zero changes to underlying financial calculations, assumptions, or default values.
+
+---
+
+## 23. Phase 19 — Interactive SVG Charts Keyboard Accessibility & Focus Contrast Suite (Completed — October 15, 2026)
+
+* **Objective:** Make interactive SVG data visualizations fully accessible through keyboard navigation, screen reader semantics, and high-contrast focus indicators across:
+  - `src/components/calculators/SWPCalculator.tsx` (`/tools/swp`)
+  - `src/components/calculators/LoanSIPRecoveryPlanner.tsx` (`/tools/loan-sip-recovery`)
+  - `src/components/calculators/HomeLoanForeclosurePlanner.tsx` (`/tools/home-loan-foreclosure`)
+* **Specialist Playbooks Loaded:** `kemiljk/semantic-html-first`.
+* **Changes Implemented:**
+  1. **Parent SVG Semantics (`role="region"`):**
+     - Replaced `role="img"` in `LoanSIPRecoveryPlanner.tsx` with `role="region"` and descriptive `aria-label`. Under `role="img"`, assistive technologies treat graphics as flat bitmaps, hiding interactive points. `role="region"` exposes interactive milestones to the accessibility tree.
+     - Added `role="region"` with clear labels to `SWPCalculator.tsx` and `HomeLoanForeclosurePlanner.tsx`.
+  2. **Preventing Keyboard Traps on Dense Scrubbers:**
+     - `LoanSIPRecoveryPlanner.tsx` features up to 360 monthly touch rects for scrubbing. Making all 360 focusable would trap keyboard users in 360 tab stops.
+     - Marked all 360 scrubbing rects and decorative gridlines `aria-hidden="true"`.
+     - Exposed the **2 primary milestones** (Total Interest Target and Complete Loan Cost Recovery) and **30 annual checkpoints** (`month % 12 === 0`) along the SIP curve as focusable buttons (`tabIndex={0}`, `role="button"`).
+  3. **Dual-Curve Milestone Accessibility:**
+     - In `HomeLoanForeclosurePlanner.tsx`, made the potential coverage **Crossover Marker** a focusable button (`tabIndex={0}`, `role="button"`), allowing keyboard users to jump directly to debt parity.
+     - Exposed 21 dual-curve yearly nodes (Loan Principal and SIP Corpus) with detailed comparison labels, updating the active tooltip and schedule highlights on focus or activation.
+  4. **WCAG 2.1 SC 1.4.11 Focus-Ring Contrast Upgrade:**
+     - Growth Teal (`#00AB96`) on white backgrounds has only a 2.83:1 contrast ratio, failing the 3:1 non-text contrast threshold.
+     - Implemented Deep Navy (`#00182A`) focus rings (`outline: 2px solid #00182A; outline-offset: 3px; filter: drop-shadow(...)`), delivering a **17.5:1 contrast ratio**.
+  5. **Enter and Space Key Activation:**
+     - Added `onKeyDown` handlers on all chart buttons with `e.preventDefault()`, supporting Enter and Space key activation without page scrolling or duplicate form submissions.
+  6. **Automated Headless Test Suite:**
+     - Created `scratch/test-accessible-svg-charts-qa.mjs` using Puppeteer, asserting semantic roles, keyboard focus, Enter/Space activation, tooltip synchronization, and 375px mobile responsiveness across all three calculators.
+* **Verification Results:**
+  - **Unit Tests:** `npm test` passing 12/12 suites (565+ tests, 100%).
+  - **Production Build:** `npm run build` completed in 4.27s (33/33 static pages compiled with zero errors).
+  - **Link Audit:** `node src/utils/check_all_links.mjs` — 132/132 links valid (100%).
+  - **Compliance Audit:** `node src/utils/verification_audit.test.mjs` — 114 files compliant (100%).
+  - **Chart Accessibility QA:** `node scratch/test-accessible-svg-charts-qa.mjs` — All checks passed across desktop (1440px) and mobile (375px).
+
+---
+
+## 24. Phase 20 — Range Sliders Accessible Names & Calculator Workspace Tab Navigation (Completed — October 15, 2026)
+
+* **Objective:** Implement complete accessible names and visible focus styling for range sliders across 5 key calculators, and upgrade the calculator workspace tab system on `/tools` to adhere fully to WAI-ARIA APG Tabs standards (roving tabindex, keyboard arrows, Home/End, semantic tablist/tabs/tabpanel relationships).
+* **Specialist Playbooks Loaded:** `kemiljk/semantic-html-first`, `jakubkrehel/better-accessibility`.
+* **Changes Implemented:**
+  1. **Accessible Names for Range Sliders (17 Sliders Audited & Enhanced):**
+     - **`src/components/calculators/SIPCalculator.tsx`**:
+       - Monthly SIP Amount slider: `aria-label="Monthly SIP Amount (₹)"`
+       - Investment Duration slider: `aria-label="Investment Duration (Years)"`
+       - Expected Annual Return slider: `aria-label="Expected Annual Return (%)"`
+       - Annual Step-Up SIP slider: `aria-label="Annual Step-Up Increase (%)"`
+     - **`src/components/calculators/LumpsumCalculator.tsx`**:
+       - Initial Investment (One-Time) slider: upgraded to `aria-label="Initial Investment (One-Time) (₹)"`
+       - Investment Period slider: upgraded to `aria-label="Investment Period (Years)"`
+       - Expected Annual Return slider: upgraded to `aria-label="Expected Annual Return (%)"`
+       - Expected Inflation Rate slider: upgraded to `aria-label="Expected Inflation Rate (%)"`
+     - **`src/components/calculators/GoalPlannerCalculator.tsx`**:
+       - Target Cost in Today's Rupees slider: `aria-label="Target Cost in Today's Rupees (₹)"`
+       - Years Until Goal slider: `aria-label="Years Until Goal (Years)"`
+       - Current Savings Earmarked slider: `aria-label="Current Savings Earmarked (₹)"`
+       - Annual Step-Up SIP slider: `aria-label="Annual Step-Up SIP Percentage (%)"`
+     - **`src/components/calculators/RetirementCalculator.tsx`**:
+       - Current Monthly Living Expenses slider: `aria-label="Current Monthly Living Expenses (₹)"`
+       - Existing Retirement Savings slider: `aria-label="Existing Retirement Savings (PF / MF / FDs) (₹)"`
+     - **`src/components/calculators/LoanVsInvestmentCalculator.tsx`**:
+       - Outstanding Loan Principal slider: `aria-label="Outstanding Loan Principal (₹)"`
+       - Surplus Lumpsum Available slider: `aria-label="Surplus Lumpsum Available (₹)"`
+       - Duration slider: `aria-label="Duration (Years)"`
+  2. **High-Contrast Focus Indicators for Sliders:**
+     - Added `.range-slider:focus-visible { outline: 2px solid #00182A; outline-offset: 4px; border-radius: 9999px; }` across all 5 calculator stylesheets, resolving WCAG 1.4.11 / 2.4.13 keyboard focus visibility.
+  3. **WAI-ARIA APG Tab Navigation in `CalculatorsHub.tsx` (`/tools`):**
+     - Defined centralized `WORKSPACE_TABS` array with exact IDs, labels, and titles.
+     - **Tablist & Tab Semantics:** `role="tablist"` with `aria-label="Calculator Workspace Selector"`, each tab has `role="tab"`, unique `id="workspace-tab-${tab.id}"`, `aria-controls="workspace-panel-${tab.id}"`, and synchronized `aria-selected`.
+     - **Roving Tabindex:** Active tab has `tabIndex={0}`, all inactive tabs have `tabIndex={-1}`.
+     - **Keyboard Navigation:**
+       - `ArrowRight` / `ArrowDown`: Moves to next tab with automatic selection and focus; wraps from Net Worth back to SIP.
+       - `ArrowLeft` / `ArrowUp`: Moves to previous tab with automatic selection and focus; wraps from SIP back to Net Worth.
+       - `Home`: Immediately activates and focuses first tab (SIP).
+       - `End`: Immediately activates and focuses last tab (Net Worth).
+       - `Enter` / `Space`: Activates tabs via standard button click.
+     - **Tabpanel Semantics:** Content container has `role="tabpanel"`, dynamic `id="workspace-panel-${activeTab}"`, `aria-labelledby="workspace-tab-${activeTab}"`, and `tabIndex={0}`.
+     - Added `.ws-tab-btn:focus-visible` and `.workspace-content-pane:focus-visible` styling.
+  4. **Preserved Calculation Integrity:**
+     - Strictly zero modifications to underlying calculation functions, parameter limits, slider steps, initial state defaults, or helper text.
+* **Verification & Testing Results:**
+  - **Automated QA Suite (`scratch/test-accessibility-phase20-qa.mjs`):**
+    - Headless Puppeteer testing on port 4329 verifying all 7 workspace tabs, ARIA roles, roving tabindex, sequential ArrowRight/ArrowLeft, boundary wrapping, Home/End shortcuts, accessible names on all 17 range sliders, and keyboard ArrowRight/ArrowUp value adjustments across all 5 calculators.
+    - **84/84 automated checks passed (100%)** with strictly 0 browser console errors.
+  - **Unit Tests:** `npm test` passing **12/12 suites (565+ unit tests, 100%)**.
+  - **Production Build:** `npm run build` compiled **33/33 static pages in 6.58s** with zero errors.
+  - **Link Audit:** `node src/utils/check_all_links.mjs` — **132/132 internal links valid (100%)**.
+  - **Compliance Audit:** `node src/utils/verification_audit.test.mjs` — **114 source files 100% compliant**.
+
+---
+
+## 25. Phase 1C — Shared Calculator Design System Migration (Completed — October 15, 2026)
+
+* **Objective:** Migrate the four core financial calculators (`SIPCalculator.tsx`, `LumpsumCalculator.tsx`, `GoalPlannerCalculator.tsx`, `RetirementCalculator.tsx`) to the shared stylesheet `src/styles/calculators.css` using `arla6ka/token-mapping`, eliminating duplicated styles while preserving local customizations, accessibility focus indicators, calculation accuracy, and responsive stability.
+* **Specialist Playbooks Loaded:** `arla6ka/token-mapping`, `kemiljk/semantic-html-first`.
+* **Changes Implemented:**
+  1. **Shared Two-Column Calculator Design System Expansion (`src/styles/calculators.css`):**
+     - Added **Section 14: Shared Two-Column Calculator Primitives**:
+       - Standardized container, layout grids, panel headers, and reset buttons (`.calc-container`, `.calc-grid`, `.calc-input-panel`, `.calc-result-panel`, `.panel-header`, `.panel-title`, `.panel-subtitle`, `.reset-btn`).
+       - Unified input rows, currency inputs, prefixes/suffixes, and limits (`.form-group`, `.two-col-inputs`, `.three-col-inputs`, `.label-row`, `.field-label`, `.field-label-sub`, `.input-currency-wrapper`, `.currency-prefix`, `.unit-suffix`, `.number-input`, `.number-input-sm`, `.slider-limits`).
+       - Reusable step-up SIP option box (`.step-up-box`, `.step-up-toggle-row`, `.switch-label`, `.checkbox-input`, `.step-up-control`, `.step-up-hint`).
+       - Standardized dark result hero card, metric cards, sub-metric pills, and proportion bars (`.result-hero-box`, `.result-tag`, `.maturity-number`, `.maturity-words`, `.result-note`, `.sip-highlight-box`, `.sip-highlight-label`, `.sip-highlight-value`, `.sip-highlight-sub`, `.result-metrics-grid`, `.metric-box`, `.metric-dot`, `.dot-navy`, `.dot-teal`, `.metric-details`, `.metric-title`, `.metric-value`, `.sub-metrics-row`, `.sub-metric`, `.sub-lbl`, `.sub-val`, `.proportion-section`, `.proportion-labels`, `.proportion-bar`, `.bar-invested`, `.bar-returns`).
+       - Unified action CTAs, educational notes, and regulatory disclaimers (`.calc-action-block`, `.btn-whatsapp-consult`, `.btn-book-consult`, `.calc-explanation`, `.formula-note`, `.disclaimer-text`).
+       - Unified responsive breakpoint behavior at `900px` (single-column stacking) and `540px` (optimized mobile padding, font sizing, full-width inputs).
+     - Consolidated range slider `:focus-visible` to 2px solid Deep Navy (`#00182A`) with 4px offset (17.5:1 WCAG contrast ratio).
+  2. **Component Migration (`src/components/calculators/`):**
+     - **`SIPCalculator.tsx`**: Removed 474 lines of duplicate CSS; fully delegates to `calculators.css`.
+     - **`LumpsumCalculator.tsx`**: Removed 515 lines of duplicate CSS; retained component-specific warm gold maturity number (`color: var(--color-accent-gold, #FFC107)`) and optional inflation toggle box.
+     - **`GoalPlannerCalculator.tsx`**: Removed 451 lines of duplicate CSS; retained component-specific preset chips (`.preset-selector-row`, `.preset-chips`, `.preset-chip`, `.chip-active`), child future planner discovery banner (`.child-planner-discovery-banner`, `.discovery-btn`), and wrapper styles.
+     - **`RetirementCalculator.tsx`**: Removed 395 lines of duplicate CSS; retained component-specific white maturity number override.
+     - **Code Hygiene:** Eliminates dead/unused CSS classes across the four components.
+     - **Net Impact:** **1,782 lines of duplicate CSS eliminated** across the 4 components.
+  3. **Preserved Calculation & Accessibility Integrity:**
+     - 100% preservation of mathematical formulas, input ranges, default states, accessible names (`aria-label`), keyboard navigation, and visible focus indicators.
+     - Zero disruption to unrelated components or pages.
+* **Verification & Testing Results (Phase 1C):**
+  - **Automated Multi-Viewport QA Suite (`scratch/test-phase1c-qa.mjs`):**
+    - Headless Puppeteer testing across 5 viewports: `375px`, `390px`, `412px`, `768px`, and `1440px`.
+    - 163/163 automated checks passed (100%).
+
+---
+
+### Phase 1D: Shared Calculator Design-System Migration (Multi-Step Wizard Planners)
+* **Date Completed:** October 15, 2026
+* **Scope Completed:** Exactly 4 multi-step wizard planners migrated to `src/styles/calculators.css`:
+  1. `src/components/calculators/RetirementDistributionPlanner.tsx`
+  2. `src/components/calculators/HousePurchasePlannerCalculator.tsx`
+  3. `src/components/calculators/LifeInsuranceNeedCalculator.tsx`
+  4. `src/components/calculators/HomeLoanForeclosurePlanner.tsx`
+* **Changes Executed:**
+  1. **Shared Stylesheet Enhancement (`src/styles/calculators.css`):**
+     - Section 12 enhanced with `.full-width-group { grid-column: 1 / -1; }` utility.
+     - Section 8B interactive SVG chart dots and crossover milestones `.chart-node`, `.chart-crossover-dot` supported with high-contrast (17.5:1) focus rings.
+  2. **Component Deduplication & Token Mapping (`arla6ka/token-mapping`):**
+     - **`RetirementDistributionPlanner.tsx`:** Removed 1,035 lines of duplicate CSS. Retained component-specific horizon summary, 3-bucket explainer grid, asset allocation visual progress bar, bucket results cards, and rate summary track.
+     - **`HousePurchasePlannerCalculator.tsx`:** Removed 855 lines of duplicate CSS. Retained `.home-planner-wrapper`, 7-step stepper grid override, select/text form field styles, property cost progression track, split down payment/accumulate cards, EMI affordability status box, dynamic assets list (`.btn-add-asset`, `.btn-remove-asset`), live asset summary bar, and 3 funding option cards.
+     - **`LifeInsuranceNeedCalculator.tsx`:** Removed 755 lines of duplicate CSS. Retained `.insurance-calc-wrapper`, 6-item stepper grid override, live subtotal card, discount slider card, assumptions grid, rate journey track, covered status card, 3-pillar breakdown grid, and comparison progress bar.
+     - **`HomeLoanForeclosurePlanner.tsx`:** Removed 810 lines of duplicate CSS. Retained `.foreclosure-planner-wrapper`, 4-item stepper grid override, strategy cards grid (Target Closure vs Fixed SIP), dual-curve SVG chart layout & tooltips, journey track card, projection milestone table, educational disclaimer card, and custom CTA layout.
+     - **Net Impact:** **3,455+ lines of duplicate CSS eliminated** across the 4 wizard planners while preserving 100% of component-specific visuals and tokenizing with `var(--color-primary-navy)`, `var(--color-growth-teal)`, etc.
+  3. **Preserved Calculation & Accessibility Integrity:**
+     - 100% preservation of mathematical formulas, amortization schedules, Monte Carlo/deterministic assumptions, Fisher real return decumulation algorithms, default inputs, state synchronization, accessible names, keyboard navigation, and visible focus indicators.
+     - Zero disruption to unrelated components or pages.
+* **Verification & Testing Results (Phase 1D):**
+  - **Automated Multi-Viewport QA Suite (`scratch/test-phase1d-qa.mjs`):**
+    - Headless Puppeteer testing across 5 viewports: `375px` (Mobile S), `390px` (iPhone 12/13/14), `412px` (Android Pixel/Samsung), `768px` (Tablet Portrait), and `1440px` (Desktop HD).
+    - Verified all 4 calculators for:
+      - Zero document horizontal overflow (`scrollWidth <= clientWidth`).
+      - Full container fitting within viewport width.
+      - Exact financial hero calculations and metric card values matching baseline.
+      - Input and slider synchronization.
+      - Dual-curve SVG chart nodes keyboard focus.
+      - Working consultation action CTAs.
+      - Zero browser console errors.
+    - **149/149 automated checks passed (100%)**.
+  - **Unit Tests:** `npm test` passing **12/12 suites (565+ unit tests, 100%)**.
+  - **Production Build:** `npm run build` compiled **33/33 static pages in 6.55s** with zero errors.
+  - **Link Audit:** `node src/utils/check_all_links.mjs` — **132/132 internal links valid (100%)**.
+  - **Compliance Audit:** `node src/utils/verification_audit.test.mjs` — **114 source files 100% compliant**.
+
+### Phase 1E: Shared Calculator Design-System Migration (Children Planner, REAL Statement, Insurance, Net Worth)
+* **Date Completed:** October 15, 2026
+* **Scope Completed:** Exactly 4 components migrated to `src/styles/calculators.css`:
+  1. `src/components/calculators/ChildrenFuturePlanner.tsx` (Route: `/plan/children`)
+  2. `src/components/calculators/REALFinancialStatement.tsx` (Route: `/health-check/real-statement`)
+  3. `src/components/calculators/InsuranceCalculator.tsx` (Route: `/tools?calc=insurance`)
+  4. `src/components/calculators/NetWorthCalculator.tsx` (Route: `/tools?calc=net-worth`)
+* **Changes Executed:**
+  1. **Shared Stylesheet Enhancement (`src/styles/calculators.css`):**
+     - Section 7 enhanced with reusable button primitives `.btn-primary` and `.btn-secondary`.
+     - Section 14 enhanced with `.networth-grid`, `.networth-inputs-panel`, and `.result-hero-box .result-tag`.
+     - Section 14 grid responsiveness enhanced with `min-width: 0` on `.calc-grid`, `.networth-grid`, `.calc-input-panel`, `.networth-inputs-panel`, and `.calc-result-panel`, plus `grid-template-columns: minmax(0, 1fr)` at `@media (max-width: 900px)`, eliminating grid track overflow on narrow mobile viewports (<400px).
+     - Section 14 mobile breakpoint (`@media (max-width: 540px)`) updated with comfortable `.calc-result-panel` padding (`1.25rem 0.875rem`).
+  2. **Component Deduplication & Token Mapping (`arla6ka/token-mapping`):**
+     - **`InsuranceCalculator.tsx`:** Removed ~380 lines of duplicate CSS. Reused shared two-column grid, form groups, input wrappers, range sliders, reset buttons, metric grids, and disclaimer text. Retained component-specific `.insurance-formula-card`, `.sub-breakdown-card`, `.comprehensive-calc-banner`, and keyboard focus-visible styling.
+     - **`NetWorthCalculator.tsx`:** Removed ~270 lines of duplicate CSS. Reused shared container, grid, form groups, input wrappers, hero box, metrics grid, and disclaimers. Retained component-specific `.inventory-section`, `.form-group-compact`, `.asset-composition-card`, `.comp-bar-container`, and two-column legend grid.
+     - **`REALFinancialStatement.tsx`:** Tokenized all hardcoded color hexes, borders, and typography to CSS variables (`var(--color-primary-navy)`, `var(--color-growth-teal)`, `var(--color-warm-gold)`, `var(--font-heading)`). Reused shared button primitives and added WCAG-compliant `:focus-visible` styling to step pills, inputs, and accordion toggles.
+     - **`ChildrenFuturePlanner.tsx`:** Tokenized all theme colors and borders to design system variables. Preserved timeline builder, multi-goal projection curves, milestone pins, modal presets, and added accessible `:focus-visible` outlines.
+     - **Net Impact:** **650+ lines of duplicate CSS eliminated** while tokenizing styles and preserving 100% of component-specific functionality and visual layout.
+  3. **Preserved Calculation & Accessibility Integrity:**
+     - 100% preservation of mathematical formulas, assumptions, default values, state management, validation, and result formatting across all four components.
+     - Preserved keyboard focus indicators, accessible labels, and existing interactions.
+     - `CalculatorsHub.tsx` and all other components remained untouched.
+* **Verification & Testing Results (Phase 1E):**
+  - **Automated Multi-Viewport QA Suite (`scratch/test-phase1e-qa.mjs`):**
+    - Headless Puppeteer testing across 5 viewports: `375px` (iPhone SE), `390px` (iPhone 12/13/14), `412px` (Pixel / Galaxy), `768px` (iPad Mini / Tablet), and `1440px` (Desktop).
+    - Verified all 4 calculators for:
+      - Zero document horizontal overflow (`scrollWidth <= clientWidth`).
+      - Full container fitting within viewport width.
+      - Exact financial outputs matching baseline (`₹1.74 Cr`, `Annual Income Sources`, `₹2,02,00,000`, `₹53,35,000`).
+      - Accessible keyboard focus on inputs, sliders, and action buttons.
+      - Zero browser console errors.
+    - **100% checks passed across all 5 viewports**.
+  - **Unit Tests:** `npm.cmd test` passing **12/12 suites (565+ unit tests, 100%)**.
+  - **Production Build:** `npm.cmd run build` compiled **33/33 static pages in 4.19s** with zero errors.
+  - **Link Audit:** `node src/utils/check_all_links.mjs` — **132/132 internal links valid (100%)**.
+  - **Compliance Audit:** `node src/utils/verification_audit.test.mjs` — **114 source files 100% compliant**.
+
+### Phase 1F: Shared Calculator Design-System Migration (Central Hub & Loan vs Investment)
+* **Date Completed:** October 15, 2026
+* **Scope Completed:** Exactly 2 components migrated to `src/styles/calculators.css`:
+  1. `src/components/calculators/LoanVsInvestmentCalculator.tsx` (Route: `/tools?calc=loan-vs-invest`)
+  2. `src/components/calculators/CalculatorsHub.tsx` (Route: `/tools`)
+* **Changes Executed:**
+  1. **Shared Stylesheet Enhancement (`src/styles/calculators.css`):**
+     - Added Section 15: *Calculator Workspace Hub & Tool Directory (/tools)* covering `.hub-container`, `.hub-section`, `.section-title-wrap`, `.tier-pill`, `.tier-heading`, `.tools-grid-tier1`, `.tool-card-tier1`, `.active-workspace-wrapper`, `.workspace-header`, `.workspace-tag`, `.workspace-tabs-bar`, `.ws-tab-btn`, `.tools-grid-secondary`, `.tool-card-secondary`, `.tier-4-section`, `.tools-grid-advanced`, `.tool-card-advanced`, and responsive grid breakpoints at 1024px, 768px, and 640px.
+     - All styles fully tokenized using CSS variables (`var(--color-primary-navy)`, `var(--color-growth-teal)`, `var(--color-border)`, `var(--radius-lg)`, `var(--font-heading)`, etc.).
+  2. **Component Deduplication & Token Mapping (`arla6ka/token-mapping`):**
+     - **`LoanVsInvestmentCalculator.tsx`:** Removed ~315 lines of duplicate CSS. Fully migrated to Section 14 shared primitives for `.calc-container`, `.calc-grid`, `.calc-input-panel`, `.calc-result-panel`, `.panel-header`, `.reset-btn`, `.form-group`, `.two-col-inputs`, `.input-currency-wrapper`, `.range-slider`, `.slider-limits`, `.btn-whatsapp-consult`, `.btn-book-consult`, and disclaimers. Retained tokenized `.option-comparison-grid`, `.option-box`, `.prepay-box`, `.invest-box`, `.insight-summary-card`, and mobile stacking.
+     - **`CalculatorsHub.tsx`:** Removed all 343 lines of embedded CSS; 100% styles now cleanly served via Section 15 of `calculators.css`. Reduced client bundle size by ~14.6 kB (from 94.58 kB to 79.93 kB).
+     - **Net Impact:** **~650+ lines of duplicate CSS eliminated** across the central hub and final workspace calculator.
+  3. **Preserved Calculation, Accessibility & WAI-ARIA Integrity:**
+     - 100% preservation of loan prepayment formulas, compound interest calculations, default values, bounds, input synchronization, and state management.
+     - 100% preservation of WAI-ARIA tablist/tab semantics, `aria-selected` tracking, roving tabindex (`0` for active tab, `-1` for inactive tabs), and keyboard navigation (`ArrowRight`, `ArrowLeft`, `Home`, `End`).
+* **Verification & Testing Results (Phase 1F):**
+  - **Automated Multi-Viewport QA Suite (`scratch/test-phase1f-qa.mjs`):**
+    - Headless Puppeteer testing across 5 viewports: `375px` (iPhone SE), `390px` (iPhone 12/13/14), `412px` (Pixel / Galaxy), `768px` (iPad Mini / Tablet), and `1440px` (Desktop).
+    - Verified:
+      - Zero document horizontal overflow (`scrollWidth === clientWidth`) across both `/tools` and `/tools?calc=loan-vs-invest`.
+      - Financial outputs matching baseline: Prepay interest saved = `₹3,86,320`, Investment future value = `₹27,36,783`.
+      - WAI-ARIA roving tabindex keyboard shortcuts: `ArrowRight` (SIP -> Lumpsum), `End` (jumps to Net Worth), `Home` (jumps back to SIP).
+      - Interactive keyboard focus on all controls.
+      - Zero browser console errors.
+    - **100% checks passed across all 5 viewports**.
+  - **Unit Tests:** `npm.cmd test` passing **12/12 suites (565+ unit tests, 100%)**.
+  - **Production Build:** `npm.cmd run build` compiled **33/33 static pages in 7.39s** with zero errors.
+  - **Link Audit:** `node src/utils/check_all_links.mjs` — **132/132 internal links valid (100%)**.
+  - **Compliance Audit:** `node src/utils/verification_audit.test.mjs` — **114 source files 100% compliant**.
+
+### Phase 1G: Final Planned Calculator CSS Migration (SIP Growth & Loan SIP Recovery)
+* **Date Completed:** October 15, 2026
+* **Scope Completed:** Exactly 2 comprehensive multi-step wizard planners migrated to `src/styles/calculators.css`:
+  1. `src/components/calculators/SIPGrowthPlanner.tsx` (Route: `/tools/sip-growth`)
+  2. `src/components/calculators/LoanSIPRecoveryPlanner.tsx` (Route: `/tools/loan-sip-recovery`)
+* **Changes Executed:**
+  1. **Component Deduplication & Token Mapping (`arla6ka/token-mapping`):**
+     - **`SIPGrowthPlanner.tsx`:** Removed ~970 lines of duplicate CSS. Fully delegated Sections 1 (action bar), 2 (base stepper), 3 (step cards), 4 (form inputs), 5 (sliders), 6 (live preview), 7 (step navigation buttons), 8 (results hero & metrics), 8B (SVG point dot styles), 9 (insight card), 10 (accordions), 11 (CTA card), 12 (color utilities), and base 13 (responsive breakpoints) to `src/styles/calculators.css`. Client bundle reduced to 47.77 kB.
+     - **`LoanSIPRecoveryPlanner.tsx`:** Removed duplicate range sliders, action buttons (`.btn-primary`, `.btn-secondary`), and chart focus indicators to inherit shared primitives from `calculators.css` Sections 5, 7, and 8B. Tokenized all legacy hardcoded hex colors (`#008080`, `#00182A`, `#0F172A`, `#CBD5E1`, `#E2E8F0`, `#F8FAFC`, `#F1F5F9`) to CSS variables (`var(--color-growth-teal)`, `var(--color-primary-navy)`, `var(--color-slate-heading)`, `var(--color-border)`, `var(--color-bg-light)`, `var(--color-bg-subtle)`). Client bundle reduced to 85.66 kB.
+     - **Net Impact:** **1,100+ lines of duplicate CSS eliminated** across the final two planners with zero design regressions.
+  2. **Preserved Component-Specific Visualizations & Schedules:**
+     - **`SIPGrowthPlanner.tsx`:** Retained and tokenized progression preview card (`.progression-preview-card`), timeline visual card (`.timeline-visual-card`), multi-lump sum schedule builder & list (`.lump-form-card`, `.lump-item-card`), stacked bar visualization (`.stacked-bar-card`), SVG chart tooltips (`.chart-tooltip-box`), step-up & multi-lump projection table (`.stepup-table-card`), wealth progression flow story track (`.flow-story-card`), and results stepper button modifier (`.stepper-btn.results-stepper-btn.active`).
+     - **`LoanSIPRecoveryPlanner.tsx`:** Retained and tokenized dual-curve SVG chart layout & markers (`.chart-section`, `.recovery-svg`), opportunity flow comparison track (`.opportunity-flow`), return assumption panel & target cards (`.return-assumption-panel`, `.targets-grid`), custom snapshot card (`.custom-snapshot-card`), hero outcome card & timeline banner (`.hero-card`, `.timeline-banner`), recovery milestones row (`.milestones-row`), horizontal recovery timeline (`.horizontal-timeline`), summary audit table (`.summary-card`), math formula accordion (`.math-accordion`), and advisory bridge card (`.advisory-bridge-card`).
+  3. **Preserved Calculation & Accessibility Integrity:**
+     - 100% preservation of mathematical formulas, assumptions, default values, bounds, input synchronization, and state management.
+     - 100% preservation of interactive SVG chart points, milestone pins, tooltips, and WCAG 2.1 SC 1.4.11 compliant keyboard focus rings (`:focus-visible`).
+     - Zero modifications to unrelated components.
+* **Verification & Testing Results (Phase 1G):**
+  - **Automated Multi-Viewport QA Suite (`scratch/test-phase1g-qa.mjs`):**
+    - Headless Puppeteer testing across 5 viewports: `375px` (iPhone SE), `390px` (iPhone 12/13/14), `412px` (Pixel / Galaxy), `768px` (iPad Mini / Tablet), and `1440px` (Desktop).
+    - Verified:
+      - Zero document horizontal overflow (`scrollWidth === clientWidth`) on both `/tools/sip-growth` and `/tools/loan-sip-recovery`.
+      - Financial calculations matching baseline: SIP Growth primary corpus = `₹3.45 Cr`, Loan Recovery Preview EMI = `₹44,986/mo`, Outcome Duration = `Estimated in 22 Years 2 Months`.
+      - Interactive stepper navigation through all 4 steps to results on both planners.
+      - Interactive keyboard focus on SVG chart dots (20 on SIP Growth, 32 markers on Loan Recovery).
+      - Zero browser console errors.
+    - **100% checks passed across all 5 viewports**.
+  - **Unit Tests:** `npm.cmd test` passing **12/12 suites (565+ unit tests, 100%)**.
+  - **Production Build:** `npm.cmd run build` compiled **33/33 static pages in 4.45s** with zero errors.
+  - **Link Audit:** `node src/utils/check_all_links.mjs` — **132/132 internal links valid (100%)**.
+  - **Compliance Audit:** `node src/utils/verification_audit.test.mjs` — **114 source files 100% compliant**.
+
+---
+
+## NEXT SESSION — START HERE (FOR TOMORROW)
+
+> **ATTENTION NEXT AGENT / DEVELOPER:**
 > **Before writing any code or modifying any file, YOU MUST READ THIS FILE (`PROJECT_STATUS.md`) ENTIRELY.**
 
-### Recommended Next Steps for the Next Session:
+### Recommended Next Steps for Tomorrow's Session:
 
-1. **Production Deployment (Hosting & Custom Domain):**
-   - Connect GitHub repository `https://github.com/santhosh144awc/AntWealth_2026_08` to **Vercel** / **Cloudflare Pages**.
-   - Build settings: Build command: `npm run build`, Output directory: `dist`.
-   - Verify custom domain `https://antwealth.in` and SSL certificates.
-2. **Analytics Integration:**
-   - When provided by Santhosh, insert the Google Analytics 4 (GA4) measurement tag into `src/layouts/BaseLayout.astro`.
-3. **Verified Client Testimonials:**
-   - When approved by Santhosh, replace dummy entries in `src/data/testimonials.ts` with real client feedback.
-4. **Calendar Integration (Optional):**
-   - If an automated calendar scheduling URL (e.g. Cal.com or Calendly) is provided, insert it into `siteConfig.contact.consultationBookingUrl` in `src/data/siteConfig.ts`.
+1. **Phase 2B: Apply Accessible SVG Chart Milestone Pattern to Remaining Visual Calculators:**
+   - Extend the `.chart-point-dot`, `.chart-milestone-pin`, and `.chart-crossover-dot` patterns in `calculators.css` to:
+     - `src/components/calculators/ChildrenFuturePlanner.tsx`
+
+2. **Production Deployment & Domain Verification:**
+   - Connect repository to Vercel / Cloudflare Pages.
+   - Verify production domain `https://antwealth.in` and SSL certificates.
+   - Note: Deployment requires separate explicit approval from Santhosh.
 
 ---
 
 ### Session Sign-Off & Repository Status:
-* **Session Close Time:** September 18, 2026
-* **Working Tree:** Clean (0 uncommitted changes, 0 untracked files)
-* **Git Branch:** `main`
-* **Remote Status:** Synchronized with `origin/main` (`https://github.com/santhosh144awc/AntWealth_2026_08.git`)
-* **Build & QA Status:** 100% Passing (12 unit test suites with 565+ tests, 145 headless E2E checks, 132 internal links, 114 compliance files, 33/33 static pages compiled)
-
-
-
-
-
-
+* **Session Close Time:** October 15, 2026 (19:20 IST)
+* **Working Tree:** Verified clean build (33 pages compiled, 0 errors, all calculations and assumptions intact)
+* **Git Branch:** `main` | `AntWealth_2026_08`
+* **Test & QA Status:** 100% Passing (12 unit test suites with 565+ tests, 132 internal links, 114 compliance files, all multi-viewport browser QA checks passing across 375px, 390px, 412px, 768px, 1440px)

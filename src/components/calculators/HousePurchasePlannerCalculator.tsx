@@ -1285,325 +1285,61 @@ Can we connect to discuss this plan?`;
         </div>
       )}
 
-      {/* Styled JSX (Vanilla CSS) */}
+      {/* Component-Specific Styles (Shared styles imported via calculators.css) */}
       <style>{`
         .home-planner-wrapper {
           width: 100%;
           max-width: 960px;
           margin: 0 auto;
-          font-family: 'Inter', sans-serif;
-          color: #00182A;
+          font-family: var(--font-body, 'Inter', sans-serif);
+          color: var(--color-primary-navy, #00182A);
         }
 
-        .calc-top-action-bar {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 12px;
-          padding: 0.75rem 1.25rem;
-          margin-bottom: 1.5rem;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-        }
-
-        .action-tagline {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-size: 0.85rem;
-          font-weight: 600;
-          color: #00AB96;
-        }
-
-        .live-pulse {
-          width: 8px;
-          height: 8px;
-          background-color: #00AB96;
-          border-radius: 50%;
-          box-shadow: 0 0 0 rgba(0, 171, 150, 0.4);
-          animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-          0% { box-shadow: 0 0 0 0 rgba(0, 171, 150, 0.4); }
-          70% { box-shadow: 0 0 0 8px rgba(0, 171, 150, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(0, 171, 150, 0); }
-        }
-
-        .action-btn-group {
-          display: flex;
-          gap: 0.5rem;
-        }
-
-        .btn-sample-preset, .btn-reset-preset {
-          background: #F8FAFC;
-          border: 1px solid #CBD5E1;
-          padding: 0.4rem 0.75rem;
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: #334155;
-          border-radius: 6px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-sample-preset:hover {
-          background: #00AB96;
-          color: #FFFFFF;
-          border-color: #00AB96;
-        }
-
-        .btn-reset-preset:hover {
-          background: #F1F5F9;
-          color: #0F172A;
-        }
-
-        /* Stepper Navigation */
-        .stepper-nav {
-          margin-bottom: 2rem;
-        }
-
-        .stepper-list {
-          display: grid;
+        /* 7-Step Stepper Override */
+        .home-planner-wrapper .stepper-list {
           grid-template-columns: repeat(7, 1fr);
           gap: 0.4rem;
-          list-style: none;
-          padding: 0;
-          margin: 0;
         }
 
-        .stepper-btn {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.35rem;
-          padding: 0.65rem 0.25rem;
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 10px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .stepper-btn.active {
-          background: #00182A;
-          border-color: #00182A;
-          color: #FFFFFF;
-          box-shadow: 0 4px 12px rgba(0, 24, 42, 0.15);
-        }
-
-        .stepper-btn.active .step-num {
-          background: #00AB96;
-          color: #FFFFFF;
-        }
-
-        .stepper-btn.results-stepper-btn.active {
-          background: #00AB96;
-          border-color: #00AB96;
-          color: #FFFFFF;
-          box-shadow: 0 4px 14px rgba(0, 171, 150, 0.3);
-        }
-
-        .stepper-btn.results-stepper-btn.active .step-num {
-          background: #FFFFFF;
-          color: #00AB96;
-        }
-
-        .stepper-btn.completed {
-          border-color: #00AB96;
-        }
-
-        .stepper-btn.completed .step-num {
-          background: #E6F7F5;
-          color: #00AB96;
-        }
-
-        .step-num {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 22px;
-          height: 22px;
-          border-radius: 50%;
-          background: #F1F5F9;
-          font-size: 0.75rem;
-          font-weight: 700;
-          color: #64748B;
-        }
-
-        .step-label {
-          font-size: 0.75rem;
-          font-weight: 600;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .step-icon-sm {
-          margin-right: 0.2rem;
-        }
-
-        /* Step Card */
-        .step-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 2.25rem;
-          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);
-          animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(6px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .step-badge {
-          display: inline-block;
-          font-size: 0.75rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          background: #E6F7F5;
-          color: #00AB96;
-          padding: 0.25rem 0.6rem;
-          border-radius: 6px;
-          margin-bottom: 0.75rem;
-        }
-
-        .step-heading {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.6rem;
-          font-weight: 700;
-          color: #00182A;
-          margin: 0 0 0.5rem 0;
-        }
-
-        .step-description {
-          font-size: 0.95rem;
-          color: #475569;
-          line-height: 1.5;
-          margin: 0 0 1.75rem 0;
-        }
-
-        /* Inputs Grid */
-        .inputs-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1.25rem;
-          margin-bottom: 1.75rem;
-        }
-
-        .input-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.35rem;
-        }
-
-        .input-label {
-          font-size: 0.875rem;
-          font-weight: 600;
-          color: #1E293B;
-        }
-
-        .currency-input-wrapper, .currency-input-wrapper-sm {
-          position: relative;
-          display: flex;
-          align-items: center;
-        }
-
-        .currency-symbol {
-          position: absolute;
-          left: 12px;
-          font-weight: 600;
-          color: #64748B;
-          font-size: 1rem;
-          pointer-events: none;
-        }
-
-        .unit-tag, .unit-tag-sm {
-          position: absolute;
-          right: 12px;
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: #64748B;
-        }
-
-        .currency-field, .select-field, .text-field {
-          width: 100%;
-          padding: 0.75rem 0.75rem 0.75rem 2rem;
-          font-size: 1.05rem;
-          font-weight: 600;
-          color: #00182A;
-          background: #F8FAFC;
-          border: 1.5px solid #CBD5E1;
-          border-radius: 8px;
-          transition: all 0.2s ease;
-        }
-
+        /* Select and Text Field Controls */
         .select-field, .text-field {
-          padding-left: 0.75rem;
+          width: 100%;
+          padding: 0.75rem;
           font-size: 0.95rem;
           font-weight: 500;
+          color: var(--color-primary-navy, #00182A);
+          background: var(--color-bg-light, #F8FAFC);
+          border: 1.5px solid var(--color-border, #CBD5E1);
+          border-radius: var(--radius-sm, 8px);
+          transition: all var(--transition-fast, 0.2s ease);
         }
 
-        .currency-field:focus, .select-field:focus, .text-field:focus {
+        .select-field:focus, .text-field:focus {
           outline: none;
-          background: #FFFFFF;
-          border-color: #00AB96;
+          background: var(--color-white, #FFFFFF);
+          border-color: var(--color-growth-teal, #00AB96);
           box-shadow: 0 0 0 3px rgba(0, 171, 150, 0.15);
         }
 
-        .input-helper {
-          font-size: 0.75rem;
-          color: #64748B;
-          font-weight: 500;
-        }
-
-        /* Sliders */
-        .slider-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.35rem;
-        }
-
-        .slider-value-display {
-          display: flex;
-          justify-content: space-between;
-          font-size: 0.9rem;
-          font-weight: 700;
-          color: #00AB96;
-        }
-
-        .range-slider {
-          width: 100%;
-          accent-color: #00AB96;
-          cursor: pointer;
-        }
-
-        .slider-ticks {
-          display: flex;
-          justify-content: space-between;
-          font-size: 0.7rem;
-          color: #94A3B8;
+        .select-field:focus-visible, .text-field:focus-visible {
+          outline: 2px solid var(--color-primary-navy, #00182A);
+          outline-offset: 1px;
         }
 
         /* Cost Progression Card */
         .cost-progression-card {
-          background: #F8FAFC;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 14px;
+          background: var(--color-bg-light, #F8FAFC);
+          border: 1.5px solid var(--color-border, #E2E8F0);
+          border-radius: var(--radius-md, 14px);
           padding: 1.5rem;
           margin-bottom: 1.75rem;
         }
 
         .progression-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.15rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
           margin: 0 0 1.25rem 0;
         }
 
@@ -1617,8 +1353,8 @@ Can we connect to discuss this plan?`;
         }
 
         .prog-step {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background: var(--color-white, #FFFFFF);
+          border: 1px solid var(--color-border, #E2E8F0);
           border-radius: 10px;
           padding: 0.85rem 1rem;
           text-align: center;
@@ -1627,48 +1363,48 @@ Can we connect to discuss this plan?`;
         }
 
         .prog-step.highlight-step {
-          background: #E6F7F5;
-          border-color: #00AB96;
+          background: var(--color-growth-teal-light, #E6F7F5);
+          border-color: var(--color-growth-teal, #00AB96);
         }
 
         .prog-label {
           display: block;
           font-size: 0.75rem;
           font-weight: 600;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           margin-bottom: 0.25rem;
         }
 
         .prog-val {
           display: block;
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.25rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
         }
 
         .prog-sub {
           display: block;
           font-size: 0.7rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           margin-top: 0.15rem;
         }
 
         .prog-arrow {
           font-size: 1.25rem;
           font-weight: 700;
-          color: #94A3B8;
+          color: var(--color-border, #94A3B8);
         }
 
         .progression-note {
           font-size: 0.825rem;
-          color: #475569;
+          color: var(--color-slate-text, #475569);
           line-height: 1.45;
           margin: 0;
-          background: #FFFFFF;
+          background: var(--color-white, #FFFFFF);
           padding: 0.75rem 1rem;
-          border-radius: 8px;
-          border-left: 3px solid #00AB96;
+          border-radius: var(--radius-sm, 8px);
+          border-left: 3px solid var(--color-growth-teal, #00AB96);
         }
 
         /* Split Cards Grid */
@@ -1680,8 +1416,8 @@ Can we connect to discuss this plan?`;
         }
 
         .split-card {
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background: var(--color-bg-light, #F8FAFC);
+          border: 1px solid var(--color-border, #E2E8F0);
           border-radius: 12px;
           padding: 1.25rem;
           display: flex;
@@ -1689,8 +1425,8 @@ Can we connect to discuss this plan?`;
         }
 
         .split-card.accumulate-card {
-          background: #FFFBEB;
-          border-color: #FCD34D;
+          background: var(--color-amber-bg);
+          border-color: var(--color-amber-border);
         }
 
         .split-header {
@@ -1706,50 +1442,50 @@ Can we connect to discuss this plan?`;
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.04em;
-          color: #475569;
+          color: var(--color-slate-text, #475569);
         }
 
         .split-title {
           font-size: 0.85rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
           margin-bottom: 0.4rem;
         }
 
         .split-amount {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.4rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
         }
 
         .split-exact {
           font-size: 0.75rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           margin-bottom: 0.5rem;
         }
 
         .split-desc {
           font-size: 0.75rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           line-height: 1.35;
           margin: auto 0 0 0;
         }
 
         /* Affordability Card */
         .affordability-card {
-          background: #F8FAFC;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 14px;
+          background: var(--color-bg-light, #F8FAFC);
+          border: 1.5px solid var(--color-border, #E2E8F0);
+          border-radius: var(--radius-md, 14px);
           padding: 1.5rem;
           margin-bottom: 1.75rem;
         }
 
         .affordability-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.15rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
           margin: 0 0 1.25rem 0;
         }
 
@@ -1761,8 +1497,8 @@ Can we connect to discuss this plan?`;
         }
 
         .aff-metric {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background: var(--color-white, #FFFFFF);
+          border: 1px solid var(--color-border, #E2E8F0);
           border-radius: 10px;
           padding: 1rem;
           text-align: center;
@@ -1772,22 +1508,22 @@ Can we connect to discuss this plan?`;
           display: block;
           font-size: 0.75rem;
           font-weight: 600;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           margin-bottom: 0.25rem;
         }
 
         .aff-val {
           display: block;
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.25rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
         }
 
         .aff-sub {
           display: block;
           font-size: 0.7rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           margin-top: 0.2rem;
         }
 
@@ -1805,8 +1541,8 @@ Can we connect to discuss this plan?`;
         }
 
         .emi-status-box.status-caution {
-          background: #FFFBEB;
-          border: 1px solid #FDE68A;
+          background: var(--color-amber-bg);
+          border: 1px solid var(--color-amber-border);
         }
 
         .status-badge-icon {
@@ -1817,13 +1553,13 @@ Can we connect to discuss this plan?`;
         .status-text-content strong {
           display: block;
           font-size: 0.9rem;
-          color: #0F172A;
+          color: var(--color-slate-heading, #0F172A);
           margin-bottom: 0.25rem;
         }
 
         .status-text-content p {
           font-size: 0.825rem;
-          color: #334155;
+          color: var(--color-slate-text, #334155);
           line-height: 1.45;
           margin: 0;
         }
@@ -1841,8 +1577,8 @@ Can we connect to discuss this plan?`;
           grid-template-columns: 1fr 1fr auto;
           gap: 1rem;
           align-items: flex-end;
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background: var(--color-bg-light, #F8FAFC);
+          border: 1px solid var(--color-border, #E2E8F0);
           border-radius: 10px;
           padding: 0.85rem 1rem;
         }
@@ -1851,7 +1587,7 @@ Can we connect to discuss this plan?`;
           display: block;
           font-size: 0.75rem;
           font-weight: 600;
-          color: #475569;
+          color: var(--color-slate-text, #475569);
           margin-bottom: 0.25rem;
         }
 
@@ -1860,10 +1596,22 @@ Can we connect to discuss this plan?`;
           padding: 0.6rem 0.75rem;
           font-size: 0.9rem;
           font-weight: 600;
-          color: #00182A;
-          background: #FFFFFF;
-          border: 1px solid #CBD5E1;
+          color: var(--color-primary-navy, #00182A);
+          background: var(--color-white, #FFFFFF);
+          border: 1px solid var(--color-border, #CBD5E1);
           border-radius: 6px;
+        }
+
+        .select-field-sm:focus, .currency-field-sm:focus {
+          outline: none;
+          border-color: var(--color-growth-teal, #00AB96);
+          box-shadow: 0 0 0 3px rgba(0, 171, 150, 0.15);
+        }
+
+        .currency-input-wrapper-sm {
+          position: relative;
+          display: flex;
+          align-items: center;
         }
 
         .currency-field-sm {
@@ -1874,7 +1622,7 @@ Can we connect to discuss this plan?`;
           position: absolute;
           right: 8px;
           font-size: 0.75rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
         }
 
         .btn-remove-asset {
@@ -1889,34 +1637,44 @@ Can we connect to discuss this plan?`;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: background 0.2s;
+          transition: background var(--transition-fast, 0.2s);
         }
 
         .btn-remove-asset:hover {
           background: #FCA5A5;
         }
 
+        .btn-remove-asset:focus-visible {
+          outline: 2px solid var(--color-primary-navy, #00182A);
+          outline-offset: 2px;
+        }
+
         .btn-add-asset {
           align-self: flex-start;
-          background: #FFFFFF;
-          border: 1.5px dashed #00AB96;
-          color: #00AB96;
+          background: var(--color-white, #FFFFFF);
+          border: 1.5px dashed var(--color-growth-teal, #00AB96);
+          color: var(--color-growth-teal, #00AB96);
           padding: 0.6rem 1.25rem;
           font-size: 0.85rem;
           font-weight: 700;
-          border-radius: 8px;
+          border-radius: var(--radius-sm, 8px);
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all var(--transition-fast, 0.2s ease);
         }
 
         .btn-add-asset:hover {
-          background: #E6F7F5;
+          background: var(--color-growth-teal-light, #E6F7F5);
+        }
+
+        .btn-add-asset:focus-visible {
+          outline: 2px solid var(--color-primary-navy, #00182A);
+          outline-offset: 2px;
         }
 
         /* Live Asset Summary Card */
         .live-asset-summary-card {
-          background: linear-gradient(135deg, #F0FDF4 0%, #E6F7F5 100%);
-          border: 1.5px solid #00AB96;
+          background: linear-gradient(135deg, #F0FDF4 0%, var(--color-growth-teal-light, #E6F7F5) 100%);
+          border: 1.5px solid var(--color-growth-teal, #00AB96);
           border-radius: 12px;
           padding: 1.25rem 1.5rem;
           margin-bottom: 1.75rem;
@@ -1938,18 +1696,18 @@ Can we connect to discuss this plan?`;
         .summary-title {
           font-size: 0.8rem;
           font-weight: 600;
-          color: #475569;
+          color: var(--color-slate-text, #475569);
         }
 
         .summary-amount {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.4rem;
           font-weight: 800;
         }
 
         .summary-exact {
           font-size: 0.75rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
         }
 
         .progress-bar-container {
@@ -1961,14 +1719,14 @@ Can we connect to discuss this plan?`;
         .progress-bar-track, .visual-progress-track {
           width: 100%;
           height: 10px;
-          background: #CBD5E1;
+          background: var(--color-border, #CBD5E1);
           border-radius: 9999px;
           overflow: hidden;
         }
 
         .progress-bar-fill, .visual-progress-fill {
           height: 100%;
-          background: #00AB96;
+          background: var(--color-growth-teal, #00AB96);
           border-radius: 9999px;
           transition: width 0.3s ease;
         }
@@ -1978,102 +1736,22 @@ Can we connect to discuss this plan?`;
           justify-content: space-between;
           font-size: 0.75rem;
           font-weight: 700;
-          color: #334155;
-        }
-
-        /* Results Styles */
-        .results-container {
-          display: flex;
-          flex-direction: column;
-          gap: 1.75rem;
-          animation: fadeIn 0.35s ease-out;
-        }
-
-        .results-hero-card {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 20px;
-          padding: 2.75rem 2rem 2.25rem;
-          color: #FFFFFF;
-          text-align: center;
-          box-shadow: 0 20px 40px -15px rgba(0, 24, 42, 0.35);
-        }
-
-        .hero-eyebrow {
-          font-size: 0.85rem;
-          font-weight: 800;
-          letter-spacing: 0.08em;
-          color: #00AB96;
-          margin-bottom: 0.6rem;
-          text-transform: uppercase;
-        }
-
-        .hero-heading {
-          font-family: 'Outfit', sans-serif;
-          font-size: 2.1rem;
-          font-weight: 800;
-          color: #FFFFFF !important;
-          margin: 0 0 1.75rem 0;
-          line-height: 1.25;
-        }
-
-        .primary-result-box {
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 2rem 1.5rem;
-          max-width: 520px;
-          margin: 0 auto 1.5rem auto;
-          box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.18);
-          text-align: center;
-        }
-
-        .result-tag {
-          display: block;
-          font-size: 0.825rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-          color: #00AB96;
-          margin-bottom: 0.35rem;
-        }
-
-        .result-main-number {
-          font-family: 'Outfit', sans-serif;
-          font-size: 3.25rem;
-          font-weight: 900;
-          color: #00182A;
-          margin: 0.25rem 0 0.5rem 0;
-          line-height: 1.1;
-        }
-
-        .result-exact-number {
-          font-size: 0.95rem;
-          color: #64748B;
-          font-weight: 600;
-        }
-
-        .hero-disclaimer-note {
-          font-size: 0.9rem;
-          color: #CBD5E1;
-          max-width: 640px;
-          margin: 0 auto;
-          line-height: 1.55;
+          color: var(--color-slate-text, #334155);
         }
 
         /* Progress Summary Card */
         .progress-summary-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 16px;
+          background: var(--color-white, #FFFFFF);
+          border: 1px solid var(--color-border, #E2E8F0);
+          border-radius: var(--radius-lg, 16px);
           padding: 1.75rem;
         }
 
         .section-subtitle {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.25rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
           margin: 0 0 1.25rem 0;
         }
 
@@ -2085,8 +1763,8 @@ Can we connect to discuss this plan?`;
         }
 
         .prog-metric-col {
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background: var(--color-bg-light, #F8FAFC);
+          border: 1px solid var(--color-border, #E2E8F0);
           border-radius: 10px;
           padding: 1rem;
           text-align: center;
@@ -2096,30 +1774,30 @@ Can we connect to discuss this plan?`;
           display: block;
           font-size: 0.75rem;
           font-weight: 600;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           margin-bottom: 0.25rem;
         }
 
         .metric-val {
           display: block;
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.35rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
         }
 
         .metric-sub {
           display: block;
           font-size: 0.7rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           margin-top: 0.2rem;
         }
 
         /* Funding Options Cards */
         .funding-options-section {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 16px;
+          background: var(--color-white, #FFFFFF);
+          border: 1px solid var(--color-border, #E2E8F0);
+          border-radius: var(--radius-lg, 16px);
           padding: 2rem;
         }
 
@@ -2130,18 +1808,18 @@ Can we connect to discuss this plan?`;
         }
 
         .option-card {
-          background: #F8FAFC;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 14px;
+          background: var(--color-bg-light, #F8FAFC);
+          border: 1.5px solid var(--color-border, #E2E8F0);
+          border-radius: var(--radius-md, 14px);
           padding: 1.5rem;
           display: flex;
           flex-direction: column;
-          transition: all 0.2s ease;
+          transition: all var(--transition-fast, 0.2s ease);
         }
 
         .option-card.featured-option {
           background: #F0FDF4;
-          border-color: #00AB96;
+          border-color: var(--color-growth-teal, #00AB96);
           box-shadow: 0 8px 20px -4px rgba(0, 171, 150, 0.15);
         }
 
@@ -2155,57 +1833,57 @@ Can we connect to discuss this plan?`;
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.04em;
-          background: #E2E8F0;
-          color: #475569;
+          background: var(--color-border, #E2E8F0);
+          color: var(--color-slate-text, #475569);
           padding: 0.15rem 0.5rem;
           border-radius: 4px;
           margin-bottom: 0.35rem;
         }
 
         .option-badge.badge-teal {
-          background: #00AB96;
-          color: #FFFFFF;
+          background: var(--color-growth-teal, #00AB96);
+          color: var(--color-white, #FFFFFF);
         }
 
         .option-badge.badge-gold {
           background: #FEF3C7;
-          color: #D97706;
+          color: var(--color-amber-text, #D97706);
         }
 
         .option-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.15rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
           margin: 0;
         }
 
         .option-amount {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.6rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
           margin: 0.35rem 0 0.15rem 0;
         }
 
         .option-exact {
           font-size: 0.75rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           margin-bottom: 0.75rem;
         }
 
         .option-desc {
           font-size: 0.8rem;
-          color: #475569;
+          color: var(--color-slate-text, #475569);
           line-height: 1.45;
           margin: auto 0 0 0;
         }
 
         /* EMI Result Card */
         .emi-result-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 16px;
+          background: var(--color-white, #FFFFFF);
+          border: 1px solid var(--color-border, #E2E8F0);
+          border-radius: var(--radius-lg, 16px);
           padding: 2rem;
         }
 
@@ -2217,8 +1895,8 @@ Can we connect to discuss this plan?`;
         }
 
         .emi-stat-box {
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background: var(--color-bg-light, #F8FAFC);
+          border: 1px solid var(--color-border, #E2E8F0);
           border-radius: 10px;
           padding: 1rem;
           text-align: center;
@@ -2228,22 +1906,22 @@ Can we connect to discuss this plan?`;
           display: block;
           font-size: 0.75rem;
           font-weight: 600;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           margin-bottom: 0.25rem;
         }
 
         .emi-stat-num {
           display: block;
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.35rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
         }
 
         .emi-stat-desc {
           display: block;
           font-size: 0.7rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           margin-top: 0.2rem;
         }
 
@@ -2261,8 +1939,8 @@ Can we connect to discuss this plan?`;
         }
 
         .emi-verdict-banner.verdict-warn {
-          background: #FFFBEB;
-          border: 1px solid #FDE68A;
+          background: var(--color-amber-bg);
+          border: 1px solid var(--color-amber-border);
         }
 
         .verdict-icon {
@@ -2273,235 +1951,21 @@ Can we connect to discuss this plan?`;
         .verdict-content strong {
           display: block;
           font-size: 0.95rem;
-          color: #0F172A;
+          color: var(--color-slate-heading, #0F172A);
           margin-bottom: 0.25rem;
         }
 
         .verdict-content p {
           font-size: 0.85rem;
-          color: #334155;
+          color: var(--color-slate-text, #334155);
           line-height: 1.45;
           margin: 0;
         }
 
-        /* Key Insight Card */
-        .key-insight-card {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
-          border-radius: 14px;
-          padding: 1.25rem 1.5rem;
-          color: #FFFFFF;
-        }
-
-        .insight-icon {
-          font-size: 1.75rem;
-          flex-shrink: 0;
-        }
-
-        .insight-title {
-          display: block;
-          font-size: 0.75rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: #00AB96;
-          margin-bottom: 0.25rem;
-        }
-
-        .insight-text {
-          font-size: 0.9rem;
-          color: #E2E8F0;
-          line-height: 1.5;
-          margin: 0;
-        }
-
-        /* Accordion Card */
-        .accordion-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 14px;
-          overflow: hidden;
-        }
-
-        .accordion-toggle-btn {
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1.25rem 1.5rem;
-          background: transparent;
-          border: none;
-          cursor: pointer;
-          font-size: 1rem;
-          color: #00182A;
-          transition: background 0.2s;
-        }
-
-        .accordion-toggle-btn:hover {
-          background: #F8FAFC;
-        }
-
-        .toggle-left {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-
-        .accordion-content {
-          padding: 0 1.5rem 1.5rem;
-          border-top: 1px solid #F1F5F9;
-        }
-
-        .formula-step-block {
-          margin-top: 1.25rem;
-        }
-
-        .formula-step-block h4 {
-          font-size: 0.9rem;
-          font-weight: 700;
-          color: #00182A;
-          margin: 0 0 0.5rem 0;
-        }
-
-        .formula-step-block ul {
-          padding-left: 1.25rem;
-          margin: 0;
-          font-size: 0.85rem;
-          color: #334155;
-          line-height: 1.6;
-        }
-
-        /* Consultation CTA Card */
-        .results-cta-card {
-          background: linear-gradient(135deg, #00182A 0%, #00365D 100%);
-          border-radius: 16px;
-          padding: 2.25rem;
-          color: #FFFFFF;
-          text-align: center;
-        }
-
-        .cta-heading {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.5rem;
-          font-weight: 700;
-          margin: 0 0 0.5rem 0;
-        }
-
-        .cta-sub {
-          font-size: 0.95rem;
-          color: #CBD5E1;
-          max-width: 600px;
-          margin: 0 auto 1.5rem auto;
-          line-height: 1.5;
-        }
-
-        .cta-btn-row {
-          display: flex;
-          justify-content: center;
-          gap: 1rem;
-          margin-bottom: 1rem;
-        }
-
-        .btn-whatsapp-cta {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          background: #25D366;
-          color: #FFFFFF;
-          text-decoration: none;
-          font-size: 1rem;
-          font-weight: 700;
-          padding: 0.875rem 1.75rem;
-          border-radius: 8px;
-          box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
-          transition: all 0.2s ease;
-        }
-
-        .btn-whatsapp-cta:hover {
-          background: #20BA5A;
-          transform: translateY(-2px);
-        }
-
-        .btn-contact-secondary {
-          display: inline-flex;
-          align-items: center;
-          background: transparent;
-          color: #FFFFFF;
-          border: 1.5px solid rgba(255, 255, 255, 0.3);
-          text-decoration: none;
-          font-size: 0.95rem;
-          font-weight: 600;
-          padding: 0.875rem 1.5rem;
-          border-radius: 8px;
-          transition: all 0.2s ease;
-        }
-
-        .btn-contact-secondary:hover {
-          background: rgba(255, 255, 255, 0.1);
-          border-color: #FFFFFF;
-        }
-
-        .cta-disclaimer {
-          font-size: 0.75rem;
-          color: #94A3B8;
-          margin: 0;
-        }
-
-        /* Buttons */
-        .step-actions {
-          display: flex;
-          justify-content: space-between;
-          gap: 1rem;
-          margin-top: 1.5rem;
-        }
-
-        .btn-continue, .btn-view-results, .btn-edit-plan {
-          background: #00AB96;
-          color: #FFFFFF;
-          border: none;
-          padding: 0.875rem 1.75rem;
-          font-size: 1rem;
-          font-weight: 700;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-continue:hover, .btn-view-results:hover, .btn-edit-plan:hover {
-          background: #008f7d;
-          transform: translateY(-1px);
-        }
-
-        .btn-back {
-          background: #F1F5F9;
-          color: #334155;
-          border: 1px solid #CBD5E1;
-          padding: 0.875rem 1.5rem;
-          font-size: 0.95rem;
-          font-weight: 600;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-back:hover {
-          background: #E2E8F0;
-        }
-
-        /* Utility Color Classes */
-        .text-teal { color: #00AB96; }
-        .text-gold { color: #D97706; }
-        .text-navy { color: #00182A; }
-
-        /* Responsive Breakpoints */
+        /* Responsive Breakpoints for component-specific cards */
         @media (max-width: 860px) {
-          .stepper-list {
+          .home-planner-wrapper .stepper-list {
             grid-template-columns: repeat(4, 1fr);
-          }
-          .inputs-grid {
-            grid-template-columns: 1fr;
           }
           .split-cards-grid, .affordability-metrics, .options-cards-grid, .progress-metrics-row, .emi-card-grid {
             grid-template-columns: 1fr;
@@ -2516,34 +1980,8 @@ Can we connect to discuss this plan?`;
         }
 
         @media (max-width: 640px) {
-          .step-card {
-            padding: 1.5rem 1rem;
-          }
-          .calc-top-action-bar {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 0.75rem;
-          }
-          .action-btn-group {
-            justify-content: flex-end;
-          }
-          .stepper-list {
+          .home-planner-wrapper .stepper-list {
             grid-template-columns: repeat(3, 1fr);
-          }
-          .results-hero-card {
-            padding: 1.75rem 1rem 1.5rem;
-            border-radius: 16px;
-          }
-          .hero-heading {
-            font-size: 1.5rem !important;
-            margin-bottom: 1.25rem;
-          }
-          .primary-result-box {
-            padding: 1.5rem 1rem;
-            border-radius: 12px;
-          }
-          .result-main-number {
-            font-size: 2.35rem;
           }
           .asset-row-item {
             grid-template-columns: 1fr;
@@ -2554,16 +1992,6 @@ Can we connect to discuss this plan?`;
           }
           .summary-right {
             text-align: left;
-          }
-          .cta-btn-row {
-            flex-direction: column;
-          }
-          .step-actions {
-            flex-direction: column-reverse;
-          }
-          .btn-continue, .btn-view-results, .btn-edit-plan, .btn-back {
-            width: 100%;
-            text-align: center;
           }
         }
       `}</style>

@@ -72,6 +72,7 @@ export default function InsuranceCalculator() {
               value={annualIncome}
               onChange={(e) => setAnnualIncome(Number(e.target.value))}
               className="range-slider"
+              aria-label="Annual Take-Home Income slider"
             />
             <div className="slider-limits">
               <span>₹3 Lakh</span>
@@ -104,6 +105,7 @@ export default function InsuranceCalculator() {
               value={yearsOfIncomeReplacement}
               onChange={(e) => setYearsOfIncomeReplacement(Number(e.target.value))}
               className="range-slider"
+              aria-label="Years of Income Replacement Desired slider"
             />
             <div className="slider-limits">
               <span>5 Years</span>
@@ -137,6 +139,7 @@ export default function InsuranceCalculator() {
               value={outstandingLoans}
               onChange={(e) => setOutstandingLoans(Number(e.target.value))}
               className="range-slider"
+              aria-label="Outstanding Loans & Liabilities slider"
             />
             <div className="slider-limits">
               <span>₹0</span>
@@ -170,6 +173,7 @@ export default function InsuranceCalculator() {
               value={futureMajorGoals}
               onChange={(e) => setFutureMajorGoals(Number(e.target.value))}
               className="range-slider"
+              aria-label="Crucial Family Goals slider"
             />
             <div className="slider-limits">
               <span>₹0</span>
@@ -326,190 +330,11 @@ export default function InsuranceCalculator() {
       </div>
 
       <style>{`
-        .calc-container {
-          background-color: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 2.25rem;
-          box-shadow: 0 4px 20px rgba(0, 24, 42, 0.04);
-        }
-
-        .calc-grid {
-          display: grid;
-          grid-template-columns: 1fr 1.05fr;
-          gap: 2.5rem;
-          align-items: start;
-        }
-
-        .panel-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 1.75rem;
-          padding-bottom: 0.75rem;
-          border-bottom: 1px solid #F1F5F9;
-        }
-
-        .panel-title {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #00182A;
-        }
-
-        .reset-btn {
-          background: transparent;
-          border: none;
-          color: #64748B;
-          font-size: 0.85rem;
-          font-weight: 600;
-          cursor: pointer;
-          padding: 0.2rem 0.5rem;
-          border-radius: 4px;
-        }
-
-        .reset-btn:hover {
-          color: #00182A;
-          background-color: #F1F5F9;
-        }
-
-        .form-group {
-          margin-bottom: 1.5rem;
-        }
-
-        .two-col-inputs {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1rem;
-        }
-
-        .label-row {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 0.6rem;
-        }
-
-        .field-label {
-          font-size: 0.95rem;
-          font-weight: 600;
-          color: #1E293B;
-        }
-
-        .field-label-sub {
-          font-size: 0.85rem;
-          font-weight: 600;
-          color: #475569;
-          margin-bottom: 0.4rem;
-          display: block;
-        }
-
-        .input-currency-wrapper {
-          display: flex;
-          align-items: center;
-          background-color: #F8FAFC;
-          border: 1.5px solid #CBD5E1;
-          border-radius: 8px;
-          padding: 0.25rem 0.6rem;
-          font-weight: 600;
-          color: #00182A;
-        }
-
-        .currency-prefix, .unit-suffix {
-          color: #64748B;
-          font-size: 0.9rem;
-          margin: 0 2px;
-        }
-
-        .number-input {
-          width: 120px;
-          border: none;
-          background: transparent;
-          font-size: 1rem;
-          font-weight: 700;
-          color: #00182A;
-          text-align: right;
-          outline: none;
-        }
-
-        .number-input-sm {
-          width: 55px;
-          border: none;
-          background: transparent;
-          font-size: 0.95rem;
-          font-weight: 700;
-          color: #00182A;
-          text-align: right;
-          outline: none;
-        }
-
-        .range-slider {
-          width: 100%;
-          height: 6px;
-          background: #E2E8F0;
-          border-radius: 9999px;
-          outline: none;
-          -webkit-appearance: none;
-          accent-color: #00AB96;
-          cursor: pointer;
-        }
-
-        .slider-limits {
-          display: flex;
-          justify-content: space-between;
-          font-size: 0.75rem;
-          color: #94A3B8;
-          margin-top: 0.35rem;
-        }
-
-        /* Results */
-        .calc-result-panel {
-          background-color: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          border-radius: 14px;
-          padding: 2rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-        }
-
-        .result-hero-box {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
-          border-radius: 12px;
-          padding: 1.75rem;
-          color: #FFFFFF;
-          text-align: center;
-        }
-
-        .result-tag {
-          font-size: 0.8rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: #00AB96;
-          display: block;
-          margin-bottom: 0.4rem;
-        }
-
-        .maturity-number {
-          font-family: 'Outfit', sans-serif;
-          font-size: 2.3rem;
-          font-weight: 800;
-          color: #FFFFFF;
-          line-height: 1.1;
-          margin-bottom: 0.5rem;
-        }
-
-        .result-note {
-          font-size: 0.85rem;
-          color: #CBD5E1;
-          line-height: 1.4;
-        }
-
+        /* Component-Specific: Formula Breakdown Card */
         .insurance-formula-card {
-          background-color: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          border-radius: 10px;
+          background-color: var(--color-bg-light);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-sm);
           padding: 0.85rem 1rem;
         }
 
@@ -518,7 +343,7 @@ export default function InsuranceCalculator() {
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.05em;
-          color: #64748B;
+          color: var(--color-slate-muted);
           display: block;
           margin-bottom: 0.5rem;
         }
@@ -533,7 +358,7 @@ export default function InsuranceCalculator() {
 
         .formula-pill {
           padding: 0.2rem 0.5rem;
-          border-radius: 4px;
+          border-radius: var(--radius-sm);
           font-weight: 600;
         }
 
@@ -548,48 +373,21 @@ export default function InsuranceCalculator() {
         }
 
         .formula-pill.result {
-          background-color: #ECFDF5;
+          background-color: var(--color-growth-teal-light);
           color: #065F46;
           font-weight: 700;
         }
 
         .formula-op {
-          color: #94A3B8;
+          color: var(--color-slate-light);
           font-weight: 700;
         }
 
-        .result-metrics-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1rem;
-        }
-
-        .metric-box {
-          background-color: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 10px;
-          padding: 1rem 1.25rem;
-        }
-
-        .metric-title {
-          font-size: 0.8rem;
-          color: #64748B;
-          font-weight: 600;
-          display: block;
-          margin-bottom: 0.2rem;
-        }
-
-        .metric-value {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.15rem;
-          font-weight: 700;
-          color: #00182A;
-        }
-
+        /* Component-Specific: Sub-breakdown Card */
         .sub-breakdown-card {
-          background-color: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 10px;
+          background-color: var(--color-white);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-sm);
           padding: 1rem 1.25rem;
           display: flex;
           flex-direction: column;
@@ -600,90 +398,24 @@ export default function InsuranceCalculator() {
           display: flex;
           justify-content: space-between;
           font-size: 0.85rem;
-          color: #475569;
+          color: var(--color-slate-text);
         }
 
         .sub-breakdown-row strong {
-          color: #00182A;
+          color: var(--color-primary-navy);
         }
 
-        .calc-action-block {
-          display: flex;
-          flex-direction: column;
-          gap: 0.75rem;
-        }
-
-        .btn-whatsapp-consult {
-          display: block;
-          text-align: center;
-          background-color: #00AB96;
-          color: #FFFFFF;
-          font-size: 0.95rem;
-          font-weight: 600;
-          padding: 0.85rem 1.25rem;
-          border-radius: 10px;
-          text-decoration: none;
-          transition: all 0.2s ease;
-        }
-
-        .btn-whatsapp-consult:hover {
-          background-color: #008f7d;
-          transform: translateY(-1px);
-        }
-
-        .btn-book-consult {
-          display: block;
-          text-align: center;
-          background-color: #FFFFFF;
-          border: 1.5px solid #00182A;
-          color: #00182A;
-          font-size: 0.95rem;
-          font-weight: 600;
-          padding: 0.85rem 1.25rem;
-          border-radius: 10px;
-          text-decoration: none;
-          transition: all 0.2s ease;
-        }
-
-        .btn-book-consult:hover {
-          background-color: #F1F5F9;
-        }
-
-        .calc-explanation {
-          padding-top: 1rem;
-          border-top: 1px solid #E2E8F0;
-        }
-
-        .calc-explanation h4 {
-          font-size: 0.9rem;
-          font-weight: 700;
-          color: #00182A;
-          margin-bottom: 0.35rem;
-        }
-
-        .calc-explanation p {
-          font-size: 0.8rem;
-          color: #64748B;
-          line-height: 1.5;
-          margin-bottom: 0.5rem;
-        }
-
-        .disclaimer-text {
-          font-size: 0.75rem !important;
-          color: #94A3B8 !important;
-          font-style: italic;
-        }
-
+        /* Component-Specific: Comprehensive Calculator Banner */
         .comprehensive-calc-banner {
           display: flex;
           align-items: center;
           justify-content: space-between;
           gap: 1rem;
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
-          border-radius: 12px;
+          background: linear-gradient(135deg, var(--color-primary-navy) 0%, #002B49 100%);
+          border-radius: var(--radius-md);
           padding: 1.25rem 1.5rem;
           margin-top: 1.5rem;
-          color: #FFFFFF;
+          color: var(--color-white);
         }
 
         .comp-banner-left {
@@ -700,17 +432,17 @@ export default function InsuranceCalculator() {
           text-transform: uppercase;
           letter-spacing: 0.05em;
           background: rgba(0, 171, 150, 0.2);
-          color: #00AB96;
+          color: var(--color-growth-teal);
           padding: 0.15rem 0.5rem;
           border-radius: 4px;
           margin-bottom: 0.25rem;
         }
 
         .comp-banner-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1rem;
           font-weight: 700;
-          color: #FFFFFF;
+          color: var(--color-white);
           margin: 0;
         }
 
@@ -725,20 +457,25 @@ export default function InsuranceCalculator() {
           flex-shrink: 0;
           display: inline-flex;
           align-items: center;
-          background: #00AB96;
-          color: #FFFFFF;
+          background: var(--color-growth-teal);
+          color: var(--color-white);
           font-size: 0.85rem;
           font-weight: 700;
           padding: 0.65rem 1rem;
-          border-radius: 8px;
+          border-radius: var(--radius-sm);
           text-decoration: none;
           white-space: nowrap;
-          transition: all 0.2s ease;
+          transition: all var(--transition-fast);
         }
 
         .btn-goto-life-insurance:hover {
-          background: #008f7d;
+          background: var(--color-growth-teal-hover);
           transform: translateY(-1px);
+        }
+
+        .btn-goto-life-insurance:focus-visible {
+          outline: 2px solid var(--color-white);
+          outline-offset: 2px;
         }
 
         @media (max-width: 900px) {
@@ -749,90 +486,6 @@ export default function InsuranceCalculator() {
           .btn-goto-life-insurance {
             text-align: center;
             justify-content: center;
-          }
-        }
-
-        @media (max-width: 900px) {
-          .calc-grid {
-            grid-template-columns: 1fr;
-          }
-          .calc-container {
-            padding: 1.5rem;
-          }
-          .two-col-inputs {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        @media (max-width: 540px) {
-          .calc-container {
-            padding: 1.25rem 0.875rem;
-            border-radius: 12px;
-          }
-
-          .panel-header {
-            margin-bottom: 1.25rem;
-            gap: 0.5rem;
-          }
-
-          .panel-title {
-            font-size: 1.15rem;
-          }
-
-          .label-row {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 0.35rem;
-          }
-
-          .field-label,
-          .field-label-sub {
-            font-size: 0.875rem;
-          }
-
-          .input-currency-wrapper {
-            width: 100%;
-            justify-content: space-between;
-            padding: 0.4rem 0.75rem;
-          }
-
-          .number-input,
-          .number-input-sm {
-            width: 100%;
-            flex: 1;
-            font-size: 1rem;
-          }
-
-          .slider-limits {
-            font-size: 0.7rem;
-            gap: 0.25rem;
-          }
-
-          .result-hero-box {
-            padding: 1.25rem 1rem;
-          }
-
-          .maturity-number {
-            font-size: 1.85rem;
-          }
-
-          .maturity-words {
-            font-size: 1rem;
-          }
-
-          .result-metrics-grid {
-            grid-template-columns: 1fr;
-            gap: 0.5rem;
-          }
-
-          .metric-box {
-            padding: 0.75rem 0.85rem;
-          }
-
-          .breakdown-row {
-            flex-direction: column;
-            gap: 0.35rem;
-            padding: 0.6rem 0.85rem;
           }
         }
       `}</style>

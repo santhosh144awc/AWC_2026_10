@@ -1069,277 +1069,19 @@ Can we connect to discuss this plan?`;
         </div>
       )}
 
-      {/* Styled JSX (Vanilla CSS) */}
+      {/* Component-Specific Styles (Shared styles imported via calculators.css) */}
       <style>{`
         .insurance-calc-wrapper {
           width: 100%;
           max-width: 960px;
           margin: 0 auto;
-          font-family: 'Inter', sans-serif;
-          color: #00182A;
+          font-family: var(--font-body, 'Inter', sans-serif);
+          color: var(--color-primary-navy, #00182A);
         }
 
-        .calc-top-action-bar {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 12px;
-          padding: 0.75rem 1.25rem;
-          margin-bottom: 1.5rem;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-        }
-
-        .action-tagline {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-size: 0.85rem;
-          font-weight: 600;
-          color: #00AB96;
-        }
-
-        .live-pulse {
-          width: 8px;
-          height: 8px;
-          background: #00AB96;
-          border-radius: 50%;
-          animation: pulse 1.8s infinite;
-        }
-
-        @keyframes pulse {
-          0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 171, 150, 0.7); }
-          70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(0, 171, 150, 0); }
-          100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 171, 150, 0); }
-        }
-
-        .action-btn-group {
-          display: flex;
-          gap: 0.5rem;
-        }
-
-        .btn-sample-preset, .btn-reset-preset {
-          background: #F8FAFC;
-          border: 1px solid #CBD5E1;
-          padding: 0.4rem 0.75rem;
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: #334155;
-          border-radius: 6px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-sample-preset:hover {
-          background: #00AB96;
-          color: #FFFFFF;
-          border-color: #00AB96;
-        }
-
-        .btn-reset-preset:hover {
-          background: #F1F5F9;
-          color: #0F172A;
-        }
-
-        /* Stepper */
-        .stepper-nav {
-          margin-bottom: 2rem;
-        }
-
-        .stepper-list {
-          display: grid;
+        /* 6-Item Stepper Grid Override */
+        .insurance-calc-wrapper .stepper-list {
           grid-template-columns: repeat(6, 1fr);
-          gap: 0.5rem;
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-
-        .stepper-btn {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.35rem;
-          padding: 0.65rem 0.4rem;
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 10px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .stepper-btn.active {
-          background: #00182A;
-          border-color: #00182A;
-          color: #FFFFFF;
-          box-shadow: 0 4px 12px rgba(0, 24, 42, 0.15);
-        }
-
-        .stepper-btn.active .step-num {
-          background: #00AB96;
-          color: #FFFFFF;
-        }
-
-        .stepper-btn.results-stepper-btn.active {
-          background: #00AB96;
-          border-color: #00AB96;
-          color: #FFFFFF;
-          box-shadow: 0 4px 14px rgba(0, 171, 150, 0.3);
-        }
-
-        .stepper-btn.results-stepper-btn.active .step-num {
-          background: #FFFFFF;
-          color: #00AB96;
-        }
-
-        .stepper-btn.completed {
-          border-color: #00AB96;
-        }
-
-        .stepper-btn.completed .step-num {
-          background: #E6F7F5;
-          color: #00AB96;
-        }
-
-        .step-num {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 24px;
-          height: 24px;
-          border-radius: 50%;
-          background: #F1F5F9;
-          font-size: 0.75rem;
-          font-weight: 700;
-          color: #64748B;
-        }
-
-        .step-label {
-          font-size: 0.75rem;
-          font-weight: 600;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .step-icon-sm {
-          margin-right: 0.25rem;
-        }
-
-        /* Step Card */
-        .step-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 2.25rem;
-          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);
-          animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(6px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .step-badge {
-          display: inline-block;
-          font-size: 0.75rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          background: #E6F7F5;
-          color: #00AB96;
-          padding: 0.25rem 0.6rem;
-          border-radius: 6px;
-          margin-bottom: 0.75rem;
-        }
-
-        .step-heading {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.6rem;
-          font-weight: 700;
-          color: #00182A;
-          margin: 0 0 0.5rem 0;
-        }
-
-        .step-description {
-          font-size: 0.95rem;
-          color: #475569;
-          line-height: 1.5;
-          margin: 0 0 1.75rem 0;
-        }
-
-        /* Inputs Grid */
-        .inputs-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1.25rem;
-          margin-bottom: 1.75rem;
-        }
-
-        .input-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.35rem;
-        }
-
-        .input-label {
-          font-size: 0.875rem;
-          font-weight: 600;
-          color: #1E293B;
-          display: flex;
-          align-items: center;
-          gap: 0.4rem;
-        }
-
-        .currency-input-wrapper {
-          position: relative;
-          display: flex;
-          align-items: center;
-        }
-
-        .currency-symbol {
-          position: absolute;
-          left: 12px;
-          font-weight: 600;
-          color: #64748B;
-          font-size: 1rem;
-          pointer-events: none;
-        }
-
-        .unit-tag {
-          position: absolute;
-          right: 12px;
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: #64748B;
-        }
-
-        .currency-field {
-          width: 100%;
-          padding: 0.75rem 0.75rem 0.75rem 2rem;
-          font-size: 1.05rem;
-          font-weight: 600;
-          color: #00182A;
-          background: #F8FAFC;
-          border: 1.5px solid #CBD5E1;
-          border-radius: 8px;
-          transition: all 0.2s ease;
-        }
-
-        .currency-field:focus {
-          outline: none;
-          background: #FFFFFF;
-          border-color: #00AB96;
-          box-shadow: 0 0 0 3px rgba(0, 171, 150, 0.15);
-        }
-
-        .input-helper {
-          font-size: 0.75rem;
-          color: #64748B;
-          font-weight: 500;
         }
 
         /* Live Subtotal Card */
@@ -1347,8 +1089,8 @@ Can we connect to discuss this plan?`;
           display: flex;
           justify-content: space-between;
           align-items: center;
-          background: linear-gradient(135deg, #F0FDF4 0%, #E6F7F5 100%);
-          border: 1.5px solid #00AB96;
+          background: linear-gradient(135deg, #F0FDF4 0%, var(--color-growth-teal-light, #E6F7F5) 100%);
+          border: 1.5px solid var(--color-growth-teal, #00AB96);
           border-radius: 12px;
           padding: 1.25rem 1.5rem;
           margin-bottom: 1.75rem;
@@ -1358,12 +1100,12 @@ Can we connect to discuss this plan?`;
           display: block;
           font-size: 0.95rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
         }
 
         .subtotal-helper {
           font-size: 0.8rem;
-          color: #475569;
+          color: var(--color-slate-text, #475569);
         }
 
         .subtotal-val-box {
@@ -1372,22 +1114,22 @@ Can we connect to discuss this plan?`;
 
         .subtotal-main {
           display: block;
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.4rem;
           font-weight: 800;
-          color: #00AB96;
+          color: var(--color-growth-teal, #00AB96);
         }
 
         .subtotal-exact {
           font-size: 0.8rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           font-weight: 600;
         }
 
         /* Discount Slider Card */
         .discount-card {
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background: var(--color-bg-light, #F8FAFC);
+          border: 1px solid var(--color-border, #E2E8F0);
           border-radius: 12px;
           padding: 1.25rem;
           margin-bottom: 1.5rem;
@@ -1402,37 +1144,23 @@ Can we connect to discuss this plan?`;
 
         .discount-title {
           font-size: 0.95rem;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
         }
 
         .discount-badge {
           font-size: 0.75rem;
           font-weight: 600;
-          background: #E2E8F0;
-          color: #334155;
+          background: var(--color-border, #E2E8F0);
+          color: var(--color-slate-text, #334155);
           padding: 0.15rem 0.5rem;
           border-radius: 4px;
         }
 
         .discount-desc {
           font-size: 0.825rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           line-height: 1.4;
           margin-bottom: 0.75rem;
-        }
-
-        .range-slider {
-          width: 100%;
-          accent-color: #00AB96;
-          cursor: pointer;
-          margin-bottom: 0.25rem;
-        }
-
-        .slider-ticks {
-          display: flex;
-          justify-content: space-between;
-          font-size: 0.75rem;
-          color: #94A3B8;
         }
 
         /* Assumptions Grid */
@@ -1444,8 +1172,8 @@ Can we connect to discuss this plan?`;
         }
 
         .assumption-box {
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background: var(--color-bg-light, #F8FAFC);
+          border: 1px solid var(--color-border, #E2E8F0);
           border-radius: 10px;
           padding: 1rem;
         }
@@ -1460,37 +1188,37 @@ Can we connect to discuss this plan?`;
         .assumption-title {
           font-size: 0.875rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
         }
 
         .assumption-val {
           font-size: 0.9rem;
           font-weight: 800;
-          color: #00AB96;
+          color: var(--color-growth-teal, #00AB96);
         }
 
         .assumption-helper {
           font-size: 0.75rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           margin-bottom: 0.75rem;
           line-height: 1.35;
         }
 
         /* Rate Breakdown Card */
         .rate-breakdown-card {
-          background: #00182A;
-          color: #FFFFFF;
+          background: var(--color-primary-navy, #00182A);
+          color: var(--color-white, #FFFFFF);
           border-radius: 14px;
           padding: 1.5rem;
           margin-bottom: 1.75rem;
         }
 
         .rate-breakdown-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.05rem;
           font-weight: 700;
           margin: 0 0 1.25rem 0;
-          color: #FFFFFF;
+          color: var(--color-white, #FFFFFF);
         }
 
         .rate-journey-track {
@@ -1518,14 +1246,14 @@ Can we connect to discuss this plan?`;
         }
 
         .node-val {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.25rem;
           font-weight: 800;
-          color: #FFFFFF;
+          color: var(--color-white, #FFFFFF);
           margin-top: 0.15rem;
         }
 
-        .node-teal { color: #00AB96; }
+        .node-teal { color: var(--color-growth-teal, #00AB96); }
         .node-gold { color: #FFC107; }
 
         .node-sub {
@@ -1535,7 +1263,7 @@ Can we connect to discuss this plan?`;
 
         .journey-arrow {
           font-size: 1.25rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
         }
 
         .corpus-result-highlight {
@@ -1564,10 +1292,10 @@ Can we connect to discuss this plan?`;
         }
 
         .corpus-amount {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.5rem;
           font-weight: 800;
-          color: #00AB96;
+          color: var(--color-growth-teal, #00AB96);
         }
 
         .corpus-sub {
@@ -1576,120 +1304,7 @@ Can we connect to discuss this plan?`;
           margin-top: 0.15rem;
         }
 
-        /* Buttons */
-        .step-actions {
-          display: flex;
-          justify-content: space-between;
-          gap: 1rem;
-          margin-top: 1rem;
-        }
-
-        .btn-continue, .btn-view-results {
-          background: #00AB96;
-          color: #FFFFFF;
-          border: none;
-          padding: 0.875rem 1.75rem;
-          font-size: 1rem;
-          font-weight: 700;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          margin-left: auto;
-        }
-
-        .btn-continue:hover, .btn-view-results:hover {
-          background: #008f7d;
-          transform: translateY(-1px);
-        }
-
-        .btn-back {
-          background: #F1F5F9;
-          color: #334155;
-          border: 1px solid #CBD5E1;
-          padding: 0.875rem 1.5rem;
-          font-size: 0.95rem;
-          font-weight: 600;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-back:hover {
-          background: #E2E8F0;
-        }
-
-        /* RESULTS STYLES */
-        .results-container {
-          display: flex;
-          flex-direction: column;
-          gap: 1.75rem;
-          animation: fadeIn 0.35s ease-out;
-        }
-
-        .results-hero-card {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 20px;
-          padding: 2.75rem 2rem 2.25rem;
-          color: #FFFFFF;
-          text-align: center;
-          box-shadow: 0 20px 40px -15px rgba(0, 24, 42, 0.35);
-        }
-
-        .hero-eyebrow {
-          font-size: 0.85rem;
-          font-weight: 800;
-          letter-spacing: 0.08em;
-          color: #00AB96;
-          margin-bottom: 0.6rem;
-          text-transform: uppercase;
-        }
-
-        .hero-heading {
-          font-family: 'Outfit', sans-serif;
-          font-size: 2.1rem;
-          font-weight: 800;
-          color: #FFFFFF !important;
-          margin: 0 0 1.75rem 0;
-          line-height: 1.25;
-        }
-
-        .primary-result-box {
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 2rem 1.5rem;
-          max-width: 520px;
-          margin: 0 auto 1.5rem auto;
-          box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.18);
-          text-align: center;
-        }
-
-        .result-tag {
-          display: block;
-          font-size: 0.825rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-          color: #00AB96;
-          margin-bottom: 0.35rem;
-        }
-
-        .result-main-number {
-          font-family: 'Outfit', sans-serif;
-          font-size: 3.25rem;
-          font-weight: 900;
-          color: #00182A;
-          margin: 0.25rem 0 0.5rem 0;
-          line-height: 1.1;
-        }
-
-        .result-exact-number {
-          font-size: 0.95rem;
-          color: #64748B;
-          font-weight: 600;
-        }
-
+        /* Covered Status Card */
         .covered-status-card {
           display: flex;
           align-items: center;
@@ -1714,27 +1329,19 @@ Can we connect to discuss this plan?`;
           margin: 0;
         }
 
-        .hero-disclaimer-note {
-          font-size: 0.9rem;
-          color: #CBD5E1;
-          max-width: 640px;
-          margin: 0 auto;
-          line-height: 1.55;
-        }
-
         /* 3-Component Grid */
         .section-breakdown-box {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 16px;
+          background: var(--color-white, #FFFFFF);
+          border: 1px solid var(--color-border, #E2E8F0);
+          border-radius: var(--radius-lg, 16px);
           padding: 2rem;
         }
 
         .section-subtitle {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.25rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
           margin: 0 0 1.25rem 0;
         }
 
@@ -1746,8 +1353,8 @@ Can we connect to discuss this plan?`;
         }
 
         .component-card {
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background: var(--color-bg-light, #F8FAFC);
+          border: 1px solid var(--color-border, #E2E8F0);
           border-radius: 12px;
           padding: 1.25rem;
           display: flex;
@@ -1765,8 +1372,8 @@ Can we connect to discuss this plan?`;
         .comp-tag {
           font-size: 0.7rem;
           font-weight: 700;
-          background: #E2E8F0;
-          color: #475569;
+          background: var(--color-border, #E2E8F0);
+          color: var(--color-slate-text, #475569);
           padding: 0.15rem 0.4rem;
           border-radius: 4px;
         }
@@ -1774,26 +1381,26 @@ Can we connect to discuss this plan?`;
         .comp-title {
           font-size: 0.875rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
           margin-bottom: 0.5rem;
         }
 
         .comp-amount {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.4rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
         }
 
         .comp-exact {
           font-size: 0.75rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           margin-bottom: 0.5rem;
         }
 
         .comp-desc {
           font-size: 0.75rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           line-height: 1.35;
           margin: auto 0 0 0;
         }
@@ -1802,8 +1409,8 @@ Can we connect to discuss this plan?`;
           display: flex;
           justify-content: space-between;
           align-items: center;
-          background: #00182A;
-          color: #FFFFFF;
+          background: var(--color-primary-navy, #00182A);
+          color: var(--color-white, #FFFFFF);
           border-radius: 10px;
           padding: 1.25rem 1.5rem;
         }
@@ -1815,17 +1422,17 @@ Can we connect to discuss this plan?`;
         }
 
         .total-req-val {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.5rem;
           font-weight: 800;
-          color: #00AB96;
+          color: var(--color-growth-teal, #00AB96);
         }
 
         /* Visual Comparison Card */
         .visual-comparison-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 16px;
+          background: var(--color-white, #FFFFFF);
+          border: 1px solid var(--color-border, #E2E8F0);
+          border-radius: var(--radius-lg, 16px);
           padding: 2rem;
         }
 
@@ -1840,25 +1447,22 @@ Can we connect to discuss this plan?`;
         .stat-label {
           display: block;
           font-size: 0.8rem;
-          color: #64748B;
+          color: var(--color-slate-muted, #64748B);
           font-weight: 600;
           margin-bottom: 0.25rem;
         }
 
         .stat-val {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading, 'Outfit', sans-serif);
           font-size: 1.6rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy, #00182A);
         }
-
-        .text-teal { color: #00AB96; }
-        .text-gold { color: #D97706; }
 
         .comp-divider {
           font-size: 1.25rem;
           font-weight: 700;
-          color: #CBD5E1;
+          color: var(--color-border, #CBD5E1);
         }
 
         .progress-track-wrapper {
@@ -1876,7 +1480,7 @@ Can we connect to discuss this plan?`;
 
         .progress-fill-resources {
           height: 100%;
-          background: #00AB96;
+          background: var(--color-growth-teal, #00AB96);
           border-radius: 9999px;
           transition: width 0.4s ease;
         }
@@ -1886,7 +1490,7 @@ Can we connect to discuss this plan?`;
           justify-content: center;
           gap: 1.5rem;
           font-size: 0.75rem;
-          color: #475569;
+          color: var(--color-slate-text, #475569);
           font-weight: 600;
         }
 
@@ -1902,170 +1506,40 @@ Can we connect to discuss this plan?`;
           border-radius: 50%;
         }
 
-        .dot-teal { background: #00AB96; }
+        .dot-teal { background: var(--color-growth-teal, #00AB96); }
         .dot-gold { background: #F59E0B; }
-
-        /* Accordion Card */
-        .accordion-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 12px;
-          overflow: hidden;
-        }
-
-        .accordion-toggle-btn {
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1.25rem 1.5rem;
-          background: #F8FAFC;
-          border: none;
-          cursor: pointer;
-          font-size: 0.95rem;
-          color: #00182A;
-          text-align: left;
-        }
-
-        .toggle-left {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-
-        .accordion-content {
-          padding: 1.5rem;
-          border-top: 1px solid #E2E8F0;
-          display: flex;
-          flex-direction: column;
-          gap: 1.25rem;
-        }
-
-        .formula-step-block h4 {
-          font-size: 0.875rem;
-          font-weight: 700;
-          color: #00182A;
-          margin: 0 0 0.4rem 0;
-        }
-
-        .formula-step-block code {
-          display: block;
-          background: #F1F5F9;
-          padding: 0.6rem 0.85rem;
-          border-radius: 6px;
-          font-size: 0.8rem;
-          color: #0F172A;
-          word-break: break-word;
-        }
-
-        .formula-step-block ul {
-          padding-left: 1.25rem;
-          margin: 0;
-          font-size: 0.825rem;
-          color: #334155;
-          line-height: 1.6;
-        }
 
         .action-row-inside {
           margin-top: 0.5rem;
         }
 
         .btn-edit-assumptions {
-          background: #00182A;
-          color: #FFFFFF;
+          background: var(--color-primary-navy, #00182A);
+          color: var(--color-white, #FFFFFF);
           border: none;
           padding: 0.5rem 1rem;
           font-size: 0.8rem;
           font-weight: 600;
           border-radius: 6px;
           cursor: pointer;
+          transition: background var(--transition-fast, 0.2s);
         }
 
-        /* Results Consultation CTA */
-        .results-cta-card {
-          background: linear-gradient(135deg, #00182A 0%, #00365D 100%);
-          border-radius: 16px;
-          padding: 2.25rem;
-          color: #FFFFFF;
-          text-align: center;
+        .btn-edit-assumptions:hover {
+          background: #002B49;
         }
 
-        .cta-heading {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.5rem;
-          font-weight: 700;
-          margin: 0 0 0.5rem 0;
-        }
-
-        .cta-sub {
-          font-size: 0.95rem;
-          color: #CBD5E1;
-          max-width: 600px;
-          margin: 0 auto 1.5rem auto;
-          line-height: 1.5;
-        }
-
-        .cta-btn-row {
-          display: flex;
-          justify-content: center;
-          gap: 1rem;
-          margin-bottom: 1rem;
-        }
-
-        .btn-whatsapp-cta {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          background: #25D366;
-          color: #FFFFFF;
-          text-decoration: none;
-          font-size: 1rem;
-          font-weight: 700;
-          padding: 0.875rem 1.75rem;
-          border-radius: 8px;
-          box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
-          transition: all 0.2s ease;
-        }
-
-        .btn-whatsapp-cta:hover {
-          background: #20BA5A;
-          transform: translateY(-2px);
-        }
-
-        .btn-contact-secondary {
-          display: inline-flex;
-          align-items: center;
-          background: transparent;
-          color: #FFFFFF;
-          border: 1.5px solid rgba(255, 255, 255, 0.3);
-          text-decoration: none;
-          font-size: 0.95rem;
-          font-weight: 600;
-          padding: 0.875rem 1.5rem;
-          border-radius: 8px;
-          transition: all 0.2s ease;
-        }
-
-        .btn-contact-secondary:hover {
-          background: rgba(255, 255, 255, 0.1);
-          border-color: #FFFFFF;
-        }
-
-        .cta-disclaimer {
-          font-size: 0.75rem;
-          color: #94A3B8;
-          margin: 0;
+        .btn-edit-assumptions:focus-visible {
+          outline: 2px solid var(--color-primary-navy, #00182A);
+          outline-offset: 2px;
         }
 
         /* Responsive Layout Adjustments */
         @media (max-width: 840px) {
-          .stepper-list {
+          .insurance-calc-wrapper .stepper-list {
             grid-template-columns: repeat(3, 1fr);
           }
           .components-grid {
-            grid-template-columns: 1fr;
-          }
-          .inputs-grid {
             grid-template-columns: 1fr;
           }
           .assumptions-grid {
@@ -2074,34 +1548,8 @@ Can we connect to discuss this plan?`;
         }
 
         @media (max-width: 640px) {
-          .step-card {
-            padding: 1.5rem 1rem;
-          }
-          .calc-top-action-bar {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 0.75rem;
-          }
-          .action-btn-group {
-            justify-content: flex-end;
-          }
-          .stepper-list {
+          .insurance-calc-wrapper .stepper-list {
             grid-template-columns: repeat(3, 1fr);
-          }
-          .results-hero-card {
-            padding: 1.75rem 1rem 1.5rem;
-            border-radius: 16px;
-          }
-          .hero-heading {
-            font-size: 1.5rem !important;
-            margin-bottom: 1.25rem;
-          }
-          .primary-result-box {
-            padding: 1.5rem 1rem;
-            border-radius: 12px;
-          }
-          .result-main-number {
-            font-size: 2.35rem;
           }
           .rate-journey-track {
             flex-direction: column;
@@ -2116,15 +1564,6 @@ Can we connect to discuss this plan?`;
           }
           .comp-divider {
             display: none;
-          }
-          .cta-btn-row {
-            flex-direction: column;
-          }
-          .step-actions {
-            flex-direction: column-reverse;
-          }
-          .btn-continue, .btn-view-results {
-            width: 100%;
           }
         }
       `}</style>

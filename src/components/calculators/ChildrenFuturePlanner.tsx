@@ -426,12 +426,14 @@ export default function ChildrenFuturePlanner() {
                     <div className="goal-card-body">
                       {/* Goal Name Field */}
                       <div className="form-field-row">
-                        <label className="field-label">Milestone Name</label>
+                        <label htmlFor={`goal-name-${goal.id}`} className="field-label">Milestone Name</label>
                         <input
+                          id={`goal-name-${goal.id}`}
                           type="text"
                           value={goal.name}
                           onChange={(e) => handleUpdateGoal(goal.id, { name: e.target.value })}
                           className="text-input-field"
+                          aria-label={`Milestone Name for ${goal.name}`}
                         />
                       </div>
 
@@ -440,10 +442,11 @@ export default function ChildrenFuturePlanner() {
                         {/* Goal Age */}
                         <div className="field-block">
                           <div className="label-with-val">
-                            <label className="field-label">Child Age at Milestone</label>
+                            <label htmlFor={`goal-age-${goal.id}`} className="field-label">Child Age at Milestone</label>
                             <span className="val-display">{goal.goalAge} Yrs (Year {targetYear})</span>
                           </div>
                           <input
+                            id={`goal-age-${goal.id}`}
                             type="range"
                             min={childAge + 1}
                             max="35"
@@ -453,6 +456,7 @@ export default function ChildrenFuturePlanner() {
                               handleUpdateGoal(goal.id, { goalAge: Number(e.target.value) })
                             }
                             className="input-slider"
+                            aria-label={`Child Age at Milestone for ${goal.name}`}
                           />
                           <div className="slider-sub-text">
                             <span>{childAge + 1} Yrs</span>
@@ -464,10 +468,11 @@ export default function ChildrenFuturePlanner() {
                         {/* Estimated Cost Today */}
                         <div className="field-block">
                           <div className="label-with-val">
-                            <label className="field-label">Estimated Cost in Today Money</label>
+                            <label htmlFor={`goal-cost-${goal.id}`} className="field-label">Estimated Cost in Today Money</label>
                             <div className="currency-box">
                               <span className="currency-symbol">₹</span>
                               <input
+                                id={`goal-cost-${goal.id}`}
                                 type="number"
                                 min="50000"
                                 max="100000000"
@@ -479,6 +484,7 @@ export default function ChildrenFuturePlanner() {
                                   })
                                 }
                                 className="currency-input-field"
+                                aria-label={`Estimated cost in today money for ${goal.name}`}
                               />
                             </div>
                           </div>
@@ -494,6 +500,7 @@ export default function ChildrenFuturePlanner() {
                               })
                             }
                             className="input-slider"
+                            aria-label={`Estimated cost in today money slider for ${goal.name}`}
                           />
                           <div className="slider-sub-text">
                             <span>₹1 Lakh</span>
@@ -508,10 +515,11 @@ export default function ChildrenFuturePlanner() {
                         {/* Expected Cost Inflation */}
                         <div className="field-block">
                           <div className="label-with-val">
-                            <label className="field-label">Expected Cost Inflation</label>
+                            <label htmlFor={`goal-inflation-${goal.id}`} className="field-label">Expected Cost Inflation</label>
                             <span className="val-display">{goal.inflationRate ?? PLANNER_DEFAULTS.INFLATION_RATE}% / year</span>
                           </div>
                           <input
+                            id={`goal-inflation-${goal.id}`}
                             type="range"
                             min="3"
                             max="15"
@@ -523,6 +531,7 @@ export default function ChildrenFuturePlanner() {
                               })
                             }
                             className="input-slider"
+                            aria-label={`Expected Cost Inflation for ${goal.name}`}
                           />
                           <p className="field-hint-desc">
                             {getGoalInflationConfig(goal.type).explanation}
@@ -536,10 +545,11 @@ export default function ChildrenFuturePlanner() {
                         {/* Expected Return */}
                         <div className="field-block">
                           <div className="label-with-val">
-                            <label className="field-label">Expected Investment Return</label>
+                            <label htmlFor={`goal-return-${goal.id}`} className="field-label">Expected Investment Return</label>
                             <span className="val-display">{activeReturn}% / year</span>
                           </div>
                           <input
+                            id={`goal-return-${goal.id}`}
                             type="range"
                             min="4"
                             max="18"
@@ -552,6 +562,7 @@ export default function ChildrenFuturePlanner() {
                               })
                             }
                             className="input-slider"
+                            aria-label={`Expected Investment Return for ${goal.name}`}
                           />
                           <span className="field-hint">
                             Auto-default: {defaultHorizonReturn}% for {yearsRemaining}-year horizon.
@@ -582,10 +593,11 @@ export default function ChildrenFuturePlanner() {
 
                             <div className="asset-inputs-grid">
                               <div className="asset-input-item">
-                                <label className="asset-label">Mutual Funds (Today Value)</label>
+                                <label htmlFor={`asset-mf-${goal.id}`} className="asset-label">Mutual Funds (Today Value)</label>
                                 <div className="currency-box">
                                   <span className="currency-symbol">₹</span>
                                   <input
+                                    id={`asset-mf-${goal.id}`}
                                     type="number"
                                     min="0"
                                     step="10000"
@@ -599,15 +611,17 @@ export default function ChildrenFuturePlanner() {
                                     }
                                     placeholder="0"
                                     className="currency-input-field"
+                                    aria-label={`Earmarked Mutual Funds for ${goal.name}`}
                                   />
                                 </div>
                               </div>
 
                               <div className="asset-input-item">
-                                <label className="asset-label">Fixed Deposits (Today Value)</label>
+                                <label htmlFor={`asset-fd-${goal.id}`} className="asset-label">Fixed Deposits (Today Value)</label>
                                 <div className="currency-box">
                                   <span className="currency-symbol">₹</span>
                                   <input
+                                    id={`asset-fd-${goal.id}`}
                                     type="number"
                                     min="0"
                                     step="10000"
@@ -621,15 +635,17 @@ export default function ChildrenFuturePlanner() {
                                     }
                                     placeholder="0"
                                     className="currency-input-field"
+                                    aria-label={`Earmarked Fixed Deposits for ${goal.name}`}
                                   />
                                 </div>
                               </div>
 
                               <div className="asset-input-item">
-                                <label className="asset-label">Gold / Sovereign Gold Bonds</label>
+                                <label htmlFor={`asset-gold-${goal.id}`} className="asset-label">Gold / Sovereign Gold Bonds</label>
                                 <div className="currency-box">
                                   <span className="currency-symbol">₹</span>
                                   <input
+                                    id={`asset-gold-${goal.id}`}
                                     type="number"
                                     min="0"
                                     step="10000"
@@ -643,15 +659,17 @@ export default function ChildrenFuturePlanner() {
                                     }
                                     placeholder="0"
                                     className="currency-input-field"
+                                    aria-label={`Earmarked Gold and Sovereign Gold Bonds for ${goal.name}`}
                                   />
                                 </div>
                               </div>
 
                               <div className="asset-input-item">
-                                <label className="asset-label">Stocks / Shares</label>
+                                <label htmlFor={`asset-stocks-${goal.id}`} className="asset-label">Stocks / Shares</label>
                                 <div className="currency-box">
                                   <span className="currency-symbol">₹</span>
                                   <input
+                                    id={`asset-stocks-${goal.id}`}
                                     type="number"
                                     min="0"
                                     step="10000"
@@ -665,15 +683,17 @@ export default function ChildrenFuturePlanner() {
                                     }
                                     placeholder="0"
                                     className="currency-input-field"
+                                    aria-label={`Earmarked Stocks and Shares for ${goal.name}`}
                                   />
                                 </div>
                               </div>
 
                               <div className="asset-input-item">
-                                <label className="asset-label">Endowment / Insurance Policies</label>
+                                <label htmlFor={`asset-endowment-${goal.id}`} className="asset-label">Endowment / Insurance Policies</label>
                                 <div className="currency-box">
                                   <span className="currency-symbol">₹</span>
                                   <input
+                                    id={`asset-endowment-${goal.id}`}
                                     type="number"
                                     min="0"
                                     step="10000"
@@ -687,6 +707,7 @@ export default function ChildrenFuturePlanner() {
                                     }
                                     placeholder="0"
                                     className="currency-input-field"
+                                    aria-label={`Earmarked Endowment Policies for ${goal.name}`}
                                   />
                                 </div>
                               </div>
@@ -722,9 +743,10 @@ export default function ChildrenFuturePlanner() {
                           <div className="sub-accordion-content">
                             <div className="two-col-fields">
                               <div className="field-block">
-                                <label className="field-label">Start Investing After (Delay)</label>
+                                <label htmlFor={`goal-delay-${goal.id}`} className="field-label">Start Investing After (Delay)</label>
                                 <div className="input-with-suffix">
                                   <input
+                                    id={`goal-delay-${goal.id}`}
                                     type="number"
                                     min="0"
                                     max={Math.max(0, yearsRemaining - 1)}
@@ -735,6 +757,7 @@ export default function ChildrenFuturePlanner() {
                                       })
                                     }
                                     className="number-input-sm"
+                                    aria-label={`Delay start investing years for ${goal.name}`}
                                   />
                                   <span className="suffix-text">Years</span>
                                 </div>
@@ -742,9 +765,10 @@ export default function ChildrenFuturePlanner() {
                               </div>
 
                               <div className="field-block">
-                                <label className="field-label">Stop Investing Before Goal</label>
+                                <label htmlFor={`goal-stop-${goal.id}`} className="field-label">Stop Investing Before Goal</label>
                                 <div className="input-with-suffix">
                                   <input
+                                    id={`goal-stop-${goal.id}`}
                                     type="number"
                                     min="0"
                                     max={Math.max(0, yearsRemaining - (goal.startDelayYears || 0) - 1)}
@@ -755,6 +779,7 @@ export default function ChildrenFuturePlanner() {
                                       })
                                     }
                                     className="number-input-sm"
+                                    aria-label={`Stop investing early before goal years for ${goal.name}`}
                                   />
                                   <span className="suffix-text">Years</span>
                                 </div>
@@ -793,10 +818,11 @@ export default function ChildrenFuturePlanner() {
             </p>
             <div className="step-up-slider-wrapper">
               <div className="step-up-label-row">
-                <span className="slider-label">Annual Step-Up Increment Rate:</span>
+                <label htmlFor="global-step-up-slider" className="slider-label">Annual Step-Up Increment Rate:</label>
                 <span className="slider-val-badge">+{globalStepUp}% every year</span>
               </div>
               <input
+                id="global-step-up-slider"
                 type="range"
                 min="0"
                 max="25"
@@ -804,6 +830,7 @@ export default function ChildrenFuturePlanner() {
                 value={globalStepUp}
                 onChange={(e) => setGlobalStepUp(Number(e.target.value))}
                 className="input-slider"
+                aria-label="Annual Step-Up Increment Rate slider"
               />
               <div className="slider-sub-text">
                 <span>0% (Fixed SIP)</span>
@@ -1039,15 +1066,15 @@ export default function ChildrenFuturePlanner() {
           gap: 2rem;
           max-width: 1320px;
           margin: 0 auto;
-          font-family: 'Inter', -apple-system, sans-serif;
+          font-family: var(--font-body);
         }
 
         /* Profile Top Card */
         .planner-profile-card {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
-          border-radius: 16px;
+          background: linear-gradient(135deg, var(--color-primary-navy) 0%, #002B49 100%);
+          border-radius: var(--radius-lg);
           padding: 1.75rem 2rem;
-          color: #FFFFFF;
+          color: var(--color-white);
           box-shadow: 0 10px 30px rgba(0, 24, 42, 0.12);
         }
 
@@ -1067,7 +1094,7 @@ export default function ChildrenFuturePlanner() {
         .profile-label {
           font-size: 0.85rem;
           font-weight: 600;
-          color: #94A3B8;
+          color: var(--color-slate-light);
           text-transform: uppercase;
           letter-spacing: 0.05em;
         }
@@ -1075,18 +1102,23 @@ export default function ChildrenFuturePlanner() {
         .profile-text-input {
           background-color: rgba(255, 255, 255, 0.1);
           border: 1px solid rgba(255, 255, 255, 0.2);
-          border-radius: 8px;
+          border-radius: var(--radius-sm);
           padding: 0.75rem 1rem;
           font-size: 1.1rem;
           font-weight: 700;
-          color: #FFFFFF;
+          color: var(--color-white);
           outline: none;
-          transition: all 0.2s;
+          transition: all var(--transition-fast);
         }
 
         .profile-text-input:focus {
-          border-color: #00AB96;
+          border-color: var(--color-growth-teal);
           background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .profile-text-input:focus-visible {
+          outline: 2px solid var(--color-white);
+          outline-offset: 2px;
         }
 
         .age-label-row {
@@ -1096,25 +1128,30 @@ export default function ChildrenFuturePlanner() {
         }
 
         .age-badge {
-          background-color: #00AB96;
-          color: #FFFFFF;
+          background-color: var(--color-growth-teal);
+          color: var(--color-white);
           font-size: 0.85rem;
           font-weight: 700;
           padding: 0.2rem 0.6rem;
-          border-radius: 9999px;
+          border-radius: var(--radius-full);
         }
 
         .profile-range-slider {
           width: 100%;
-          accent-color: #00AB96;
+          accent-color: var(--color-growth-teal);
           height: 6px;
           border-radius: 3px;
           cursor: pointer;
         }
 
+        .profile-range-slider:focus-visible {
+          outline: 2px solid var(--color-white);
+          outline-offset: 4px;
+        }
+
         .profile-meta-group {
           background-color: rgba(255, 255, 255, 0.06);
-          border-radius: 12px;
+          border-radius: var(--radius-md);
           padding: 1rem 1.25rem;
           border: 1px solid rgba(255, 255, 255, 0.1);
           text-align: right;
@@ -1122,17 +1159,17 @@ export default function ChildrenFuturePlanner() {
 
         .meta-tag {
           font-size: 0.75rem;
-          color: #94A3B8;
+          color: var(--color-slate-light);
           text-transform: uppercase;
           letter-spacing: 0.05em;
           display: block;
         }
 
         .meta-year {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.6rem;
           font-weight: 800;
-          color: #FFC107;
+          color: var(--color-warm-gold);
           line-height: 1.2;
           margin: 0.2rem 0;
         }
@@ -1165,36 +1202,41 @@ export default function ChildrenFuturePlanner() {
         }
 
         .section-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.5rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 0.35rem;
         }
 
         .section-subtitle {
           font-size: 0.9rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin: 0;
           line-height: 1.5;
         }
 
         .btn-add-goal-header {
-          background-color: #00AB96;
-          color: #FFFFFF;
+          background-color: var(--color-growth-teal);
+          color: var(--color-white);
           border: none;
           padding: 0.55rem 1rem;
-          border-radius: 8px;
+          border-radius: var(--radius-sm);
           font-weight: 700;
           font-size: 0.85rem;
           cursor: pointer;
           white-space: nowrap;
-          transition: all 0.2s;
+          transition: all var(--transition-fast);
         }
 
         .btn-add-goal-header:hover {
-          background-color: #008f7d;
+          background-color: var(--color-growth-teal-hover);
           transform: translateY(-1px);
+        }
+
+        .btn-add-goal-header:focus-visible {
+          outline: 2px solid var(--color-primary-navy);
+          outline-offset: 2px;
         }
 
         /* Goal Cards Stack */
@@ -1205,16 +1247,16 @@ export default function ChildrenFuturePlanner() {
         }
 
         .goal-builder-card {
-          background-color: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
+          background-color: var(--color-white);
+          border: 1.5px solid var(--color-border);
           border-radius: 14px;
           overflow: hidden;
-          transition: all 0.25s ease;
+          transition: all var(--transition-normal);
           box-shadow: 0 2px 8px rgba(0, 24, 42, 0.03);
         }
 
         .goal-builder-card.card-expanded {
-          border-color: #00AB96;
+          border-color: var(--color-growth-teal);
           box-shadow: 0 8px 24px rgba(0, 171, 150, 0.08);
         }
 
@@ -1224,7 +1266,7 @@ export default function ChildrenFuturePlanner() {
           justify-content: space-between;
           align-items: center;
           cursor: pointer;
-          background-color: #FAFCFD;
+          background-color: var(--color-bg-light);
           user-select: none;
         }
 
@@ -1236,13 +1278,13 @@ export default function ChildrenFuturePlanner() {
 
         .goal-icon-badge {
           font-size: 1.75rem;
-          background-color: rgba(0, 171, 150, 0.08);
+          background-color: var(--color-growth-teal-light);
           width: 48px;
           height: 48px;
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 12px;
+          border-radius: var(--radius-md);
         }
 
         .goal-title-line {
@@ -1255,17 +1297,17 @@ export default function ChildrenFuturePlanner() {
         .goal-name-text {
           font-weight: 800;
           font-size: 1.05rem;
-          color: #00182A;
-          font-family: 'Outfit', sans-serif;
+          color: var(--color-primary-navy);
+          font-family: var(--font-heading);
         }
 
         .goal-age-pill {
-          background-color: #E6FFFA;
-          color: #008F7D;
+          background-color: var(--color-growth-teal-light);
+          color: var(--color-growth-teal-hover);
           font-size: 0.75rem;
           font-weight: 700;
           padding: 0.2rem 0.6rem;
-          border-radius: 9999px;
+          border-radius: var(--radius-full);
         }
 
         .goal-quick-meta {
@@ -1273,7 +1315,7 @@ export default function ChildrenFuturePlanner() {
           align-items: center;
           gap: 0.5rem;
           font-size: 0.85rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin-top: 0.25rem;
         }
 
@@ -1299,42 +1341,52 @@ export default function ChildrenFuturePlanner() {
         .btn-remove-goal {
           background: none;
           border: 1px solid #CBD5E1;
-          color: #EF4444;
+          color: var(--color-danger);
           width: 34px;
           height: 34px;
-          border-radius: 8px;
+          border-radius: var(--radius-sm);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: all var(--transition-fast);
         }
 
         .btn-remove-goal:hover {
           background-color: #FEF2F2;
-          border-color: #EF4444;
+          border-color: var(--color-danger);
+        }
+
+        .btn-remove-goal:focus-visible {
+          outline: 2px solid var(--color-danger);
+          outline-offset: 2px;
         }
 
         .btn-expand-toggle {
-          background-color: #F1F5F9;
+          background-color: var(--color-bg-subtle);
           border: 1px solid #CBD5E1;
-          color: #334155;
+          color: var(--color-slate-text);
           font-size: 0.8rem;
           font-weight: 700;
           padding: 0.45rem 0.8rem;
-          border-radius: 8px;
+          border-radius: var(--radius-sm);
           cursor: pointer;
-          transition: all 0.2s;
+          transition: all var(--transition-fast);
         }
 
         .btn-expand-toggle:hover {
-          background-color: #E2E8F0;
+          background-color: var(--color-border);
+        }
+
+        .btn-expand-toggle:focus-visible {
+          outline: 2px solid var(--color-primary-navy);
+          outline-offset: 2px;
         }
 
         /* Goal Body */
         .goal-card-body {
           padding: 1.5rem;
-          border-top: 1px solid #E2E8F0;
+          border-top: 1px solid var(--color-border);
           display: flex;
           flex-direction: column;
           gap: 1.25rem;
@@ -1349,15 +1401,20 @@ export default function ChildrenFuturePlanner() {
         .text-input-field {
           padding: 0.65rem 0.9rem;
           border: 1.5px solid #CBD5E1;
-          border-radius: 8px;
+          border-radius: var(--radius-sm);
           font-size: 0.95rem;
           font-weight: 600;
-          color: #00182A;
+          color: var(--color-primary-navy);
           outline: none;
         }
 
         .text-input-field:focus {
-          border-color: #00AB96;
+          border-color: var(--color-growth-teal);
+        }
+
+        .text-input-field:focus-visible {
+          outline: 2px solid var(--color-primary-navy);
+          outline-offset: 1px;
         }
 
         .two-col-fields {
@@ -1381,27 +1438,31 @@ export default function ChildrenFuturePlanner() {
         .field-label {
           font-size: 0.85rem;
           font-weight: 700;
-          color: #334155;
+          color: var(--color-slate-text);
         }
 
         .val-display {
           font-size: 0.85rem;
           font-weight: 700;
-          color: #00AB96;
+          color: var(--color-growth-teal);
         }
 
         .currency-box {
           display: flex;
           align-items: center;
           border: 1.5px solid #CBD5E1;
-          border-radius: 8px;
+          border-radius: var(--radius-sm);
           padding: 0.2rem 0.6rem;
-          background-color: #FFFFFF;
+          background-color: var(--color-white);
+        }
+
+        .currency-box:focus-within {
+          border-color: var(--color-growth-teal);
         }
 
         .currency-symbol {
           font-weight: 700;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin-right: 0.25rem;
         }
 
@@ -1410,34 +1471,39 @@ export default function ChildrenFuturePlanner() {
           outline: none;
           font-size: 0.95rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           width: 100%;
         }
 
         .input-slider {
           width: 100%;
-          accent-color: #00AB96;
+          accent-color: var(--color-growth-teal);
           height: 6px;
           border-radius: 3px;
           cursor: pointer;
+        }
+
+        .input-slider:focus-visible {
+          outline: 2px solid var(--color-primary-navy);
+          outline-offset: 4px;
         }
 
         .slider-sub-text, .slider-ticks {
           display: flex;
           justify-content: space-between;
           font-size: 0.75rem;
-          color: #94A3B8;
+          color: var(--color-slate-light);
         }
 
         .field-hint {
           font-size: 0.75rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           line-height: 1.4;
         }
 
         .field-hint-desc {
           font-size: 0.785rem;
-          color: #475569;
+          color: var(--color-slate-text);
           line-height: 1.45;
           margin-top: 0.35rem;
           margin-bottom: 0.25rem;
@@ -1445,7 +1511,7 @@ export default function ChildrenFuturePlanner() {
 
         .field-range-helper {
           font-size: 0.735rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           display: flex;
           flex-wrap: wrap;
           gap: 0.35rem;
@@ -1454,25 +1520,25 @@ export default function ChildrenFuturePlanner() {
 
         .range-highlight {
           font-weight: 600;
-          color: #00AB96;
+          color: var(--color-growth-teal);
         }
 
         .range-qualifier {
-          color: #94A3B8;
+          color: var(--color-slate-light);
         }
 
         .muted-val {
-          color: #94A3B8 !important;
+          color: var(--color-slate-light) !important;
           font-size: 0.95rem !important;
           font-weight: 600 !important;
         }
 
         /* Sub-Accordions for Assets & Timing */
         .sub-accordion-box {
-          border: 1px solid #E2E8F0;
+          border: 1px solid var(--color-border);
           border-radius: 10px;
           overflow: hidden;
-          background-color: #F8FAFC;
+          background-color: var(--color-bg-light);
         }
 
         .sub-accordion-toggle {
@@ -1485,18 +1551,23 @@ export default function ChildrenFuturePlanner() {
           align-items: center;
           font-size: 0.85rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           cursor: pointer;
         }
 
         .sub-accordion-toggle:hover {
-          background-color: #F1F5F9;
+          background-color: var(--color-bg-subtle);
+        }
+
+        .sub-accordion-toggle:focus-visible {
+          outline: 2px solid var(--color-primary-navy);
+          outline-offset: -2px;
         }
 
         .sub-accordion-content {
           padding: 1rem 1.25rem 1.25rem;
-          border-top: 1px solid #E2E8F0;
-          background-color: #FFFFFF;
+          border-top: 1px solid var(--color-border);
+          background-color: var(--color-white);
           display: flex;
           flex-direction: column;
           gap: 1rem;
@@ -1504,7 +1575,7 @@ export default function ChildrenFuturePlanner() {
 
         .assets-intro-note {
           font-size: 0.82rem;
-          color: #475569;
+          color: var(--color-slate-text);
           margin: 0;
           line-height: 1.5;
         }
@@ -1524,13 +1595,13 @@ export default function ChildrenFuturePlanner() {
         .asset-label {
           font-size: 0.78rem;
           font-weight: 600;
-          color: #475569;
+          color: var(--color-slate-text);
         }
 
         .asset-projection-preview {
           background-color: #F0FDF4;
           border: 1px solid #BBF7D0;
-          border-radius: 8px;
+          border-radius: var(--radius-sm);
           padding: 0.75rem 1rem;
           display: flex;
           align-items: center;
@@ -1542,16 +1613,20 @@ export default function ChildrenFuturePlanner() {
 
         .preview-arrow {
           font-weight: 800;
-          color: #00AB96;
+          color: var(--color-growth-teal);
         }
 
         .input-with-suffix {
           display: flex;
           align-items: center;
           border: 1.5px solid #CBD5E1;
-          border-radius: 8px;
+          border-radius: var(--radius-sm);
           padding: 0.4rem 0.75rem;
-          background-color: #FFFFFF;
+          background-color: var(--color-white);
+        }
+
+        .input-with-suffix:focus-within {
+          border-color: var(--color-growth-teal);
         }
 
         .number-input-sm {
@@ -1559,14 +1634,14 @@ export default function ChildrenFuturePlanner() {
           outline: none;
           font-size: 0.95rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           width: 60px;
         }
 
         .suffix-text {
           font-size: 0.85rem;
           font-weight: 600;
-          color: #64748B;
+          color: var(--color-slate-muted);
         }
 
         /* Add Goal Bottom Button */
@@ -1577,14 +1652,14 @@ export default function ChildrenFuturePlanner() {
         .btn-add-goal-large {
           width: 100%;
           padding: 0.9rem 1.5rem;
-          background-color: #FFFFFF;
-          border: 2px dashed #00AB96;
-          border-radius: 12px;
-          color: #00AB96;
+          background-color: var(--color-white);
+          border: 2px dashed var(--color-growth-teal);
+          border-radius: var(--radius-md);
+          color: var(--color-growth-teal);
           font-weight: 700;
           font-size: 0.95rem;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: all var(--transition-fast);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1592,8 +1667,13 @@ export default function ChildrenFuturePlanner() {
         }
 
         .btn-add-goal-large:hover {
-          background-color: #F0FDFA;
+          background-color: var(--color-growth-teal-light);
           border-style: solid;
+        }
+
+        .btn-add-goal-large:focus-visible {
+          outline: 2px solid var(--color-primary-navy);
+          outline-offset: 2px;
         }
 
         .plus-icon {
@@ -1603,8 +1683,8 @@ export default function ChildrenFuturePlanner() {
 
         /* Global Assumptions Card */
         .global-assumptions-card {
-          background-color: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
+          background-color: var(--color-white);
+          border: 1.5px solid var(--color-border);
           border-radius: 14px;
           padding: 1.5rem;
         }
@@ -1619,10 +1699,10 @@ export default function ChildrenFuturePlanner() {
         }
 
         .assumptions-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.15rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0;
         }
 
@@ -1632,12 +1712,12 @@ export default function ChildrenFuturePlanner() {
           font-size: 0.75rem;
           font-weight: 700;
           padding: 0.2rem 0.6rem;
-          border-radius: 9999px;
+          border-radius: var(--radius-full);
         }
 
         .assumptions-desc {
           font-size: 0.85rem;
-          color: #475569;
+          color: var(--color-slate-text);
           line-height: 1.5;
           margin: 0 0 1rem;
         }
@@ -1656,11 +1736,11 @@ export default function ChildrenFuturePlanner() {
         }
 
         .slider-label {
-          color: #334155;
+          color: var(--color-slate-text);
         }
 
         .slider-val-badge {
-          color: #00AB96;
+          color: var(--color-growth-teal);
         }
 
         /* Modal / Drawer */
@@ -1679,7 +1759,7 @@ export default function ChildrenFuturePlanner() {
         }
 
         .modal-content {
-          background-color: #FFFFFF;
+          background-color: var(--color-white);
           border-radius: 16px;
           max-width: 600px;
           width: 100%;
@@ -1697,10 +1777,10 @@ export default function ChildrenFuturePlanner() {
         }
 
         .modal-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.25rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0;
         }
 
@@ -1708,8 +1788,13 @@ export default function ChildrenFuturePlanner() {
           background: none;
           border: none;
           font-size: 1.25rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           cursor: pointer;
+        }
+
+        .modal-close-btn:focus-visible {
+          outline: 2px solid var(--color-primary-navy);
+          outline-offset: 2px;
         }
 
         .preset-grid {
@@ -1723,18 +1808,23 @@ export default function ChildrenFuturePlanner() {
           align-items: center;
           gap: 1rem;
           padding: 0.85rem 1rem;
-          background-color: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background-color: var(--color-bg-light);
+          border: 1px solid var(--color-border);
           border-radius: 10px;
           text-align: left;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: all var(--transition-fast);
         }
 
         .preset-card-btn:hover {
-          background-color: #F0FDFA;
-          border-color: #00AB96;
+          background-color: var(--color-growth-teal-light);
+          border-color: var(--color-growth-teal);
           transform: translateY(-2px);
+        }
+
+        .preset-card-btn:focus-visible {
+          outline: 2px solid var(--color-primary-navy);
+          outline-offset: 2px;
         }
 
         .preset-btn-icon {
@@ -1749,12 +1839,12 @@ export default function ChildrenFuturePlanner() {
         .preset-btn-name {
           font-weight: 700;
           font-size: 0.95rem;
-          color: #00182A;
+          color: var(--color-primary-navy);
         }
 
         .preset-btn-desc {
           font-size: 0.8rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
         }
 
         /* RIGHT COLUMN: Results Dashboard */
@@ -1768,10 +1858,10 @@ export default function ChildrenFuturePlanner() {
 
         /* Hero Results Card */
         .results-hero-card {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
+          background: linear-gradient(135deg, var(--color-primary-navy) 0%, #002B49 100%);
           border-radius: 16px;
           padding: 2rem;
-          color: #FFFFFF;
+          color: var(--color-white);
           box-shadow: 0 10px 30px rgba(0, 24, 42, 0.12);
         }
 
@@ -1787,29 +1877,29 @@ export default function ChildrenFuturePlanner() {
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.05em;
-          color: #00AB96;
+          color: var(--color-growth-teal);
         }
 
         .hero-child-tag {
           background-color: rgba(255, 255, 255, 0.1);
           padding: 0.2rem 0.6rem;
-          border-radius: 9999px;
+          border-radius: var(--radius-full);
           font-size: 0.75rem;
           font-weight: 600;
-          color: #E2E8F0;
+          color: var(--color-border);
         }
 
         .hero-subtext {
           font-size: 0.85rem;
-          color: #94A3B8;
+          color: var(--color-slate-light);
           display: block;
         }
 
         .hero-main-figure {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 2.5rem;
           font-weight: 800;
-          color: #FFFFFF;
+          color: var(--color-white);
           line-height: 1.1;
           margin: 0.35rem 0;
         }
@@ -1837,20 +1927,20 @@ export default function ChildrenFuturePlanner() {
         }
 
         .progress-percent-badge {
-          color: #FFC107;
+          color: var(--color-warm-gold);
         }
 
         .progress-track {
           height: 8px;
           background-color: rgba(255, 255, 255, 0.15);
-          border-radius: 9999px;
+          border-radius: var(--radius-full);
           overflow: hidden;
         }
 
         .progress-fill {
           height: 100%;
-          background: linear-gradient(90deg, #00AB96 0%, #FFC107 100%);
-          border-radius: 9999px;
+          background: linear-gradient(90deg, var(--color-growth-teal) 0%, var(--color-warm-gold) 100%);
+          border-radius: var(--radius-full);
           transition: width 0.4s ease;
         }
 
@@ -1871,43 +1961,43 @@ export default function ChildrenFuturePlanner() {
 
         .metric-lbl {
           font-size: 0.72rem;
-          color: #94A3B8;
+          color: var(--color-slate-light);
         }
 
         .metric-val {
           font-size: 1rem;
           font-weight: 700;
-          color: #FFFFFF;
+          color: var(--color-white);
         }
 
         .teal-text {
-          color: #00AB96 !important;
+          color: var(--color-growth-teal) !important;
         }
 
         .gold-text {
-          color: #FFC107 !important;
+          color: var(--color-warm-gold) !important;
         }
 
         /* 3 Strategies Cards */
         .strategies-container {
-          background-color: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
+          background-color: var(--color-white);
+          border: 1.5px solid var(--color-border);
           border-radius: 16px;
           padding: 1.75rem;
           box-shadow: 0 4px 15px rgba(0, 24, 42, 0.04);
         }
 
         .strategies-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.25rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 0.25rem;
         }
 
         .strategies-subtitle {
           font-size: 0.85rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin: 0 0 1.25rem;
         }
 
@@ -1918,29 +2008,29 @@ export default function ChildrenFuturePlanner() {
         }
 
         .strategy-card {
-          border: 1.5px solid #E2E8F0;
+          border: 1.5px solid var(--color-border);
           border-radius: 12px;
           padding: 1.25rem;
           background-color: #FAFCFD;
           position: relative;
-          transition: all 0.2s;
+          transition: all var(--transition-fast);
         }
 
         .strategy-card.strategy-featured {
-          border-color: #00AB96;
-          background-color: #F0FDFA;
+          border-color: var(--color-growth-teal);
+          background-color: var(--color-growth-teal-light);
         }
 
         .featured-badge {
           position: absolute;
           top: -10px;
           right: 14px;
-          background-color: #FFC107;
-          color: #00182A;
+          background-color: var(--color-warm-gold);
+          color: var(--color-primary-navy);
           font-size: 0.72rem;
           font-weight: 800;
           padding: 0.2rem 0.6rem;
-          border-radius: 9999px;
+          border-radius: var(--radius-full);
           box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
@@ -1949,40 +2039,40 @@ export default function ChildrenFuturePlanner() {
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.05em;
-          color: #64748B;
+          color: var(--color-slate-muted);
         }
 
         .strategy-name {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.05rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0.15rem 0 0.5rem;
         }
 
         .strategy-amount {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.5rem;
           font-weight: 800;
-          color: #008F7D;
+          color: var(--color-growth-teal-hover);
         }
 
         .amount-period {
           font-size: 0.9rem;
           font-weight: 600;
-          color: #64748B;
+          color: var(--color-slate-muted);
         }
 
         .strategy-increment-note {
           font-size: 0.78rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0.2rem 0 0.5rem;
         }
 
         .strategy-explanation {
           font-size: 0.8rem;
-          color: #475569;
+          color: var(--color-slate-text);
           margin: 0;
           line-height: 1.4;
         }
@@ -2004,7 +2094,7 @@ export default function ChildrenFuturePlanner() {
         .banner-text h4 {
           margin: 0 0 0.25rem;
           color: #166534;
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
         }
 
         .banner-text p {
@@ -2016,18 +2106,18 @@ export default function ChildrenFuturePlanner() {
 
         /* Milestones Results Breakdown */
         .milestones-breakdown-section {
-          background-color: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
+          background-color: var(--color-white);
+          border: 1.5px solid var(--color-border);
           border-radius: 16px;
           padding: 1.75rem;
           box-shadow: 0 4px 15px rgba(0, 24, 42, 0.04);
         }
 
         .breakdown-section-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.15rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 1rem;
         }
 
@@ -2038,10 +2128,10 @@ export default function ChildrenFuturePlanner() {
         }
 
         .milestone-result-card {
-          border: 1px solid #E2E8F0;
+          border: 1px solid var(--color-border);
           border-radius: 10px;
           padding: 1rem;
-          background-color: #F8FAFC;
+          background-color: var(--color-bg-light);
           display: flex;
           flex-direction: column;
           gap: 0.75rem;
@@ -2065,16 +2155,16 @@ export default function ChildrenFuturePlanner() {
         }
 
         .res-title-text {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 0.95rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0;
         }
 
         .res-subtitle-text {
           font-size: 0.75rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
         }
 
         .milestone-res-future {
@@ -2083,14 +2173,14 @@ export default function ChildrenFuturePlanner() {
 
         .future-tag {
           font-size: 0.7rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           display: block;
         }
 
         .future-val {
           font-weight: 800;
           font-size: 1rem;
-          color: #00182A;
+          color: var(--color-primary-navy);
         }
 
         .milestone-metrics-row {
@@ -2108,19 +2198,19 @@ export default function ChildrenFuturePlanner() {
         }
 
         .m-lbl {
-          color: #64748B;
+          color: var(--color-slate-muted);
         }
 
         .m-val {
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
         }
 
         .milestone-sip-summary {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          background-color: #FFFFFF;
+          background-color: var(--color-white);
           border-radius: 6px;
           padding: 0.4rem 0.75rem;
           font-size: 0.78rem;
@@ -2135,16 +2225,16 @@ export default function ChildrenFuturePlanner() {
         }
 
         .sip-item-lbl {
-          color: #475569;
+          color: var(--color-slate-text);
         }
 
         .sip-item-val {
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
         }
 
         .teal-val {
-          color: #008F7D;
+          color: var(--color-growth-teal-hover);
         }
 
         .milestone-funded-note {
@@ -2155,10 +2245,10 @@ export default function ChildrenFuturePlanner() {
 
         /* Advisory Soft CTA Card */
         .advisory-cta-card {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
+          background: linear-gradient(135deg, var(--color-primary-navy) 0%, #002B49 100%);
           border-radius: 16px;
           padding: 1.75rem;
-          color: #FFFFFF;
+          color: var(--color-white);
           display: flex;
           gap: 1.25rem;
           align-items: flex-start;
@@ -2170,7 +2260,7 @@ export default function ChildrenFuturePlanner() {
           background-color: rgba(255, 255, 255, 0.1);
           width: 52px;
           height: 52px;
-          border-radius: 12px;
+          border-radius: var(--radius-md);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -2178,10 +2268,10 @@ export default function ChildrenFuturePlanner() {
         }
 
         .cta-heading {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.15rem;
           font-weight: 800;
-          color: #FFFFFF;
+          color: var(--color-white);
           margin: 0 0 0.5rem;
           line-height: 1.35;
         }
@@ -2205,13 +2295,13 @@ export default function ChildrenFuturePlanner() {
           justify-content: center;
           gap: 0.6rem;
           background-color: #25D366;
-          color: #FFFFFF;
+          color: var(--color-white);
           padding: 0.75rem 1.25rem;
           border-radius: 10px;
           font-weight: 700;
           font-size: 0.9rem;
           text-decoration: none;
-          transition: all 0.2s;
+          transition: all var(--transition-fast);
         }
 
         .btn-whatsapp-action:hover {
@@ -2219,36 +2309,46 @@ export default function ChildrenFuturePlanner() {
           transform: translateY(-2px);
         }
 
+        .btn-whatsapp-action:focus-visible {
+          outline: 2px solid var(--color-white);
+          outline-offset: 2px;
+        }
+
         .btn-secondary-action {
           display: inline-flex;
           align-items: center;
           justify-content: center;
           background-color: rgba(255, 255, 255, 0.1);
-          color: #FFFFFF;
+          color: var(--color-white);
           padding: 0.65rem 1.25rem;
           border-radius: 10px;
           font-weight: 600;
           font-size: 0.85rem;
           text-decoration: none;
           border: 1px solid rgba(255, 255, 255, 0.2);
-          transition: all 0.2s;
+          transition: all var(--transition-fast);
         }
 
         .btn-secondary-action:hover {
           background-color: rgba(255, 255, 255, 0.15);
         }
 
+        .btn-secondary-action:focus-visible {
+          outline: 2px solid var(--color-white);
+          outline-offset: 2px;
+        }
+
         /* Regulatory Disclaimer */
         .regulatory-disclaimer-box {
-          background-color: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background-color: var(--color-bg-light);
+          border: 1px solid var(--color-border);
           border-radius: 10px;
           padding: 1rem 1.25rem;
         }
 
         .disclaimer-note {
           font-size: 0.75rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           line-height: 1.5;
           margin: 0;
         }

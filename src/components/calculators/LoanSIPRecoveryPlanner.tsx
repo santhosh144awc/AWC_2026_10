@@ -1003,15 +1003,15 @@ Can we connect to discuss this plan?`;
                   <svg
                     viewBox={`0 0 ${width} ${height}`}
                     className="recovery-svg"
-                    role="img"
-                    aria-label="SIP Compounding and Loan Recovery Target Chart"
+                    role="region"
+                    aria-label="SIP Compounding and Loan Recovery Target interactive chart. Use Tab to inspect recovery milestones and checkpoints, or review the plan summary below."
                   >
                     {/* Horizontal Grid lines */}
                     {[0, 0.25, 0.5, 0.75, 1].map((pct, i) => {
                       const val = maxVal * pct;
                       const y = getY(val);
                       return (
-                        <g key={i} className="grid-group">
+                        <g key={i} className="grid-group" aria-hidden="true">
                           <line x1={padding.left} y1={y} x2={width - padding.right} y2={y} stroke="#E2E8F0" strokeDasharray="4,4" />
                           <text x={padding.left - 10} y={y + 4} textAnchor="end" fontSize="11" fill="#64748B">
                             {formatLakhsCrores(val)}
@@ -1026,7 +1026,7 @@ Can we connect to discuss this plan?`;
                       if (m > totalMonths) return null;
                       const x = getX(m);
                       return (
-                        <g key={yr} className="x-tick-group">
+                        <g key={yr} className="x-tick-group" aria-hidden="true">
                           <line x1={x} y1={padding.top} x2={x} y2={height - padding.bottom} stroke="#F1F5F9" />
                           <text x={x} y={height - padding.bottom + 20} textAnchor="middle" fontSize="11" fill="#64748B">
                             Yr {yr}
@@ -1037,7 +1037,7 @@ Can we connect to discuss this plan?`;
 
                     {/* Loan Tenure Maturity Vertical Line */}
                     {loanMaturityMonth <= totalMonths && (
-                      <g className="maturity-marker-group">
+                      <g className="maturity-marker-group" aria-hidden="true">
                         <line
                           x1={getX(loanMaturityMonth)}
                           y1={padding.top}
@@ -1062,6 +1062,7 @@ Can we connect to discuss this plan?`;
 
                     {/* Target Line 1: Total Loan Interest */}
                     <line
+                      aria-hidden="true"
                       x1={padding.left}
                       y1={yInterestTarget}
                       x2={width - padding.right}
@@ -1073,6 +1074,7 @@ Can we connect to discuss this plan?`;
 
                     {/* Target Line 2: Complete Loan Cost */}
                     <line
+                      aria-hidden="true"
                       x1={padding.left}
                       y1={yCompleteTarget}
                       x2={width - padding.right}
@@ -1084,6 +1086,7 @@ Can we connect to discuss this plan?`;
 
                     {/* SIP Compounding Curve Area Fill */}
                     <polygon
+                      aria-hidden="true"
                       points={`${padding.left},${height - padding.bottom} ${sipPoints} ${getX(totalMonths)},${height - padding.bottom}`}
                       fill="url(#sipGradient)"
                       opacity="0.25"
@@ -1091,6 +1094,7 @@ Can we connect to discuss this plan?`;
 
                     {/* SIP Compounding Line */}
                     <polyline
+                      aria-hidden="true"
                       points={sipPoints}
                       fill="none"
                       stroke="#0F766E"
@@ -1099,43 +1103,127 @@ Can we connect to discuss this plan?`;
                     />
 
                     {/* Milestone Pin: Interest Recovery */}
-                    {intMonth && intMonth <= totalMonths && (
-                      <g className="milestone-pin-group">
-                        <circle cx={getX(intMonth)} cy={yInterestTarget} r="6" fill="#F59E0B" stroke="#FFFFFF" strokeWidth="2" />
-                        <text
-                          x={getX(intMonth)}
-                          y={yInterestTarget - 10}
-                          textAnchor="middle"
-                          fontSize="10"
-                          fontWeight="bold"
-                          fill="#D97706"
-                        >
-                          ★ Interest Target ({formatYearsAndMonths(intMonth)})
-                        </text>
-                      </g>
-                    )}
+                    {intMonth && intMonth <= totalMonths && (() => {
+                      const intIdx = displayRows.findIndex((r) => r.monthNumber === intMonth);
+                      const isSelected = hoveredPointIndex === intIdx;
+                      return (
+                        <g className="milestone-pin-group">
+                          <circle
+                            cx={getX(intMonth)}
+                            cy={yInterestTarget}
+                            r={isSelected ? 8 : 6}
+                            fill="#F59E0B"
+                            stroke="#FFFFFF"
+                            strokeWidth="2"
+                            tabIndex={0}
+                            role="button"
+                            className="chart-milestone-pin"
+                            aria-label={`Milestone: Total Interest Recovery Target reached at ${formatYearsAndMonths(intMonth)}. Target amount: ${formatIndianCurrency(plan.loanDetails.totalInterest)}.`}
+                            aria-pressed={isSelected}
+                            onFocus={() => { if (intIdx >= 0) setHoveredPointIndex(intIdx); }}
+                            onClick={() => { if (intIdx >= 0) setHoveredPointIndex(intIdx); }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                if (intIdx >= 0) setHoveredPointIndex(intIdx);
+                              }
+                            }}
+                          />
+                          <text
+                            aria-hidden="true"
+                            x={getX(intMonth)}
+                            y={yInterestTarget - 10}
+                            textAnchor="middle"
+                            fontSize="10"
+                            fontWeight="bold"
+                            fill="#D97706"
+                          >
+                            ★ Interest Target ({formatYearsAndMonths(intMonth)})
+                          </text>
+                        </g>
+                      );
+                    })()}
 
                     {/* Milestone Pin: Complete Loan Cost Recovery */}
-                    {compMonth && compMonth <= totalMonths && (
-                      <g className="milestone-pin-group">
-                        <circle cx={getX(compMonth)} cy={yCompleteTarget} r="7" fill="#008080" stroke="#FFFFFF" strokeWidth="2.5" />
-                        <text
-                          x={getX(compMonth)}
-                          y={yCompleteTarget - 12}
-                          textAnchor="middle"
-                          fontSize="11"
-                          fontWeight="bold"
-                          fill="#0F766E"
-                        >
-                          ★ Complete Recovery ({formatYearsAndMonths(compMonth)})
-                        </text>
-                      </g>
-                    )}
+                    {compMonth && compMonth <= totalMonths && (() => {
+                      const compIdx = displayRows.findIndex((r) => r.monthNumber === compMonth);
+                      const isSelected = hoveredPointIndex === compIdx;
+                      return (
+                        <g className="milestone-pin-group">
+                          <circle
+                            cx={getX(compMonth)}
+                            cy={yCompleteTarget}
+                            r={isSelected ? 9 : 7}
+                            fill="#008080"
+                            stroke="#FFFFFF"
+                            strokeWidth="2.5"
+                            tabIndex={0}
+                            role="button"
+                            className="chart-milestone-pin"
+                            aria-label={`Milestone: Complete Loan Cost Recovery Target reached at ${formatYearsAndMonths(compMonth)}. Target amount: ${formatIndianCurrency(plan.loanDetails.totalScheduledRepayment)}.`}
+                            aria-pressed={isSelected}
+                            onFocus={() => { if (compIdx >= 0) setHoveredPointIndex(compIdx); }}
+                            onClick={() => { if (compIdx >= 0) setHoveredPointIndex(compIdx); }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                if (compIdx >= 0) setHoveredPointIndex(compIdx);
+                              }
+                            }}
+                          />
+                          <text
+                            aria-hidden="true"
+                            x={getX(compMonth)}
+                            y={yCompleteTarget - 12}
+                            textAnchor="middle"
+                            fontSize="11"
+                            fontWeight="bold"
+                            fill="#0F766E"
+                          >
+                            ★ Complete Recovery ({formatYearsAndMonths(compMonth)})
+                          </text>
+                        </g>
+                      );
+                    })()}
 
-                    {/* Invisible Hover Zones */}
+                    {/* Annual Checkpoint Dots on SIP Compounding Curve */}
+                    {Array.from({ length: Math.floor(totalMonths / 12) }, (_, i) => i + 1).map((yr) => {
+                      const m = yr * 12;
+                      const idx = displayRows.findIndex((r) => r.monthNumber === m);
+                      if (idx === -1) return null;
+                      const r = displayRows[idx];
+                      const isSelected = hoveredPointIndex === idx;
+                      return (
+                        <circle
+                          key={yr}
+                          cx={getX(m)}
+                          cy={getY(r.sipCorpus)}
+                          r={isSelected ? 6 : 3.5}
+                          fill={isSelected ? '#00182A' : '#0F766E'}
+                          stroke="#FFFFFF"
+                          strokeWidth={isSelected ? 2.5 : 1.5}
+                          tabIndex={0}
+                          role="button"
+                          className="chart-checkpoint-dot"
+                          aria-label={`Year ${yr} (Month ${m}): Estimated SIP Corpus ${formatIndianCurrency(r.sipCorpus)}, Cumulative Invested ${formatIndianCurrency(r.cumulativeSIPInvestment)}.`}
+                          aria-pressed={isSelected}
+                          onFocus={() => setHoveredPointIndex(idx)}
+                          onClick={() => setHoveredPointIndex(idx)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              setHoveredPointIndex(idx);
+                            }
+                          }}
+                        />
+                      );
+                    })}
+
+                    {/* Invisible Hover Zones for Pointer Scrubbing */}
                     {displayRows.map((r, idx) => (
                       <rect
                         key={r.monthNumber}
+                        aria-hidden="true"
                         x={getX(r.monthNumber) - (plotW / totalMonths) / 2}
                         y={padding.top}
                         width={plotW / totalMonths}
@@ -1149,7 +1237,7 @@ Can we connect to discuss this plan?`;
 
                     {/* Interactive Active Hover Indicator */}
                     {activePoint && (
-                      <g className="hover-indicator-group">
+                      <g className="hover-indicator-group" aria-hidden="true">
                         <line
                           x1={getX(activePoint.monthNumber)}
                           y1={padding.top}
@@ -1171,7 +1259,7 @@ Can we connect to discuss this plan?`;
                     )}
 
                     {/* SVG Gradients */}
-                    <defs>
+                    <defs aria-hidden="true">
                       <linearGradient id="sipGradient" x1="0%" y1="0%" x2="0%" y2="100%">
                         <stop offset="0%" stopColor="#008080" stopOpacity="0.8" />
                         <stop offset="100%" stopColor="#008080" stopOpacity="0.0" />
@@ -1425,20 +1513,20 @@ Can we connect to discuss this plan?`;
         </div>
       )}
 
-      {/* Embedded CSS Styling */}
+      {/* Component-Specific Styles (Shared primitives imported via calculators.css) */}
       <style>{`
         .planner-container {
           max-width: 1080px;
           margin: 0 auto;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-          color: #0F172A;
+          font-family: var(--font-body, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+          color: var(--color-slate-heading, #0F172A);
         }
 
         /* Stepper Nav */
         .stepper-nav {
           display: flex;
           justify-content: space-between;
-          background: #FFFFFF;
+          background: var(--color-white);
           padding: 12px;
           border-radius: 16px;
           box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
@@ -1455,21 +1543,21 @@ Can we connect to discuss this plan?`;
           padding: 10px 14px;
           border-radius: 12px;
           border: 1px solid transparent;
-          background: #F8FAFC;
-          color: #64748B;
+          background: var(--color-bg-light);
+          color: var(--color-slate-muted);
           font-weight: 600;
           font-size: 13px;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all var(--transition-fast, 0.2s ease);
           white-space: nowrap;
         }
         .step-btn:hover {
-          background: #F1F5F9;
-          color: #0F172A;
+          background: var(--color-bg-subtle);
+          color: var(--color-slate-heading);
         }
         .step-btn.active {
-          background: #00182A;
-          color: #FFFFFF;
+          background: var(--color-primary-navy);
+          color: var(--color-white);
         }
         .step-btn.completed {
           background: #F0FDF4;
@@ -1487,46 +1575,25 @@ Can we connect to discuss this plan?`;
           font-size: 11px;
         }
         .step-btn.active .step-circle {
-          background: #008080;
-          color: #FFFFFF;
+          background: var(--color-growth-teal);
+          color: var(--color-white);
         }
         .step-btn.completed .step-circle {
           background: #16A34A;
-          color: #FFFFFF;
+          color: var(--color-white);
         }
 
-        /* Step Card Container */
-        .step-card {
-          background: #FFFFFF;
-          border-radius: 20px;
-          padding: 32px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-          border: 1px solid #E2E8F0;
-        }
-        .step-header {
-          margin-bottom: 28px;
-        }
-        .step-badge {
-          display: inline-block;
-          font-size: 11px;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: #008080;
-          background: rgba(0, 128, 128, 0.1);
-          padding: 4px 10px;
-          border-radius: 6px;
-          margin-bottom: 8px;
-        }
+        /* Step Card & Header */
         .step-title {
-          font-size: 24px;
+          font-family: var(--font-heading);
+          font-size: 1.5rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 6px 0;
         }
         .step-subtitle {
-          font-size: 14px;
-          color: #64748B;
+          font-size: 0.875rem;
+          color: var(--color-slate-text);
           margin: 0;
           line-height: 1.5;
         }
@@ -1549,34 +1616,34 @@ Can we connect to discuss this plan?`;
         .input-label {
           font-size: 14px;
           font-weight: 700;
-          color: #1E293B;
+          color: var(--color-slate-heading);
         }
         .select-input, .date-input {
           width: 100%;
           padding: 12px 16px;
           border-radius: 10px;
-          border: 1.5px solid #CBD5E1;
+          border: 1.5px solid var(--color-border);
           font-size: 15px;
-          color: #0F172A;
-          background: #FFFFFF;
-          transition: border-color 0.2s;
+          color: var(--color-slate-heading);
+          background: var(--color-white);
+          transition: border-color var(--transition-fast, 0.2s ease);
         }
         .select-input:focus, .date-input:focus {
           outline: none;
-          border-color: #008080;
-          box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.15);
+          border-color: var(--color-growth-teal);
+          box-shadow: 0 0 0 3px rgba(0, 171, 150, 0.15);
         }
         .amount-input-wrapper {
           display: flex;
           align-items: center;
-          background: #F8FAFC;
-          border: 1.5px solid #CBD5E1;
+          background: var(--color-bg-light);
+          border: 1.5px solid var(--color-border);
           border-radius: 8px;
           padding: 4px 10px;
         }
         .currency-prefix {
           font-weight: 700;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin-right: 4px;
         }
         .amount-input {
@@ -1584,30 +1651,22 @@ Can we connect to discuss this plan?`;
           background: transparent;
           font-size: 15px;
           font-weight: 700;
-          color: #0F172A;
+          color: var(--color-slate-heading);
           width: 120px;
           text-align: right;
         }
         .amount-input:focus {
           outline: none;
         }
-        .range-slider {
-          width: 100%;
-          height: 6px;
-          border-radius: 3px;
-          background: #E2E8F0;
-          accent-color: #008080;
-          cursor: pointer;
-        }
         .range-hints {
           display: flex;
           justify-content: space-between;
           font-size: 12px;
-          color: #94A3B8;
+          color: var(--color-border-subtle, #94A3B8);
           margin-top: 6px;
         }
         .range-current {
-          color: #008080;
+          color: var(--color-growth-teal);
           font-weight: 700;
         }
         .pill-badge {
@@ -1620,7 +1679,7 @@ Can we connect to discuss this plan?`;
         }
         .helper-text {
           font-size: 12px;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin-top: 4px;
           display: block;
         }
@@ -1630,8 +1689,8 @@ Can we connect to discuss this plan?`;
           display: flex;
           align-items: center;
           justify-content: space-around;
-          background: #F8FAFC;
-          border: 1.5px solid #E2E8F0;
+          background: var(--color-bg-light);
+          border: 1.5px solid var(--color-border);
           border-radius: 14px;
           padding: 20px;
           margin-top: 24px;
@@ -1645,34 +1704,36 @@ Can we connect to discuss this plan?`;
         .preview-label {
           font-size: 12px;
           font-weight: 600;
-          color: #64748B;
+          color: var(--color-slate-muted);
           text-transform: uppercase;
           letter-spacing: 0.04em;
           margin-bottom: 4px;
         }
         .preview-value {
+          font-family: var(--font-heading);
           font-size: 24px;
           font-weight: 800;
         }
         .emi-highlight {
-          color: #00182A;
+          color: var(--color-primary-navy);
         }
         .interest-highlight {
-          color: #D97706;
+          color: var(--color-amber-graphic, #D97706);
         }
         .per-month {
           font-size: 14px;
           font-weight: 500;
-          color: #64748B;
+          color: var(--color-slate-muted);
         }
         .preview-subtext {
           font-size: 12px;
-          color: #94A3B8;
+          color: var(--color-border-subtle, #94A3B8);
           margin-top: 2px;
         }
+
         /* Return Assumption Panel (Step 2) */
         .return-assumption-panel {
-          background: linear-gradient(180deg, #F0FDFA 0%, #FFFFFF 100%);
+          background: linear-gradient(180deg, #F0FDFA 0%, var(--color-white) 100%);
           border: 1.5px solid #99F6E4;
           border-radius: 16px;
           padding: 24px;
@@ -1693,20 +1754,21 @@ Can we connect to discuss this plan?`;
           margin-bottom: 6px;
         }
         .panel-title {
+          font-family: var(--font-heading);
           font-size: 18px;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 6px 0;
         }
         .panel-subtitle {
           font-size: 13px;
-          color: #475569;
+          color: var(--color-slate-text);
           margin: 0;
           line-height: 1.4;
         }
         .return-control-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background: var(--color-white);
+          border: 1px solid var(--color-border);
           border-radius: 12px;
           padding: 20px;
         }
@@ -1719,13 +1781,13 @@ Can we connect to discuss this plan?`;
         .return-label {
           font-size: 14px;
           font-weight: 700;
-          color: #1E293B;
+          color: var(--color-slate-heading);
         }
         .return-input-wrapper {
           display: inline-flex;
           align-items: center;
-          background: #F1F5F9;
-          border: 1.5px solid #CBD5E1;
+          background: var(--color-bg-subtle);
+          border: 1.5px solid var(--color-border);
           border-radius: 8px;
           padding: 4px 10px;
         }
@@ -1733,7 +1795,7 @@ Can we connect to discuss this plan?`;
           width: 54px;
           font-size: 16px;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           border: none;
           background: transparent;
           text-align: right;
@@ -1742,12 +1804,12 @@ Can we connect to discuss this plan?`;
         .percent-suffix {
           font-size: 15px;
           font-weight: 700;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin-left: 2px;
         }
         .current-return-badge {
-          background: #008080;
-          color: #FFFFFF;
+          background: var(--color-growth-teal);
+          color: var(--color-white);
           font-size: 12px;
           font-weight: 700;
           padding: 2px 8px;
@@ -1759,18 +1821,18 @@ Can we connect to discuss this plan?`;
           gap: 8px;
           margin-top: 12px;
           font-size: 12px;
-          color: #64748B;
+          color: var(--color-slate-muted);
           flex-wrap: wrap;
         }
         .horizon-tag {
-          background: #F1F5F9;
+          background: var(--color-bg-subtle);
           padding: 3px 8px;
           border-radius: 4px;
           color: #334155;
         }
         .default-horizon-text {
           font-style: italic;
-          color: #94A3B8;
+          color: var(--color-border-subtle, #94A3B8);
         }
         .effective-rate-tag {
           background: #CCFBF1;
@@ -1807,7 +1869,7 @@ Can we connect to discuss this plan?`;
           line-height: 1.4;
         }
         .return-val-highlight {
-          color: #008080;
+          color: var(--color-growth-teal);
           font-weight: 800;
         }
         .return-highlight {
@@ -1824,7 +1886,7 @@ Can we connect to discuss this plan?`;
         }
         .assumption-pill {
           font-size: 11px;
-          color: #E2E8F0;
+          color: var(--color-border);
           background: rgba(255, 255, 255, 0.08);
           padding: 4px 10px;
           border-radius: 6px;
@@ -1844,41 +1906,43 @@ Can we connect to discuss this plan?`;
         .target-card {
           border-radius: 16px;
           padding: 24px;
-          border: 2px solid #E2E8F0;
-          background: #FFFFFF;
+          border: 2px solid var(--color-border);
+          background: var(--color-white);
           display: flex;
           flex-direction: column;
         }
         .card-interest {
           border-color: #FDE68A;
-          background: linear-gradient(180deg, #FFFBEB 0%, #FFFFFF 100%);
+          background: linear-gradient(180deg, #FFFBEB 0%, var(--color-white) 100%);
         }
         .card-complete {
           border-color: #99F6E4;
-          background: linear-gradient(180deg, #F0FDFA 0%, #FFFFFF 100%);
+          background: linear-gradient(180deg, #F0FDFA 0%, var(--color-white) 100%);
         }
         .target-eyebrow {
           font-size: 11px;
           font-weight: 800;
           letter-spacing: 0.08em;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin-bottom: 4px;
         }
         .target-heading {
+          font-family: var(--font-heading);
           font-size: 18px;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 8px 0;
         }
         .target-amount {
+          font-family: var(--font-heading);
           font-size: 28px;
           font-weight: 800;
-          color: #0F172A;
+          color: var(--color-slate-heading);
           margin-bottom: 8px;
         }
         .target-desc {
           font-size: 13px;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin: 0 0 16px 0;
           line-height: 1.4;
         }
@@ -1898,11 +1962,11 @@ Can we connect to discuss this plan?`;
           border-radius: 4px;
         }
         .math-plus {
-          color: #94A3B8;
+          color: var(--color-border-subtle, #94A3B8);
         }
         .target-metric-box {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background: var(--color-white);
+          border: 1px solid var(--color-border);
           border-radius: 10px;
           padding: 14px;
           margin-top: auto;
@@ -1918,12 +1982,12 @@ Can we connect to discuss this plan?`;
           margin-bottom: 0;
         }
         .metric-title {
-          color: #64748B;
+          color: var(--color-slate-muted);
           font-weight: 500;
         }
         .metric-val {
           font-weight: 700;
-          color: #0F172A;
+          color: var(--color-slate-heading);
         }
         .percent-badge {
           background: #FEF3C7;
@@ -1943,12 +2007,12 @@ Can we connect to discuss this plan?`;
           display: flex;
           justify-content: space-between;
           font-size: 11px;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin-bottom: 4px;
         }
         .proportion-bar-bg {
           height: 8px;
-          background: #E2E8F0;
+          background: var(--color-border);
           border-radius: 4px;
           overflow: hidden;
         }
@@ -1958,10 +2022,10 @@ Can we connect to discuss this plan?`;
           transition: width 0.3s ease;
         }
         .interest-fill {
-          background: #F59E0B;
+          background: var(--color-amber-graphic, #F59E0B);
         }
         .complete-fill {
-          background: #008080;
+          background: var(--color-growth-teal);
         }
 
         /* Opportunity Flow Visual */
@@ -1969,8 +2033,8 @@ Can we connect to discuss this plan?`;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          background: #F8FAFC;
-          border: 1.5px solid #E2E8F0;
+          background: var(--color-bg-light);
+          border: 1.5px solid var(--color-border);
           border-radius: 14px;
           padding: 20px;
           margin-bottom: 28px;
@@ -1985,8 +2049,8 @@ Can we connect to discuss this plan?`;
           width: 28px;
           height: 28px;
           border-radius: 50%;
-          background: #E2E8F0;
-          color: #475569;
+          background: var(--color-border);
+          color: var(--color-slate-text);
           font-weight: 800;
           font-size: 13px;
           display: flex;
@@ -1999,21 +2063,21 @@ Can we connect to discuss this plan?`;
           font-size: 12px;
         }
         .flow-text strong {
-          color: #00182A;
+          color: var(--color-primary-navy);
           font-size: 13px;
         }
         .flow-arrow {
           font-size: 18px;
-          color: #94A3B8;
+          color: var(--color-border-subtle, #94A3B8);
           font-weight: 700;
         }
         .highlight-step .flow-num {
-          background: #008080;
-          color: #FFFFFF;
+          background: var(--color-growth-teal);
+          color: var(--color-white);
         }
         .complete-step .flow-num {
           background: #16A34A;
-          color: #FFFFFF;
+          color: var(--color-white);
         }
 
         /* Custom Snapshot Card (Step 3) */
@@ -2033,8 +2097,8 @@ Can we connect to discuss this plan?`;
           display: flex;
           justify-content: space-around;
           align-items: center;
-          background: #F8FAFC;
-          border: 1.5px solid #E2E8F0;
+          background: var(--color-bg-light);
+          border: 1.5px solid var(--color-border);
           border-radius: 14px;
           padding: 20px;
           margin-top: 24px;
@@ -2048,60 +2112,25 @@ Can we connect to discuss this plan?`;
         .snapshot-label {
           font-size: 12px;
           font-weight: 600;
-          color: #64748B;
+          color: var(--color-slate-muted);
           text-transform: uppercase;
           letter-spacing: 0.04em;
           margin-bottom: 4px;
         }
         .snapshot-val {
+          font-family: var(--font-heading);
           font-size: 16px;
           font-weight: 700;
-          color: #0F172A;
+          color: var(--color-slate-heading);
         }
         .snapshot-val.highlight-val {
-          color: #008080;
+          color: var(--color-growth-teal);
           font-size: 18px;
         }
         .snapshot-divider {
           width: 1px;
           height: 40px;
-          background: #E2E8F0;
-        }
-
-        /* Step Actions */
-        .step-actions {
-          display: flex;
-          justify-content: flex-end;
-          gap: 14px;
-          margin-top: 28px;
-        }
-        .btn-primary {
-          background: #008080;
-          color: #FFFFFF;
-          border: none;
-          font-weight: 700;
-          font-size: 15px;
-          padding: 12px 24px;
-          border-radius: 10px;
-          cursor: pointer;
-          transition: background 0.2s, transform 0.1s;
-        }
-        .btn-primary:hover {
-          background: #006666;
-          transform: translateY(-1px);
-        }
-        .btn-secondary {
-          background: #F1F5F9;
-          color: #334155;
-          border: 1px solid #CBD5E1;
-          font-weight: 600;
-          font-size: 14px;
-          padding: 12px 20px;
-          border-radius: 10px;
-          cursor: pointer;
-        }
-        .btn-secondary:hover {
-          background: #E2E8F0;
+          background: var(--color-border);
         }
 
         /* RESULTS DASHBOARD (Step 4) */
@@ -2114,10 +2143,10 @@ Can we connect to discuss this plan?`;
 
         /* Dark Navy Hero Card */
         .hero-card {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
+          background: linear-gradient(135deg, var(--color-primary-navy) 0%, #002B49 100%);
           border-radius: 20px;
           padding: 36px;
-          color: #FFFFFF;
+          color: var(--color-white);
           box-shadow: 0 12px 36px rgba(0, 24, 42, 0.25);
           margin-bottom: 24px;
         }
@@ -2129,11 +2158,12 @@ Can we connect to discuss this plan?`;
           margin-bottom: 6px;
         }
         .hero-title {
+          font-family: var(--font-heading);
           font-size: 24px;
           font-weight: 800;
           margin: 0 0 24px 0;
           line-height: 1.3;
-          color: #FFFFFF;
+          color: var(--color-white);
         }
         .primary-outcome-box {
           background: rgba(255, 255, 255, 0.07);
@@ -2146,14 +2176,15 @@ Can we connect to discuss this plan?`;
           font-size: 11px;
           font-weight: 700;
           letter-spacing: 0.08em;
-          color: #94A3B8;
+          color: var(--color-border-subtle, #94A3B8);
           display: block;
           margin-bottom: 6px;
         }
         .outcome-duration {
+          font-family: var(--font-heading);
           font-size: 26px;
           font-weight: 800;
-          color: #FFFFFF;
+          color: var(--color-white);
           margin-bottom: 6px;
         }
         .duration-highlight {
@@ -2179,7 +2210,7 @@ Can we connect to discuss this plan?`;
         .banner-early {
           background: rgba(45, 212, 191, 0.12);
           border: 1px solid rgba(45, 212, 191, 0.3);
-          color: #E2E8F0;
+          color: var(--color-border);
         }
         .banner-early strong {
           color: #2DD4BF;
@@ -2187,7 +2218,7 @@ Can we connect to discuss this plan?`;
         .banner-late {
           background: rgba(251, 191, 36, 0.12);
           border: 1px solid rgba(251, 191, 36, 0.3);
-          color: #E2E8F0;
+          color: var(--color-border);
         }
         .banner-late strong {
           color: #FCD34D;
@@ -2195,7 +2226,7 @@ Can we connect to discuss this plan?`;
         .banner-exact {
           background: rgba(59, 130, 246, 0.12);
           border: 1px solid rgba(59, 130, 246, 0.3);
-          color: #E2E8F0;
+          color: var(--color-border);
         }
         .banner-exact strong {
           color: #93C5FD;
@@ -2203,7 +2234,7 @@ Can we connect to discuss this plan?`;
         .banner-unreached {
           background: rgba(239, 68, 68, 0.12);
           border: 1px solid rgba(239, 68, 68, 0.3);
-          color: #E2E8F0;
+          color: var(--color-border);
         }
         .banner-icon {
           font-size: 20px;
@@ -2212,7 +2243,7 @@ Can we connect to discuss this plan?`;
         .banner-content p {
           margin: 4px 0 0 0;
           font-size: 12px;
-          color: #94A3B8;
+          color: var(--color-border-subtle, #94A3B8);
           line-height: 1.4;
         }
 
@@ -2231,22 +2262,23 @@ Can we connect to discuss this plan?`;
         }
         .quad-label {
           font-size: 11px;
-          color: #94A3B8;
+          color: var(--color-border-subtle, #94A3B8);
           text-transform: uppercase;
           letter-spacing: 0.04em;
           margin-bottom: 4px;
         }
         .quad-val {
+          font-family: var(--font-heading);
           font-size: 18px;
           font-weight: 800;
-          color: #FFFFFF;
+          color: var(--color-white);
         }
         .teal-text {
           color: #2DD4BF;
         }
         .quad-sub {
           font-size: 11px;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin-top: 2px;
         }
 
@@ -2258,17 +2290,17 @@ Can we connect to discuss this plan?`;
           margin-bottom: 24px;
         }
         .milestone-box {
-          background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
+          background: var(--color-white);
+          border: 1.5px solid var(--color-border);
           border-radius: 16px;
           padding: 24px;
           box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
         }
         .box-interest {
-          border-top: 4px solid #F59E0B;
+          border-top: 4px solid var(--color-amber-graphic, #F59E0B);
         }
         .box-complete {
-          border-top: 4px solid #008080;
+          border-top: 4px solid var(--color-growth-teal);
         }
         .milestone-badge {
           display: inline-block;
@@ -2282,26 +2314,28 @@ Can we connect to discuss this plan?`;
           margin-bottom: 8px;
         }
         .milestone-title {
+          font-family: var(--font-heading);
           font-size: 16px;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 6px 0;
         }
         .milestone-target {
+          font-family: var(--font-heading);
           font-size: 24px;
           font-weight: 800;
-          color: #0F172A;
+          color: var(--color-slate-heading);
           margin-bottom: 12px;
         }
         .milestone-details-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 8px 12px;
-          background: #F8FAFC;
+          background: var(--color-bg-light);
           border-radius: 8px;
           padding: 10px 12px;
           margin-bottom: 14px;
-          border: 1px solid #E2E8F0;
+          border: 1px solid var(--color-border);
         }
         .milestone-detail-item {
           display: flex;
@@ -2309,12 +2343,12 @@ Can we connect to discuss this plan?`;
           font-size: 12px;
         }
         .detail-label {
-          color: #64748B;
+          color: var(--color-slate-muted);
           font-weight: 500;
         }
         .detail-val {
           font-weight: 700;
-          color: #0F172A;
+          color: var(--color-slate-heading);
         }
         .milestone-time {
           font-size: 13px;
@@ -2327,17 +2361,17 @@ Can we connect to discuss this plan?`;
         }
         .milestone-note {
           font-size: 12px;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin: 0;
           line-height: 1.4;
         }
 
         /* Chart Section */
         .chart-section {
-          background: #FFFFFF;
+          background: var(--color-white);
           border-radius: 20px;
           padding: 28px;
-          border: 1px solid #E2E8F0;
+          border: 1px solid var(--color-border);
           box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
           margin-bottom: 24px;
         }
@@ -2350,21 +2384,22 @@ Can we connect to discuss this plan?`;
           gap: 16px;
         }
         .chart-title {
+          font-family: var(--font-heading);
           font-size: 18px;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 4px 0;
         }
         .chart-subtitle {
           font-size: 13px;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin: 0;
         }
         .chart-legend {
           display: flex;
           gap: 16px;
           font-size: 12px;
-          color: #475569;
+          color: var(--color-slate-text);
           flex-wrap: wrap;
         }
         .legend-item {
@@ -2378,19 +2413,19 @@ Can we connect to discuss this plan?`;
           border-radius: 2px;
         }
         .sip-swatch {
-          background: #008080;
+          background: var(--color-growth-teal);
           height: 6px;
         }
         .interest-line-swatch {
-          background: #F59E0B;
+          background: var(--color-amber-graphic, #F59E0B);
         }
         .complete-line-swatch {
-          background: #008080;
-          border-top: 1px dashed #008080;
+          background: var(--color-growth-teal);
+          border-top: 1px dashed var(--color-growth-teal);
         }
         .maturity-swatch {
-          background: #64748B;
-          border-top: 1px dashed #64748B;
+          background: var(--color-slate-muted);
+          border-top: 1px dashed var(--color-slate-muted);
         }
         .total-repayment-highlight {
           color: #0F766E;
@@ -2399,14 +2434,9 @@ Can we connect to discuss this plan?`;
           width: 100%;
           overflow: hidden;
         }
-        .recovery-svg {
-          width: 100%;
-          height: auto;
-          display: block;
-        }
         .active-tooltip-box {
-          background: #00182A;
-          color: #FFFFFF;
+          background: var(--color-primary-navy);
+          color: var(--color-white);
           border-radius: 10px;
           padding: 12px 16px;
           margin-top: 14px;
@@ -2423,21 +2453,22 @@ Can we connect to discuss this plan?`;
           flex-wrap: wrap;
         }
         .tooltip-sub {
-          color: #94A3B8;
+          color: var(--color-border-subtle, #94A3B8);
         }
 
         /* Timeline Visual */
         .timeline-visual-card {
-          background: #FFFFFF;
+          background: var(--color-white);
           border-radius: 16px;
           padding: 24px;
-          border: 1px solid #E2E8F0;
+          border: 1px solid var(--color-border);
           margin-bottom: 24px;
         }
         .timeline-title {
+          font-family: var(--font-heading);
           font-size: 16px;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 20px 0;
         }
         .horizontal-timeline {
@@ -2454,7 +2485,7 @@ Can we connect to discuss this plan?`;
           left: 30px;
           right: 30px;
           height: 3px;
-          background: #E2E8F0;
+          background: var(--color-border);
           z-index: 1;
         }
         .timeline-node {
@@ -2469,22 +2500,22 @@ Can we connect to discuss this plan?`;
           width: 24px;
           height: 24px;
           border-radius: 50%;
-          background: #94A3B8;
-          border: 3px solid #FFFFFF;
-          box-shadow: 0 0 0 2px #E2E8F0;
+          background: var(--color-border-subtle, #94A3B8);
+          border: 3px solid var(--color-white);
+          box-shadow: 0 0 0 2px var(--color-border);
           margin-bottom: 8px;
         }
         .dot-amber {
-          background: #F59E0B;
+          background: var(--color-amber-graphic, #F59E0B);
           box-shadow: 0 0 0 2px #FDE68A;
         }
         .dot-teal {
-          background: #008080;
+          background: var(--color-growth-teal);
           box-shadow: 0 0 0 2px #99F6E4;
         }
         .dot-navy {
-          background: #00182A;
-          box-shadow: 0 0 0 2px #CBD5E1;
+          background: var(--color-primary-navy);
+          box-shadow: 0 0 0 2px var(--color-border);
         }
         .node-content {
           display: flex;
@@ -2493,26 +2524,28 @@ Can we connect to discuss this plan?`;
         .node-tag {
           font-size: 11px;
           font-weight: 600;
-          color: #64748B;
+          color: var(--color-slate-muted);
         }
         .node-val {
+          font-family: var(--font-heading);
           font-size: 13px;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
         }
 
         /* Summary Card */
         .summary-card {
-          background: #FFFFFF;
+          background: var(--color-white);
           border-radius: 16px;
           padding: 24px;
-          border: 1px solid #E2E8F0;
+          border: 1px solid var(--color-border);
           margin-bottom: 24px;
         }
         .summary-card-title {
+          font-family: var(--font-heading);
           font-size: 16px;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 16px 0;
         }
         .summary-table-wrapper {
@@ -2525,19 +2558,19 @@ Can we connect to discuss this plan?`;
         }
         .summary-table th, .summary-table td {
           padding: 10px 14px;
-          border-bottom: 1px solid #F1F5F9;
+          border-bottom: 1px solid var(--color-bg-subtle);
           text-align: left;
         }
         .summary-table th {
-          color: #64748B;
+          color: var(--color-slate-muted);
           font-weight: 600;
           width: 45%;
         }
         .summary-table td {
-          color: #0F172A;
+          color: var(--color-slate-heading);
         }
         .table-highlight-row {
-          background: #F8FAFC;
+          background: var(--color-bg-light);
         }
         .pill-status {
           display: inline-block;
@@ -2554,9 +2587,9 @@ Can we connect to discuss this plan?`;
 
         /* Math Accordion */
         .math-accordion {
-          background: #FFFFFF;
+          background: var(--color-white);
           border-radius: 14px;
-          border: 1px solid #E2E8F0;
+          border: 1px solid var(--color-border);
           margin-bottom: 24px;
           overflow: hidden;
         }
@@ -2566,16 +2599,16 @@ Can we connect to discuss this plan?`;
           justify-content: space-between;
           align-items: center;
           padding: 16px 20px;
-          background: #F8FAFC;
+          background: var(--color-bg-light);
           border: none;
           font-weight: 700;
           font-size: 14px;
-          color: #00182A;
+          color: var(--color-primary-navy);
           cursor: pointer;
         }
         .accordion-body {
           padding: 20px;
-          background: #FFFFFF;
+          background: var(--color-white);
         }
         .formula-block {
           margin-bottom: 16px;
@@ -2586,21 +2619,21 @@ Can we connect to discuss this plan?`;
         .formula-block h4 {
           font-size: 13px;
           font-weight: 700;
-          color: #008080;
+          color: var(--color-growth-teal);
           margin: 0 0 4px 0;
         }
         .formula-block p {
           font-family: monospace;
-          background: #F1F5F9;
+          background: var(--color-bg-subtle);
           padding: 8px 12px;
           border-radius: 6px;
           font-size: 13px;
-          color: #0F172A;
+          color: var(--color-slate-heading);
           margin: 0 0 4px 0;
         }
         .formula-block small {
           font-size: 12px;
-          color: #64748B;
+          color: var(--color-slate-muted);
           display: block;
         }
 
@@ -2614,19 +2647,19 @@ Can we connect to discuss this plan?`;
         .preset-btn {
           flex: 1;
           padding: 10px 16px;
-          background: #FFFFFF;
-          border: 1px solid #CBD5E1;
+          background: var(--color-white);
+          border: 1px solid var(--color-border);
           border-radius: 10px;
           font-weight: 600;
           font-size: 13px;
           color: #334155;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: all var(--transition-fast, 0.2s);
           white-space: nowrap;
         }
         .preset-btn:hover {
-          background: #F8FAFC;
-          border-color: #94A3B8;
+          background: var(--color-bg-light);
+          border-color: var(--color-border-subtle, #94A3B8);
         }
         .highlight-preset {
           background: #F0FDFA;
@@ -2639,11 +2672,11 @@ Can we connect to discuss this plan?`;
 
         /* Key Message Card */
         .key-message-card {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
+          background: linear-gradient(135deg, var(--color-primary-navy) 0%, #002B49 100%);
           border-radius: 16px;
           padding: 24px;
           text-align: center;
-          color: #FFFFFF;
+          color: var(--color-white);
           margin-bottom: 24px;
         }
         .message-quote {
@@ -2658,10 +2691,11 @@ Can we connect to discuss this plan?`;
           background: linear-gradient(135deg, #064E3B 0%, #065F46 100%);
           border-radius: 16px;
           padding: 28px;
-          color: #FFFFFF;
+          color: var(--color-white);
           margin-bottom: 24px;
         }
         .advisory-content h3 {
+          font-family: var(--font-heading);
           font-size: 18px;
           font-weight: 800;
           margin: 0 0 6px 0;
@@ -2682,13 +2716,13 @@ Can we connect to discuss this plan?`;
           align-items: center;
           gap: 8px;
           background: #25D366;
-          color: #FFFFFF;
+          color: var(--color-white);
           font-weight: 700;
           font-size: 14px;
           padding: 12px 20px;
           border-radius: 10px;
           text-decoration: none;
-          transition: background 0.2s;
+          transition: background var(--transition-fast, 0.2s);
         }
         .whatsapp-btn:hover {
           background: #22C55E;
@@ -2698,7 +2732,7 @@ Can we connect to discuss this plan?`;
           align-items: center;
           gap: 8px;
           background: rgba(255, 255, 255, 0.15);
-          color: #FFFFFF;
+          color: var(--color-white);
           font-weight: 600;
           font-size: 14px;
           padding: 12px 20px;

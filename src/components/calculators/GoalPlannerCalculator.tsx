@@ -243,6 +243,7 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
               value={targetCostToday}
               onChange={(e) => setTargetCostToday(Number(e.target.value))}
               className="range-slider"
+              aria-label="Target Cost in Today's Rupees (₹)"
             />
             <div className="slider-limits">
               <span>₹1 Lakh</span>
@@ -275,6 +276,7 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
               value={yearsToGoal}
               onChange={(e) => setYearsToGoal(Number(e.target.value))}
               className="range-slider"
+              aria-label="Years Until Goal (Years)"
             />
             <div className="slider-limits">
               <span>1 Year</span>
@@ -308,6 +310,7 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
               value={currentSavings}
               onChange={(e) => setCurrentSavings(Number(e.target.value))}
               className="range-slider"
+              aria-label="Current Savings Earmarked (₹)"
             />
             <div className="slider-limits">
               <span>₹0</span>
@@ -376,6 +379,7 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
                   value={stepUpPercentage}
                   onChange={(e) => setStepUpPercentage(Number(e.target.value))}
                   className="range-slider"
+                  aria-label="Annual Step-Up SIP Percentage (%)"
                 />
                 <span className="step-up-hint">
                   Starting with lower monthly SIP and increasing by {stepUpPercentage}% annually as salary increments arrive.
@@ -460,8 +464,8 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
 
       <style>{`
         .goal-planner-wrapper {
-          background-color: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background-color: var(--color-white);
+          border: 1px solid var(--color-border-subtle, #E2E8F0);
           border-radius: 16px;
           padding: 2.25rem;
           box-shadow: 0 4px 20px rgba(0, 24, 42, 0.04);
@@ -470,7 +474,7 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
         .preset-selector-row {
           margin-bottom: 2rem;
           padding-bottom: 1.5rem;
-          border-bottom: 1px solid #E2E8F0;
+          border-bottom: 1px solid var(--color-border-subtle, #E2E8F0);
         }
 
         .preset-row-label {
@@ -478,7 +482,7 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.05em;
-          color: #64748B;
+          color: var(--color-slate-muted);
           display: block;
           margin-bottom: 0.75rem;
         }
@@ -493,8 +497,8 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
           display: flex;
           align-items: center;
           gap: 0.5rem;
-          background-color: #F8FAFC;
-          border: 1.5px solid #E2E8F0;
+          background-color: var(--color-bg-light, #F8FAFC);
+          border: 1.5px solid var(--color-border-subtle, #E2E8F0);
           border-radius: 9999px;
           padding: 0.5rem 1rem;
           font-size: 0.875rem;
@@ -510,9 +514,9 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
         }
 
         .chip-active {
-          background-color: #00182A !important;
-          border-color: #00182A !important;
-          color: #FFFFFF !important;
+          background-color: var(--color-primary-navy, #00182A) !important;
+          border-color: var(--color-primary-navy, #00182A) !important;
+          color: var(--color-white) !important;
         }
 
         .chip-icon {
@@ -520,7 +524,7 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
         }
 
         .child-planner-discovery-banner {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
+          background: linear-gradient(135deg, var(--color-primary-navy, #00182A) 0%, #002B49 100%);
           border-radius: 12px;
           padding: 1.25rem 1.5rem;
           margin-bottom: 2rem;
@@ -528,7 +532,7 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
           justify-content: space-between;
           align-items: center;
           gap: 1.5rem;
-          color: #FFFFFF;
+          color: var(--color-white);
           box-shadow: 0 4px 15px rgba(0, 24, 42, 0.08);
         }
 
@@ -557,9 +561,9 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
         }
 
         .discovery-text strong {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.05rem;
-          color: #FFC107;
+          color: var(--color-warm-gold);
         }
 
         .discovery-text span {
@@ -569,8 +573,8 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
         }
 
         .discovery-btn {
-          background-color: #00AB96;
-          color: #FFFFFF;
+          background-color: var(--color-growth-teal, #00AB96);
+          color: var(--color-white);
           padding: 0.65rem 1.15rem;
           border-radius: 8px;
           font-weight: 700;
@@ -582,8 +586,27 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
         }
 
         .discovery-btn:hover {
-          background-color: #008F7D;
+          background-color: var(--color-growth-teal-hover, #008F7D);
           transform: translateY(-2px);
+        }
+
+        .goal-type-badge {
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: var(--color-growth-teal, #00AB96);
+          background-color: rgba(0, 171, 150, 0.1);
+          padding: 0.2rem 0.5rem;
+          border-radius: 9999px;
+        }
+
+        .maturity-number {
+          color: var(--color-white);
+        }
+
+        @media (max-width: 900px) {
+          .goal-planner-wrapper {
+            padding: 1.5rem;
+          }
         }
 
         @media (max-width: 768px) {
@@ -594,351 +617,6 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
           .discovery-btn {
             width: 100%;
             text-align: center;
-          }
-        }
-
-        .calc-grid {
-          display: grid;
-          grid-template-columns: 1fr 1.05fr;
-          gap: 2.5rem;
-          align-items: start;
-        }
-
-        .panel-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 1.75rem;
-          padding-bottom: 0.75rem;
-          border-bottom: 1px solid #F1F5F9;
-        }
-
-        .panel-title {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #00182A;
-        }
-
-        .goal-type-badge {
-          font-size: 0.75rem;
-          font-weight: 700;
-          color: #00AB96;
-          background-color: rgba(0, 171, 150, 0.1);
-          padding: 0.2rem 0.5rem;
-          border-radius: 9999px;
-        }
-
-        .form-group {
-          margin-bottom: 1.5rem;
-        }
-
-        .two-col-inputs {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1rem;
-        }
-
-        .label-row {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 0.6rem;
-        }
-
-        .field-label {
-          font-size: 0.95rem;
-          font-weight: 600;
-          color: #1E293B;
-        }
-
-        .field-label-sub {
-          font-size: 0.85rem;
-          font-weight: 600;
-          color: #475569;
-          margin-bottom: 0.4rem;
-          display: block;
-        }
-
-        .input-currency-wrapper {
-          display: flex;
-          align-items: center;
-          background-color: #F8FAFC;
-          border: 1.5px solid #CBD5E1;
-          border-radius: 8px;
-          padding: 0.25rem 0.6rem;
-          font-weight: 600;
-          color: #00182A;
-        }
-
-        .currency-prefix, .unit-suffix {
-          color: #64748B;
-          font-size: 0.9rem;
-          margin: 0 2px;
-        }
-
-        .number-input {
-          width: 120px;
-          border: none;
-          background: transparent;
-          font-size: 1rem;
-          font-weight: 700;
-          color: #00182A;
-          text-align: right;
-          outline: none;
-        }
-
-        .number-input-sm {
-          width: 55px;
-          border: none;
-          background: transparent;
-          font-size: 0.95rem;
-          font-weight: 700;
-          color: #00182A;
-          text-align: right;
-          outline: none;
-        }
-
-        .range-slider {
-          width: 100%;
-          height: 6px;
-          background: #E2E8F0;
-          border-radius: 9999px;
-          outline: none;
-          -webkit-appearance: none;
-          accent-color: #00AB96;
-          cursor: pointer;
-        }
-
-        .slider-limits {
-          display: flex;
-          justify-content: space-between;
-          font-size: 0.75rem;
-          color: #94A3B8;
-          margin-top: 0.35rem;
-        }
-
-        .step-up-box {
-          background-color: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          border-radius: 12px;
-          padding: 1.25rem;
-          margin-top: 1rem;
-        }
-
-        .step-up-toggle-row {
-          display: flex;
-          align-items: center;
-        }
-
-        .switch-label {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          cursor: pointer;
-          font-size: 0.9rem;
-          font-weight: 600;
-          color: #00182A;
-        }
-
-        .checkbox-input {
-          width: 18px;
-          height: 18px;
-          accent-color: #00AB96;
-          cursor: pointer;
-        }
-
-        .step-up-control {
-          margin-top: 0.75rem;
-          padding-top: 0.75rem;
-          border-top: 1px solid #E2E8F0;
-        }
-
-        .step-up-hint {
-          display: block;
-          font-size: 0.8rem;
-          color: #64748B;
-          margin-top: 0.4rem;
-        }
-
-        /* Result Panel */
-        .calc-result-panel {
-          background-color: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          border-radius: 14px;
-          padding: 2rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-        }
-
-        .result-hero-box {
-          background: linear-gradient(135deg, #00182A 0%, #002B49 100%);
-          border-radius: 12px;
-          padding: 1.75rem;
-          color: #FFFFFF;
-          text-align: center;
-        }
-
-        .result-tag {
-          font-size: 0.8rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: #00AB96;
-          display: block;
-          margin-bottom: 0.4rem;
-        }
-
-        .maturity-number {
-          font-family: 'Outfit', sans-serif;
-          font-size: 2.3rem;
-          font-weight: 800;
-          color: #FFFFFF;
-          line-height: 1.1;
-          margin-bottom: 0.5rem;
-        }
-
-        .result-note {
-          font-size: 0.85rem;
-          color: #CBD5E1;
-          line-height: 1.4;
-        }
-
-        .sip-highlight-box {
-          background-color: #FFFFFF;
-          border: 2px solid #00AB96;
-          border-radius: 12px;
-          padding: 1.25rem;
-          text-align: center;
-        }
-
-        .sip-highlight-label {
-          font-size: 0.85rem;
-          font-weight: 700;
-          color: #00182A;
-          display: block;
-          margin-bottom: 0.25rem;
-        }
-
-        .sip-highlight-value {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.75rem;
-          font-weight: 800;
-          color: #00AB96;
-          margin-bottom: 0.25rem;
-        }
-
-        .sip-highlight-sub {
-          font-size: 0.8rem;
-          color: #64748B;
-          display: block;
-        }
-
-        .result-metrics-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1rem;
-        }
-
-        .metric-box {
-          background-color: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 10px;
-          padding: 1rem 1.25rem;
-        }
-
-        .metric-title {
-          font-size: 0.8rem;
-          color: #64748B;
-          font-weight: 600;
-          display: block;
-          margin-bottom: 0.2rem;
-        }
-
-        .metric-value {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.15rem;
-          font-weight: 700;
-          color: #00182A;
-        }
-
-        .calc-action-block {
-          display: flex;
-          flex-direction: column;
-          gap: 0.75rem;
-        }
-
-        .btn-whatsapp-consult {
-          display: block;
-          text-align: center;
-          background-color: #00AB96;
-          color: #FFFFFF;
-          font-size: 0.95rem;
-          font-weight: 600;
-          padding: 0.85rem 1.25rem;
-          border-radius: 10px;
-          text-decoration: none;
-          transition: all 0.2s ease;
-        }
-
-        .btn-whatsapp-consult:hover {
-          background-color: #008f7d;
-          transform: translateY(-1px);
-        }
-
-        .btn-book-consult {
-          display: block;
-          text-align: center;
-          background-color: #FFFFFF;
-          border: 1.5px solid #00182A;
-          color: #00182A;
-          font-size: 0.95rem;
-          font-weight: 600;
-          padding: 0.85rem 1.25rem;
-          border-radius: 10px;
-          text-decoration: none;
-          transition: all 0.2s ease;
-        }
-
-        .btn-book-consult:hover {
-          background-color: #F1F5F9;
-        }
-
-        .calc-explanation {
-          padding-top: 1rem;
-          border-top: 1px solid #E2E8F0;
-        }
-
-        .calc-explanation h4 {
-          font-size: 0.9rem;
-          font-weight: 700;
-          color: #00182A;
-          margin-bottom: 0.35rem;
-        }
-
-        .calc-explanation p {
-          font-size: 0.8rem;
-          color: #64748B;
-          line-height: 1.5;
-          margin-bottom: 0.5rem;
-        }
-
-        .disclaimer-text {
-          font-size: 0.75rem !important;
-          color: #94A3B8 !important;
-          font-style: italic;
-        }
-
-        @media (max-width: 900px) {
-          .calc-grid {
-            grid-template-columns: 1fr;
-          }
-          .goal-planner-wrapper {
-            padding: 1.5rem;
-          }
-          .two-col-inputs {
-            grid-template-columns: 1fr;
           }
         }
 
@@ -960,71 +638,6 @@ export default function GoalPlannerCalculator({ initialGoalId = 'education' }: G
           .preset-chip {
             padding: 0.4rem 0.75rem;
             font-size: 0.8rem;
-          }
-
-          .panel-header {
-            margin-bottom: 1.25rem;
-            gap: 0.5rem;
-          }
-
-          .panel-title {
-            font-size: 1.15rem;
-          }
-
-          .label-row {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 0.35rem;
-          }
-
-          .field-label,
-          .field-label-sub {
-            font-size: 0.875rem;
-          }
-
-          .input-currency-wrapper {
-            width: 100%;
-            justify-content: space-between;
-            padding: 0.4rem 0.75rem;
-          }
-
-          .number-input,
-          .number-input-sm {
-            width: 100%;
-            flex: 1;
-            font-size: 1rem;
-          }
-
-          .slider-limits {
-            font-size: 0.7rem;
-            gap: 0.25rem;
-          }
-
-          .result-hero-box {
-            padding: 1.25rem 1rem;
-          }
-
-          .sip-number {
-            font-size: 1.85rem;
-          }
-
-          .sip-words {
-            font-size: 1rem;
-          }
-
-          .metrics-summary-grid {
-            grid-template-columns: 1fr;
-            gap: 0.5rem;
-          }
-
-          .summary-card {
-            padding: 0.75rem 0.85rem;
-          }
-
-          .funding-breakdown-row {
-            flex-direction: column;
-            gap: 0.35rem;
-            padding: 0.6rem 0.85rem;
           }
         }
       `}</style>

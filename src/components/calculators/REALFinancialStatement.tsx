@@ -274,6 +274,7 @@ export default function REALFinancialStatement() {
               key={s.num}
               type="button"
               onClick={() => setStep(s.num)}
+              aria-current={isActive ? 'step' : undefined}
               className={`step-pill ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}`}
             >
               <span className="step-icon">{s.icon}</span>
@@ -285,6 +286,7 @@ export default function REALFinancialStatement() {
         <button
           type="button"
           onClick={() => setStep('results')}
+          aria-current={step === 'results' ? 'step' : undefined}
           className={`step-pill results-pill ${step === 'results' ? 'active' : ''}`}
         >
           <span className="step-icon">📊</span>
@@ -2021,8 +2023,8 @@ export default function REALFinancialStatement() {
         .real-statement-container {
           max-width: 1000px;
           margin: 0 auto;
-          font-family: 'Inter', sans-serif;
-          color: #00182A;
+          font-family: var(--font-body);
+          color: var(--color-primary-navy);
         }
 
         .planner-top-actions {
@@ -2039,9 +2041,9 @@ export default function REALFinancialStatement() {
           align-items: center;
           gap: 0.5rem;
           padding: 0.35rem 0.85rem;
-          background-color: rgba(0, 171, 150, 0.1);
-          color: #00AB96;
-          border-radius: 9999px;
+          background-color: var(--color-growth-teal-light);
+          color: var(--color-growth-teal);
+          border-radius: var(--radius-full);
           font-size: 0.85rem;
           font-weight: 700;
         }
@@ -2049,7 +2051,7 @@ export default function REALFinancialStatement() {
         .badge-pulse {
           width: 8px;
           height: 8px;
-          background-color: #00AB96;
+          background-color: var(--color-growth-teal);
           border-radius: 50%;
         }
 
@@ -2060,19 +2062,24 @@ export default function REALFinancialStatement() {
 
         .btn-secondary-sm {
           padding: 0.4rem 0.75rem;
-          background-color: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background-color: var(--color-white);
+          border: 1px solid var(--color-border);
           border-radius: 6px;
-          color: #334155;
+          color: var(--color-slate-text);
           font-size: 0.8rem;
           font-weight: 600;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all var(--transition-fast);
         }
 
         .btn-secondary-sm:hover {
-          background-color: #F1F5F9;
+          background-color: var(--color-bg-subtle);
           border-color: #CBD5E1;
+        }
+
+        .btn-secondary-sm:focus-visible {
+          outline: 2px solid var(--color-primary-navy);
+          outline-offset: 2px;
         }
 
         /* Stepper Navigation */
@@ -2093,34 +2100,39 @@ export default function REALFinancialStatement() {
           justify-content: center;
           gap: 0.4rem;
           padding: 0.75rem 0.5rem;
-          background-color: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
+          background-color: var(--color-white);
+          border: 1.5px solid var(--color-border);
           border-radius: 10px;
-          color: #64748B;
+          color: var(--color-slate-muted);
           font-size: 0.85rem;
           font-weight: 600;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all var(--transition-fast);
           white-space: nowrap;
         }
 
         .step-pill:hover {
-          border-color: #00AB96;
-          color: #00182A;
+          border-color: var(--color-growth-teal);
+          color: var(--color-primary-navy);
+        }
+
+        .step-pill:focus-visible {
+          outline: 2px solid var(--color-primary-navy);
+          outline-offset: 2px;
         }
 
         .step-pill.active {
-          background-color: #00182A;
-          border-color: #00182A;
-          color: #FFFFFF;
+          background-color: var(--color-primary-navy);
+          border-color: var(--color-primary-navy);
+          color: var(--color-white);
           font-weight: 700;
           box-shadow: 0 4px 12px rgba(0, 24, 42, 0.15);
         }
 
         .step-pill.completed:not(.active) {
-          border-color: #00AB96;
-          color: #00AB96;
-          background-color: rgba(0, 171, 150, 0.04);
+          border-color: var(--color-growth-teal);
+          color: var(--color-growth-teal);
+          background-color: var(--color-growth-teal-light);
         }
 
         .step-num {
@@ -2135,19 +2147,19 @@ export default function REALFinancialStatement() {
         }
 
         .step-pill.active .step-num {
-          background-color: #00AB96;
-          color: #FFFFFF;
+          background-color: var(--color-growth-teal);
+          color: var(--color-white);
         }
 
         .results-pill.active {
-          background-color: #00AB96;
-          border-color: #00AB96;
+          background-color: var(--color-growth-teal);
+          border-color: var(--color-growth-teal);
         }
 
         /* Step Card */
         .step-card {
-          background-color: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
+          background-color: var(--color-white);
+          border: 1.5px solid var(--color-border);
           border-radius: 16px;
           padding: 2rem;
           margin-bottom: 2rem;
@@ -2160,7 +2172,7 @@ export default function REALFinancialStatement() {
           align-items: flex-start;
           margin-bottom: 2rem;
           gap: 1.5rem;
-          border-bottom: 1px solid #F1F5F9;
+          border-bottom: 1px solid var(--color-bg-subtle);
           padding-bottom: 1.5rem;
           flex-wrap: wrap;
         }
@@ -2168,7 +2180,7 @@ export default function REALFinancialStatement() {
         .step-subtitle {
           font-size: 0.8rem;
           font-weight: 700;
-          color: #00AB96;
+          color: var(--color-growth-teal);
           text-transform: uppercase;
           letter-spacing: 0.05em;
           display: block;
@@ -2176,15 +2188,15 @@ export default function REALFinancialStatement() {
         }
 
         .step-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.75rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 0.5rem 0;
         }
 
         .step-desc {
-          color: #64748B;
+          color: var(--color-slate-muted);
           font-size: 0.95rem;
           margin: 0;
           max-width: 540px;
@@ -2192,8 +2204,8 @@ export default function REALFinancialStatement() {
         }
 
         .live-stat-card {
-          background: linear-gradient(135deg, #00182A 0%, #0B2B43 100%);
-          color: #FFFFFF;
+          background: linear-gradient(135deg, var(--color-primary-navy) 0%, #0B2B43 100%);
+          color: var(--color-white);
           padding: 1rem 1.25rem;
           border-radius: 12px;
           min-width: 220px;
@@ -2203,7 +2215,7 @@ export default function REALFinancialStatement() {
         .stat-label {
           display: block;
           font-size: 0.75rem;
-          color: #94A3B8;
+          color: var(--color-slate-light);
           text-transform: uppercase;
           letter-spacing: 0.05em;
           margin-bottom: 0.25rem;
@@ -2211,10 +2223,10 @@ export default function REALFinancialStatement() {
 
         .stat-value {
           display: block;
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.4rem;
           font-weight: 700;
-          color: #FFC107;
+          color: var(--color-warm-gold);
         }
 
         .stat-sub {
@@ -2241,12 +2253,12 @@ export default function REALFinancialStatement() {
         .input-label {
           font-size: 0.875rem;
           font-weight: 600;
-          color: #334155;
+          color: var(--color-slate-text);
         }
 
         .optional-tag {
           font-size: 0.75rem;
-          color: #94A3B8;
+          color: var(--color-slate-light);
           font-weight: 400;
         }
 
@@ -2270,7 +2282,7 @@ export default function REALFinancialStatement() {
         .input-prefix {
           position: absolute;
           left: 0.85rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           font-weight: 600;
           font-size: 0.95rem;
         }
@@ -2279,34 +2291,39 @@ export default function REALFinancialStatement() {
           width: 100%;
           padding: 0.65rem 0.85rem 0.65rem 2rem;
           border: 1.5px solid #CBD5E1;
-          border-radius: 8px;
+          border-radius: var(--radius-sm);
           font-size: 1rem;
           font-weight: 600;
-          color: #00182A;
-          background-color: #F8FAFC;
-          transition: all 0.2s ease;
+          color: var(--color-primary-navy);
+          background-color: var(--color-bg-light);
+          transition: all var(--transition-fast);
         }
 
         .number-input:focus {
           outline: none;
-          border-color: #00AB96;
-          background-color: #FFFFFF;
+          border-color: var(--color-growth-teal);
+          background-color: var(--color-white);
           box-shadow: 0 0 0 3px rgba(0, 171, 150, 0.15);
+        }
+
+        .number-input:focus-visible {
+          outline: 2px solid var(--color-primary-navy);
+          outline-offset: 1px;
         }
 
         .input-helper {
           font-size: 0.78rem;
-          color: #00AB96;
+          color: var(--color-growth-teal);
           font-weight: 600;
         }
 
         /* Accordion Groups */
         .accordion-group {
-          border: 1.5px solid #E2E8F0;
+          border: 1.5px solid var(--color-border);
           border-radius: 12px;
           margin-bottom: 1rem;
           overflow: hidden;
-          background-color: #FFFFFF;
+          background-color: var(--color-white);
         }
 
         .accordion-header {
@@ -2315,15 +2332,20 @@ export default function REALFinancialStatement() {
           justify-content: space-between;
           align-items: center;
           padding: 1rem 1.25rem;
-          background-color: #F8FAFC;
+          background-color: var(--color-bg-light);
           border: none;
           cursor: pointer;
           text-align: left;
-          transition: background-color 0.2s ease;
+          transition: background-color var(--transition-fast);
         }
 
         .accordion-header:hover {
-          background-color: #F1F5F9;
+          background-color: var(--color-bg-subtle);
+        }
+
+        .accordion-header:focus-visible {
+          outline: 2px solid var(--color-primary-navy);
+          outline-offset: -2px;
         }
 
         .accordion-title-box {
@@ -2338,16 +2360,16 @@ export default function REALFinancialStatement() {
 
         .accordion-title {
           display: block;
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.05rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
         }
 
         .accordion-sub {
           display: block;
           font-size: 0.8rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
         }
 
         .accordion-meta {
@@ -2357,21 +2379,21 @@ export default function REALFinancialStatement() {
         }
 
         .accordion-val {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           font-size: 1rem;
         }
 
         .accordion-arrow {
-          color: #94A3B8;
+          color: var(--color-slate-light);
           font-size: 0.8rem;
         }
 
         .accordion-content {
           padding: 1.25rem;
-          border-top: 1px solid #E2E8F0;
-          background-color: #FFFFFF;
+          border-top: 1px solid var(--color-border);
+          background-color: var(--color-white);
         }
 
         /* Step 3 Highlights */
@@ -2379,8 +2401,8 @@ export default function REALFinancialStatement() {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          background-color: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background-color: var(--color-bg-light);
+          border: 1px solid var(--color-border);
           border-radius: 12px;
           padding: 1.25rem 1.5rem;
           margin-bottom: 1.75rem;
@@ -2395,36 +2417,36 @@ export default function REALFinancialStatement() {
 
         .highlight-label {
           font-size: 0.8rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           text-transform: uppercase;
           font-weight: 600;
           margin-bottom: 0.25rem;
         }
 
         .highlight-value {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.3rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
         }
 
         .highlight-sub {
           font-size: 0.8rem;
-          color: #00AB96;
+          color: var(--color-growth-teal);
           font-weight: 600;
         }
 
         .highlight-sep {
           font-size: 1.5rem;
           font-weight: 700;
-          color: #94A3B8;
+          color: var(--color-slate-light);
         }
 
         .section-divider-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.1rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 1.5rem 0 1rem 0;
         }
 
@@ -2434,7 +2456,7 @@ export default function REALFinancialStatement() {
           justify-content: space-between;
           align-items: center;
           background: linear-gradient(135deg, rgba(0, 171, 150, 0.08) 0%, rgba(0, 24, 42, 0.04) 100%);
-          border: 1.5px solid #00AB96;
+          border: 1.5px solid var(--color-growth-teal);
           border-radius: 14px;
           padding: 1.5rem 1.75rem;
           margin-top: 1.5rem;
@@ -2446,24 +2468,24 @@ export default function REALFinancialStatement() {
           display: inline-block;
           font-size: 0.75rem;
           font-weight: 700;
-          color: #00AB96;
-          background-color: #FFFFFF;
+          color: var(--color-growth-teal);
+          background-color: var(--color-white);
           padding: 0.2rem 0.6rem;
-          border-radius: 9999px;
+          border-radius: var(--radius-full);
           margin-bottom: 0.35rem;
         }
 
         .surplus-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.35rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 0.25rem 0;
         }
 
         .surplus-desc {
           font-size: 0.85rem;
-          color: #475569;
+          color: var(--color-slate-text);
           margin: 0;
           max-width: 480px;
         }
@@ -2474,70 +2496,36 @@ export default function REALFinancialStatement() {
 
         .surplus-monthly {
           display: block;
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.85rem;
           font-weight: 800;
-          color: #00AB96;
+          color: var(--color-growth-teal);
         }
 
         .surplus-monthly small {
           font-size: 1rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           font-weight: 600;
         }
 
         .surplus-annual {
           display: block;
           font-size: 0.85rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           font-weight: 600;
           margin-top: 0.25rem;
         }
 
-        /* Actions */
+        /* Step Actions - button styling inherited from calculators.css Section 7 */
         .step-actions {
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin-top: 2rem;
           padding-top: 1.5rem;
-          border-top: 1px solid #F1F5F9;
+          border-top: 1px solid var(--color-bg-subtle);
           gap: 1rem;
           flex-wrap: wrap;
-        }
-
-        .btn-primary {
-          padding: 0.85rem 1.75rem;
-          background-color: #00AB96;
-          color: #FFFFFF;
-          border: none;
-          border-radius: 8px;
-          font-size: 0.95rem;
-          font-weight: 700;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-primary:hover {
-          background-color: #009684;
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(0, 171, 150, 0.25);
-        }
-
-        .btn-secondary {
-          padding: 0.85rem 1.5rem;
-          background-color: #F8FAFC;
-          color: #334155;
-          border: 1px solid #CBD5E1;
-          border-radius: 8px;
-          font-size: 0.95rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-secondary:hover {
-          background-color: #E2E8F0;
         }
 
         /* RESULTS DASHBOARD */
@@ -2546,8 +2534,8 @@ export default function REALFinancialStatement() {
         }
 
         .networth-hero-card {
-          background: linear-gradient(145deg, #00182A 0%, #0B2B43 100%);
-          color: #FFFFFF;
+          background: linear-gradient(145deg, var(--color-primary-navy) 0%, #0B2B43 100%);
+          color: var(--color-white);
           border-radius: 20px;
           padding: 2.5rem;
           margin-bottom: 2rem;
@@ -2569,21 +2557,21 @@ export default function REALFinancialStatement() {
           display: inline-block;
           padding: 0.35rem 0.85rem;
           background-color: rgba(255, 193, 7, 0.15);
-          color: #FFC107;
-          border-radius: 9999px;
+          color: var(--color-warm-gold);
+          border-radius: var(--radius-full);
           font-size: 0.8rem;
           font-weight: 700;
         }
 
         .hero-methodology-tag {
           font-size: 0.8rem;
-          color: #94A3B8;
+          color: var(--color-slate-light);
         }
 
         .hero-main-label {
           display: block;
           font-size: 0.9rem;
-          color: #94A3B8;
+          color: var(--color-slate-light);
           text-transform: uppercase;
           letter-spacing: 0.08em;
           font-weight: 700;
@@ -2591,10 +2579,10 @@ export default function REALFinancialStatement() {
         }
 
         .hero-primary-val {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 3.5rem;
           font-weight: 800;
-          color: #00AB96;
+          color: var(--color-growth-teal);
           line-height: 1.1;
           margin-bottom: 1rem;
         }
@@ -2627,34 +2615,34 @@ export default function REALFinancialStatement() {
 
         .breakdown-label {
           font-size: 0.75rem;
-          color: #94A3B8;
+          color: var(--color-slate-light);
           text-transform: uppercase;
           font-weight: 600;
           margin-bottom: 0.25rem;
         }
 
         .breakdown-val {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.2rem;
           font-weight: 700;
-          color: #FFFFFF;
+          color: var(--color-white);
         }
 
         .breakdown-sep {
           font-size: 1.3rem;
           font-weight: 700;
-          color: #64748B;
+          color: var(--color-slate-muted);
         }
 
         .notional-note-box {
           font-size: 0.85rem;
-          color: #94A3B8;
+          color: var(--color-slate-light);
           border-top: 1px solid rgba(255, 255, 255, 0.1);
           padding-top: 0.85rem;
         }
 
         .notional-note-box strong {
-          color: #FFFFFF;
+          color: var(--color-white);
         }
 
         /* Metrics Grid */
@@ -2666,16 +2654,16 @@ export default function REALFinancialStatement() {
         }
 
         .metric-card {
-          background-color: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
+          background-color: var(--color-white);
+          border: 1.5px solid var(--color-border);
           border-radius: 14px;
           padding: 1.5rem;
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
         }
 
         .metric-card.highlight-metric {
-          border-color: #00AB96;
-          background: linear-gradient(145deg, #FFFFFF 0%, rgba(0, 171, 150, 0.04) 100%);
+          border-color: var(--color-growth-teal);
+          background: linear-gradient(145deg, var(--color-white) 0%, rgba(0, 171, 150, 0.04) 100%);
         }
 
         .metric-header {
@@ -2692,43 +2680,43 @@ export default function REALFinancialStatement() {
         .metric-title {
           font-size: 0.85rem;
           font-weight: 600;
-          color: #64748B;
+          color: var(--color-slate-muted);
         }
 
         .metric-value {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.85rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin-bottom: 0.25rem;
         }
 
         .metric-sub {
           font-size: 0.8rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           font-weight: 500;
         }
 
         /* Story Flow Track */
         .story-flow-card {
-          background-color: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
+          background-color: var(--color-white);
+          border: 1.5px solid var(--color-border);
           border-radius: 16px;
           padding: 2rem;
           margin-bottom: 2rem;
         }
 
         .card-section-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.35rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0 0 0.5rem 0;
         }
 
         .card-section-desc {
           font-size: 0.9rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin: 0 0 1.5rem 0;
         }
 
@@ -2748,47 +2736,47 @@ export default function REALFinancialStatement() {
           text-align: center;
           min-width: 90px;
           padding: 0.75rem 0.5rem;
-          background-color: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background-color: var(--color-bg-light);
+          border: 1px solid var(--color-border);
           border-radius: 10px;
         }
 
         .flow-node.highlight-node {
-          border-color: #00AB96;
+          border-color: var(--color-growth-teal);
           background-color: rgba(0, 171, 150, 0.05);
         }
 
         .flow-node.hero-node {
-          border-color: #00182A;
-          background-color: #00182A;
-          color: #FFFFFF;
+          border-color: var(--color-primary-navy);
+          background-color: var(--color-primary-navy);
+          color: var(--color-white);
         }
 
         .flow-label {
           font-size: 0.7rem;
           font-weight: 700;
-          color: #64748B;
+          color: var(--color-slate-muted);
           margin-bottom: 0.25rem;
         }
 
         .flow-node.hero-node .flow-label {
-          color: #FFC107;
+          color: var(--color-warm-gold);
         }
 
         .flow-val {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 0.95rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
         }
 
         .flow-node.hero-node .flow-val {
-          color: #FFFFFF;
+          color: var(--color-white);
         }
 
         .flow-sub {
           font-size: 0.7rem;
-          color: #94A3B8;
+          color: var(--color-slate-light);
           margin-top: 0.2rem;
         }
 
@@ -2800,8 +2788,8 @@ export default function REALFinancialStatement() {
 
         /* Allocation Card */
         .allocation-card {
-          background-color: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
+          background-color: var(--color-white);
+          border: 1.5px solid var(--color-border);
           border-radius: 16px;
           padding: 2rem;
           margin-bottom: 2rem;
@@ -2810,10 +2798,10 @@ export default function REALFinancialStatement() {
         .stacked-allocation-bar {
           display: flex;
           height: 18px;
-          border-radius: 9999px;
+          border-radius: var(--radius-full);
           overflow: hidden;
           margin-bottom: 1.5rem;
-          background-color: #E2E8F0;
+          background-color: var(--color-border);
         }
 
         .bar-segment {
@@ -2823,10 +2811,10 @@ export default function REALFinancialStatement() {
 
         .seg-liquid { background-color: #06B6D4; }
         .seg-debt { background-color: #3B82F6; }
-        .seg-equity { background-color: #00AB96; }
-        .seg-gold { background-color: #F59E0B; }
+        .seg-equity { background-color: var(--color-growth-teal); }
+        .seg-gold { background-color: var(--color-warm-gold); }
         .seg-re { background-color: #8B5CF6; }
-        .seg-personal { background-color: #94A3B8; }
+        .seg-personal { background-color: var(--color-slate-light); }
 
         .allocation-table {
           display: grid;
@@ -2839,9 +2827,9 @@ export default function REALFinancialStatement() {
           align-items: center;
           justify-content: space-between;
           padding: 0.75rem 1rem;
-          background-color: #F8FAFC;
-          border-radius: 8px;
-          border: 1px solid #E2E8F0;
+          background-color: var(--color-bg-light);
+          border-radius: var(--radius-sm);
+          border: 1px solid var(--color-border);
         }
 
         .alloc-name {
@@ -2850,7 +2838,7 @@ export default function REALFinancialStatement() {
           gap: 0.5rem;
           font-size: 0.85rem;
           font-weight: 600;
-          color: #334155;
+          color: var(--color-slate-text);
         }
 
         .dot {
@@ -2861,22 +2849,22 @@ export default function REALFinancialStatement() {
 
         .dot-liquid { background-color: #06B6D4; }
         .dot-debt { background-color: #3B82F6; }
-        .dot-equity { background-color: #00AB96; }
-        .dot-gold { background-color: #F59E0B; }
+        .dot-equity { background-color: var(--color-growth-teal); }
+        .dot-gold { background-color: var(--color-warm-gold); }
         .dot-re { background-color: #8B5CF6; }
-        .dot-personal { background-color: #94A3B8; }
+        .dot-personal { background-color: var(--color-slate-light); }
 
         .alloc-amount {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           font-size: 0.9rem;
         }
 
         .alloc-percent {
           font-size: 0.8rem;
           font-weight: 700;
-          color: #64748B;
+          color: var(--color-slate-muted);
           min-width: 40px;
           text-align: right;
         }
@@ -2895,12 +2883,12 @@ export default function REALFinancialStatement() {
         .obs-card {
           padding: 1.25rem;
           border-radius: 12px;
-          background-color: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
+          background-color: var(--color-white);
+          border: 1.5px solid var(--color-border);
         }
 
         .obs-card.obs-positive {
-          border-left: 4px solid #00AB96;
+          border-left: 4px solid var(--color-growth-teal);
         }
 
         .obs-card.obs-neutral {
@@ -2908,7 +2896,7 @@ export default function REALFinancialStatement() {
         }
 
         .obs-card.obs-caution {
-          border-left: 4px solid #F59E0B;
+          border-left: 4px solid var(--color-warning);
         }
 
         .obs-header {
@@ -2923,29 +2911,29 @@ export default function REALFinancialStatement() {
           font-weight: 700;
           padding: 0.15rem 0.4rem;
           border-radius: 4px;
-          background-color: #F1F5F9;
-          color: #64748B;
+          background-color: var(--color-bg-subtle);
+          color: var(--color-slate-muted);
         }
 
         .obs-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin: 0;
         }
 
         .obs-desc {
           font-size: 0.85rem;
-          color: #475569;
+          color: var(--color-slate-text);
           line-height: 1.5;
           margin: 0;
         }
 
         /* Consultation CTA Card */
         .consultation-cta-card {
-          background: linear-gradient(135deg, #00182A 0%, #0B2B43 100%);
-          color: #FFFFFF;
+          background: linear-gradient(135deg, var(--color-primary-navy) 0%, #0B2B43 100%);
+          color: var(--color-white);
           border-radius: 16px;
           padding: 2.25rem;
           margin-bottom: 2rem;
@@ -2960,18 +2948,18 @@ export default function REALFinancialStatement() {
           display: inline-block;
           font-size: 0.75rem;
           font-weight: 700;
-          color: #00AB96;
+          color: var(--color-growth-teal);
           background-color: rgba(0, 171, 150, 0.15);
           padding: 0.25rem 0.65rem;
-          border-radius: 9999px;
+          border-radius: var(--radius-full);
           margin-bottom: 0.5rem;
         }
 
         .cta-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.5rem;
           font-weight: 700;
-          color: #FFFFFF;
+          color: var(--color-white);
           margin: 0 0 0.5rem 0;
         }
 
@@ -2996,18 +2984,23 @@ export default function REALFinancialStatement() {
           justify-content: center;
           gap: 0.5rem;
           background-color: #25D366;
-          color: #FFFFFF;
+          color: var(--color-white);
           padding: 0.9rem 1.25rem;
-          border-radius: 8px;
+          border-radius: var(--radius-sm);
           font-weight: 700;
           font-size: 0.95rem;
           text-decoration: none;
-          transition: all 0.2s ease;
+          transition: all var(--transition-fast);
         }
 
         .btn-whatsapp:hover {
           background-color: #20BA5A;
           transform: translateY(-1px);
+        }
+
+        .btn-whatsapp:focus-visible {
+          outline: 2px solid var(--color-white);
+          outline-offset: 2px;
         }
 
         .btn-secondary-link {
@@ -3019,8 +3012,13 @@ export default function REALFinancialStatement() {
         }
 
         .btn-secondary-link:hover {
-          color: #FFFFFF;
+          color: var(--color-white);
           text-decoration: underline;
+        }
+
+        .btn-secondary-link:focus-visible {
+          outline: 2px solid var(--color-white);
+          outline-offset: 2px;
         }
 
         /* Discovery Links */
@@ -3036,18 +3034,23 @@ export default function REALFinancialStatement() {
           align-items: center;
           gap: 0.85rem;
           padding: 1.25rem;
-          background-color: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
+          background-color: var(--color-white);
+          border: 1.5px solid var(--color-border);
           border-radius: 12px;
           text-decoration: none;
-          color: #00182A;
-          transition: all 0.2s ease;
+          color: var(--color-primary-navy);
+          transition: all var(--transition-fast);
         }
 
         .discovery-card:hover {
-          border-color: #00AB96;
+          border-color: var(--color-growth-teal);
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .discovery-card:focus-visible {
+          outline: 2px solid var(--color-primary-navy);
+          outline-offset: 2px;
         }
 
         .disc-icon {
@@ -3056,32 +3059,32 @@ export default function REALFinancialStatement() {
 
         .disc-title {
           display: block;
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 0.95rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
         }
 
         .disc-sub {
           display: block;
           font-size: 0.75rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
         }
 
         .disc-arrow {
           margin-left: auto;
-          color: #00AB96;
+          color: var(--color-growth-teal);
           font-weight: 700;
         }
 
         /* Compliance Footnote */
         .compliance-footnote {
           padding: 1.25rem;
-          background-color: #F8FAFC;
+          background-color: var(--color-bg-light);
           border-radius: 10px;
-          border: 1px solid #E2E8F0;
+          border: 1px solid var(--color-border);
           font-size: 0.78rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           line-height: 1.6;
           margin-bottom: 2rem;
         }
@@ -3101,8 +3104,8 @@ export default function REALFinancialStatement() {
         }
 
         /* Utility classes */
-        .text-teal { color: #00AB96; }
-        .text-gold { color: #FFC107; }
+        .text-teal { color: var(--color-growth-teal); }
+        .text-gold { color: var(--color-warm-gold); }
 
         .fade-in {
           animation: fadeIn 0.25s ease-in-out;

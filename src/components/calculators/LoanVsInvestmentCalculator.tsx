@@ -71,6 +71,7 @@ export default function LoanVsInvestmentCalculator() {
               value={loanAmount}
               onChange={(e) => setLoanAmount(Number(e.target.value))}
               className="range-slider"
+              aria-label="Outstanding Loan Principal (₹)"
             />
             <div className="slider-limits">
               <span>₹2 Lakh</span>
@@ -104,6 +105,7 @@ export default function LoanVsInvestmentCalculator() {
               value={lumpsumAvailable}
               onChange={(e) => setLumpsumAvailable(Number(e.target.value))}
               className="range-slider"
+              aria-label="Surplus Lumpsum Available (₹)"
             />
             <div className="slider-limits">
               <span>₹50,000</span>
@@ -181,6 +183,7 @@ export default function LoanVsInvestmentCalculator() {
                 setInvestmentPeriodYears(val);
               }}
               className="range-slider"
+              aria-label="Duration (Years)"
             />
             <div className="slider-limits">
               <span>1 Year</span>
@@ -260,153 +263,7 @@ export default function LoanVsInvestmentCalculator() {
       </div>
 
       <style>{`
-        .calc-container {
-          background-color: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 2.25rem;
-          box-shadow: 0 4px 20px rgba(0, 24, 42, 0.04);
-        }
-
-        .calc-grid {
-          display: grid;
-          grid-template-columns: 1fr 1.1fr;
-          gap: 2.5rem;
-          align-items: start;
-        }
-
-        .panel-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 1.75rem;
-          padding-bottom: 0.75rem;
-          border-bottom: 1px solid #F1F5F9;
-        }
-
-        .panel-title {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #00182A;
-        }
-
-        .reset-btn {
-          background: transparent;
-          border: none;
-          color: #64748B;
-          font-size: 0.85rem;
-          font-weight: 600;
-          cursor: pointer;
-          padding: 0.2rem 0.5rem;
-          border-radius: 4px;
-        }
-
-        .reset-btn:hover {
-          color: #00182A;
-          background-color: #F1F5F9;
-        }
-
-        .form-group {
-          margin-bottom: 1.5rem;
-        }
-
-        .two-col-inputs {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1rem;
-        }
-
-        .label-row {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 0.6rem;
-        }
-
-        .field-label {
-          font-size: 0.95rem;
-          font-weight: 600;
-          color: #1E293B;
-        }
-
-        .field-label-sub {
-          font-size: 0.85rem;
-          font-weight: 600;
-          color: #475569;
-          margin-bottom: 0.4rem;
-          display: block;
-        }
-
-        .input-currency-wrapper {
-          display: flex;
-          align-items: center;
-          background-color: #F8FAFC;
-          border: 1.5px solid #CBD5E1;
-          border-radius: 8px;
-          padding: 0.25rem 0.6rem;
-          font-weight: 600;
-          color: #00182A;
-        }
-
-        .currency-prefix, .unit-suffix {
-          color: #64748B;
-          font-size: 0.9rem;
-          margin: 0 2px;
-        }
-
-        .number-input {
-          width: 120px;
-          border: none;
-          background: transparent;
-          font-size: 1rem;
-          font-weight: 700;
-          color: #00182A;
-          text-align: right;
-          outline: none;
-        }
-
-        .number-input-sm {
-          width: 55px;
-          border: none;
-          background: transparent;
-          font-size: 0.95rem;
-          font-weight: 700;
-          color: #00182A;
-          text-align: right;
-          outline: none;
-        }
-
-        .range-slider {
-          width: 100%;
-          height: 6px;
-          background: #E2E8F0;
-          border-radius: 9999px;
-          outline: none;
-          -webkit-appearance: none;
-          accent-color: #00AB96;
-          cursor: pointer;
-        }
-
-        .slider-limits {
-          display: flex;
-          justify-content: space-between;
-          font-size: 0.75rem;
-          color: #94A3B8;
-          margin-top: 0.35rem;
-        }
-
-        /* Results */
-        .calc-result-panel {
-          background-color: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          border-radius: 14px;
-          padding: 2rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-        }
-
+        /* Component-Specific: Option Comparison Grid */
         .option-comparison-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -414,21 +271,21 @@ export default function LoanVsInvestmentCalculator() {
         }
 
         .option-box {
-          background-color: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 12px;
+          background-color: var(--color-white);
+          border: 1.5px solid var(--color-border);
+          border-radius: var(--radius-md);
           padding: 1.25rem;
           display: flex;
           flex-direction: column;
         }
 
         .prepay-box {
-          border-color: #CBD5E1;
+          border-color: var(--color-border);
         }
 
         .invest-box {
-          border-color: #00AB96;
-          background-color: #F0FDF4;
+          border-color: var(--color-growth-teal);
+          background-color: var(--color-growth-teal-light);
         }
 
         .option-badge {
@@ -436,29 +293,29 @@ export default function LoanVsInvestmentCalculator() {
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.05em;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin-bottom: 0.5rem;
         }
 
         .teal-badge {
-          color: #00AB96;
+          color: var(--color-growth-teal);
         }
 
         .option-value {
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-heading);
           font-size: 1.5rem;
           font-weight: 800;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin-bottom: 0.2rem;
         }
 
         .teal-value {
-          color: #00AB96;
+          color: var(--color-growth-teal);
         }
 
         .option-metric-name {
           font-size: 0.8rem;
-          color: #64748B;
+          color: var(--color-slate-muted);
           font-weight: 600;
           margin-bottom: 0.75rem;
         }
@@ -467,7 +324,7 @@ export default function LoanVsInvestmentCalculator() {
           list-style: none;
           padding: 0;
           margin: 0;
-          border-top: 1px solid #E2E8F0;
+          border-top: 1px solid var(--color-border);
           padding-top: 0.75rem;
           display: flex;
           flex-direction: column;
@@ -476,170 +333,35 @@ export default function LoanVsInvestmentCalculator() {
 
         .option-bullet-list li {
           font-size: 0.775rem;
-          color: #475569;
+          color: var(--color-slate-text);
           line-height: 1.35;
         }
 
+        /* Component-Specific: Educational Insight Card */
         .insight-summary-card {
-          background-color: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-left: 4px solid #00AB96;
-          border-radius: 8px;
+          background-color: var(--color-white);
+          border: 1px solid var(--color-border);
+          border-left: 4px solid var(--color-growth-teal);
+          border-radius: var(--radius-sm);
           padding: 1.25rem;
         }
 
         .insight-title {
           font-size: 0.9rem;
           font-weight: 700;
-          color: #00182A;
+          color: var(--color-primary-navy);
           margin-bottom: 0.35rem;
         }
 
         .insight-text {
           font-size: 0.85rem;
-          color: #334155;
+          color: var(--color-slate-text);
           line-height: 1.5;
-        }
-
-        .calc-action-block {
-          display: flex;
-          flex-direction: column;
-          gap: 0.75rem;
-        }
-
-        .btn-whatsapp-consult {
-          display: block;
-          text-align: center;
-          background-color: #00AB96;
-          color: #FFFFFF;
-          font-size: 0.95rem;
-          font-weight: 600;
-          padding: 0.85rem 1.25rem;
-          border-radius: 10px;
-          text-decoration: none;
-          transition: all 0.2s ease;
-        }
-
-        .btn-whatsapp-consult:hover {
-          background-color: #008f7d;
-          transform: translateY(-1px);
-        }
-
-        .btn-book-consult {
-          display: block;
-          text-align: center;
-          background-color: #FFFFFF;
-          border: 1.5px solid #00182A;
-          color: #00182A;
-          font-size: 0.95rem;
-          font-weight: 600;
-          padding: 0.85rem 1.25rem;
-          border-radius: 10px;
-          text-decoration: none;
-          transition: all 0.2s ease;
-        }
-
-        .btn-book-consult:hover {
-          background-color: #F1F5F9;
-        }
-
-        .calc-explanation {
-          padding-top: 1rem;
-          border-top: 1px solid #E2E8F0;
-        }
-
-        .calc-explanation h4 {
-          font-size: 0.9rem;
-          font-weight: 700;
-          color: #00182A;
-          margin-bottom: 0.35rem;
-        }
-
-        .calc-explanation p {
-          font-size: 0.8rem;
-          color: #64748B;
-          line-height: 1.5;
-          margin-bottom: 0.5rem;
-        }
-
-        .disclaimer-text {
-          font-size: 0.75rem !important;
-          color: #94A3B8 !important;
-          font-style: italic;
         }
 
         @media (max-width: 900px) {
-          .calc-grid {
-            grid-template-columns: 1fr;
-          }
           .option-comparison-grid {
             grid-template-columns: 1fr;
-          }
-          .calc-container {
-            padding: 1.5rem;
-          }
-        }
-
-        @media (max-width: 540px) {
-          .calc-container {
-            padding: 1.25rem 0.875rem;
-            border-radius: 12px;
-          }
-
-          .panel-header {
-            margin-bottom: 1.25rem;
-            gap: 0.5rem;
-          }
-
-          .panel-title {
-            font-size: 1.15rem;
-          }
-
-          .label-row {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 0.35rem;
-          }
-
-          .field-label,
-          .field-label-sub {
-            font-size: 0.875rem;
-          }
-
-          .input-currency-wrapper {
-            width: 100%;
-            justify-content: space-between;
-            padding: 0.4rem 0.75rem;
-          }
-
-          .number-input,
-          .number-input-sm {
-            width: 100%;
-            flex: 1;
-            font-size: 1rem;
-          }
-
-          .slider-limits {
-            font-size: 0.7rem;
-            gap: 0.25rem;
-          }
-
-          .verdict-hero-box {
-            padding: 1.25rem 1rem;
-          }
-
-          .verdict-title {
-            font-size: 1.25rem;
-          }
-
-          .option-card {
-            padding: 1rem 0.85rem;
-          }
-
-          .summary-table-row {
-            flex-direction: column;
-            gap: 0.25rem;
-            padding: 0.6rem 0.85rem;
           }
         }
       `}</style>
